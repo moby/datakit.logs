@@ -1,0 +1,135 @@
+=== Run docker-build-github on commit fbdcfe757c9a097b34e78dfbee4b2b9574d0d069
+[2016-11-02 13:52.46] Starting...
+HEAD is now at fbdcfe7 Merge pull request #310 from talex5/libev
+[2016-11-02 14:01.41] Running "docker" "build" "-f" "Dockerfile.github" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon  3.32 MBSending build context to Docker daemon  3.32 MB
+Step 1 : FROM docker/datakit:server
+ ---> b6891c5e3730
+Step 2 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 59d9a06ab84d
+Step 3 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 260b08404f03
+Step 4 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Using cache
+ ---> e6a5b698a727
+Step 5 : COPY . /home/opam/src/datakit/
+ ---> 52523b4bf406
+Removing intermediate container ef4e2ee1b4be
+Step 6 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 0c4bc5516023
+ ---> 878d858eb59e
+Removing intermediate container 0c4bc5516023
+Step 7 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 12f33a9a2006
+ M src/version.ml
+ ---> a418f7dfef81
+Removing intermediate container 12f33a9a2006
+Step 8 : RUN opam update datakit-github
+ ---> Running in 7b3e45d0f3e7
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ synchronized
+ ---> feeb3275c211
+Removing intermediate container 7b3e45d0f3e7
+Step 9 : RUN opam install datakit-github -vv
+ ---> Running in 943be3993052
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/system/packages.dev/datakit-github"
+- sending incremental file list
+- 
+- sent 6,846 bytes  received 36 bytes  13,764.00 bytes/sec
+- total size is 1,107,658  speedup is 160.95
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-github dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/system/packages.dev/datakit-github"
+- sending incremental file list
+- 
+- sent 6,846 bytes  received 36 bytes  13,764.00 bytes/sec
+- total size is 1,107,658  speedup is 160.95
+[datakit-github.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-github" (CWD=/home/opam/.opam/system/build/datakit-github.dev)
+[91m[ERROR] The compilation of datakit-github failed at "ocaml pkg/pkg.ml build
+        --pinned true -n datakit-github".
+[0m- ocamlfind ocamlopt unix.cmxa -I /usr/lib/ocaml/ocamlbuild /usr/lib/ocaml/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /usr/lib/ocaml/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.ml > bridge/github/datakit_github.ml.depends
+- ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.mli > bridge/github/datakit_github.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmi bridge/github/datakit_github.mli
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+- File "bridge/github/datakit_github.ml", line 753, characters 47-65:
+- Error: This expression has type Datakit_path.t
+-        but an expression was expected of type string
+- Command exited with code 2.
+- pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+-      'CHANGES.md' 'LICENSE.md' 'README.md' 'pkg/META.github'
+-      'datakit-github.opam' 'bridge/github/datakit-github.a'
+-      'bridge/github/datakit-github.cmxs' 'bridge/github/datakit-github.cmxa'
+-      'bridge/github/datakit-github.cma'
+-      'bridge/github/datakit_github_vfs.cmx'
+-      'bridge/github/datakit_github_vfs.cmi'
+-      'bridge/github/datakit_github_vfs.mli'
+-      'bridge/github/datakit_github_api.cmx'
+-      'bridge/github/datakit_github_api.cmi'
+-      'bridge/github/datakit_github_api.mli'
+-      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
+-      'bridge/github/datakit_github.mli' 'bridge/github/main.native']: exited with 10
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-github dev
+No changes have been performed
+[91m
+#=== ERROR while installing datakit-github.dev ================================#
+# opam-version         1.2.2
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-github
+# path                 /home/opam/.opam/system/build/datakit-github.dev
+# compiler             system (4.02.3)
+# exit-code            1
+# env-file             /home/opam/.opam/system/build/datakit-github.dev/datakit-github-7-1872ec.env
+# stdout-file          /home/opam/.opam/system/build/datakit-github.dev/datakit-github-7-1872ec.out
+# stderr-file          /home/opam/.opam/system/build/datakit-github.dev/datakit-github-7-1872ec.err
+### stdout ###
+# [...]
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmi bridge/github/datakit_github.mli
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+# + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+# File "bridge/github/datakit_github.ml", line 753, characters 47-65:
+# Error: This expression has type Datakit_path.t
+#        but an expression was expected of type string
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+# [...]
+#      'bridge/github/datakit-github.cma'
+#      'bridge/github/datakit_github_vfs.cmx'
+#      'bridge/github/datakit_github_vfs.cmi'
+#      'bridge/github/datakit_github_vfs.mli'
+#      'bridge/github/datakit_github_api.cmx'
+#      'bridge/github/datakit_github_api.cmi'
+#      'bridge/github/datakit_github_api.mli'
+#      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
+#      'bridge/github/datakit_github.mli' 'bridge/github/main.native']: exited with 10
+
+[0m[91m'opam install datakit-github -vv' failed.
+[0mThe command '/bin/sh -c opam install datakit-github -vv' returned a non-zero code: 4
+[2016-11-02 14:01.58] Failed: Command "docker" "build" "-f" "Dockerfile.github" "." exited with status 1
