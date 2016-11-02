@@ -1,0 +1,178 @@
+=== Run docker-build-datakit on commit 903ee4773537ee15589dd605ba45f40dca916e5d
+[2016-11-02 14:10.37] Starting...
+Cloning into '/tmp/with_clone1286cfa0'...
+done.
+HEAD is now at 903ee47 Merge pull request #40 from samoht/master
+[2016-11-02 14:10.38] Running "docker" "build" "-f" "Dockerfile" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.707 MB
+Step 1 : FROM ocaml/opam:alpine
+ ---> 641163b66edf
+Step 2 : RUN sudo apk add zlib-dev
+ ---> Using cache
+ ---> 5c72f260de22
+Step 3 : RUN opam depext lwt &&  opam install lwt alcotest
+ ---> Using cache
+ ---> 1a02bef21788
+Step 4 : COPY opam /home/opam/src/i9p/opam
+ ---> Using cache
+ ---> 0b4fe20bfcaf
+Step 5 : RUN opam pin add i9p.dev /home/opam/src/i9p -n
+ ---> Using cache
+ ---> 6dd9496d2e62
+Step 6 : RUN opam depext i9p && opam install i9p --deps        # Install i9p deps
+ ---> Using cache
+ ---> 4dbaeee0ed95
+Step 7 : COPY .git /home/opam/src/i9p/.git
+ ---> 29d9ea99528a
+Removing intermediate container 85009320eebd
+Step 8 : COPY src /home/opam/src/i9p/src
+ ---> 70a3ca39e5d5
+Removing intermediate container 321fd0d48b25
+Step 9 : COPY Makefile /home/opam/src/i9p/Makefile
+ ---> d07c3b590d5d
+Removing intermediate container dc4edf628d52
+Step 10 : COPY _oasis /home/opam/src/i9p/_oasis
+ ---> aac25bf5e7ca
+Removing intermediate container 96cbbfea4189
+Step 11 : COPY tests /home/opam/src/i9p/tests
+ ---> 2e50bbf28d4e
+Removing intermediate container e4120f2baae5
+Step 12 : RUN sudo chown -R opam.nogroup /home/opam/src
+ ---> Running in 0329d76cfab6
+ ---> ec5289121663
+Removing intermediate container 0329d76cfab6
+Step 13 : WORKDIR /home/opam/src/i9p
+ ---> Running in c9758a34b34a
+ ---> 1329497fc1eb
+Removing intermediate container c9758a34b34a
+Step 14 : RUN opam config exec -- make && make test && make install
+ ---> Running in a4346f72d1ec
+rm -f _tags myocamlbuild.ml
+oasis setup
+[91mW: No replace section found in file Makefile
+[0mecho 'true: debug, bin_annot' >> _tags
+echo 'true: warn_error(+1..49), warn(A-4-41-44)' >> _tags
+echo 'Ocamlbuild_plugin.mark_tag_used "tests"' >> myocamlbuild.ml
+ocaml setup.ml -configure --prefix /home/opam/.opam/system
+
+Configuration:
+ocamlfind: ........................................... /home/opam/.opam/system/bin/ocamlfind
+ocamlc: .............................................. /usr/bin/ocamlc.opt
+ocamlopt: ............................................ /usr/bin/ocamlopt.opt
+ocamlbuild: .......................................... /usr/bin/ocamlbuild
+Package name: ........................................ i9p
+Package version: ..................................... 0.2.0
+os_type: ............................................. Unix
+system: .............................................. linux
+architecture: ........................................ amd64
+ccomp_type: .......................................... cc
+ocaml_version: ....................................... 4.02.3
+standard_library_default: ............................ /usr/lib/ocaml
+standard_library: .................................... /usr/lib/ocaml
+standard_runtime: .................................... /usr/bin/ocamlrun
+bytecomp_c_compiler: ................................. gcc -fPIC -Os -O -fno-defer-pop -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -O -fPIC
+native_c_compiler: ................................... gcc -fPIC -Os -O -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+model: ............................................... default
+ext_obj: ............................................. .o
+ext_asm: ............................................. .s
+ext_lib: ............................................. .a
+ext_dll: ............................................. .so
+default_executable_name: ............................. a.out
+systhread_supported: ................................. true
+Install architecture-independent files dir: .......... /home/opam/.opam/system
+Install architecture-dependent files in dir: ......... $prefix
+User executables: .................................... $exec_prefix/bin
+System admin executables: ............................ $exec_prefix/sbin
+Program executables: ................................. $exec_prefix/libexec
+Read-only single-machine data: ....................... $prefix/etc
+Modifiable architecture-independent data: ............ $prefix/com
+Modifiable single-machine data: ...................... $prefix/var
+Object code libraries: ............................... $exec_prefix/lib
+Read-only arch-independent data root: ................ $prefix/share
+Read-only architecture-independent data: ............. $datarootdir
+Info documentation: .................................. $datarootdir/info
+Locale-dependent data: ............................... $datarootdir/locale
+Man documentation: ................................... $datarootdir/man
+Documentation root: .................................. $datarootdir/doc/$pkg_name
+HTML documentation: .................................. $docdir
+DVI documentation: ................................... $docdir
+PDF documentation: ................................... $docdir
+PS documentation: .................................... $docdir
+findlib_version: ..................................... 1.6.2
+is_native: ........................................... true
+suffix_program: ......................................
+Remove a file.: ...................................... rm -f
+Remove a directory.: ................................. rm -rf
+Turn ocaml debug flag on: ............................ true
+Turn ocaml profile flag on: .......................... false
+Compiler support generation of .cmxs.: ............... true
+OCamlbuild additional flags: .........................
+Create documentations: ............................... true
+Compile tests executable and library and run them: ... false
+pkg_lwt: ............................................. /home/opam/.opam/system/lib/lwt
+pkg_rresult: ......................................... /home/opam/.opam/system/lib/rresult
+pkg_cstruct: ......................................... /home/opam/.opam/system/lib/cstruct
+pkg_fmt: ............................................. /home/opam/.opam/system/lib/fmt
+pkg_protocol_9p_unix: ................................ /home/opam/.opam/system/lib/protocol-9p
+pkg_irmin: ........................................... /home/opam/.opam/system/lib/irmin
+pkg_zip: ............................................. /home/opam/.opam/system/lib/zip
+pkg_uri: ............................................. /home/opam/.opam/system/lib/uri
+pkg_lwt_unix: ........................................ /home/opam/.opam/system/lib/lwt
+pkg_git: ............................................. /home/opam/.opam/system/lib/git
+pkg_tc: .............................................. /home/opam/.opam/system/lib/tc
+pkg_conduit_lwt_unix: ................................ /home/opam/.opam/system/lib/conduit
+ocamldoc: ............................................ /usr/bin/ocamldoc
+pkg_cmdliner: ........................................ /home/opam/.opam/system/lib/cmdliner
+pkg_irmin_mem: ....................................... /home/opam/.opam/system/lib/irmin
+pkg_irmin_git: ....................................... /home/opam/.opam/system/lib/irmin
+
+echo "let v = \"v0.2.0.m\"" > src/bin/version.ml
+ocaml setup.ml -build 
+/usr/bin/ocamlopt.opt unix.cmxa -I /usr/lib/ocaml/ocamlbuild /usr/lib/ocaml/ocamlbuild/ocamlbuildlib.cmxa myocamlbuild.ml /usr/lib/ocaml/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package rresult -modules src/vfs/vfs.mli > src/vfs/vfs.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmi src/vfs/vfs.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package rresult -modules src/vfs/vfs.ml > src/vfs/vfs.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmo src/vfs/vfs.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -a src/vfs/vfs.cmo -o src/vfs/vfs.cma
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmx src/vfs/vfs.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -a src/vfs/vfs.cmx -o src/vfs/vfs.cmxa
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -shared src/vfs/vfs.cmxa src/vfs/vfs.cmx -o src/vfs/vfs.cmxs
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p.mli > src/fs9p/fs9p.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmi src/fs9p/fs9p.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p.ml > src/fs9p/fs9p.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p_error.mli > src/fs9p/fs9p_error.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmi src/fs9p/fs9p_error.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p_error.ml > src/fs9p/fs9p_error.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmo src/fs9p/fs9p.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmo src/fs9p/fs9p_error.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -a src/fs9p/fs9p_error.cmo src/fs9p/fs9p.cmo -o src/fs9p/fs9p.cma
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmx src/fs9p/fs9p_error.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmx src/fs9p/fs9p.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -a src/fs9p/fs9p_error.cmx src/fs9p/fs9p.cmx -o src/fs9p/fs9p.cmxa
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -shared src/fs9p/fs9p.cmxa src/fs9p/fs9p_error.cmx src/fs9p/fs9p.cmx -o src/fs9p/fs9p.cmxs
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p.mli > src/i9p/i9p.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_tree.mli > src/i9p/i9p_tree.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_tree.cmi src/i9p/i9p_tree.mli
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmi src/i9p/i9p.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p.ml > src/i9p/i9p.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_merge.mli > src/i9p/i9p_merge.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_remote.mli > src/i9p/i9p_remote.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_merge.cmi src/i9p/i9p_merge.mli
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_remote.cmi src/i9p/i9p_remote.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_tree.ml > src/i9p/i9p_tree.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_remote.ml > src/i9p/i9p_remote.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_merge.ml > src/i9p/i9p_merge.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmo src/i9p/i9p.ml
++ /home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmo src/i9p/i9p.ml
+File "src/i9p/i9p.ml", line 45, characters 51-58:
+Error: This expression has type
+         Tree.file =
+           Store.Private.Node.Val.raw_contents *
+           Store.Private.Node.Val.Metadata.t
+       but an expression was expected of type Store.Private.Contents.key
+Command exited with code 2.
+[91mE: Failure("Command ''/usr/bin/ocamlbuild' src/vfs/vfs.cma src/vfs/vfs.cmxa src/vfs/vfs.a src/vfs/vfs.cmxs src/fs9p/fs9p.cma src/fs9p/fs9p.cmxa src/fs9p/fs9p.a src/fs9p/fs9p.cmxs src/i9p/i9p.cma src/i9p/i9p.cmxa src/i9p/i9p.a src/i9p/i9p.cmxs src/irmin-io/irmin-io.cma src/irmin-io/irmin-io.cmxa src/irmin-io/irmin-io.a src/irmin-io/irmin-io.cmxs src/bin/main.native src/bin/mount.native -tag debug' terminated with error code 10")
+[0mMakefile:9: recipe for target 'build' failed
+[91mmake: *** [build] Error 1
+[0mThe command '/bin/sh -c opam config exec -- make && make test && make install' returned a non-zero code: 2
+[2016-11-02 14:10.57] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
