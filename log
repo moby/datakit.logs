@@ -1,0 +1,122 @@
+=== Run docker-build-client on commit 52c74aa620acf2c50d4600d22bcfa2d7b61fbaff
+[2016-11-02 13:35.23] Starting...
+HEAD is now at 52c74aa More words about source events and a note about source filters
+[2016-11-02 13:35.23] Running "docker" "build" "-f" "Dockerfile.client" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.618 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+3690ec4760f9: Already exists
+45dbe04a7c93: Already exists
+517d61f1e301: Pulling fs layer
+1e0c9b3dd687: Pulling fs layer
+517d61f1e301: Verifying Checksum
+517d61f1e301: Download complete
+517d61f1e301: Pull complete
+1e0c9b3dd687: Verifying Checksum
+1e0c9b3dd687: Download complete
+1e0c9b3dd687: Pull complete
+Digest: sha256:760aa7efb4e7b7f7049f8813bd4d4dab13d1671ff90904c526c8a11dae88a5cf
+Status: Downloaded newer image for ocaml/opam:alpine
+ ---> 641163b66edf
+Step 2 : RUN opam depext oasis ocamlfind cmdliner &&     opam install oasis cmdliner ocamlfind
+ ---> Running in 505d4f30c22e
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+The following command needs to be run through "sudo":
+    apk add m4
+(1/1) Installing m4 (1.4.17-r1)
+Executing busybox-1.24.2-r11.trigger
+OK: 435 MiB in 84 packages
+# OS packages installation successful
+[91m[NOTE] Package cmdliner is already installed (current version is 0.9.8).
+[0mThe following actions will be performed:
+  - install conf-m4   1                                         [required by ocamlfind]
+  - install ocamlfind 1.6.2
+  - install ocamlmod  0.0.8                                     [required by oasis]
+  - install ocamlify  0.0.1                                     [required by oasis]
+  - install oasis     0.4.7
+===== 5 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[oasis: http] Command started
+[ocamlfind: http] Command started
+[ocamlify: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.6.2] http://download.camlcity.org/download/findlib-1.6.2.tar.gz downloaded
+[ocamlmod: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[oasis: http] Command started
+[oasis.0.4.7] https://forge.ocamlcore.org/frs/download.php/1635/oasis-0.4.7.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-m4: sh echo | m4] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+[ocamlfind: make all] Command started
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+[ocamlfind: cp ocaml-stub] Command started
+-> installed ocamlfind.1.6.2
+[ocamlify: ocaml setup.ml] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+-> installed ocamlify.0.0.1
+[ocamlmod: ocaml setup.ml] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
+-> installed oasis.0.4.7
+Done.
+ ---> ad1a6c4ce2b9
+Removing intermediate container 505d4f30c22e
+Step 3 : COPY src /home/opam/src/datakit/src/
+ ---> 7349946c65a2
+Removing intermediate container 17bc68391bf7
+Step 4 : COPY .git /home/opam/src/datakit/.git
+ ---> fdc7aca6f54b
+Removing intermediate container 1f4e36bf8967
+Step 5 : COPY Makefile /home/opam/src/datakit/Makefile
+ ---> 8eb4f1fa6079
+Removing intermediate container 7b6a51392732
+Step 6 : RUN sudo chown -R opam.nogroup /home/opam/src
+ ---> Running in 72bfa4f0f07d
+ ---> de45308d6acc
+Removing intermediate container 72bfa4f0f07d
+Step 7 : WORKDIR /home/opam/src/datakit
+ ---> Running in 0778f82695b9
+ ---> b2877963a8c6
+Removing intermediate container 0778f82695b9
+Step 8 : RUN make src/bin/version.ml
+ ---> Running in c8cf6b090207
+echo "let v = \"52c74aa.m\"" > src/bin/version.ml
+ ---> f7febc3b0312
+Removing intermediate container c8cf6b090207
+Step 9 : RUN opam config exec -- ocamlbuild -use-ocamlfind -pkgs cmdliner,unix src/bin/mount.native
+ ---> Running in bd927e0b03b0
+ocamlfind ocamldep -package unix -package cmdliner -modules src/bin/mount.ml > src/bin/mount.ml.depends
+ocamlfind ocamldep -package unix -package cmdliner -modules src/bin/version.ml > src/bin/version.ml.depends
+ocamlfind ocamlc -c -package unix -package cmdliner -I src/bin -o src/bin/version.cmo src/bin/version.ml
+ocamlfind ocamlc -c -package unix -package cmdliner -I src/bin -o src/bin/mount.cmo src/bin/mount.ml
+ocamlfind ocamlopt -c -package unix -package cmdliner -I src/bin -o src/bin/version.cmx src/bin/version.ml
+ocamlfind ocamlopt -c -package unix -package cmdliner -I src/bin -o src/bin/mount.cmx src/bin/mount.ml
+ocamlfind ocamlopt -linkpkg -package unix -package cmdliner src/bin/version.cmx src/bin/mount.cmx -o src/bin/mount.native
+ ---> abbead39b89a
+Removing intermediate container bd927e0b03b0
+Step 10 : RUN sudo cp /home/opam/src/datakit/_build/src/bin/mount.native /usr/bin/datakit-mount
+ ---> Running in d2d15a1b4396
+ ---> 2e60b060e05f
+Removing intermediate container d2d15a1b4396
+Step 11 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in fd4eb5d9c355
+ ---> a4744e0acb1b
+Removing intermediate container fd4eb5d9c355
+Successfully built a4744e0acb1b
+[2016-11-02 13:36.08] Success
