@@ -1,0 +1,139 @@
+=== Run docker-build-client on commit a71d7b29ed250e9d40aeab520711e9d7240177b4
+[2016-11-02 13:35.23] Starting...
+HEAD is now at a71d7b2 github: refactor the GitHub bridge
+[2016-11-02 13:50.27] Running "docker" "build" "-f" "Dockerfile.client" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.337 MBSending build context to Docker daemon 3.337 MB
+Step 1 : FROM ocaml/opam:alpine
+ ---> 641163b66edf
+Step 2 : RUN opam depext lwt && opam install lwt alcotest conf-libev
+ ---> Running in 1b794007698d
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+The following command needs to be run through "sudo":
+    apk add m4
+(1/1) Installing m4 (1.4.17-r1)
+Executing busybox-1.24.2-r11.trigger
+OK: 435 MiB in 84 packages
+# OS packages installation successful
+The following actions will be performed:
+  - install conf-m4    1                                        [required by ocamlfind]
+  - install conf-libev 4-11      
+  - install result     1.2                                      [required by alcotest, lwt]
+  - install ocamlfind  1.6.2                                    [required by alcotest, lwt]
+  - install topkg      0.8.0                                    [required by alcotest]
+  - install ppx_tools  5.0+4.02.0                               [required by lwt]
+  - install base-bytes base                                     [required by lwt]
+  - install fmt        0.8.0                                    [required by alcotest]
+  - install astring    0.8.3                                    [required by alcotest]
+  - install lwt        2.6.0     
+  - install alcotest   0.7.0     
+===== 11 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[alcotest: http] Command started
+[astring: http] Command started
+[fmt: http] Command started
+[fmt: http] Command started
+[fmt.0.8.0] http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz downloaded
+[lwt: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[ocamlfind: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.6.2] http://download.camlcity.org/download/findlib-1.6.2.tar.gz downloaded
+[ppx_tools: http] Command started
+[alcotest: http] Command started
+[alcotest.0.7.0] https://github.com/mirage/alcotest/releases/download/0.7.0/alcotest-0.7.0.tbz downloaded
+[result: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.02.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.02.0.tar.gz downloaded
+[topkg: http] Command started
+[topkg: http] Command started
+[topkg.0.8.0] http://erratique.ch/software/topkg/releases/topkg-0.8.0.tbz downloaded
+[lwt: http] Command started
+[lwt.2.6.0] https://github.com/ocsigen/lwt/archive/2.6.0.tar.gz downloaded
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-libev: ./build.sh] Command started
+[conf-m4: sh echo | m4] Command started
+[result: make] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+[91m[ERROR] The compilation of conf-libev failed at "./build.sh".
+[0m-> installed result.1.2
+[ocamlfind: make all] Command started
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+[ocamlfind: cp ocaml-stub] Command started
+-> installed ocamlfind.1.6.2
+-> installed base-bytes.base
+[ppx_tools: make all] Command started
+[topkg: ocaml build] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.02.0
+-> installed topkg.0.8.0
+[astring: ocaml build] Command started
+[fmt: ocaml build] Command started
+-> installed fmt.0.8.0
+-> installed astring.0.8.3
+[alcotest: ocaml build] Command started
+-> installed alcotest.0.7.0
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions were aborted
+  - install lwt 2.6.0
+The following actions failed
+  - install conf-libev 4-11
+The following changes have been performed
+  - install alcotest   0.7.0     
+  - install astring    0.8.3     
+  - install base-bytes base      
+  - install conf-m4    1         
+  - install fmt        0.8.0     
+  - install ocamlfind  1.6.2     
+  - install ppx_tools  5.0+4.02.0
+  - install result     1.2       
+  - install topkg      0.8.0     
+
+=-=- conf-libev.4-11 troobleshooting =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> This package relies on external (system) dependencies that may be missing.
+   `opam depext conf-libev.4-11' may help you find the correct installation for
+   your system.
+[91m
+#=== ERROR while installing conf-libev.4-11 ===================================#
+# opam-version         1.2.2
+# os                   linux
+# command              ./build.sh
+# path                 /home/opam/.opam/system/build/conf-libev.4-11
+# compiler             system (4.02.3)
+# exit-code            1
+# env-file             /home/opam/.opam/system/build/conf-libev.4-11/conf-libev-49-c743ac.env
+# stdout-file          /home/opam/.opam/system/build/conf-libev.4-11/conf-libev-49-c743ac.out
+# stderr-file          /home/opam/.opam/system/build/conf-libev.4-11/conf-libev-49-c743ac.err
+### stdout ###
+# testing for libev: ............................. unavailable
+# [...]
+#       The following recquired C libraries are missing: libev.
+# Please install them and retry. If they are installed in a non-standard location, set the environment variables C_INCLUDE_PATH and LIBRARY_PATH accordingly and retry.
+# 
+# For example, if they are installed in /opt/local, you can type:
+# 
+# export C_INCLUDE_PATH=/opt/local/include
+# export LIBRARY_PATH=/opt/local/lib
+# 
+# To compile without libev support, use ./configure --disable-libev ...
+### stderr ###
+# File "discover.ml", line 29, characters 14-27:
+# Warning 3: deprecated: String.create
+# Use Bytes.create instead.
+
+[0m[91m
+The former state can be restored with:
+    opam switch import "~/.opam/system/backup/state-20161002135034.export"
+[0mThe command '/bin/sh -c opam depext lwt && opam install lwt alcotest conf-libev' returned a non-zero code: 4
+[2016-11-02 13:50.49] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 1
