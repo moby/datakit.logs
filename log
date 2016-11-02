@@ -1,0 +1,598 @@
+=== Run docker-build-datakit on commit fb744d21b46d670c4798fea10dc5c4c0255e33d4
+[2016-11-02 13:52.46] Starting...
+HEAD is now at fb744d2 Merge pull request #40 from samoht/master
+[2016-11-02 14:02.45] Running "docker" "build" "-f" "Dockerfile" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.275 MB
+Step 1 : FROM ocaml/opam:alpine
+ ---> 641163b66edf
+Step 2 : RUN sudo apk add zlib-dev
+ ---> Running in f18961382264
+(1/1) Installing zlib-dev (1.2.8-r2)
+OK: 435 MiB in 84 packages
+ ---> 5c72f260de22
+Removing intermediate container f18961382264
+Step 3 : RUN opam depext lwt &&  opam install lwt alcotest
+ ---> Running in 3755f5310128
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+The following command needs to be run through "sudo":
+    apk add m4
+(1/1) Installing m4 (1.4.17-r1)
+Executing busybox-1.24.2-r11.trigger
+OK: 435 MiB in 85 packages
+# OS packages installation successful
+The following actions will be performed:
+  - install conf-m4    1                                        [required by ocamlfind]
+  - install result     1.2                                      [required by alcotest, lwt]
+  - install ocamlfind  1.6.2                                    [required by alcotest, lwt]
+  - install topkg      0.8.0                                    [required by alcotest]
+  - install ppx_tools  5.0+4.02.0                               [required by lwt]
+  - install base-bytes base                                     [required by lwt]
+  - install fmt        0.8.0                                    [required by alcotest]
+  - install astring    0.8.3                                    [required by alcotest]
+  - install lwt        2.6.0     
+  - install alcotest   0.7.0     
+===== 10 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[alcotest: http] Command started
+[astring: http] Command started
+[fmt: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[lwt: http] Command started
+[fmt: http] Command started
+[fmt.0.8.0] http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz downloaded
+[ocamlfind: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.6.2] http://download.camlcity.org/download/findlib-1.6.2.tar.gz downloaded
+[ppx_tools: http] Command started
+[alcotest: http] Command started
+[alcotest.0.7.0] https://github.com/mirage/alcotest/releases/download/0.7.0/alcotest-0.7.0.tbz downloaded
+[result: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.02.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.02.0.tar.gz downloaded
+[topkg: http] Command started
+[lwt: http] Command started
+[lwt.2.6.0] https://github.com/ocsigen/lwt/archive/2.6.0.tar.gz downloaded
+[topkg: http] Command started
+[topkg.0.8.0] http://erratique.ch/software/topkg/releases/topkg-0.8.0.tbz downloaded
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-m4: sh echo | m4] Command started
+[result: make] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+-> installed result.1.2
+[ocamlfind: make all] Command started
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+[ocamlfind: cp ocaml-stub] Command started
+-> installed ocamlfind.1.6.2
+-> installed base-bytes.base
+[ppx_tools: make all] Command started
+[topkg: ocaml build] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.02.0
+[lwt: ocaml setup.ml] Command started
+-> installed topkg.0.8.0
+[astring: ocaml build] Command started
+[fmt: ocaml build] Command started
+-> installed fmt.0.8.0
+-> installed astring.0.8.3
+[alcotest: ocaml build] Command started
+-> installed alcotest.0.7.0
+[lwt: make build] Command started
+[lwt: make install] Command started
+-> installed lwt.2.6.0
+Done.
+ ---> 1a02bef21788
+Removing intermediate container 3755f5310128
+Step 4 : COPY opam /home/opam/src/i9p/opam
+ ---> 0b4fe20bfcaf
+Removing intermediate container 541b918f3b4a
+Step 5 : RUN opam pin add i9p.dev /home/opam/src/i9p -n
+ ---> Running in ce4480088058
+Package i9p does not exist, create as a NEW package ? [Y/n] y
+i9p is now path-pinned to /home/opam/src/i9p
+
+[i9p: local]
+[i9p] /home/opam/src/i9p/ synchronized
+[i9p] Installing new package description from /home/opam/src/i9p
+
+ ---> 6dd9496d2e62
+Removing intermediate container ce4480088058
+Step 6 : RUN opam depext i9p && opam install i9p --deps        # Install i9p deps
+ ---> Running in 38bfe6a8112a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconfig
+zlib-dev
+# The following new OS packages need to be installed: gmp-dev linux-headers perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers perl
+(1/4) Installing libgmpxx (6.1.0-r0)
+(2/4) Installing gmp-dev (6.1.0-r0)
+(3/4) Installing linux-headers (4.4.6-r1)
+(4/4) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r11.trigger
+OK: 485 MiB in 89 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[i9p: local] Command started
+[i9p] /home/opam/src/i9p/ already up-to-date
+The following actions will be performed:
+  - install stringext        1.4.3    
+  - install cppo             1.4.0    
+  - install rresult          0.5.0    
+  - install js-build-tools   113.33.04
+  - install logs             0.6.2    
+  - install camlzip          1.06     
+  - install named-pipe       0.3      
+  - install ocamlgraph       1.8.7    
+  - install ocamlify         0.0.1    
+  - install mtime            0.8.3    
+  - install ocamlmod         0.0.8    
+  - install uutf             0.9.4    
+  - install crunch           1.4.1    
+  - install win-error        0.2      
+  - install re               1.7.1    
+  - install ppx_deriving     4.1      
+  - install ocplib-endian    1.0      
+  - install sexplib          113.33.03
+  - install ppx_core         113.33.03
+  - install bin_prot         113.33.03
+  - install oasis            0.4.7    
+  - install jsonm            0.9.1    
+  - install cstruct          2.3.0    
+  - install ppx_optcomp      113.33.03
+  - install mstruct          1.3.2    
+  - install io-page          1.6.1    
+  - install hex              1.0.0    
+  - install ppx_driver       113.33.03
+  - install ezjsonm          0.4.3    
+  - install ppx_type_conv    113.33.03
+  - install mirage-tc        0.3.0    
+  - install ppx_sexp_conv    113.33.03
+  - install uri              1.9.2    
+  - install ipaddr           2.7.0    
+  - install mirage-types     2.8.0    
+  - install mirage-types-lwt 2.8.0    
+  - install conduit          0.13.0   
+  - install channel          1.1.1    
+  - install protocol-9p      0.7.3    
+  - install git              1.9.2    
+  - install irmin            0.11.1   
+===== 41 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[bin_prot: http] Command started
+[camlzip: http] Command started
+[channel: http] Command started
+[camlzip: http] Command started
+[camlzip.1.06] https://forge.ocamlcore.org/frs/download.php/1616/camlzip-1.06.tar.gz downloaded
+[conduit: http] Command started
+[channel: http] Command started
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+[cppo: http] Command started
+[bin_prot: http] Command started
+[bin_prot.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/bin_prot-113.33.03.tar.gz downloaded
+[crunch: http] Command started
+[conduit: http] Command started
+[conduit.0.13.0] https://github.com/mirage/ocaml-conduit/archive/v0.13.0.tar.gz downloaded
+[cstruct: http] Command started
+[cppo: http] Command started
+[cppo.1.4.0] https://github.com/mjambon/cppo/archive/v1.4.0.tar.gz downloaded
+[ezjsonm: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[git: http] Command started
+[cstruct: http] Command started
+[cstruct.2.3.0] https://github.com/mirage/ocaml-cstruct/archive/v2.3.0.tar.gz downloaded
+[hex: http] Command started
+[ezjsonm: http] Command started
+[ezjsonm.0.4.3] https://github.com/mirage/ezjsonm/archive/0.4.3.tar.gz downloaded
+[io-page: http] Command started
+[git: http] Command started
+[git.1.9.2] https://github.com/mirage/ocaml-git/releases/download/1.9.2/git-1.9.2.tbz downloaded
+[ipaddr: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[irmin: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[js-build-tools: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.7.0] https://github.com/mirage/ocaml-ipaddr/archive/2.7.0.tar.gz downloaded
+[jsonm: http] Command started
+[js-build-tools: http] Command started
+[jsonm: http] Command started
+[jsonm.0.9.1] http://erratique.ch/software/jsonm/releases/jsonm-0.9.1.tbz downloaded
+[logs: http] Command started
+[js-build-tools.113.33.04] https://ocaml.janestreet.com/ocaml-core/113.33/files/js-build-tools-113.33.04.tar.gz downloaded
+[mirage-tc: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[mirage-types: http] Command started
+[irmin: http] Command started
+[irmin.0.11.1] https://github.com/mirage/irmin/archive/0.11.1.tar.gz downloaded
+[mstruct: http] Command started
+[mirage-tc: http] Command started
+[mirage-tc.0.3.0] https://github.com/mirage/mirage-tc/archive/0.3.0.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[named-pipe: http] Command started
+[mirage-types: http] Command started
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+[oasis: http] Command started
+[mstruct: http] Command started
+[mstruct.1.3.2] https://github.com/mirage/ocaml-mstruct/archive/1.3.2.tar.gz downloaded
+[ocamlgraph: http] Command started
+[oasis: http] Command started
+[oasis.0.4.7] https://forge.ocamlcore.org/frs/download.php/1635/oasis-0.4.7.tar.gz downloaded
+[ocamlify: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocamlmod: http] Command started
+[ocamlgraph: http] Command started
+[ocamlgraph.1.8.7] http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.7.tar.gz downloaded
+[ocplib-endian: http] Command started
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[ppx_core: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.3] https://github.com/djs55/ocaml-named-pipe/archive/v0.3.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.03.tar.gz downloaded
+[ppx_driver: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.03.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_optcomp-113.33.03.tar.gz downloaded
+[protocol-9p: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.03.tar.gz downloaded
+[re: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.03.tar.gz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[sexplib: http] Command started
+[protocol-9p: http] Command started
+[protocol-9p.0.7.3] https://github.com/mirage/ocaml-9p/archive/v0.7.3.tar.gz downloaded
+[stringext: http] Command started
+[sexplib: http] Command started
+[sexplib.113.33.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.03.tar.gz downloaded
+[uri: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.0.9.4] http://erratique.ch/software/uutf/releases/uutf-0.9.4.tbz downloaded
+[win-error: http] Command started
+[stringext: http] Command started
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+[uri: http] Command started
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[camlzip: make all] Command started
+[cppo: make] Command started
+[crunch: ocaml setup.ml] Command started
+[js-build-tools: ./configure] Command started
+[camlzip: make allopt] Command started
+[camlzip: make install-findlib] Command started
+[js-build-tools: make] Command started
+-> installed camlzip.1.06
+[logs: ocaml build] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed logs.0.6.2
+[mtime: ocaml] Command started
+[mtime: ocaml] Command started
+[cppo: make install-lib] Command started
+-> installed cppo.1.4.0
+[named-pipe: ocaml setup.ml] Command started
+-> installed js-build-tools.113.33.04
+[bin_prot: ./configure] Command started
+-> installed mtime.0.8.3
+[ocamlgraph: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[ocamlgraph: make] Command started
+[named-pipe: make] Command started
+[bin_prot: make] Command started
+-> installed crunch.1.4.1
+[ocamlify: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[named-pipe: make install] Command started
+-> installed ocamlify.0.0.1
+[ocamlmod: ocaml setup.ml] Command started
+-> installed bin_prot.113.33.03
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed named-pipe.0.3
+[ppx_core: ./configure] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ppx_core: make] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlgraph: make install-findlib] Command started
+-> installed ocamlgraph.1.8.7
+[ppx_deriving: ocaml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+-> installed ocplib-endian.1.0
+[re: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
+[re: ocaml setup.ml] Command started
+-> installed ppx_deriving.4.1
+[rresult: ocaml build] Command started
+-> installed rresult.0.5.0
+[sexplib: ./configure] Command started
+[sexplib: make] Command started
+[re: ocaml setup.ml] Command started
+-> installed re.1.7.1
+[stringext: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed sexplib.113.33.03
+[cstruct: ./configure] Command started
+[stringext: ocaml setup.ml] Command started
+[cstruct: make] Command started
+-> installed stringext.1.4.3
+[uutf: ocaml] Command started
+[uutf: ocaml] Command started
+-> installed uutf.0.9.4
+[jsonm: ocaml setup.ml] Command started
+[jsonm: ocaml setup.ml] Command started
+-> installed ppx_core.113.33.03
+[ppx_optcomp: ./configure] Command started
+[cstruct: make install] Command started
+[ppx_optcomp: make] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.3.0
+[hex: ./configure] Command started
+[jsonm: ocaml setup.ml] Command started
+-> installed jsonm.0.9.1
+[io-page: ./configure] Command started
+[hex: make] Command started
+[io-page: make] Command started
+[hex: make install] Command started
+-> installed ppx_optcomp.113.33.03
+[mstruct: ./configure] Command started
+-> installed hex.1.0.0
+[ezjsonm: ./configure] Command started
+[mstruct: make] Command started
+[io-page: make install] Command started
+[oasis: ocaml setup.ml] Command started
+[ezjsonm: make] Command started
+-> installed io-page.1.6.1
+[ppx_driver: ./configure] Command started
+[mstruct: make install] Command started
+[ppx_driver: make] Command started
+-> installed oasis.0.4.7
+[win-error: make] Command started
+-> installed mstruct.1.3.2
+[ezjsonm: make install] Command started
+-> installed ezjsonm.0.4.3
+[mirage-tc: ./configure] Command started
+-> installed ppx_driver.113.33.03
+[ppx_type_conv: ./configure] Command started
+[win-error: make install] Command started
+[mirage-tc: make] Command started
+[ppx_type_conv: make] Command started
+-> installed win-error.0.2
+[mirage-tc: make install] Command started
+-> installed ppx_type_conv.113.33.03
+[ppx_sexp_conv: ./configure] Command started
+-> installed mirage-tc.0.3.0
+[ppx_sexp_conv: make] Command started
+-> installed ppx_sexp_conv.113.33.03
+[ipaddr: ocaml setup.ml] Command started
+[uri: ocaml setup.ml] Command started
+[ipaddr: make build] Command started
+[uri: ocaml setup.ml] Command started
+[ipaddr: make install] Command started
+[uri: ocaml setup.ml] Command started
+-> installed ipaddr.2.7.0
+[mirage-types: make build-types] Command started
+-> installed uri.1.9.2
+[mirage-types: make install-types] Command started
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+[channel: ocaml build] Command started
+[conduit: make] Command started
+-> installed channel.1.1.1
+[protocol-9p: ocaml build] Command started
+[conduit: make install] Command started
+-> installed conduit.0.13.0
+[git: ocaml build] Command started
+-> installed protocol-9p.0.7.3
+-> installed git.1.9.2
+[irmin: ./configure] Command started
+[irmin: make] Command started
+[irmin: make install] Command started
+-> installed irmin.0.11.1
+Done.
+ ---> 4dbaeee0ed95
+Removing intermediate container 38bfe6a8112a
+Step 7 : COPY .git /home/opam/src/i9p/.git
+ ---> e98cbb204ad9
+Removing intermediate container d42b5a975957
+Step 8 : COPY src /home/opam/src/i9p/src
+ ---> e5a447ee3be5
+Removing intermediate container 416976511eb5
+Step 9 : COPY Makefile /home/opam/src/i9p/Makefile
+ ---> a623c9382bb2
+Removing intermediate container 2fdafdf672b5
+Step 10 : COPY _oasis /home/opam/src/i9p/_oasis
+ ---> 56b971b57790
+Removing intermediate container 6cdf18ef2e26
+Step 11 : COPY tests /home/opam/src/i9p/tests
+ ---> 5087d064cc90
+Removing intermediate container e3872b9cce33
+Step 12 : RUN sudo chown -R opam.nogroup /home/opam/src
+ ---> Running in e9bc9e6a6640
+ ---> bac264e7e0f9
+Removing intermediate container e9bc9e6a6640
+Step 13 : WORKDIR /home/opam/src/i9p
+ ---> Running in 5987bffa2d43
+ ---> 342ae8e12472
+Removing intermediate container 5987bffa2d43
+Step 14 : RUN opam config exec -- make && make test && make install
+ ---> Running in d559323adc8c
+rm -f _tags myocamlbuild.ml
+oasis setup
+[91mW: No replace section found in file Makefile
+[0mecho 'true: debug, bin_annot' >> _tags
+echo 'true: warn_error(+1..49), warn(A-4-41-44)' >> _tags
+echo 'Ocamlbuild_plugin.mark_tag_used "tests"' >> myocamlbuild.ml
+ocaml setup.ml -configure --prefix /home/opam/.opam/system
+
+Configuration:
+ocamlfind: ........................................... /home/opam/.opam/system/bin/ocamlfind
+ocamlc: .............................................. /usr/bin/ocamlc.opt
+ocamlopt: ............................................ /usr/bin/ocamlopt.opt
+ocamlbuild: .......................................... /usr/bin/ocamlbuild
+Package name: ........................................ i9p
+Package version: ..................................... 0.2.0
+os_type: ............................................. Unix
+system: .............................................. linux
+architecture: ........................................ amd64
+ccomp_type: .......................................... cc
+ocaml_version: ....................................... 4.02.3
+standard_library_default: ............................ /usr/lib/ocaml
+standard_library: .................................... /usr/lib/ocaml
+standard_runtime: .................................... /usr/bin/ocamlrun
+bytecomp_c_compiler: ................................. gcc -fPIC -Os -O -fno-defer-pop -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -O -fPIC
+native_c_compiler: ................................... gcc -fPIC -Os -O -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+model: ............................................... default
+ext_obj: ............................................. .o
+ext_asm: ............................................. .s
+ext_lib: ............................................. .a
+ext_dll: ............................................. .so
+default_executable_name: ............................. a.out
+systhread_supported: ................................. true
+Install architecture-independent files dir: .......... /home/opam/.opam/system
+Install architecture-dependent files in dir: ......... $prefix
+User executables: .................................... $exec_prefix/bin
+System admin executables: ............................ $exec_prefix/sbin
+Program executables: ................................. $exec_prefix/libexec
+Read-only single-machine data: ....................... $prefix/etc
+Modifiable architecture-independent data: ............ $prefix/com
+Modifiable single-machine data: ...................... $prefix/var
+Object code libraries: ............................... $exec_prefix/lib
+Read-only arch-independent data root: ................ $prefix/share
+Read-only architecture-independent data: ............. $datarootdir
+Info documentation: .................................. $datarootdir/info
+Locale-dependent data: ............................... $datarootdir/locale
+Man documentation: ................................... $datarootdir/man
+Documentation root: .................................. $datarootdir/doc/$pkg_name
+HTML documentation: .................................. $docdir
+DVI documentation: ................................... $docdir
+PDF documentation: ................................... $docdir
+PS documentation: .................................... $docdir
+findlib_version: ..................................... 1.6.2
+is_native: ........................................... true
+suffix_program: ......................................
+Remove a file.: ...................................... rm -f
+Remove a directory.: ................................. rm -rf
+Turn ocaml debug flag on: ............................ true
+Turn ocaml profile flag on: .......................... false
+Compiler support generation of .cmxs.: ............... true
+OCamlbuild additional flags: .........................
+Create documentations: ............................... true
+Compile tests executable and library and run them: ... false
+pkg_lwt: ............................................. /home/opam/.opam/system/lib/lwt
+pkg_rresult: ......................................... /home/opam/.opam/system/lib/rresult
+pkg_cstruct: ......................................... /home/opam/.opam/system/lib/cstruct
+pkg_fmt: ............................................. /home/opam/.opam/system/lib/fmt
+pkg_protocol_9p_unix: ................................ /home/opam/.opam/system/lib/protocol-9p
+pkg_irmin: ........................................... /home/opam/.opam/system/lib/irmin
+pkg_zip: ............................................. /home/opam/.opam/system/lib/zip
+pkg_uri: ............................................. /home/opam/.opam/system/lib/uri
+pkg_lwt_unix: ........................................ /home/opam/.opam/system/lib/lwt
+pkg_git: ............................................. /home/opam/.opam/system/lib/git
+pkg_tc: .............................................. /home/opam/.opam/system/lib/tc
+pkg_conduit_lwt_unix: ................................ /home/opam/.opam/system/lib/conduit
+ocamldoc: ............................................ /usr/bin/ocamldoc
+pkg_cmdliner: ........................................ /home/opam/.opam/system/lib/cmdliner
+pkg_irmin_mem: ....................................... /home/opam/.opam/system/lib/irmin
+pkg_irmin_git: ....................................... /home/opam/.opam/system/lib/irmin
+
+echo "let v = \"fb744d2.m\"" > src/bin/version.ml
+ocaml setup.ml -build 
+/usr/bin/ocamlopt.opt unix.cmxa -I /usr/lib/ocaml/ocamlbuild /usr/lib/ocaml/ocamlbuild/ocamlbuildlib.cmxa myocamlbuild.ml /usr/lib/ocaml/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package rresult -modules src/vfs/vfs.mli > src/vfs/vfs.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmi src/vfs/vfs.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package rresult -modules src/vfs/vfs.ml > src/vfs/vfs.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmo src/vfs/vfs.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -a src/vfs/vfs.cmo -o src/vfs/vfs.cma
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -package cstruct -package fmt -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/vfs -o src/vfs/vfs.cmx src/vfs/vfs.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -a src/vfs/vfs.cmx -o src/vfs/vfs.cmxa
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -shared src/vfs/vfs.cmxa src/vfs/vfs.cmx -o src/vfs/vfs.cmxs
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p.mli > src/fs9p/fs9p.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmi src/fs9p/fs9p.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p.ml > src/fs9p/fs9p.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p_error.mli > src/fs9p/fs9p_error.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmi src/fs9p/fs9p_error.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -modules src/fs9p/fs9p_error.ml > src/fs9p/fs9p_error.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmo src/fs9p/fs9p.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmo src/fs9p/fs9p_error.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlc -a src/fs9p/fs9p_error.cmo src/fs9p/fs9p.cmo -o src/fs9p/fs9p.cma
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p_error.cmx src/fs9p/fs9p_error.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package lwt -package protocol-9p.unix -package rresult -warn-error +1..49 -w A-4-41-44 -I src/fs9p -I src/vfs -o src/fs9p/fs9p.cmx src/fs9p/fs9p.ml
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -a src/fs9p/fs9p_error.cmx src/fs9p/fs9p.cmx -o src/fs9p/fs9p.cmxa
+/home/opam/.opam/system/bin/ocamlfind ocamlopt -shared src/fs9p/fs9p.cmxa src/fs9p/fs9p_error.cmx src/fs9p/fs9p.cmx -o src/fs9p/fs9p.cmxs
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p.mli > src/i9p/i9p.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_tree.mli > src/i9p/i9p_tree.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_tree.cmi src/i9p/i9p_tree.mli
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmi src/i9p/i9p.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p.ml > src/i9p/i9p.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_merge.mli > src/i9p/i9p_merge.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_remote.mli > src/i9p/i9p_remote.mli.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_merge.cmi src/i9p/i9p_merge.mli
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p_remote.cmi src/i9p/i9p_remote.mli
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_tree.ml > src/i9p/i9p_tree.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_remote.ml > src/i9p/i9p_remote.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamldep -package cstruct -package fmt -package irmin -package lwt -package rresult -modules src/i9p/i9p_merge.ml > src/i9p/i9p_merge.ml.depends
+/home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmo src/i9p/i9p.ml
++ /home/opam/.opam/system/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src/vfs -package cstruct -package fmt -package irmin -package lwt -package rresult -warn-error +1..49 -w A-4-41-44 -I src/i9p -I src/vfs -o src/i9p/i9p.cmo src/i9p/i9p.ml
+File "src/i9p/i9p.ml", line 45, characters 51-58:
+Error: This expression has type
+         Tree.file =
+           Store.Private.Node.Val.raw_contents *
+           Store.Private.Node.Val.Metadata.t
+       but an expression was expected of type Store.Private.Contents.key
+Command exited with code 2.
+[91mE: Failure("Command ''/usr/bin/ocamlbuild' src/vfs/vfs.cma src/vfs/vfs.cmxa src/vfs/vfs.a src/vfs/vfs.cmxs src/fs9p/fs9p.cma src/fs9p/fs9p.cmxa src/fs9p/fs9p.a src/fs9p/fs9p.cmxs src/i9p/i9p.cma src/i9p/i9p.cmxa src/i9p/i9p.a src/i9p/i9p.cmxs src/irmin-io/irmin-io.cma src/irmin-io/irmin-io.cmxa src/irmin-io/irmin-io.a src/irmin-io/irmin-io.cmxs src/bin/main.native src/bin/mount.native -tag debug' terminated with error code 10")
+[0m[91mmake: *** [build] Error 1
+[0mMakefile:9: recipe for target 'build' failed
+The command '/bin/sh -c opam config exec -- make && make test && make install' returned a non-zero code: 2
+[2016-11-02 14:04.41] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
