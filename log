@@ -1,0 +1,40 @@
+=== Run docker-build-server on commit cf3ca3edaa72ff7d5532b8fd0ac51931812d7d46
+[2016-11-03 14:33.21] Starting...
+Cloning into '/tmp/with_clone3492f497'...
+done.
+HEAD is now at cf3ca3e update opam metadata
+[2016-11-03 14:33.21] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.727 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:760aa7efb4e7b7f7049f8813bd4d4dab13d1671ff90904c526c8a11dae88a5cf
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 641163b66edf
+Step 2 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 8cfdb5ac0af5
+Step 3 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 76847ea7287e
+Step 4 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> ba4d98404bf3
+Step 5 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Running in 0067f0aad34b
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+[91m[ERROR] datakit-server is not available because your system doesn't comply with
+        ocaml-version >= "4.03.0".
+[0mThe command '/bin/sh -c opam depext datakit-server && opam install datakit-server --deps' returned a non-zero code: 66
+[2016-11-03 14:33.53] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 1
