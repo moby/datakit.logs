@@ -1,0 +1,73 @@
+=== Run docker-build-github on commit cf3ca3edaa72ff7d5532b8fd0ac51931812d7d46
+[2016-11-03 14:33.21] Starting...
+Cloning into '/tmp/with_clone6717f55'...
+done.
+HEAD is now at cf3ca3e update opam metadata
+[2016-11-03 14:33.21] Running "docker" "build" "--pull" "-f" "Dockerfile.github" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.727 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+Digest: sha256:1495b9c187762c378d563bc3c5f6c07e3e9e9f972bf0e5f3da9e074be3f7de7c
+Status: Image is up to date for docker/datakit:server
+ ---> 3c04f2ab3a09
+Step 2 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 0c768d3d25a1
+Step 3 : RUN opam pin add github.dev https://github.com/samoht/ocaml-github.git#push-event-head-commit -n
+ ---> Using cache
+ ---> 93e993e8df65
+Step 4 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 2257c176b1f5
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> da7f5bc35d0c
+Removing intermediate container 2257c176b1f5
+Step 5 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 67edabef1660
+Package datakit-github does not exist, create as a NEW package ? [Y/n] y
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> 78d034ba9d5a
+Removing intermediate container 67edabef1660
+Step 6 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 342d4994b3b0
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2j-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r11.trigger
+OK: 492 MiB in 92 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+[91m[ERROR] datakit-github is not available because your system doesn't comply with
+        ocaml-version >= "4.03.0".
+[0mThe command '/bin/sh -c opam depext datakit-github && opam install datakit-github --deps' returned a non-zero code: 66
+[2016-11-03 14:34.37] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 1
