@@ -1,0 +1,129 @@
+=== Run docker-build-github on commit b66d338e43c73aeebb06d19988fb22dabec2620f
+[2016-11-03 14:32.52] Starting...
+Cloning into '/tmp/with_clone1223a067'...
+done.
+HEAD is now at b66d338 update opam metadata
+[2016-11-03 14:32.52] Running "docker" "build" "--pull" "-f" "Dockerfile.github" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.725 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+3690ec4760f9: Already exists
+45dbe04a7c93: Already exists
+517d61f1e301: Already exists
+1e0c9b3dd687: Already exists
+3ffe895a51ff: Pulling fs layer
+4c8337624cdd: Pulling fs layer
+4ed0c8526c60: Pulling fs layer
+a1fb7beb99f6: Pulling fs layer
+b288ffd8e931: Pulling fs layer
+50a755993af4: Pulling fs layer
+98013abfbd2f: Pulling fs layer
+d75bb166b6bc: Pulling fs layer
+403722a71b5f: Pulling fs layer
+50a755993af4: Waiting
+98013abfbd2f: Waiting
+d75bb166b6bc: Waiting
+403722a71b5f: Waiting
+a1fb7beb99f6: Waiting
+b288ffd8e931: Waiting
+4c8337624cdd: Verifying Checksum
+4c8337624cdd: Download complete
+4ed0c8526c60: Verifying Checksum
+4ed0c8526c60: Download complete
+b288ffd8e931: Verifying Checksum
+b288ffd8e931: Download complete
+50a755993af4: Verifying Checksum
+50a755993af4: Download complete
+98013abfbd2f: Verifying Checksum
+98013abfbd2f: Download complete
+d75bb166b6bc: Verifying Checksum
+d75bb166b6bc: Download complete
+403722a71b5f: Download complete
+a1fb7beb99f6: Verifying Checksum
+a1fb7beb99f6: Download complete
+3ffe895a51ff: Verifying Checksum
+3ffe895a51ff: Download complete
+3ffe895a51ff: Pull complete
+4c8337624cdd: Pull complete
+4ed0c8526c60: Pull complete
+a1fb7beb99f6: Pull complete
+b288ffd8e931: Pull complete
+50a755993af4: Pull complete
+98013abfbd2f: Pull complete
+d75bb166b6bc: Pull complete
+403722a71b5f: Pull complete
+Digest: sha256:1495b9c187762c378d563bc3c5f6c07e3e9e9f972bf0e5f3da9e074be3f7de7c
+Status: Downloaded newer image for docker/datakit:server
+ ---> 3c04f2ab3a09
+Step 2 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 0c768d3d25a1
+Removing intermediate container bdfec6cace77
+Step 3 : RUN opam pin add github.dev https://github.com/samoht/ocaml-github.git#push-event-head-commit -n
+ ---> Running in a5a6080976db
+github is now git-pinned to https://github.com/samoht/ocaml-github.git#push-event-head-commit
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/samoht/ocaml-github.git#push-event-head-commit updated
+
+ ---> 93e993e8df65
+Removing intermediate container a5a6080976db
+Step 4 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 8326379ba25f
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> 013b75b7dcc7
+Removing intermediate container 8326379ba25f
+Step 5 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 921effdbce65
+Package datakit-github does not exist, create as a NEW package ? [Y/n] y
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> d54e40ea3f67
+Removing intermediate container 921effdbce65
+Step 6 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 61894d7579a2
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2j-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r11.trigger
+OK: 492 MiB in 92 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+[91m[ERROR] datakit-github is not available because your system doesn't comply with
+        ocaml-version >= "4.03.0".
+[0mThe command '/bin/sh -c opam depext datakit-github && opam install datakit-github --deps' returned a non-zero code: 66
+[2016-11-03 14:34.29] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 1
