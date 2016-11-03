@@ -1,0 +1,77 @@
+=== Run docker-build-ci on commit 1f39deef0c6b123df937da967ac46b03e9766e8e
+[2016-11-03 15:38.57] Starting...
+Cloning into '/tmp/with_clone33606cf4'...
+done.
+HEAD is now at 1f39dee Travis: move pin on GitHub to master branch
+[2016-11-03 15:38.57] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.743 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:170ad093c774a4a115413fef2e4506dd5cede4ae6d928850408a9934da2c81dc
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 59ead2441d4a
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> e55c5a3b7b22
+Step 3 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> d9d5906b4cee
+Step 4 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 498d53ec871a
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 45735e29d10f
+Step 6 : ADD . /home/opam/datakit
+ ---> 3dd63336541e
+Removing intermediate container 022fc1b75140
+Step 7 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 0f9251e2197c
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install crunch     1.4.1                                    [required by datakit-ci]
+  - install dockerfile 1.7.2                                    [required by datakit-ci]
+  - install datakit-ci *    
+===== 3 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[dockerfile: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[dockerfile: http] Command started
+[dockerfile.1.7.2] https://github.com/avsm/ocaml-dockerfile/releases/download/v1.7.2/dockerfile-1.7.2.tbz downloaded
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: ocaml setup.ml] Command started
+[dockerfile: ocaml build] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed dockerfile.1.7.2
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 073b4976e9c3
+Removing intermediate container 0f9251e2197c
+Step 8 : VOLUME /secrets
+ ---> Running in 8850c33c6461
+ ---> 8b6446e77c49
+Removing intermediate container 8850c33c6461
+Successfully built 8b6446e77c49
+[2016-11-03 15:39.30] Success
