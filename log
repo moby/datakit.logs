@@ -1,9 +1,9 @@
 === Run docker-build-github on commit 55b197d753c531d272adf6bc9a363b3ffac10950
-[2016-11-10 17:10.50] Starting...
-Cloning into '/tmp/with_clone27e0c8c0'...
+[2016-11-10 17:12.34] Starting...
+Cloning into '/tmp/with_clone1b892fba'...
 done.
 HEAD is now at 55b197d Build using OCaml 4.03 on Appveyor
-[2016-11-10 17:10.50] Running "docker" "build" "--pull" "-f" "Dockerfile.github" "."...
+[2016-11-10 17:12.35] Running "docker" "build" "--pull" "-f" "Dockerfile.github" "."...
 Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.156 MB
 Step 1 : FROM docker/datakit:server
 server: Pulling from docker/datakit
@@ -26,27 +26,27 @@ Step 6 : RUN opam depext datakit-github && opam install datakit-github --deps
  ---> Using cache
  ---> caa8281eef29
 Step 7 : COPY . /home/opam/src/datakit/
- ---> 30bf2770d5fb
-Removing intermediate container d3315b319be5
+ ---> bd2f4144c99e
+Removing intermediate container 29e200a25efa
 Step 8 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
- ---> Running in 26351c86a9d8
- ---> 06c2d84ab864
-Removing intermediate container 26351c86a9d8
+ ---> Running in d51f8981b8a7
+ ---> 301e0374958e
+Removing intermediate container d51f8981b8a7
 Step 9 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
- ---> Running in c0e5431d6620
+ ---> Running in 14d7be302542
  M src/version.ml
- ---> 4e612d5cbdde
-Removing intermediate container c0e5431d6620
+ ---> 8d7b1809a6eb
+Removing intermediate container 14d7be302542
 Step 10 : RUN opam update datakit-github
- ---> Running in b8bf9594eb67
+ ---> Running in fb0d297c1f1a
 
 =-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit-github: local] Command started
 [datakit-github] /home/opam/src/datakit/ synchronized
- ---> 645867b30605
-Removing intermediate container b8bf9594eb67
+ ---> b9bedd9e78ed
+Removing intermediate container fb0d297c1f1a
 Step 11 : RUN opam install datakit-github -vv
- ---> Running in 713c7d7d43e4
+ ---> Running in 56648f9dd49e
 
 =-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit-github: local] Command started
@@ -90,7 +90,9 @@ The following actions will be performed:
 - ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_sync.cmi bridge/github/datakit_github_sync.mli
 - ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_conv.cmx bridge/github/datakit_github_conv.ml
 - ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
-- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_vfs.ml
+[91m[ERROR] The compilation of datakit-github failed at "ocaml pkg/pkg.ml build
+        --pinned true -n datakit-github".
+[0m- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_vfs.ml
 - ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_sync.cmx bridge/github/datakit_github_sync.ml
 - ocamlfind ocamlopt -a -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github.cmx bridge/github/datakit_github_api.cmx bridge/github/datakit_github_conv.cmx bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_sync.cmx -o bridge/github/datakit-github.cmxa
 - ocamlfind ocamlopt -shared -linkall -package 'uri datakit-client datakit-server.vfs' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit-github.cmxa -o bridge/github/datakit-github.cmxs
@@ -137,9 +139,13 @@ The following actions will be performed:
 -      'bridge/github/datakit_github_api.mli'
 -      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
 -      'bridge/github/datakit_github.mli' 'bridge/github/main.native']: exited with 10
-[91m[ERROR] The compilation of datakit-github failed at "ocaml pkg/pkg.ml build
-        --pinned true -n datakit-github".
-[0m[91m
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-github dev
+No changes have been performed
+[91m
 #=== ERROR while installing datakit-github.dev ================================#
 # opam-version         1.2.2
 # os                   linux
@@ -147,9 +153,9 @@ The following actions will be performed:
 # path                 /home/opam/.opam/4.03.0/build/datakit-github.dev
 # compiler             4.03.0
 # exit-code            1
-# env-file             /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-6-ffb3fd.env
-# stdout-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-6-ffb3fd.out
-# stderr-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-6-ffb3fd.err
+# env-file             /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-8-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-8-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-8-ffb3fd.err
 ### stdout ###
 # [...]
 # ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_log.cmi src/datakit_log.mli
@@ -175,12 +181,6 @@ The following actions will be performed:
 #      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
 #      'bridge/github/datakit_github.mli' 'bridge/github/main.native']: exited with 10
 
-[0m
-
-=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-The following actions failed
-  - install datakit-github dev
-No changes have been performed
-[91m'opam install datakit-github -vv' failed.
+[0m[91m'opam install datakit-github -vv' failed.
 [0mThe command '/bin/sh -c opam install datakit-github -vv' returned a non-zero code: 4
-[2016-11-10 17:11.29] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 1
+[2016-11-10 17:12.55] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 1
