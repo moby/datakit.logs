@@ -1,0 +1,51 @@
+=== Run docker-build-ci on commit 33b7a121091c9bcd7431ca6fd005a2a924111adc
+[2016-11-10 15:37.58] Starting...
+Cloning into '/tmp/with_clone3d78c0b0'...
+done.
+HEAD is now at 33b7a12 Pin dev version of dependencies in CI scripts
+[2016-11-10 15:37.59] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.073 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:c0ffa64494fc386f854566a8f475f36c24b1bc2e2aadf6e0d115884639f84e85
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 28ba7b346ce1
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 87558b440bb0
+Step 3 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 473d64073c0e
+Step 4 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 265355935040
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 1e79907ba807
+Step 6 : ADD . /home/opam/datakit
+ ---> 048d8ea6bb04
+Removing intermediate container 6b916d5ca2d3
+Step 7 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 778ae38e7a28
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following dependencies couldn't be met:
+  - datakit-ci -> protocol-9p >= 0.7.4
+Your request can't be satisfied:
+  - No package matches protocol-9p>=0.7.4.
+
+No solution found, exiting
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0mThe command '/bin/sh -c opam pin add -k git datakit-ci /home/opam/datakit' returned a non-zero code: 3
+[2016-11-10 15:38.10] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
