@@ -1,9 +1,9 @@
 === Run docker-build-datakit on commit 55b197d753c531d272adf6bc9a363b3ffac10950
-[2016-11-10 17:10.50] Starting...
-Cloning into '/tmp/with_clone38836ff5'...
+[2016-11-10 17:12.29] Starting...
+Cloning into '/tmp/with_clonef6dcf22'...
 done.
 HEAD is now at 55b197d Build using OCaml 4.03 on Appveyor
-[2016-11-10 17:10.51] Running "docker" "build" "--pull" "-f" "Dockerfile" "."...
+[2016-11-10 17:12.29] Running "docker" "build" "--pull" "-f" "Dockerfile" "."...
 Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.156 MB
 Step 1 : FROM docker/datakit:server
 server: Pulling from docker/datakit
@@ -23,27 +23,27 @@ Step 5 : RUN opam depext datakit && opam install datakit --deps
  ---> Using cache
  ---> 92a1c9647b28
 Step 6 : COPY . /home/opam/src/datakit/
- ---> fdd565df3436
-Removing intermediate container f61ab59f777a
+ ---> 1bfb7f12e9b4
+Removing intermediate container 757ed5d206b0
 Step 7 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
- ---> Running in c705aaee3fff
- ---> c82c553a172b
-Removing intermediate container c705aaee3fff
+ ---> Running in 9c44b3113d6d
+ ---> 299b0363b02c
+Removing intermediate container 9c44b3113d6d
 Step 8 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
- ---> Running in f98214a7ada6
+ ---> Running in aad6f26527eb
  M src/version.ml
- ---> 8fb4a5351708
-Removing intermediate container f98214a7ada6
+ ---> 8accd35f6366
+Removing intermediate container aad6f26527eb
 Step 9 : RUN opam update datakit
- ---> Running in 75e6be75f828
+ ---> Running in 3ed93c466129
 
 =-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit: local] Command started
 [datakit] /home/opam/src/datakit/ synchronized
- ---> f126a4004810
-Removing intermediate container 75e6be75f828
+ ---> 391bca467155
+Removing intermediate container 3ed93c466129
 Step 10 : RUN opam install datakit -vv
- ---> Running in 319743beb2e9
+ ---> Running in 12a8dbcb057b
 
 =-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit: local] Command started
@@ -112,7 +112,9 @@ The following actions will be performed:
 - ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ir_io.cmi src/datakit/ir_io.mli
 - ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/version.cmo src/version.ml
 - ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/main.cmo src/datakit/main.ml
-- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+[91m[ERROR] The compilation of datakit failed at "ocaml pkg/pkg.ml build --pinned
+        true --tests false".
+[0m- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
 - ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.ml > src/datakit_log.ml.depends
 - ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ir_io.ml > src/datakit/ir_io.ml.depends
 - ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_conduit.cmx src/datakit_conduit.ml
@@ -135,9 +137,7 @@ The following actions will be performed:
 -      'src/datakit/ivfs_tree.cmi' 'src/datakit/ivfs_tree.mli'
 -      'src/datakit/ivfs.cmx' 'src/datakit/ivfs.cmi' 'src/datakit/ivfs.mli'
 -      'src/datakit/main.native' 'src/datakit-client/mount.native']: exited with 10
-[91m[ERROR] The compilation of datakit failed at "ocaml pkg/pkg.ml build --pinned
-        true --tests false".
-[0m
+
 
 =-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 The following actions failed
@@ -151,9 +151,9 @@ No changes have been performed
 # path                 /home/opam/.opam/4.03.0/build/datakit.dev
 # compiler             4.03.0
 # exit-code            1
-# env-file             /home/opam/.opam/4.03.0/build/datakit.dev/datakit-8-ffb3fd.env
-# stdout-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-8-ffb3fd.out
-# stderr-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-8-ffb3fd.err
+# env-file             /home/opam/.opam/4.03.0/build/datakit.dev/datakit-7-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-7-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-7-ffb3fd.err
 ### stdout ###
 # [...]
 # ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
@@ -181,4 +181,4 @@ No changes have been performed
 
 [0m[91m'opam install datakit -vv' failed.
 [0mThe command '/bin/sh -c opam install datakit -vv' returned a non-zero code: 4
-[2016-11-10 17:11.29] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 1
+[2016-11-10 17:12.50] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 1
