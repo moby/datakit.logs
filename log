@@ -1,0 +1,75 @@
+=== Run docker-build-datakit on commit 33b7a121091c9bcd7431ca6fd005a2a924111adc
+[2016-11-10 15:37.58] Starting...
+Cloning into '/tmp/with_clone474400b'...
+done.
+HEAD is now at 33b7a12 Pin dev version of dependencies in CI scripts
+[2016-11-10 15:37.58] Running "docker" "build" "--pull" "-f" "Dockerfile" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.073 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+Digest: sha256:4c157379d7398dd994a1cda072e922434718bc899a9c6932057a99711dddd729
+Status: Image is up to date for docker/datakit:server
+ ---> 7561db38fa84
+Step 2 : COPY opam /home/opam/src/datakit/opam
+ ---> 96a0e4077f2e
+Removing intermediate container 724f7d1f0c54
+Step 3 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Running in f5337d5c912e
+Package datakit does not exist, create as a NEW package ? [Y/n] y
+datakit is now path-pinned to /home/opam/src/datakit
+
+[datakit: local]
+[datakit] /home/opam/src/datakit/ synchronized
+[datakit] Installing new package description from /home/opam/src/datakit
+
+ ---> 32d05da17865
+Removing intermediate container f5337d5c912e
+Step 4 : RUN opam pin add git --dev -n
+ ---> Running in dd2de3953526
+git is now git-pinned to https://github.com/mirage/ocaml-git.git
+
+[git: git]
+[git: git]
+[git: git]
+[git: git]
+[git: git]
+[git: git]
+[git] https://github.com/mirage/ocaml-git.git updated
+[git] Installing new package description from
+https://github.com/mirage/ocaml-git.git
+
+ ---> 0af114d44bc1
+Removing intermediate container dd2de3953526
+Step 5 : RUN opam depext datakit && opam install datakit --deps
+ ---> Running in 675eee1ff6ee
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: linux-headers openssl-dev zlib-dev
+The following command needs to be run through "sudo":
+    apk add linux-headers openssl-dev zlib-dev
+(1/3) Installing linux-headers (4.4.6-r1)
+(2/3) Installing zlib-dev (1.2.8-r2)
+(3/3) Installing openssl-dev (1.0.2j-r0)
+OK: 447 MiB in 89 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit -> named-pipe >= 0.4.0
+Your request can't be satisfied:
+  - No package matches named-pipe>=0.4.0.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit && opam install datakit --deps' returned a non-zero code: 3
+[2016-11-10 15:38.25] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 1
