@@ -1,0 +1,51 @@
+=== Run docker-build-server on commit 33b7a121091c9bcd7431ca6fd005a2a924111adc
+[2016-11-10 15:37.58] Starting...
+Cloning into '/tmp/with_clone1b064571'...
+done.
+HEAD is now at 33b7a12 Pin dev version of dependencies in CI scripts
+[2016-11-10 15:37.58] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.073 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:d8a83d370bab8ad5b61704acfa4ecf857a3589e3c49b2949683f4092569d20a0
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 0a86b83a2498
+Step 2 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 01aba6bf3275
+Step 3 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> d067ce54e206
+Removing intermediate container 29110ae64222
+Step 4 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Running in 25e6577d175c
+datakit-server is now path-pinned to /home/opam/src/datakit
+
+[datakit-server: local]
+[datakit-server] /home/opam/src/datakit/ synchronized
+[datakit-server] Installing new package description from /home/opam/src/datakit
+
+ ---> bcd50e91d57d
+Removing intermediate container 25e6577d175c
+Step 5 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Running in 8547486b20e6
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-server -> protocol-9p >= 0.7.4
+Your request can't be satisfied:
+  - No package matches protocol-9p>=0.7.4.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-server && opam install datakit-server --deps' returned a non-zero code: 3
+[2016-11-10 15:38.18] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 1
