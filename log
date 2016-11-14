@@ -1,0 +1,154 @@
+=== Run docker-build-ci on commit bc98851a0572cf6a279d5b15741380c7679e5dbb
+[2016-11-14 11:14.30] Starting...
+Cloning into '/tmp/with_clone2d92f3b5'...
+done.
+HEAD is now at bc98851 ci: use ansi-parse to do highlighting in logs
+[2016-11-14 11:14.31] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.408 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:e03f0addf876ba770a493f55193107d03d033f22011bb23d2f9747ec7c14c4f8
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 12a4252ab0f8
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> e6fada04c6f9
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 3f7d2d1b6549
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> de0b4826d097
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> f7ec64120213
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 4b713d75083a
+Step 7 : ADD . /home/opam/datakit
+ ---> 29e51bfd659c
+Removing intermediate container 3abe86410915
+Step 8 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 36e4622f1b33
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   camomile       0.8.5                              [required by zed]
+  - install   angstrom       0.1.1                              [required by ansi-parse]
+  - install   crunch         1.4.1                              [required by datakit-ci]
+  - install   menhir         20160825                           [required by atd]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   ansi-parse     0.3.0                              [required by datakit-ci]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   atdgen         1.10.0                             [required by github]
+  - recompile protocol-9p    0.7.4                              [uses lambda-term]
+  - install   github         2.1.0                              [required by datakit-ci]
+  - recompile datakit-client 0.6.0*                             [uses protocol-9p]
+  - install   datakit-ci     *       
+===== 11 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[angstrom: http] Command started
+[ansi-parse: http] Command started
+[atd: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[atdgen: http] Command started
+[angstrom: http] Command started
+[angstrom.0.1.1] https://github.com/inhabitedtype/angstrom/archive/0.1.1.tar.gz downloaded
+[camomile: http] Command started
+[ansi-parse: http] Command started
+[ansi-parse.0.3.0] https://github.com/jdjakub/ansi-parse/releases/download/v0.3.0/ansi-parse-0.3.0.tbz downloaded
+[crunch: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[datakit-ci: git] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[github: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[lambda-term: http] Command started
+[github: http] Command started
+[github.2.1.0] https://github.com/mirage/ocaml-github/archive/v2.1.0.tar.gz downloaded
+[menhir: http] Command started
+[menhir: http] Command started
+[menhir.20160825] http://gallium.inria.fr/~fpottier/menhir/menhir-20160825.tar.gz downloaded
+[zed: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.6.0
+-> removed   protocol-9p.0.7.4
+[angstrom: ocaml setup.ml] Command started
+[camomile: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[menhir: make Makefile] Command started
+[angstrom: ocaml setup.ml] Command started
+[camomile: make] Command started
+[crunch: ocaml setup.ml] Command started
+[angstrom: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed angstrom.0.1.1
+[ansi-parse: ocaml build] Command started
+-> installed crunch.1.4.1
+-> installed ansi-parse.0.3.0
+[menhir: make Makefile] Command started
+-> installed menhir.20160825
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.7.4
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.6.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.1.0
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> ac2a604e3d41
+Removing intermediate container 36e4622f1b33
+Step 9 : VOLUME /secrets
+ ---> Running in c46c042cc760
+ ---> 8f1924e7f08f
+Removing intermediate container c46c042cc760
+Successfully built 8f1924e7f08f
+[2016-11-14 11:16.40] Success
