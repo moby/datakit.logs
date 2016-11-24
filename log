@@ -1,0 +1,159 @@
+=== Run docker-build-ci on commit f938ab9ff8a27a6f4da9732c64b88764432ad2bf
+[2016-11-24 20:32.40] Starting...
+Cloning into '/tmp/with_clone363e3dd7'...
+done.
+HEAD is now at f938ab9 Merge pull request #360 from samoht/delete-events
+[2016-11-24 20:32.40] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.828 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:08001f411f0e15601631a3194803bdc1fb5f1baa0e7fe8c98ef7a68e88e9862c
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> fc042e6bfcf1
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> eee89744056d
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> cfb2b8b9f298
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> ae57860bcba6
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 3e1f6ce62398
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 85c0129cd133
+Step 7 : ADD . /home/opam/datakit
+ ---> 412b4e06d7e6
+Removing intermediate container c484a3c74567
+Step 8 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in d8bfd5ec90a2
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   camomile       0.8.5                              [required by zed]
+  - install   menhir         20161115                           [required by atd]
+  - install   crunch         1.4.1                              [required by datakit-ci]
+  - install   uutf           0.9.1                              [required by tyxml]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atd            1.2.0                              [required by atdgen]
+  - upgrade   tyxml          3.1.1 to 4.0.1                     [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   atdgen         1.10.0                             [required by github]
+  - recompile protocol-9p    0.7.4                              [uses lambda-term]
+  - install   github         2.1.0                              [required by datakit-ci]
+  - recompile datakit-client 0.7.0*                             [uses protocol-9p]
+  - install   datakit-ci     *             
+===== 10 to install | 2 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atdgen: http] Command started
+[atd: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[crunch: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[datakit-ci: git] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git updated
+[github: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[lambda-term: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[menhir: http] Command started
+[menhir: http] Command started
+[menhir.20161115] http://gallium.inria.fr/~fpottier/menhir/menhir-20161115.tar.gz downloaded
+[tyxml: http] Command started
+[github: http] Command started
+[github.2.1.0] https://github.com/mirage/ocaml-github/archive/v2.1.0.tar.gz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.0.9.1] http://erratique.ch/software/uutf/releases/uutf-0.9.1.tbz downloaded
+[zed: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.7.0
+-> removed   protocol-9p.0.7.4
+[tyxml: ocamlfind remove] Command started
+[camomile: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[menhir: make Makefile] Command started
+-> removed   tyxml.3.1.1
+[uutf: ocaml setup.ml] Command started
+[camomile: make] Command started
+[uutf: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[uutf: ocaml setup.ml] Command started
+-> installed uutf.0.9.1
+[tyxml: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[tyxml: ocaml setup.ml] Command started
+[menhir: make Makefile] Command started
+-> installed menhir.20161115
+[atd: make] Command started
+[tyxml: ocaml setup.ml] Command started
+-> installed tyxml.4.0.1
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.7.4
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.7.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.1.0
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 97b35611c1d0
+Removing intermediate container d8bfd5ec90a2
+Step 9 : VOLUME /secrets
+ ---> Running in b4238c2d6510
+ ---> c376147d7af5
+Removing intermediate container b4238c2d6510
+Successfully built c376147d7af5
+[2016-11-24 20:37.43] Success
