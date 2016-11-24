@@ -1,0 +1,189 @@
+=== Run docker-build-ci on commit 57d5b15e2fb01c254651d2c33de53d2fd784d6fc
+[2016-11-24 14:32.13] Starting...
+Cloning into '/tmp/with_clone3d1c8113'...
+done.
+HEAD is now at 57d5b15 Remove the --sandbox mode
+[2016-11-24 14:32.14] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.747 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:08001f411f0e15601631a3194803bdc1fb5f1baa0e7fe8c98ef7a68e88e9862c
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> fc042e6bfcf1
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> eee89744056d
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> cfb2b8b9f298
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> ae57860bcba6
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 3e1f6ce62398
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 85c0129cd133
+Step 7 : ADD . /home/opam/datakit
+ ---> 3653bdebdb9b
+Removing intermediate container d639c35e9e88
+Step 8 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 796e5032709c
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   camomile       0.8.5                              [required by zed]
+  - install   menhir         20161115                           [required by atd]
+  - install   crunch         1.4.1                              [required by datakit-ci]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   atdgen         1.10.0                             [required by github]
+  - recompile protocol-9p    0.7.4                              [uses lambda-term]
+  - install   github         2.1.0                              [required by datakit-ci]
+  - recompile datakit-client 0.7.0*                             [uses protocol-9p]
+  - install   datakit-ci     *       
+===== 9 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[crunch: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[datakit-ci: git] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git updated
+[github: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[lambda-term: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[menhir: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[zed: http] Command started
+[github: http] Command started
+[github.2.1.0] https://github.com/mirage/ocaml-github/archive/v2.1.0.tar.gz downloaded
+[menhir: http] Command started
+[menhir.20161115] http://gallium.inria.fr/~fpottier/menhir/menhir-20161115.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.7.0
+-> removed   protocol-9p.0.7.4
+[camomile: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[menhir: make Makefile] Command started
+[camomile: make] Command started
+[crunch: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[menhir: make Makefile] Command started
+-> installed menhir.20161115
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.7.4
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.7.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.1.0
+[datakit-ci: ocaml build] Command started
+[91m[ERROR] The compilation of datakit-ci failed at "ocaml pkg/pkg.ml build
+        --pinned true --tests false -n datakit-ci".
+[0m[91m
+#=== ERROR while installing datakit-ci.~unknown ===============================#
+# opam-version         1.2.2
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true --tests false -n datakit-ci
+# path                 /home/opam/.opam/4.03.0/build/datakit-ci.~unknown
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-5ddb38.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-5ddb38.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-5ddb38.err
+### stdout ###
+# [...]
+# ocamlfind ocamldep -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules ci/src/cI_target.mli > ci/src/cI_target.mli.depends
+# ocamlfind ocamldep -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules ci/src/cI_web_templates.mli > ci/src/cI_web_templates.mli.depends
+# ocamlfind ocamldep -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules ci/src/cI_engine.mli > ci/src/cI_engine.mli.depends
+# ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I src -I src/datakit -o ci/src/cI_target.cmi ci/src/cI_target.mli
+# ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I src -I src/datakit -o ci/src/cI_engine.cmi ci/src/cI_engine.mli
+# ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I src -I src/datakit -o ci/src/cI_web_templates.cmi ci/src/cI_web_templates.mli
+# + ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package github.unix -package asetmap -package 'pbkdf, sexplib' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I src -I src/datakit -o ci/src/cI_web_templates.cmi ci/src/cI_web_templates.mli
+# File "ci/src/cI_web_templates.mli", line 32, characters 34-56:
+# Error: Unbound module Tyxml
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+# [...]
+#      'ci/src/cI_live_log.cmi' 'ci/src/cI_live_log.mli'
+#      'ci/src/cI_github_hooks.cmx' 'ci/src/cI_github_hooks.cmi'
+#      'ci/src/cI_github_hooks.mli' 'ci/src/cI_eval.cmx' 'ci/src/cI_eval.cmi'
+#      'ci/src/cI_eval.mli' 'ci/src/cI_engine.cmx' 'ci/src/cI_engine.cmi'
+#      'ci/src/cI_engine.mli' 'ci/src/cI_config.cmx' 'ci/src/cI_config.cmi'
+#      'ci/src/cI_config.mli' 'ci/src/cI_cache.cmx' 'ci/src/cI_cache.cmi'
+#      'ci/src/cI_cache.mli' 'ci/src/cI_ACL.cmx' 'ci/src/cI_ACL.cmi'
+#      'ci/src/cI_ACL.mli' 'ci/src/dataKitCI.cmx' 'ci/src/dataKitCI.cmi'
+#      'ci/src/dataKitCI.mli']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-ci ~unknown
+The following changes have been performed
+  - install atd         1.2.0   
+  - install atdgen      1.10.0  
+  - install camomile    0.8.5   
+  - install crunch      1.4.1   
+  - install github      2.1.0   
+  - install lambda-term 1.10.1  
+  - install menhir      20161115
+  - install zed         1.4     
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0m[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20161024143220.export"
+[0mThe command '/bin/sh -c opam pin add -k git datakit-ci /home/opam/datakit' returned a non-zero code: 4
+[2016-11-24 14:34.31] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
