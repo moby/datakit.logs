@@ -1,0 +1,99 @@
+=== Run docker-build-ci on commit b910560a5f2339c195fb93161f6270bcdcc3aeac
+[2016-12-02 12:43.53] Starting...
+Cloning into '/tmp/with_clone1afc84d3'...
+done.
+HEAD is now at b910560 ci: fix opam and Dockerfile to use datakit-github
+[2016-12-02 12:43.54] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.708 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:0d6b39b76d34b91bac67d6e706e6dd0554cf6bdbbc9bf3f13faf046599715230
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 5a4ee39ad30c
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 5b11b725a78a
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 50328f6becf3
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 6bda4059e6c0
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> dd5f7f41eb7b
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> d8ef3bb77bb8
+Step 7 : RUN opam pin add github --dev
+ ---> Using cache
+ ---> 03d35b04beaf
+Step 8 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> b11ad493a91d
+Step 9 : ADD . /home/opam/datakit
+ ---> 71280e16538b
+Removing intermediate container e4752d8818bf
+Step 10 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 799dcd428094
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install crunch     1.4.1                                    [required by datakit-ci]
+  - install uutf       0.9.1                                    [required by tyxml]
+  - upgrade tyxml      3.2.1 to 4.0.1                           [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install datakit-ci *             
+===== 3 to install | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[tyxml: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.0.9.1] http://erratique.ch/software/uutf/releases/uutf-0.9.1.tbz downloaded
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[tyxml: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[uutf: ocaml setup.ml] Command started
+-> removed   tyxml.3.2.1
+[uutf: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[uutf: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+-> installed uutf.0.9.1
+[tyxml: ocaml setup.ml] Command started
+[tyxml: ocaml setup.ml] Command started
+[tyxml: ocaml setup.ml] Command started
+-> installed tyxml.4.0.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 85d770b224f0
+Removing intermediate container 799dcd428094
+Step 11 : VOLUME /secrets
+ ---> Running in b45726fe86e9
+ ---> c025519d1060
+Removing intermediate container b45726fe86e9
+Successfully built c025519d1060
+[2016-12-02 12:44.40] Success
