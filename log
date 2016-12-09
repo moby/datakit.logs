@@ -1,0 +1,221 @@
+=== Run docker-build-ci on commit 0c7db7931fae3e103f09ce6d87744c0aacedf4e9
+[2016-12-09 15:25.25] Starting...
+Cloning into '/tmp/with_clone249eaf89'...
+done.
+HEAD is now at 0c7db79 ci: fix opam and Dockerfile to use datakit-github
+[2016-12-09 15:25.29] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.302 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:7a12415e3a5d3362514a63af784578265060e59976ddde3306f2a93c76176b06
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> be189a3476e7
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 3745a493138f
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 2543eec46b47
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> f2b24c1ebdbf
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 18c4101ee9f7
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 9f20a81ef1e0
+Step 7 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Using cache
+ ---> 3010af94a1b0
+Step 8 : RUN opam pin add github --dev
+ ---> Using cache
+ ---> 91bdcff448e9
+Step 9 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Running in 15d0e0164873
+Package datakit-github does not exist, create as a NEW package ? [Y/n] y
+datakit-github is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] https://github.com/docker/datakit.git updated
+[datakit-github] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-github needs to be installed.
+The following actions will be performed:
+  - install mtime          0.8.3                                [required by datakit-github]
+  - install asl            0.10                                 [required by datakit-github]
+  - install datakit-server 0.8.0                                [required by datakit-github]
+  - install mirage-flow    1.1.0                                [required by hvsock]
+  - install hex            1.0.0                                [required by datakit-github]
+  - install win-eventlog   0.1                                  [required by datakit-github]
+  - install duration       0.1.0                                [required by hvsock]
+  - install github-hooks   0.1.1                                [required by datakit-github]
+  - install hvsock         0.11.1                               [required by datakit-github]
+  - install datakit-github *     
+===== 10 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: http] Command started
+[datakit-github: git] Command started
+[datakit-server: http] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github] https://github.com/docker/datakit.git already up-to-date
+[duration: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[github-hooks: http] Command started
+[datakit-server: http] Command started
+[datakit-server.0.8.0] https://github.com/docker/datakit/releases/download/0.8.0/datakit-0.8.0.tbz downloaded
+[hex: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[mirage-flow: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[win-eventlog: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: make] Command started
+[datakit-server: ocaml build] Command started
+[duration: ocaml build] Command started
+[hex: ./configure] Command started
+-> installed duration.0.1.0
+[mirage-flow: ./configure] Command started
+[hex: make] Command started
+[mirage-flow: make] Command started
+-> installed datakit-server.0.8.0
+[mtime: ocaml] Command started
+[mtime: ocaml] Command started
+[hex: make install] Command started
+-> installed mtime.0.8.3
+[win-eventlog: make] Command started
+[mirage-flow: make install] Command started
+-> installed hex.1.0.0
+[github-hooks: ocaml build] Command started
+[asl: make install] Command started
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+-> installed github-hooks.0.1.1
+-> installed asl.0.10
+[hvsock: make] Command started
+[win-eventlog: make install] Command started
+-> installed win-eventlog.0.1
+[hvsock: make install] Command started
+-> installed hvsock.0.11.1
+[datakit-github: ocaml build] Command started
+-> installed datakit-github.~unknown
+Done.
+ ---> 7a02a2659e29
+Removing intermediate container 15d0e0164873
+Step 10 : ADD . /home/opam/datakit
+ ---> 2a5965658e3c
+Removing intermediate container d9efce4063ae
+Step 11 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in e8d7ed155fd6
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uutf       0.9.3                                  [required by tyxml]
+  - install   uuidm      0.9.6                                  [required by redis]
+  - install   crunch     1.4.1                                  [required by datakit-ci]
+  - upgrade   tyxml      3.1.1 to 4.0.1                         [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install   redis      0.3.3                                  [required by datakit-ci]
+  - recompile session    0.2.0*                                 [uses redis]
+  - install   datakit-ci *             
+===== 5 to install | 1 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[redis: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+[tyxml: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[uuidm: http] Command started
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[uutf: http] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[uutf: http] Command started
+[uutf.0.9.3] http://erratique.ch/software/uutf/releases/uutf-0.9.3.tbz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[tyxml: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[uuidm: ocaml build] Command started
+-> removed   session.0.2.0
+[uutf: ./pkg/pkg-git] Command started
+-> removed   tyxml.3.1.1
+[uutf: ./pkg/build true] Command started
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+-> installed uutf.0.9.3
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+[tyxml: ocaml setup.ml] Command started
+-> installed tyxml.4.0.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 60e05138037e
+Removing intermediate container e8d7ed155fd6
+Step 12 : VOLUME /secrets
+ ---> Running in f9bdf483c402
+ ---> 58705a5dde36
+Removing intermediate container f9bdf483c402
+Successfully built 58705a5dde36
+[2016-12-09 15:28.44] Success
