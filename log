@@ -1,0 +1,341 @@
+=== Run docker-build-ci on commit 5cb300ad4eeb838b4df6b89a19c2dd58a7b95d06
+[2016-12-09 14:28.47] Starting...
+Cloning into '/tmp/with_clone758d0a4'...
+done.
+HEAD is now at 5cb300a Remove pin of multipart-form-data
+[2016-12-09 14:28.47] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.148 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:7a12415e3a5d3362514a63af784578265060e59976ddde3306f2a93c76176b06
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> be189a3476e7
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 3745a493138f
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 2543eec46b47
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> f2b24c1ebdbf
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Running in 21333166bb21
+datakit-client is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client] https://github.com/docker/datakit.git updated
+[datakit-client] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-client needs to be installed.
+The following actions will be performed:
+  - install   astring          0.8.3                            [required by datakit-client]
+  - install   win-error        0.2                              [required by protocol-9p]
+  - install   io-page          1.6.1                            [required by channel]
+  - install   ocb-stubblr      0.1.0                            [required by named-pipe]
+  - install   mirage-types     2.8.0                            [required by mirage-types-lwt]
+  - install   named-pipe       0.4.0                            [required by protocol-9p]
+  - install   mirage-types-lwt 2.8.0                            [required by protocol-9p]
+  - install   channel          1.1.1                            [required by protocol-9p]
+  - recompile tls              0.7.1                            [uses mirage-types-lwt]
+  - install   protocol-9p      0.7.4                            [required by datakit-client]
+  - recompile conduit          0.13.0                           [uses mirage-types-lwt]
+  - install   datakit-client   0.8.0*
+  - recompile cohttp           0.20.2                           [uses conduit]
+  - recompile webmachine       0.3.2                            [uses cohttp]
+  - recompile session          0.2.0                            [uses cohttp]
+===== 10 to install | 5 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring: http] Command started
+[channel: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[io-page: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[mirage-types: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[named-pipe: http] Command started
+[mirage-types: http] Command started
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+[ocb-stubblr: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[protocol-9p: http] Command started
+[channel: http] Command started
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+[win-error: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.0] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.0/ocb-stubblr-0.1.0.tbz downloaded
+[protocol-9p: http] Command started
+[protocol-9p.0.7.4] https://github.com/mirage/ocaml-9p/releases/download/v0.7.4/protocol-9p-0.7.4.tbz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[astring: ocaml build] Command started
+[io-page: ./configure] Command started
+[win-error: make] Command started
+-> removed   session.0.2.0
+[webmachine: ocamlfind remove] Command started
+-> removed   webmachine.0.3.2
+[cohttp: ocamlfind remove] Command started
+-> removed   cohttp.0.20.2
+[conduit: ocamlfind remove] Command started
+-> removed   conduit.0.13.0
+[tls: ocamlfind remove] Command started
+-> removed   tls.0.7.1
+[io-page: make] Command started
+-> installed astring.0.8.3
+[ocb-stubblr: ocaml build] Command started
+-> installed ocb-stubblr.0.1.0
+[named-pipe: ocaml build] Command started
+[io-page: make install] Command started
+[win-error: make install] Command started
+-> installed io-page.1.6.1
+[mirage-types: make build-types] Command started
+-> installed win-error.0.2
+-> installed named-pipe.0.4.0
+[mirage-types: make install-types] Command started
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+[channel: ocaml build] Command started
+[tls: ./configure] Command started
+-> installed channel.1.1.1
+[protocol-9p: ocaml build] Command started
+[tls: make] Command started
+-> installed protocol-9p.0.7.4
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.13.0
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.20.2
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+-> installed webmachine.0.3.2
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 323b24632ea8
+Removing intermediate container 21333166bb21
+Step 6 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Running in e06813d00e57
+session is now git-pinned to https://github.com/talex5/ocaml-session.git#redis
+
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session] https://github.com/talex5/ocaml-session.git#redis updated
+[session] Installing new package description from
+https://github.com/talex5/ocaml-session.git#redis
+
+session needs to be reinstalled.
+The following actions will be performed:
+  - recompile session 0.2.0*
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+-> removed   session.0.2.0
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> e75babb271cf
+Removing intermediate container e06813d00e57
+Step 7 : ADD . /home/opam/datakit
+ ---> ed66acdfa4e1
+Removing intermediate container 450103e1d26c
+Step 8 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in eab3a4149a25
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uuidm               0.9.6                         [required by redis]
+  - install   camomile            0.8.5                         [required by zed]
+  - install   menhir              20161115                      [required by atd]
+  - install   uutf                0.9.1                         [required by tyxml]
+  - install   crunch              1.4.1                         [required by datakit-ci]
+  - install   multipart-form-data 0.1.0                         [required by datakit-ci]
+  - install   redis               0.3.3                         [required by datakit-ci]
+  - install   zed                 1.4                           [required by lambda-term]
+  - install   atd                 1.2.0                         [required by atdgen]
+  - upgrade   tyxml               3.1.1 to 4.0.1                [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - recompile session             0.2.0*                        [uses redis]
+  - install   lambda-term         1.10.1                        [required by github]
+  - install   atdgen              1.10.0                        [required by github]
+  - recompile protocol-9p         0.7.4                         [uses lambda-term]
+  - install   github              2.1.0                         [required by datakit-ci]
+  - recompile datakit-client      0.8.0*                        [uses protocol-9p]
+  - install   datakit-ci          *             
+===== 13 to install | 3 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[crunch: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[datakit-ci: git] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[github: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[lambda-term: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[menhir: http] Command started
+[github: http] Command started
+[menhir: http] Command started
+[github.2.1.0] https://github.com/mirage/ocaml-github/archive/v2.1.0.tar.gz downloaded
+[multipart-form-data: http] Command started
+[menhir.20161115] http://gallium.inria.fr/~fpottier/menhir/menhir-20161115.tar.gz downloaded
+[redis: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+[tyxml: http] Command started
+[multipart-form-data: http] Command started
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+[uuidm: http] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.0.9.1] http://erratique.ch/software/uutf/releases/uutf-0.9.1.tbz downloaded
+[zed: http] Command started
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.8.0
+-> removed   protocol-9p.0.7.4
+[session: ocamlfind remove] Command started
+[tyxml: ocamlfind remove] Command started
+[camomile: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+-> removed   session.0.2.0
+[menhir: make Makefile] Command started
+-> removed   tyxml.3.1.1
+[multipart-form-data: ocaml build] Command started
+-> installed multipart-form-data.0.1.0
+[uuidm: ocaml build] Command started
+[camomile: make] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+[redis: make] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[uutf: ocaml setup.ml] Command started
+[uutf: ocaml setup.ml] Command started
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[uutf: ocaml setup.ml] Command started
+-> installed uutf.0.9.1
+[tyxml: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[tyxml: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+[menhir: make Makefile] Command started
+-> installed menhir.20161115
+[atd: make] Command started
+[tyxml: ocaml setup.ml] Command started
+-> installed tyxml.4.0.1
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.7.4
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.1.0
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> e321843e67aa
+Removing intermediate container eab3a4149a25
+Step 9 : VOLUME /secrets
+ ---> Running in 0517ae47bc2b
+ ---> 01cee6bfd709
+Removing intermediate container 0517ae47bc2b
+Successfully built 01cee6bfd709
+[2016-12-09 14:32.50] Success
