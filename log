@@ -1,0 +1,127 @@
+=== Run docker-build-ci on commit b976b3a2a42ee498aa855564183b8942e3de0257
+[2016-12-11 21:38.00] Starting...
+Cloning into '/tmp/with_clone81d6b19'...
+done.
+HEAD is now at b976b3a ci: re-expose a few more functions in Datakit_ci.Git
+[2016-12-11 21:38.01] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.421 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:7a12415e3a5d3362514a63af784578265060e59976ddde3306f2a93c76176b06
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> be189a3476e7
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> a79c9a890972
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> fd3eb9c9f539
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> c7c5a2624620
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> 53a67f7b2ef7
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> b9fbe9c3823c
+Step 7 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Using cache
+ ---> 8bb3c7cd608a
+Step 8 : RUN opam pin add github --dev
+ ---> Using cache
+ ---> 8acef5a37c9a
+Step 9 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 5c993c3a6de0
+Step 10 : ADD . /home/opam/datakit
+ ---> ae687a3eaf0b
+Removing intermediate container db464ff02df9
+Step 11 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 8a74c50e4f66
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0mdatakit-ci is now git-pinned to /home/opam/datakit
+
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uutf       0.9.3                                  [required by tyxml]
+  - install   uuidm      0.9.6                                  [required by redis]
+  - install   crunch     1.4.1                                  [required by datakit-ci]
+  - upgrade   tyxml      3.2.0 to 4.0.1                         [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install   redis      0.3.3                                  [required by datakit-ci]
+  - recompile session    0.2.0*                                 [uses redis]
+  - install   datakit-ci *             
+===== 5 to install | 1 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[redis: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+[tyxml: http] Command started
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[uuidm: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[uutf: http] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[uutf: http] Command started
+[uutf.0.9.3] http://erratique.ch/software/uutf/releases/uutf-0.9.3.tbz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[tyxml: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[uuidm: ocaml build] Command started
+-> removed   session.0.2.0
+[uutf: ./pkg/pkg-git] Command started
+-> removed   tyxml.3.2.0
+[uutf: ./pkg/build true] Command started
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+-> installed uutf.0.9.3
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+[tyxml: ocaml setup.ml] Command started
+-> installed tyxml.4.0.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> be2ff404d4ad
+Removing intermediate container 8a74c50e4f66
+Step 12 : VOLUME /secrets
+ ---> Running in 4ef15c089005
+ ---> 3f7ff473aa92
+Removing intermediate container 4ef15c089005
+Successfully built 3f7ff473aa92
+[2016-12-11 21:39.12] Success
