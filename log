@@ -1,0 +1,392 @@
+=== Run docker-build-github on commit 0fa1be550ddcfcf38583efa19491b9193920f309
+[2016-12-20 19:58.07] Starting...
+Cloning into '/tmp/with_clone2393c362'...
+done.
+HEAD is now at 0fa1be5 Merge pull request #420 from talex5/web-install
+[2016-12-20 19:58.07] Running "docker" "build" "--pull" "-f" "Dockerfile.github" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.045 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+3690ec4760f9: Already exists
+1be50b86ed87: Already exists
+89e2a2c7a0ee: Already exists
+95154f199738: Already exists
+94e7f3cf60e4: Pulling fs layer
+9d22866ef571: Pulling fs layer
+5e8c05c8c803: Pulling fs layer
+be7db6624528: Pulling fs layer
+b4bf37fb0870: Pulling fs layer
+88c15067a359: Pulling fs layer
+db17fb8e0855: Pulling fs layer
+dd138f1eed57: Pulling fs layer
+07dbc8b49d8e: Pulling fs layer
+49e777f005f7: Pulling fs layer
+49e777f005f7: Waiting
+be7db6624528: Waiting
+b4bf37fb0870: Waiting
+88c15067a359: Waiting
+db17fb8e0855: Waiting
+dd138f1eed57: Waiting
+07dbc8b49d8e: Waiting
+5e8c05c8c803: Verifying Checksum
+5e8c05c8c803: Download complete
+be7db6624528: Verifying Checksum
+be7db6624528: Download complete
+94e7f3cf60e4: Verifying Checksum
+94e7f3cf60e4: Download complete
+94e7f3cf60e4: Pull complete
+88c15067a359: Verifying Checksum
+88c15067a359: Download complete
+b4bf37fb0870: Verifying Checksum
+b4bf37fb0870: Download complete
+db17fb8e0855: Verifying Checksum
+db17fb8e0855: Download complete
+dd138f1eed57: Verifying Checksum
+dd138f1eed57: Download complete
+9d22866ef571: Verifying Checksum
+9d22866ef571: Download complete
+07dbc8b49d8e: Verifying Checksum
+07dbc8b49d8e: Download complete
+49e777f005f7: Verifying Checksum
+49e777f005f7: Download complete
+9d22866ef571: Pull complete
+5e8c05c8c803: Pull complete
+be7db6624528: Pull complete
+b4bf37fb0870: Pull complete
+88c15067a359: Pull complete
+db17fb8e0855: Pull complete
+dd138f1eed57: Pull complete
+07dbc8b49d8e: Pull complete
+49e777f005f7: Pull complete
+Digest: sha256:45e7b49ab8cc0d9849525a490f5ed5fa5389a076beccc18c2e1b78c5d41208a2
+Status: Image is up to date for docker/datakit:server
+ ---> 06a379710e63
+Step 2 : RUN cd /home/opam/opam-repository && git pull &&     opam update -y
+ ---> Running in 46f00fc4c9ac
+Already up-to-date.
+
+=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default: local] Command started
+[default: local] Command started
+[default: local] Command started
+[default] /home/opam/opam-repository synchronized
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ synchronized
+
+Updates available for 4.03.0, apply them with 'opam upgrade':
+===== 1 to recompile =====
+ ---> 41b8d942bad8
+Removing intermediate container 46f00fc4c9ac
+Step 3 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 8c9f5c15064e
+Removing intermediate container 8c5c9e855716
+Step 4 : RUN opam pin add github --dev -n
+ ---> Running in 5480872b63fa
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+[github] Installing new package description from
+https://github.com/mirage/ocaml-github.git
+
+ ---> 199358143c97
+Removing intermediate container 5480872b63fa
+Step 5 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in e60971a9e860
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+
+ ---> 82fb00f17592
+Removing intermediate container e60971a9e860
+Step 6 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 3e93f99e9d0f
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> a16787263ee1
+Removing intermediate container 3e93f99e9d0f
+Step 7 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 3082daf349e2
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2j-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r12.trigger
+OK: 479 MiB in 90 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install conf-perl        1             
+  - install menhir           20161115      
+  - install magic-mime       1.0.0         
+  - install easy-format      1.2.0         
+  - install asl              0.10          
+  - install conf-gmp         1             
+  - install fieldslib        113.24.00     
+  - install duration         0.1.0         
+  - install ocamlify         0.0.1         
+  - install mtime            0.8.3         
+  - install ocamlmod         0.0.8         
+  - install asetmap          0.8.1         
+  - install base64           2.1.2         
+  - install conf-which       1             
+  - install mirage-no-xen    1             
+  - install mirage-flow      1.1.0         
+  - install hex              1.0.0         
+  - install win-eventlog     0.1           
+  - install datakit-client   dev*          
+  - install atd              1.2.0         
+  - install zarith           1.4.1         
+  - install ppx_fields_conv  113.33.00+4.03
+  - install oasis            0.4.8         
+  - install biniou           1.0.12        
+  - install hvsock           0.11.1        
+  - install asn1-combinators 0.1.3         
+  - install nocrypto         0.5.3         
+  - install yojson           1.3.3         
+  - install x509             0.5.3         
+  - install atdgen           1.10.0        
+  - install tls              0.7.1         
+  - install conduit          0.13.0        
+  - install cohttp           0.21.0        
+  - install github           2.2.0*        
+  - install github-hooks     0.1.1         
+===== 35 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asl: http] Command started
+[asn1-combinators: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[atd: http] Command started
+[asn1-combinators: http] Command started
+[asn1-combinators.0.1.3] https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz downloaded
+[atdgen: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[base64: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[biniou: http] Command started
+[base64: http] Command started
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+[cohttp: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[conduit: http] Command started
+[biniou: http] Command started
+[biniou.1.0.12] https://github.com/mjambon/biniou/archive/v1.0.12.tar.gz downloaded
+[datakit-client: local] Command started
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+[duration: http] Command started
+[cohttp: http] Command started
+[cohttp.0.21.0] https://github.com/mirage/ocaml-cohttp/archive/v0.21.0.tar.gz downloaded
+[easy-format: http] Command started
+[conduit: http] Command started
+[conduit.0.13.0] https://github.com/mirage/ocaml-conduit/archive/v0.13.0.tar.gz downloaded
+[fieldslib: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[github: git] Command started
+[github: git] Command started
+[fieldslib: http] Command started
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+[github-hooks: http] Command started
+[github: git] Command started
+[github: git] Command started
+[github] https://github.com/mirage/ocaml-github.git already up-to-date
+[hex: http] Command started
+[easy-format: http] Command started
+[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[magic-mime: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[menhir: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[mirage-flow: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[nocrypto: http] Command started
+[menhir: http] Command started
+[menhir.20161115] http://gallium.inria.fr/~fpottier/menhir/menhir-20161115.tar.gz downloaded
+[oasis: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[ocamlify: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocamlmod: http] Command started
+[oasis: http] Command started
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[tls: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+[win-eventlog: http] Command started
+[nocrypto: http] Command started
+[nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
+[x509: http] Command started
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+[yojson: http] Command started
+[tls: http] Command started
+[tls.0.7.1] https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz downloaded
+[zarith: http] Command started
+[zarith: http] Command started
+[zarith.1.4.1] https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz downloaded
+[x509: http] Command started
+[x509.0.5.3] https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz downloaded
+[yojson: http] Command started
+[yojson.1.3.3] https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+[asl: make] Command started
+[base64: ocaml build] Command started
+[conf-gmp: sh] Command started
+-> installed conf-gmp.1
+[conf-perl: perl] Command started
+-> installed conf-perl.1
+[conf-which: which which] Command started
+-> installed conf-which.1
+[datakit-client: ocaml build] Command started
+-> installed base64.2.1.2
+[duration: ocaml build] Command started
+-> installed asetmap.0.8.1
+[easy-format: make] Command started
+-> installed duration.0.1.0
+[fieldslib: ./configure] Command started
+[easy-format: make install] Command started
+-> installed easy-format.1.2.0
+[biniou: make] Command started
+-> installed datakit-client.dev
+[hex: ./configure] Command started
+[fieldslib: make] Command started
+[biniou: make install] Command started
+-> installed biniou.1.0.12
+[magic-mime: ./configure] Command started
+[hex: make] Command started
+[magic-mime: make] Command started
+-> installed fieldslib.113.24.00
+[menhir: make Makefile] Command started
+[asl: make install] Command started
+-> installed asl.0.10
+[mirage-flow: ./configure] Command started
+[hex: make install] Command started
+[magic-mime: make install] Command started
+-> installed hex.1.0.0
+-> installed mirage-no-xen.1
+[mtime: ocaml] Command started
+[mirage-flow: make] Command started
+[mtime: ocaml] Command started
+-> installed magic-mime.1.0.0
+[ocamlify: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+-> installed mtime.0.8.3
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[mirage-flow: make install] Command started
+-> installed ocamlify.0.0.1
+[ppx_fields_conv: ./configure] Command started
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ppx_fields_conv: make] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+[hvsock: make] Command started
+[91m
+#=== ERROR while installing win-eventlog.0.1 ==================================#
+# opam-version    1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os              linux
+opam: "fork" failed: Out of memory
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions were aborted
+  - install asn1-combinators 0.1.3 
+  - install atd              1.2.0 
+  - install atdgen           1.10.0
+  - install cohttp           0.21.0
+  - install conduit          0.13.0
+  - install github           2.2.0 
+  - install github-hooks     0.1.1 
+  - install nocrypto         0.5.3 
+  - install tls              0.7.1 
+  - install x509             0.5.3 
+  - install yojson           1.3.3 
+  - install zarith           1.4.1 
+The following actions failed
+  - install hvsock       0.11.1  
+  - install menhir       20161115
+  - install oasis        0.4.8   
+  - install win-eventlog 0.1     
+The following changes have been performed
+  - install asetmap         0.8.1         
+  - install asl             0.10          
+  - install base64          2.1.2         
+  - install biniou          1.0.12        
+  - install conf-gmp        1             
+  - install conf-perl       1             
+  - install conf-which      1             
+  - install datakit-client  dev           
+  - install duration        0.1.0         
+  - install easy-format     1.2.0         
+  - install fieldslib       113.24.00     
+  - install hex             1.0.0         
+  - install magic-mime      1.0.0         
+  - install mirage-flow     1.1.0         
+  - install mirage-no-xen   1             
+  - install mtime           0.8.3         
+  - install ocamlify        0.0.1         
+  - install ocamlmod        0.0.8         
+  - install ppx_fields_conv 113.33.00+4.03
+[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20161120200146.export"
+[0mThe command '/bin/sh -c opam depext datakit-github && opam install datakit-github --deps' returned a non-zero code: 4
+[2016-12-20 20:06.22] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 1
