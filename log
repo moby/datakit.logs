@@ -1,0 +1,44 @@
+=== Run docker-build-ci on commit 0add9c4a9c525f017d89601c20cfc32123c541c3
+[2016-12-21 10:29.27] Starting...
+Cloning into '/tmp/with_clone13f051b'...
+done.
+HEAD is now at 0add9c4 ci: migrate self-ci from docker-compose to docker-cloud
+[2016-12-21 10:29.27] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.059 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+3690ec4760f9: Already exists
+1be50b86ed87: Already exists
+1f9631d0d523: Pulling fs layer
+620a99689492: Pulling fs layer
+1f9631d0d523: Verifying Checksum
+1f9631d0d523: Download complete
+1f9631d0d523: Pull complete
+620a99689492: Verifying Checksum
+620a99689492: Download complete
+620a99689492: Pull complete
+Digest: sha256:7c10ea0d54897fac98873566527c83a514080698153acbe00139d1e067cb2841
+Status: Downloaded newer image for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> e404cf83f759
+Step 2 : RUN sudo apk add tzdata
+ ---> Running in 67b8cf834d50
+(1/1) Installing tzdata (2016d-r0)
+Executing busybox-1.24.2-r12.trigger
+OK: 425 MiB in 82 packages
+ ---> 8d99e74208a1
+Removing intermediate container 67b8cf834d50
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Running in d908c202ff32
+Already up-to-date.
+
+=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default: local] Command started
+[default: local] Command started
+[default: local] Command started
+[default] /home/opam/opam-repository synchronized
+[91mFatal error:
+# opam-version    1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os              linux
+opam: "fork" failed: Out of memory
+[0mThe command '/bin/sh -c cd /home/opam/opam-repository &&     git pull && opam update -y' returned a non-zero code: 1
+[2016-12-21 10:31.31] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
