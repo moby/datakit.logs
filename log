@@ -1,0 +1,1017 @@
+=== Run docker-build-ci on commit 25e1c2f0e2eee50b3d35d58b2e81e5e7ee84aae1
+[2017-01-04 13:57.18] Starting...
+Cloning into '/tmp/with_clone28b971d7'...
+done.
+HEAD is now at 25e1c2f Appveyor: remove m4 due to an upstream conflict.
+[2017-01-04 13:57.19] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.276 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+b7f33cc0b48e: Already exists
+fd675b4eebd1: Pulling fs layer
+dae5e61a70ab: Pulling fs layer
+7475364fd74c: Pulling fs layer
+dae5e61a70ab: Waiting
+7475364fd74c: Waiting
+fd675b4eebd1: Verifying Checksum
+fd675b4eebd1: Download complete
+dae5e61a70ab: Verifying Checksum
+dae5e61a70ab: Download complete
+7475364fd74c: Verifying Checksum
+7475364fd74c: Download complete
+fd675b4eebd1: Pull complete
+dae5e61a70ab: Pull complete
+7475364fd74c: Pull complete
+Digest: sha256:b926d9564043d4d36e512fb6e3f1e48d98fcb1affc7457d1718d2347b405e15d
+Status: Downloaded newer image for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 97ecaea54c14
+Step 2 : RUN sudo apk add tzdata
+ ---> Running in 246301a8ee7f
+(1/1) Installing tzdata (2016d-r0)
+Executing busybox-1.24.2-r12.trigger
+OK: 425 MiB in 82 packages
+ ---> cdb28aa6365d
+Removing intermediate container 246301a8ee7f
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Running in 0610d18ae067
+[91mFrom git://github.com/ocaml/opam-repository
+   8c8cdf3..5d29ce2  master     -> origin/master
+[0mUpdating 8c8cdf3..5d29ce2
+Fast-forward
+ README.md                                          |  2 +-
+ .../4.02.2+improved-errors.comp}                   | 14 ++++--
+ .../4.02.2+improved-errors.descr                   |  1 +
+ compilers/4.04.0/4.04.0+BER/4.04.0+BER.comp        | 15 +++++++
+ compilers/4.04.0/4.04.0+BER/4.04.0+BER.descr       |  1 +
+ compilers/4.05.0/4.05.0+pr875/4.05.0+pr875.descr   |  1 -
+ compilers/4.05.0/4.05.0+pr881/4.05.0+pr881.descr   |  1 -
+ .../4.05.0+pr995.comp}                             |  2 +-
+ compilers/4.05.0/4.05.0+pr995/4.05.0+pr995.descr   |  1 +
+ .../files/metaocaml.native.conf                    |  3 ++
+ .../base-metaocaml-ocamlfind.base/opam             | 12 +++--
+ packages/camlgpc/camlgpc.1.0/opam                  |  1 +
+ packages/cfgen/cfgen.1.0/descr                     |  8 ++++
+ packages/cfgen/cfgen.1.0/opam                      | 17 +++++++
+ packages/cfgen/cfgen.1.0/url                       |  2 +
+ packages/conduit/conduit.0.14.0/opam               |  1 -
+ packages/conduit/conduit.0.14.1/opam               |  1 -
+ packages/conduit/conduit.0.14.2/descr              | 15 +++++++
+ packages/conduit/conduit.0.14.2/opam               | 52 ++++++++++++++++++++++
+ packages/conduit/conduit.0.14.2/url                |  2 +
+ packages/conduit/conduit.0.14.3/descr              | 15 +++++++
+ packages/conduit/conduit.0.14.3/opam               | 52 ++++++++++++++++++++++
+ packages/conduit/conduit.0.14.3/url                |  2 +
+ packages/conduit/conduit.0.14.4/descr              | 15 +++++++
+ packages/conduit/conduit.0.14.4/opam               | 52 ++++++++++++++++++++++
+ packages/conduit/conduit.0.14.4/url                |  2 +
+ packages/dns-forward/dns-forward.0.7.2/opam        |  2 +-
+ packages/dns/dns.0.10.0/opam                       | 11 ++---
+ packages/dns/dns.0.11.0/opam                       | 11 ++---
+ packages/dns/dns.0.12.0/opam                       | 11 ++---
+ packages/dns/dns.0.13.0/opam                       |  5 ++-
+ packages/dns/dns.0.14.0/opam                       |  5 ++-
+ packages/dns/dns.0.14.1/opam                       |  5 ++-
+ packages/dns/dns.0.15.0/opam                       |  5 ++-
+ packages/dns/dns.0.15.1/opam                       |  7 +--
+ packages/dns/dns.0.15.2/opam                       |  7 ++-
+ packages/dns/dns.0.15.3/opam                       |  7 ++-
+ packages/dns/dns.0.16.0/opam                       |  7 ++-
+ packages/dns/dns.0.17.0/opam                       |  7 ++-
+ packages/dns/dns.0.18.0/opam                       |  7 ++-
+ packages/dns/dns.0.18.1/opam                       |  8 ++--
+ .../google-drive-ocamlfuse.0.6.8/descr             |  4 ++
+ .../google-drive-ocamlfuse.0.6.8/opam              | 32 +++++++++++++
+ .../google-drive-ocamlfuse.0.6.8/url               |  2 +
+ packages/ocaml-expat/ocaml-expat.1.0.0/descr       |  4 ++
+ packages/ocaml-expat/ocaml-expat.1.0.0/findlib     |  1 +
+ packages/ocaml-expat/ocaml-expat.1.0.0/opam        | 19 ++++++++
+ packages/ocaml-expat/ocaml-expat.1.0.0/url         |  2 +
+ packages/ocsigen-i18n/ocsigen-i18n.1.0.0/descr     |  1 +
+ packages/ocsigen-i18n/ocsigen-i18n.1.0.0/opam      | 21 +++++++++
+ packages/ocsigen-i18n/ocsigen-i18n.1.0.0/url       |  2 +
+ packages/posix-getopt/posix-getopt.0.1.0/desr      |  3 ++
+ packages/posix-getopt/posix-getopt.0.1.0/opam      | 27 +++++++++++
+ packages/posix-getopt/posix-getopt.0.1.0/url       |  2 +
+ packages/records/records.0.8.0/descr               |  3 ++
+ packages/records/records.0.8.0/opam                | 24 ++++++++++
+ packages/records/records.0.8.0/url                 |  2 +
+ packages/sessions/sessions.0.1.0/descr             |  5 +++
+ packages/sessions/sessions.0.1.0/opam              | 26 +++++++++++
+ packages/sessions/sessions.0.1.0/url               |  2 +
+ 60 files changed, 514 insertions(+), 63 deletions(-)
+ rename compilers/{4.05.0/4.05.0+pr881/4.05.0+pr881.comp => 4.02.2/4.02.2+improved-errors/4.02.2+improved-errors.comp} (51%)
+ create mode 100644 compilers/4.02.2/4.02.2+improved-errors/4.02.2+improved-errors.descr
+ create mode 100644 compilers/4.04.0/4.04.0+BER/4.04.0+BER.comp
+ create mode 100644 compilers/4.04.0/4.04.0+BER/4.04.0+BER.descr
+ delete mode 100644 compilers/4.05.0/4.05.0+pr875/4.05.0+pr875.descr
+ delete mode 100644 compilers/4.05.0/4.05.0+pr881/4.05.0+pr881.descr
+ rename compilers/4.05.0/{4.05.0+pr875/4.05.0+pr875.comp => 4.05.0+pr995/4.05.0+pr995.comp} (78%)
+ create mode 100644 compilers/4.05.0/4.05.0+pr995/4.05.0+pr995.descr
+ create mode 100644 packages/base-metaocaml-ocamlfind/base-metaocaml-ocamlfind.base/files/metaocaml.native.conf
+ create mode 100644 packages/cfgen/cfgen.1.0/descr
+ create mode 100644 packages/cfgen/cfgen.1.0/opam
+ create mode 100644 packages/cfgen/cfgen.1.0/url
+ create mode 100644 packages/conduit/conduit.0.14.2/descr
+ create mode 100644 packages/conduit/conduit.0.14.2/opam
+ create mode 100644 packages/conduit/conduit.0.14.2/url
+ create mode 100644 packages/conduit/conduit.0.14.3/descr
+ create mode 100644 packages/conduit/conduit.0.14.3/opam
+ create mode 100644 packages/conduit/conduit.0.14.3/url
+ create mode 100644 packages/conduit/conduit.0.14.4/descr
+ create mode 100644 packages/conduit/conduit.0.14.4/opam
+ create mode 100644 packages/conduit/conduit.0.14.4/url
+ create mode 100644 packages/google-drive-ocamlfuse/google-drive-ocamlfuse.0.6.8/descr
+ create mode 100644 packages/google-drive-ocamlfuse/google-drive-ocamlfuse.0.6.8/opam
+ create mode 100644 packages/google-drive-ocamlfuse/google-drive-ocamlfuse.0.6.8/url
+ create mode 100644 packages/ocaml-expat/ocaml-expat.1.0.0/descr
+ create mode 100644 packages/ocaml-expat/ocaml-expat.1.0.0/findlib
+ create mode 100644 packages/ocaml-expat/ocaml-expat.1.0.0/opam
+ create mode 100644 packages/ocaml-expat/ocaml-expat.1.0.0/url
+ create mode 100644 packages/ocsigen-i18n/ocsigen-i18n.1.0.0/descr
+ create mode 100644 packages/ocsigen-i18n/ocsigen-i18n.1.0.0/opam
+ create mode 100644 packages/ocsigen-i18n/ocsigen-i18n.1.0.0/url
+ create mode 100644 packages/posix-getopt/posix-getopt.0.1.0/desr
+ create mode 100644 packages/posix-getopt/posix-getopt.0.1.0/opam
+ create mode 100644 packages/posix-getopt/posix-getopt.0.1.0/url
+ create mode 100644 packages/records/records.0.8.0/descr
+ create mode 100644 packages/records/records.0.8.0/opam
+ create mode 100644 packages/records/records.0.8.0/url
+ create mode 100644 packages/sessions/sessions.0.1.0/descr
+ create mode 100644 packages/sessions/sessions.0.1.0/opam
+ create mode 100644 packages/sessions/sessions.0.1.0/url
+
+=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default: local] Command started
+[default: local] Command started
+[default: local] Command started
+[default] /home/opam/opam-repository synchronized
+ ---> 065e82d40598
+Removing intermediate container 0610d18ae067
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Running in 16e4f6283e0a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - libev-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev libev-dev linux-headers m4 openssl-dev perl
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.4/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.4/community/x86_64/APKINDEX.tar.gz
+fetch http://www.cl.cam.ac.uk/~avsm2/alpine-ocaml/3.4/x86_64/APKINDEX.tar.gz
+v3.4.6-40-g80cc0ea [http://dl-cdn.alpinelinux.org/alpine/v3.4/main]
+v3.4.6-33-g38ef2d2 [http://dl-cdn.alpinelinux.org/alpine/v3.4/community]
+testing v3.3.0-55-g55836a9 [http://www.cl.cam.ac.uk/~avsm2/alpine-ocaml/3.4]
+OK: 5976 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add gmp-dev libev-dev linux-headers m4 openssl-dev perl
+(1/9) Installing libgmpxx (6.1.0-r0)
+(2/9) Installing gmp-dev (6.1.0-r0)
+(3/9) Installing libev (4.22-r0)
+(4/9) Installing libev-dev (4.22-r0)
+(5/9) Installing linux-headers (4.4.6-r1)
+(6/9) Installing m4 (1.4.17-r1)
+(7/9) Installing zlib-dev (1.2.8-r2)
+(8/9) Installing openssl-dev (1.0.2j-r0)
+(9/9) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r12.trigger
+OK: 483 MiB in 91 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install conf-perl        1                                  [required by zarith]
+  - install conf-m4          1                                  [required by ocamlfind]
+  - install conf-pkg-config  1.0                                [required by conf-openssl]
+  - install conf-gmp         1                                  [required by zarith]
+  - install result           1.2                                [required by session, lwt, fmt, etc.]
+  - install conf-libev       4-11          
+  - install conf-which       1                                  [required by camlp4, ssl]
+  - install mirage-no-xen    1                                  [required by nocrypto]
+  - install ocamlfind        1.7.1                              [required by webmachine, tls, session, etc.]
+  - install conf-openssl     1                                  [required by ssl]
+  - install camlp4           4.03+1        
+  - install zarith           1.4.1                              [required by nocrypto]
+  - install topkg            0.8.1                              [required by pbkdf, fmt, asetmap, etc.]
+  - install sexplib          113.33.00+4.03                     [required by ppx_sexp_conv, cohttp, tls]
+  - install react            1.2.0         
+  - install ppx_tools        5.0+4.03.0                         [required by ppx_sexp_conv, lwt, tls]
+  - install ocamlmod         0.0.8                              [required by oasis]
+  - install ocamlify         0.0.1                              [required by oasis]
+  - install magic-mime       1.0.0                              [required by cohttp]
+  - install fieldslib        113.24.00                          [required by cohttp]
+  - install easy-format      1.2.0                              [required by yojson]
+  - install dispatch         0.3.0                              [required by webmachine]
+  - install base-bytes       base                               [required by cohttp, lwt]
+  - install ssl              0.5.3         
+  - install tyxml            3.1.1         
+  - install rresult          0.5.0         
+  - install fmt              0.8.0         
+  - install asetmap          0.8.1         
+  - install ppx_core         113.33.01+4.03                     [required by ppx_sexp_conv]
+  - install oasis            0.4.8                              [required by tls]
+  - install biniou           1.0.12                             [required by yojson]
+  - install stringext        1.4.3                              [required by cohttp]
+  - install re               1.7.1                              [required by cohttp, webmachine]
+  - install cppo             1.4.1                              [required by yojson]
+  - install base64           2.1.2                              [required by cohttp]
+  - install lwt              2.6.0         
+  - install ppx_optcomp      113.33.00+4.03                     [required by conduit]
+  - install yojson           1.3.3         
+  - install ppx_deriving     4.1                                [required by ppx_type_conv]
+  - install ocplib-endian    1.0                                [required by cstruct]
+  - install logs             0.6.2         
+  - install ppx_driver       113.33.01+4.03                     [required by conduit]
+  - install cstruct          2.3.1                              [required by pbkdf, tls]
+  - install ppx_type_conv    113.33.02+4.03                     [required by ppx_sexp_conv]
+  - install asn1-combinators 0.1.3                              [required by x509]
+  - install ppx_sexp_conv    113.33.01+4.03
+  - install ppx_fields_conv  113.33.00+4.03                     [required by cohttp]
+  - install uri              1.9.2                              [required by cohttp]
+  - install nocrypto         0.5.3                              [required by session, pbkdf, tls]
+  - install ipaddr           2.7.1                              [required by conduit]
+  - install x509             0.5.3                              [required by tls]
+  - install pbkdf            0.2.0         
+  - install tls              0.7.1         
+  - install conduit          0.14.4                             [required by cohttp]
+  - install cohttp           0.20.1        
+  - install webmachine       0.3.2         
+  - install session          0.2.0         
+===== 57 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asn1-combinators: http] Command started
+[base64: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[biniou: http] Command started
+[base64: http] Command started
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+[camlp4: http] Command started
+[asn1-combinators: http] Command started
+[asn1-combinators.0.1.3] https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz downloaded
+[cohttp: http] Command started
+[biniou: http] Command started
+[biniou.1.0.12] https://github.com/mjambon/biniou/archive/v1.0.12.tar.gz downloaded
+[conduit: http] Command started
+[conduit: http] Command started
+[conduit.0.14.4] https://github.com/mirage/ocaml-conduit/archive/v0.14.4.tar.gz downloaded
+[cppo: http] Command started
+[cohttp: http] Command started
+[cohttp.0.20.1] https://github.com/mirage/ocaml-cohttp/archive/v0.20.1.tar.gz downloaded
+[cstruct: http] Command started
+[camlp4: http] Command started
+[camlp4.4.03+1] https://github.com/ocaml/camlp4/archive/4.03+1.tar.gz downloaded
+[dispatch: http] Command started
+[cppo: http] Command started
+[cppo.1.4.1] https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz downloaded
+[easy-format: http] Command started
+[cstruct: http] Command started
+[cstruct.2.3.1] https://github.com/mirage/ocaml-cstruct/archive/v2.3.1.tar.gz downloaded
+[fieldslib: http] Command started
+[dispatch: http] Command started
+[dispatch.0.3.0] https://github.com/inhabitedtype/ocaml-dispatch/archive/0.3.0.tar.gz downloaded
+[fmt: http] Command started
+[fmt: http] Command started
+[fmt.0.8.0] http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz downloaded
+[ipaddr: http] Command started
+[fieldslib: http] Command started
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+[logs: http] Command started
+[easy-format: http] Command started
+[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
+[lwt: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[magic-mime: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.7.1] https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.1/ipaddr-2.7.1.tbz downloaded
+[nocrypto: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+[oasis: http] Command started
+[lwt: http] Command started
+[lwt.2.6.0] https://github.com/ocsigen/lwt/archive/2.6.0.tar.gz downloaded
+[ocamlfind: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.7.1] http://download.camlcity.org/download/findlib-1.7.1.tar.gz downloaded
+[ocamlify: http] Command started
+[oasis: http] Command started
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
+[ocamlmod: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocplib-endian: http] Command started
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[pbkdf: http] Command started
+[nocrypto: http] Command started
+[nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
+[ppx_core: http] Command started
+[pbkdf: http] Command started
+[pbkdf.0.2.0] https://github.com/abeaumont/ocaml-pbkdf/archive/0.2.0.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_driver: http] Command started
+[ppx_core: http] Command started
+[ppx_core.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.01+4.03.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+[ppx_tools: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_optcomp-113.33.00+4.03.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz downloaded
+[re: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.113.33.02+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz downloaded
+[react: http] Command started
+[react: http] Command started
+[react.1.2.0] http://erratique.ch/software/react/releases/react-1.2.0.tbz downloaded
+[result: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.03.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.03.0.tar.gz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[session: http] Command started
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+[sexplib: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[ssl: http] Command started
+[session: http] Command started
+[session.0.2.0] https://github.com/inhabitedtype/ocaml-session/archive/0.2.0.tar.gz downloaded
+[stringext: http] Command started
+[sexplib: http] Command started
+[sexplib.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz downloaded
+[tls: http] Command started
+[ssl: http] Command started
+[ssl.0.5.3] https://github.com/savonet/ocaml-ssl/releases/download/0.5.3/ocaml-ssl-0.5.3.tar.gz downloaded
+[topkg: http] Command started
+[topkg: http] Command started
+[topkg.0.8.1] http://erratique.ch/software/topkg/releases/topkg-0.8.1.tbz downloaded
+[tyxml: http] Command started
+[stringext: http] Command started
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+[uri: http] Command started
+[tls: http] Command started
+[tls.0.7.1] https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz downloaded
+[webmachine: http] Command started
+[tyxml: http] Command started
+[tyxml.3.1.1] https://github.com/ocsigen/tyxml/archive/3.1.1.tar.gz downloaded
+[x509: http] Command started
+[uri: http] Command started
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+[yojson: http] Command started
+[webmachine: http] Command started
+[webmachine.0.3.2] https://github.com/inhabitedtype/ocaml-webmachine/archive/0.3.2.tar.gz downloaded
+[zarith: http] Command started
+[zarith: http] Command started
+[zarith.1.4.1] https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz downloaded
+[yojson: http] Command started
+[x509: http] Command started
+[x509.0.5.3] https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz downloaded
+[yojson.1.3.3] https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-gmp: sh] Command started
+[conf-libev: sh] Command started
+[conf-m4: sh echo | m4] Command started
+[conf-perl: perl] Command started
+-> installed conf-perl.1
+[conf-pkg-config: pkg-config] Command started
+-> installed conf-m4.1
+[conf-which: which which] Command started
+-> installed conf-pkg-config.1.0
+[conf-openssl: pkg-config openssl] Command started
+-> installed conf-which.1
+[camlp4: ./configure] Command started
+-> installed conf-gmp.1
+-> installed mirage-no-xen.1
+[ocamlfind: ./configure] Command started
+-> installed conf-openssl.1
+[result: make] Command started
+[camlp4: make all] Command started
+-> installed conf-libev.4-11
+-> installed result.1.2
+[ocamlfind: make all] Command started
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+-> installed ocamlfind.1.7.1
+-> installed base-bytes.base
+[cppo: make opt] Command started
+[dispatch: ocaml setup.ml] Command started
+[easy-format: make] Command started
+[easy-format: make install] Command started
+-> installed easy-format.1.2.0
+[biniou: make] Command started
+[cppo: make ocamlbuild] Command started
+[cppo: make install-lib] Command started
+[dispatch: ocaml setup.ml] Command started
+-> installed cppo.1.4.1
+[fieldslib: ./configure] Command started
+[biniou: make install] Command started
+-> installed biniou.1.0.12
+[magic-mime: ./configure] Command started
+[fieldslib: make] Command started
+[magic-mime: make] Command started
+[dispatch: ocaml setup.ml] Command started
+-> installed fieldslib.113.24.00
+[ocamlify: ocaml setup.ml] Command started
+-> installed dispatch.0.3.0
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[magic-mime: make install] Command started
+[ocamlmod: ocaml setup.ml] Command started
+-> installed magic-mime.1.0.0
+[ocplib-endian: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+-> installed ocamlify.0.0.1
+[ppx_tools: make all] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.03.0
+[ppx_core: ./configure] Command started
+-> installed ocplib-endian.1.0
+[ppx_deriving: ocaml] Command started
+[ppx_core: make] Command started
+-> installed ppx_deriving.4.1
+[re: ocaml setup.ml] Command started
+[re: ocaml setup.ml] Command started
+[re: ocaml setup.ml] Command started
+-> installed re.1.7.1
+[react: ocaml] Command started
+[react: ocaml] Command started
+-> installed react.1.2.0
+[sexplib: ./configure] Command started
+[sexplib: make] Command started
+-> installed ppx_core.113.33.01+4.03
+[ppx_optcomp: ./configure] Command started
+[oasis: ocaml setup.ml] Command started
+[ppx_optcomp: make] Command started
+-> installed sexplib.113.33.00+4.03
+[ssl: ./configure] Command started
+-> installed oasis.0.4.8
+[stringext: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed ppx_optcomp.113.33.00+4.03
+[ppx_driver: ./configure] Command started
+[ssl: make] Command started
+[ppx_driver: make] Command started
+[ssl: make install] Command started
+-> installed ssl.0.5.3
+[topkg: ocaml build] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed stringext.1.4.3
+[yojson: make] Command started
+-> installed ppx_driver.113.33.01+4.03
+[ppx_type_conv: ./configure] Command started
+[ppx_type_conv: make] Command started
+-> installed topkg.0.8.1
+[asetmap: ocaml build] Command started
+[yojson: make install-lib] Command started
+-> installed yojson.1.3.3
+[base64: ocaml build] Command started
+-> installed asetmap.0.8.1
+[fmt: ocaml build] Command started
+-> installed base64.2.1.2
+[rresult: ocaml build] Command started
+-> installed rresult.0.5.0
+[zarith: ./configure] Command started
+-> installed fmt.0.8.0
+[zarith: make] Command started
+-> installed ppx_type_conv.113.33.02+4.03
+[ppx_fields_conv: ./configure] Command started
+[ppx_sexp_conv: ./configure] Command started
+[ppx_fields_conv: make] Command started
+[ppx_sexp_conv: make] Command started
+[zarith: make install] Command started
+-> installed zarith.1.4.1
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed ppx_sexp_conv.113.33.01+4.03
+[ipaddr: ocaml build] Command started
+[uri: ocaml setup.ml] Command started
+[uri: ocaml setup.ml] Command started
+-> installed ipaddr.2.7.1
+[uri: ocaml setup.ml] Command started
+-> installed uri.1.9.2
+[camlp4: make install] Command started
+-> installed camlp4.4.03+1
+[lwt: ocaml setup.ml] Command started
+[tyxml: ./configure] Command started
+[tyxml: make] Command started
+[lwt: make build] Command started
+[tyxml: make install] Command started
+-> installed tyxml.3.1.1
+[lwt: make install] Command started
+-> installed lwt.2.6.0
+[cstruct: ./configure] Command started
+[logs: ocaml build] Command started
+-> installed logs.0.6.2
+[cstruct: make] Command started
+[cstruct: make install] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.3.1
+[asn1-combinators: ocaml build] Command started
+[nocrypto: ./configure] Command started
+-> installed asn1-combinators.0.1.3
+[nocrypto: make] Command started
+[nocrypto: make install] Command started
+-> installed nocrypto.0.5.3
+[pbkdf: ocaml build] Command started
+[x509: ./configure] Command started
+-> installed pbkdf.0.2.0
+[x509: make] Command started
+[x509: make install] Command started
+-> installed x509.0.5.3
+[tls: ./configure] Command started
+[tls: make] Command started
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.20.1
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+-> installed webmachine.0.3.2
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 859b778f2414
+Removing intermediate container 16e4f6283e0a
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Running in 844b3f7fa559
+datakit-client is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client] https://github.com/docker/datakit.git updated
+[datakit-client] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-client needs to be installed.
+The following actions will be performed:
+  - install   astring          0.8.3                            [required by datakit-client]
+  - install   win-error        0.2                              [required by protocol-9p]
+  - install   io-page          1.6.1                            [required by channel]
+  - install   ocb-stubblr      0.1.0                            [required by named-pipe]
+  - install   mirage-types     2.8.0                            [required by mirage-types-lwt]
+  - install   named-pipe       0.4.0                            [required by protocol-9p]
+  - install   mirage-types-lwt 2.8.0                            [required by protocol-9p]
+  - install   channel          1.1.1                            [required by protocol-9p]
+  - recompile tls              0.7.1                            [uses mirage-types-lwt]
+  - install   protocol-9p      0.8.0                            [required by datakit-client]
+  - recompile conduit          0.14.4                           [uses mirage-types-lwt]
+  - install   datakit-client   0.8.0*
+  - recompile cohttp           0.20.1                           [uses conduit]
+  - recompile webmachine       0.3.2                            [uses cohttp]
+  - recompile session          0.2.0                            [uses cohttp]
+===== 10 to install | 5 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring: http] Command started
+[channel: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[io-page: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[mirage-types: http] Command started
+[channel: http] Command started
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+[named-pipe: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[ocb-stubblr: http] Command started
+[named-pipe: http] Command started
+[mirage-types: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[protocol-9p: http] Command started
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+[win-error: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.0] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.0/ocb-stubblr-0.1.0.tbz downloaded
+[protocol-9p: http] Command started
+[protocol-9p.0.8.0] https://github.com/mirage/ocaml-9p/releases/download/v0.8.0/protocol-9p-0.8.0.tbz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[astring: ocaml build] Command started
+[io-page: ./configure] Command started
+[win-error: make] Command started
+-> removed   session.0.2.0
+[webmachine: ocamlfind remove] Command started
+-> removed   webmachine.0.3.2
+[cohttp: ocamlfind remove] Command started
+-> removed   cohttp.0.20.1
+[conduit: ocamlfind remove] Command started
+-> removed   conduit.0.14.4
+[tls: ocamlfind remove] Command started
+-> removed   tls.0.7.1
+-> installed astring.0.8.3
+[ocb-stubblr: ocaml build] Command started
+[io-page: make] Command started
+-> installed ocb-stubblr.0.1.0
+[named-pipe: ocaml build] Command started
+[win-error: make install] Command started
+[io-page: make install] Command started
+-> installed win-error.0.2
+-> installed io-page.1.6.1
+[mirage-types: make build-types] Command started
+-> installed named-pipe.0.4.0
+[mirage-types: make install-types] Command started
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+[channel: ocaml build] Command started
+[tls: ./configure] Command started
+-> installed channel.1.1.1
+[protocol-9p: ocaml build] Command started
+[tls: make] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.20.1
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+-> installed webmachine.0.3.2
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 22972be72b11
+Removing intermediate container 844b3f7fa559
+Step 6 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Running in bde99150614c
+session is now git-pinned to https://github.com/talex5/ocaml-session.git#redis
+
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session] https://github.com/talex5/ocaml-session.git#redis updated
+[session] Installing new package description from
+https://github.com/talex5/ocaml-session.git#redis
+
+session needs to be reinstalled.
+The following actions will be performed:
+  - recompile session 0.2.0*
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+-> removed   session.0.2.0
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 02e0a2005921
+Removing intermediate container bde99150614c
+Step 7 : RUN opam pin add github --dev
+ ---> Running in 69fe97a079df
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+[github] Installing new package description from
+https://github.com/mirage/ocaml-github.git
+
+github needs to be installed.
+The following actions will be performed:
+  - install   menhir         20170101                           [required by atd]
+  - install   camomile       0.8.5                              [required by zed]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atdgen         1.10.0                             [required by github]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   github         2.2.0*  
+  - recompile protocol-9p    0.8.0                              [uses lambda-term]
+  - recompile datakit-client 0.8.0*                             [uses protocol-9p]
+===== 7 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[github: git] Command started
+[github: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[lambda-term: http] Command started
+[github: git] Command started
+[github: git] Command started
+[github] https://github.com/mirage/ocaml-github.git already up-to-date
+[menhir: http] Command started
+[menhir: http] Command started
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+[zed: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.8.0
+-> removed   protocol-9p.0.8.0
+[camomile: ./configure] Command started
+[menhir: make Makefile] Command started
+[camomile: make] Command started
+[menhir: make Makefile] Command started
+-> installed menhir.20170101
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+Done.
+ ---> 449dfc17ec34
+Removing intermediate container 69fe97a079df
+Step 8 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Running in 46384782d68c
+datakit-github is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] https://github.com/docker/datakit.git updated
+[datakit-github] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-github needs to be installed.
+The following actions will be performed:
+  - install mtime          0.8.3                                [required by datakit-github]
+  - install asl            0.10                                 [required by datakit-github]
+  - install datakit-server 0.8.0                                [required by datakit-github]
+  - install mirage-flow    1.1.0                                [required by hvsock]
+  - install hex            1.0.0                                [required by datakit-github]
+  - install win-eventlog   0.1                                  [required by datakit-github]
+  - install duration       0.1.0                                [required by hvsock]
+  - install github-hooks   0.1.1                                [required by datakit-github]
+  - install hvsock         0.11.1                               [required by datakit-github]
+  - install datakit-github 0.8.1*
+===== 10 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: http] Command started
+[datakit-github: git] Command started
+[datakit-server: http] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github] https://github.com/docker/datakit.git already up-to-date
+[duration: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[github-hooks: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[hex: http] Command started
+[datakit-server: http] Command started
+[datakit-server.0.8.0] https://github.com/docker/datakit/releases/download/0.8.0/datakit-0.8.0.tbz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[mirage-flow: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[win-eventlog: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: make] Command started
+[datakit-server: ocaml build] Command started
+[duration: ocaml build] Command started
+[hex: ./configure] Command started
+-> installed duration.0.1.0
+[mirage-flow: ./configure] Command started
+[hex: make] Command started
+-> installed datakit-server.0.8.0
+[mtime: ocaml] Command started
+[mirage-flow: make] Command started
+[mtime: ocaml] Command started
+[hex: make install] Command started
+-> installed mtime.0.8.3
+[win-eventlog: make] Command started
+[asl: make install] Command started
+-> installed hex.1.0.0
+[github-hooks: ocaml build] Command started
+[mirage-flow: make install] Command started
+-> installed asl.0.10
+-> installed github-hooks.0.1.1
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+[win-eventlog: make install] Command started
+[hvsock: make] Command started
+-> installed win-eventlog.0.1
+[hvsock: make install] Command started
+-> installed hvsock.0.11.1
+[datakit-github: ocaml build] Command started
+-> installed datakit-github.0.8.1
+Done.
+ ---> e1544bc8f0ed
+Removing intermediate container 46384782d68c
+Step 9 : ADD . /home/opam/datakit
+ ---> e54e1f1adf0d
+Removing intermediate container b7e727749fa7
+Step 10 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in bf8797d33da1
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uutf                0.9.4                         [required by tyxml]
+  - install   uuidm               0.9.6                         [required by redis]
+  - install   crunch              1.4.1                         [required by datakit-ci]
+  - install   multipart-form-data 0.1.0                         [required by datakit-ci]
+  - upgrade   tyxml               3.1.1 to 4.0.1                [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install   redis               0.3.3                         [required by datakit-ci]
+  - recompile session             0.2.0*                        [uses redis]
+  - install   datakit-ci          *             
+===== 6 to install | 1 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[multipart-form-data: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[redis: http] Command started
+[multipart-form-data: http] Command started
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[tyxml: http] Command started
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[uuidm: http] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.0.9.4] http://erratique.ch/software/uutf/releases/uutf-0.9.4.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[tyxml: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[multipart-form-data: ocaml build] Command started
+-> removed   session.0.2.0
+[uuidm: ocaml build] Command started
+-> removed   tyxml.3.1.1
+[uutf: ocaml] Command started
+[uutf: ocaml] Command started
+-> installed multipart-form-data.0.1.0
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+-> installed uutf.0.9.4
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[tyxml: ocaml setup.ml] Command started
+-> installed session.0.2.0
+-> installed tyxml.4.0.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> dfdfee5e167f
+Removing intermediate container bf8797d33da1
+Step 11 : VOLUME /secrets
+ ---> Running in acb90ee82a04
+ ---> 35928c44cb27
+Removing intermediate container acb90ee82a04
+Successfully built 35928c44cb27
+[2017-01-04 14:12.14] Success
