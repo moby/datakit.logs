@@ -1,0 +1,313 @@
+=== Run docker-build-ci on commit 61c296e4ef47553016a1b24eec1b81a39a6ffdfe
+[2017-01-04 12:26.55] Starting...
+Cloning into '/tmp/with_clone10e4925e'...
+done.
+HEAD is now at 61c296e Bound the size of Term.wait_for_all status messages
+[2017-01-04 12:26.56] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.271 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:b926d9564043d4d36e512fb6e3f1e48d98fcb1affc7457d1718d2347b405e15d
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 97ecaea54c14
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 9ca8856184d2
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Using cache
+ ---> c461e2d074b6
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 1ee1c8762fa1
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 81dde0504d70
+Step 6 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Using cache
+ ---> c1d6612ca375
+Step 7 : RUN opam pin add github --dev
+ ---> Running in e3061ea00ff3
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+[github] Installing new package description from
+https://github.com/mirage/ocaml-github.git
+
+github needs to be installed.
+The following actions will be performed:
+  - install   menhir         20170101                           [required by atd]
+  - install   camomile       0.8.5                              [required by zed]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atdgen         1.10.0                             [required by github]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   github         2.2.0*  
+  - recompile protocol-9p    0.8.0                              [uses lambda-term]
+  - recompile datakit-client 0.8.0*                             [uses protocol-9p]
+===== 7 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[github: git] Command started
+[github: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[github: git] Command started
+[github: git] Command started
+[github] https://github.com/mirage/ocaml-github.git already up-to-date
+[lambda-term: http] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[menhir: http] Command started
+[menhir: http] Command started
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+[zed: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.8.0
+-> removed   protocol-9p.0.8.0
+[camomile: ./configure] Command started
+[menhir: make Makefile] Command started
+[camomile: make] Command started
+[menhir: make Makefile] Command started
+-> installed menhir.20170101
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+Done.
+ ---> efb1236772f3
+Removing intermediate container e3061ea00ff3
+Step 8 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Running in c9c0d1322556
+datakit-github is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] https://github.com/docker/datakit.git updated
+[datakit-github] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-github needs to be installed.
+The following actions will be performed:
+  - install mtime          0.8.3                                [required by datakit-github]
+  - install asl            0.10                                 [required by datakit-github]
+  - install datakit-server 0.8.0                                [required by datakit-github]
+  - install mirage-flow    1.1.0                                [required by hvsock]
+  - install hex            1.0.0                                [required by datakit-github]
+  - install win-eventlog   0.1                                  [required by datakit-github]
+  - install duration       0.1.0                                [required by hvsock]
+  - install github-hooks   0.1.1                                [required by datakit-github]
+  - install hvsock         0.11.1                               [required by datakit-github]
+  - install datakit-github 0.8.1*
+===== 10 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: http] Command started
+[datakit-github: git] Command started
+[datakit-server: http] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github] https://github.com/docker/datakit.git already up-to-date
+[duration: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[github-hooks: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[hex: http] Command started
+[datakit-server: http] Command started
+[datakit-server.0.8.0] https://github.com/docker/datakit/releases/download/0.8.0/datakit-0.8.0.tbz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[mirage-flow: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[win-eventlog: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: make] Command started
+[datakit-server: ocaml build] Command started
+[duration: ocaml build] Command started
+[hex: ./configure] Command started
+-> installed duration.0.1.0
+[mirage-flow: ./configure] Command started
+[hex: make] Command started
+-> installed datakit-server.0.8.0
+[mtime: ocaml] Command started
+[mirage-flow: make] Command started
+[mtime: ocaml] Command started
+-> installed mtime.0.8.3
+[win-eventlog: make] Command started
+[hex: make install] Command started
+[asl: make install] Command started
+[mirage-flow: make install] Command started
+-> installed hex.1.0.0
+[github-hooks: ocaml build] Command started
+-> installed github-hooks.0.1.1
+-> installed asl.0.10
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+[win-eventlog: make install] Command started
+[hvsock: make] Command started
+-> installed win-eventlog.0.1
+[hvsock: make install] Command started
+-> installed hvsock.0.11.1
+[datakit-github: ocaml build] Command started
+-> installed datakit-github.0.8.1
+Done.
+ ---> 43764f23321c
+Removing intermediate container c9c0d1322556
+Step 9 : ADD . /home/opam/datakit
+ ---> 507a5c476004
+Removing intermediate container cbfe9816c996
+Step 10 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 2cd51b54d59d
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uutf                0.9.3                         [required by tyxml]
+  - install   uuidm               0.9.6                         [required by redis]
+  - install   crunch              1.4.1                         [required by datakit-ci]
+  - install   multipart-form-data 0.1.0                         [required by datakit-ci]
+  - upgrade   tyxml               3.2.1 to 4.0.1                [required by datakit-ci]
+       For tyxml's ppx, please install tyxml-ppx.
+  - install   redis               0.3.3                         [required by datakit-ci]
+  - recompile session             0.2.0*                        [uses redis]
+  - install   datakit-ci          *             
+===== 6 to install | 1 to recompile | 1 to upgrade =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[multipart-form-data: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[redis: http] Command started
+[multipart-form-data: http] Command started
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[crunch: http] Command started
+[redis: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[tyxml: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[uuidm: http] Command started
+[session: git] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[uutf: http] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+[uutf: http] Command started
+[uutf.0.9.3] http://erratique.ch/software/uutf/releases/uutf-0.9.3.tbz downloaded
+[tyxml: http] Command started
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[tyxml: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[multipart-form-data: ocaml build] Command started
+-> removed   session.0.2.0
+[uuidm: ocaml build] Command started
+-> removed   tyxml.3.2.1
+[uutf: ./pkg/pkg-git] Command started
+[uutf: ./pkg/build true] Command started
+-> installed multipart-form-data.0.1.0
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+-> installed uutf.0.9.3
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[tyxml: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[tyxml: ocaml setup.ml] Command started
+-> installed session.0.2.0
+-> installed tyxml.4.0.1
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 58e83191ae94
+Removing intermediate container 2cd51b54d59d
+Step 11 : VOLUME /secrets
+ ---> Running in fead4b756ceb
+ ---> ef93019ccadd
+Removing intermediate container fead4b756ceb
+Successfully built ef93019ccadd
+[2017-01-04 12:35.42] Success
