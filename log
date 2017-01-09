@@ -1,8 +1,52 @@
 === Run docker-build-server on commit e92267f9ec59216042cabb02d500bd2d4627f146
-[2017-01-06 13:43.00] Starting...
-Cloning into '/tmp/with_clonef1ec907'...
+[2017-01-09 11:26.27] Starting...
+Cloning into '/tmp/with_clone507788f'...
 done.
 HEAD is now at e92267f [ci] expose more functions on `Target.v`
-[2017-01-06 13:43.01] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
-Cannot connect to the Docker daemon. Is the docker daemon running on this host?
-[2017-01-06 13:43.02] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 1
+[2017-01-09 11:26.27] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.378 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:2d15235a8150d49353533848c8a2c326996558d57872acec59de35f8965dab4d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> db734eca7ee9
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0d5e72c2a61e
+Step 3 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 64731c9f8991
+Step 4 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 1a4d1d6e30ea
+Step 5 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 7b58c12964e3
+Step 6 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Using cache
+ ---> 479cb56610fd
+Step 7 : COPY . /home/opam/src/datakit
+ ---> 2d2538903703
+Removing intermediate container 48e38a573f9c
+Step 8 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 735d04a05d6e
+ ---> 9a277333c6ed
+Removing intermediate container 735d04a05d6e
+Step 9 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in d9611a37b6ab
+ M src/version.ml
+ ---> 4fdb383ac016
+Removing intermediate container d9611a37b6ab
+Step 10 : RUN opam update datakit-server
+ ---> Running in 97b484c88271
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ synchronized
+[91m[WARNING] External solver failed with inconsistent return value. Request saved
+          to "/home/opam/.opam/log/solver-error-7-1.cudf"
+[ERROR] External solver failure, please fix your installation and check
+        /home/opam/.opam/config and variable $OPAMEXTERNALSOLVER.
+        You may also retry with option --use-internal-solver
+[0mThe command '/bin/sh -c opam update datakit-server' returned a non-zero code: 66
+[2017-01-09 11:26.41] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 1
