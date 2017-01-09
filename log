@@ -1,0 +1,203 @@
+=== Run docker-build-datakit on commit 681187032ae7e2bf17e1ec4b09960a5e6d710a19
+[2017-01-09 15:02.48] Starting...
+Cloning into '/tmp/with_clone29729174'...
+done.
+HEAD is now at 6811870 Merge pull request #430 from avsm/more-target-fun
+[2017-01-09 15:02.49] Running "docker" "build" "--pull" "-f" "Dockerfile" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon  4.39 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+Digest: sha256:f959897de8477605074379b50bd79d8b360836269a7244eca10fdccd238dee38
+Status: Image is up to date for docker/datakit:server
+ ---> 5e45cd98f911
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> d25b6dde09f8
+Step 3 : COPY opam /home/opam/src/datakit/opam
+ ---> Using cache
+ ---> da7022a35f92
+Step 4 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 320e5bae5251
+Step 5 : RUN opam depext datakit && opam install datakit --deps
+ ---> Using cache
+ ---> 4c3983ef314f
+Step 6 : COPY . /home/opam/src/datakit/
+ ---> 2d0a577afd2f
+Removing intermediate container 21ef1eb2ee03
+Step 7 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in c1101af1596a
+ ---> db1b79d76a75
+Removing intermediate container c1101af1596a
+Step 8 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 4e72ae804d6a
+ M src/version.ml
+ ---> 8c8fc4c2ce49
+Removing intermediate container 4e72ae804d6a
+Step 9 : RUN opam update datakit
+ ---> Running in f27c136cb437
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ synchronized
+
+Updates available for 4.03.0, apply them with 'opam upgrade':
+===== 25 to recompile =====
+ ---> 5d228d3ba8d1
+Removing intermediate container f27c136cb437
+Step 10 : RUN opam install datakit -vv
+ ---> Running in f128c7e09c94
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit"
+- sending incremental file list
+- ./
+- api/
+- ci/
+- 
+- sent 7,444 bytes  received 50 bytes  14,988.00 bytes/sec
+- total size is 1,236,932  speedup is 165.06
+[datakit] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install datakit dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit"
+- sending incremental file list
+- ./
+- 
+- sent 7,438 bytes  received 44 bytes  14,964.00 bytes/sec
+- total size is 1,236,932  speedup is 165.32
+[datakit.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "--tests" "false" (CWD=/home/opam/.opam/4.03.0/build/datakit.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs.ml > src/datakit/ivfs.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs.mli > src/datakit/ivfs.mli.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_tree.mli > src/datakit/ivfs_tree.mli.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_blob.mli > src/datakit/ivfs_blob.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_blob.cmi src/datakit/ivfs_blob.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_tree.cmi src/datakit/ivfs_tree.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs.cmi src/datakit/ivfs.mli
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_blob.ml > src/datakit/ivfs_blob.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_merge.ml > src/datakit/ivfs_merge.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_merge.mli > src/datakit/ivfs_merge.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_merge.cmi src/datakit/ivfs_merge.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_blob.cmx src/datakit/ivfs_blob.ml
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_tree.ml > src/datakit/ivfs_tree.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_tree.cmx src/datakit/ivfs_tree.ml
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_remote.ml > src/datakit/ivfs_remote.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_remote.mli > src/datakit/ivfs_remote.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_remote.cmi src/datakit/ivfs_remote.mli
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_rw.ml > src/datakit/ivfs_rw.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_rw.mli > src/datakit/ivfs_rw.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_rw.cmi src/datakit/ivfs_rw.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_merge.cmx src/datakit/ivfs_merge.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_remote.cmx src/datakit/ivfs_remote.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_rw.cmx src/datakit/ivfs_rw.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs.cmx src/datakit/ivfs.ml
+- ocamlfind ocamlopt -a -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx -o src/datakit/ivfs.cmxa
+- ocamlfind ocamlopt -shared -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs.cmx -o src/datakit/ivfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs.cmo src/datakit/ivfs.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_tree.cmo src/datakit/ivfs_tree.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_remote.cmo src/datakit/ivfs_remote.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_blob.cmo src/datakit/ivfs_blob.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_merge.cmo src/datakit/ivfs_merge.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ivfs_rw.cmo src/datakit/ivfs_rw.ml
+- ocamlfind ocamlc -a -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs_blob.cmo src/datakit/ivfs_tree.cmo src/datakit/ivfs_merge.cmo src/datakit/ivfs_remote.cmo src/datakit/ivfs_rw.cmo src/datakit/ivfs.cmo -o src/datakit/ivfs.cma
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/main.ml > src/datakit/main.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.mli > src/datakit_log.mli.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ir_io.mli > src/datakit/ir_io.mli.depends
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_conduit.cmi src/datakit_conduit.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_log.cmi src/datakit_log.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ir_io.cmi src/datakit/ir_io.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/version.cmo src/version.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/main.cmo src/datakit/main.ml
+- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.ml > src/datakit_log.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ir_io.ml > src/datakit/ir_io.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_conduit.cmx src/datakit_conduit.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/datakit_log.cmx src/datakit_log.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/ir_io.cmx src/datakit/ir_io.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src -I ci/src -I src/datakit -o src/version.cmx src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit -I src -I ci/src -o src/datakit/main.cmx src/datakit/main.ml
+- ocamlfind ocamlopt -linkpkg -g -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ir_io.cmx src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx src/datakit_conduit.cmx src/datakit_log.cmx src/version.cmx src/datakit/main.cmx -o src/datakit/main.native
+- ocamlfind ocamldep -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/mount.ml > src/datakit-client/mount.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit-client -I src -I ci/src -I src/datakit -o src/datakit-client/mount.cmo src/datakit-client/mount.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I src/datakit-client -I src -I ci/src -I src/datakit -o src/datakit-client/mount.cmx src/datakit-client/mount.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' src/version.cmx src/datakit-client/mount.cmx -o src/datakit-client/mount.native
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit-client/mount.native" "/home/opam/.opam/4.03.0/bin/datakit-mount"
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/main.native" "/home/opam/.opam/4.03.0/bin/datakit"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/opam" "/home/opam/.opam/4.03.0/lib/datakit/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/pkg/META" "/home/opam/.opam/4.03.0/lib/datakit/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.a" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cma" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cmxa" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.cmxs" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_blob.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_blob.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_blob.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_blob.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_blob.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_blob.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_blob.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_blob.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_merge.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_merge.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_merge.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_merge.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_merge.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_merge.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_merge.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_merge.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_remote.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_remote.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_remote.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_remote.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_remote.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_remote.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_remote.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_remote.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_rw.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_rw.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_rw.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_rw.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_rw.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_rw.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_rw.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_rw.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_tree.cmi" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_tree.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_tree.cmti" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_tree.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_tree.cmx" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_tree.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/src/datakit/ivfs_tree.mli" "/home/opam/.opam/4.03.0/lib/datakit/ivfs_tree.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit.dev/_build/README.md" "/home/opam/.opam/4.03.0/doc/datakit/README.md"
+-> installed datakit.dev
+Done.
+ ---> aa378116e000
+Removing intermediate container f128c7e09c94
+Step 11 : EXPOSE 5640
+ ---> Running in ca997a4f4fed
+ ---> c9fcc5f2c016
+Removing intermediate container ca997a4f4fed
+Step 12 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit) /usr/bin/datakit &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in f5aa691127e4
+ ---> 956c3e16be63
+Removing intermediate container f5aa691127e4
+Step 13 : RUN opam config exec -- ocaml /home/opam/src/datakit/check-libev.ml
+ ---> Running in 507a37e09f13
+[91mFile "/home/opam/src/datakit/check-libev.ml", line 4, characters 16-36:
+Warning 3: deprecated: Lwt_engine.libev
+ This class will soon have parameters for selecting a libev backend. This will
+ be a breaking change in Lwt 3.0.0. See
+   https://github.com/ocsigen/lwt/pull/269
+ To preserve the current signature, use Lwt_engine.Versioned.libev_1
+ To use the replacement immediately, use Lwt_engine.Versioned.libev_2 ()
+ Both alternatives require Lwt >= 2.7.0.
+[0m ---> 4010eaa11d29
+Removing intermediate container 507a37e09f13
+Step 14 : ENTRYPOINT /usr/bin/datakit
+ ---> Running in 4029f63bb274
+ ---> 45e4102d1484
+Removing intermediate container 4029f63bb274
+Step 15 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Running in 2c09cf8dca80
+ ---> f0a561742f46
+Removing intermediate container 2c09cf8dca80
+Successfully built f0a561742f46
+[2017-01-09 15:03.27] Success
