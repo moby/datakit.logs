@@ -1,0 +1,111 @@
+=== Run docker-build-server on commit 89f1ac3ff0b45dd7a901f48774724c954cf40157
+[2017-01-12 19:34.01] Starting...
+Cloning into '/tmp/with_clone399f5b90'...
+done.
+HEAD is now at 89f1ac3 prometheus: add convenience cohttp server
+[2017-01-12 19:34.01] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.726 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:2d15235a8150d49353533848c8a2c326996558d57872acec59de35f8965dab4d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> db734eca7ee9
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0d5e72c2a61e
+Step 3 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 64731c9f8991
+Step 4 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 1a4d1d6e30ea
+Step 5 : COPY prometheus.opam /home/opam/src/datakit/prometheus.opam
+ ---> Using cache
+ ---> 8e830158b020
+Step 6 : COPY prometheus-cohttp.opam /home/opam/src/datakit/prometheus-cohttp.opam
+ ---> Using cache
+ ---> 1ed388b8af0a
+Step 7 : RUN opam pin add prometheus.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> a02e2eb0cda4
+Step 8 : RUN opam pin add prometheus-cohttp.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 93383c7fe305
+Step 9 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 292924c639dd
+Step 10 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Using cache
+ ---> 76054c572299
+Step 11 : COPY . /home/opam/src/datakit
+ ---> c475d8912cfe
+Removing intermediate container 1b36c9d5a12d
+Step 12 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 6132efbe876a
+ ---> a7a0570b8770
+Removing intermediate container 6132efbe876a
+Step 13 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 4338eaa2dea6
+ M src/version.ml
+ ---> a224bc03766e
+Removing intermediate container 4338eaa2dea6
+Step 14 : RUN opam update datakit-server
+ ---> Running in 4df27eb17d2a
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ synchronized
+ ---> 73d855978a5d
+Removing intermediate container 4df27eb17d2a
+Step 15 : RUN opam install datakit-server.dev -vv
+ ---> Running in 9ffb5283f3a6
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,245,792  speedup is 155.51
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-server dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,245,792  speedup is 155.51
+[datakit-server.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-server" (CWD=/home/opam/.opam/4.03.0/build/datakit-server.dev)
+- Exception: Failure "Unknown includes for package: datakit-server".
+[91m[ERROR] The compilation of datakit-server failed at "ocaml pkg/pkg.ml build
+        --pinned true -n datakit-server".
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-server dev
+No changes have been performed
+[91m
+#=== ERROR while installing datakit-server.dev ================================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-server
+# path                 /home/opam/.opam/4.03.0/build/datakit-server.dev
+# compiler             4.03.0
+# exit-code            2
+# env-file             /home/opam/.opam/4.03.0/build/datakit-server.dev/datakit-server-7-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-server.dev/datakit-server-7-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-server.dev/datakit-server-7-ffb3fd.err
+### stderr ###
+# Exception: Failure "Unknown includes for package: datakit-server".
+
+[0m[91m'opam install datakit-server.dev -vv' failed.
+[0mThe command '/bin/sh -c opam install datakit-server.dev -vv' returned a non-zero code: 4
+[2017-01-12 19:34.28] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 1
