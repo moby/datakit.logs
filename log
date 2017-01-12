@@ -1,0 +1,132 @@
+=== Run docker-build-client on commit 89f1ac3ff0b45dd7a901f48774724c954cf40157
+[2017-01-12 19:34.02] Starting...
+Cloning into '/tmp/with_clone1ebd2320'...
+done.
+HEAD is now at 89f1ac3 prometheus: add convenience cohttp server
+[2017-01-12 19:34.03] Running "docker" "build" "--pull" "-f" "Dockerfile.client" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.726 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:2d15235a8150d49353533848c8a2c326996558d57872acec59de35f8965dab4d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> db734eca7ee9
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0d5e72c2a61e
+Step 3 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> c7eb67e09460
+Step 4 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 1f75651a1812
+Step 5 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> a29a9dba71f7
+Step 6 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> 6afd3210e00d
+Step 7 : COPY . /home/opam/src/datakit
+ ---> b344c64fc6d9
+Removing intermediate container e521cb47ba88
+Step 8 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 64995d209ffe
+ ---> 5fdccdfcf302
+Removing intermediate container 64995d209ffe
+Step 9 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in e441e72145e9
+ M src/version.ml
+ ---> 83e790682836
+Removing intermediate container e441e72145e9
+Step 10 : RUN opam update datakit-client
+ ---> Running in 96ebf59408a4
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> f6022aa5538f
+Removing intermediate container 96ebf59408a4
+Step 11 : RUN opam info datakit-client --raw
+ ---> Running in 736ef270ac95
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/docker/datakit"
+bug-reports: "https://github.com/docker/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/docker/datakit.git"
+build: [
+  "ocaml" "pkg/pkg.ml" "build" "--pinned" "%{pinned}%" "-n" "datakit-client"
+]
+depends: [
+  "ocamlfind" {build}
+  "ocamlbuild" {build}
+  "topkg" {build}
+  "base-bytes"
+  "astring"
+  "logs"
+  "uri"
+  "rresult"
+  "cstruct"
+  "fmt"
+  "protocol-9p" {>= "0.7.4"}
+  "cmdliner"
+]
+ ---> c9acb7d32cd0
+Removing intermediate container 736ef270ac95
+Step 12 : RUN opam install datakit-client.dev -vv
+ ---> Running in cbd513e3900b
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,245,792  speedup is 155.51
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,245,792  speedup is 155.51
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-client" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+- Exception: Failure "Unknown includes for package: datakit-client".
+[91m[ERROR] The compilation of datakit-client failed at "ocaml pkg/pkg.ml build
+        --pinned true -n datakit-client".
+[0m[91m
+#=== ERROR while installing datakit-client.dev ================================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-client
+# path                 /home/opam/.opam/4.03.0/build/datakit-client.dev
+# compiler             4.03.0
+# exit-code            2
+# env-file             /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.err
+### stderr ###
+# Exception: Failure "Unknown includes for package: datakit-client".
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-client dev
+No changes have been performed
+[91m'opam install datakit-client.dev -vv' failed.
+[0mThe command '/bin/sh -c opam install datakit-client.dev -vv' returned a non-zero code: 4
+[2017-01-12 19:34.33] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 1
