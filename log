@@ -1,0 +1,115 @@
+=== Run docker-build-ci on commit 89f1ac3ff0b45dd7a901f48774724c954cf40157
+[2017-01-12 19:34.02] Starting...
+Cloning into '/tmp/with_clone51caaa1'...
+done.
+HEAD is now at 89f1ac3 prometheus: add convenience cohttp server
+[2017-01-12 19:34.03] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.726 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:728627fe43e575c10a750e4f6b5f4c4803845b6e8a59677149a3626f3abbfcf2
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> a42012e6449d
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 3efed043af41
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Using cache
+ ---> 0b5397314be8
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 64ba2ebf89c9
+Step 5 : RUN opam pin add prometheus https://github.com/talex5/datakit.git#prometheus
+ ---> Using cache
+ ---> dd0b174a76fe
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> fe0b69695d60
+Step 7 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Using cache
+ ---> 482a9fadb8d4
+Step 8 : RUN opam pin add github --dev
+ ---> Using cache
+ ---> 25cf4f5d0e5d
+Step 9 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 96e11982c499
+Step 10 : ADD . /home/opam/datakit
+ ---> fbd98e5d1e3e
+Removing intermediate container 25b43768718a
+Step 11 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 78e8b8c73be5
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uuidm               0.9.6                         [required by redis]
+  - install   crunch              1.4.1                         [required by datakit-ci]
+  - install   multipart-form-data 0.1.0                         [required by datakit-ci]
+  - install   redis               0.3.3                         [required by datakit-ci]
+  - recompile session             0.2.0*                        [uses redis]
+  - install   datakit-ci          *     
+===== 5 to install | 1 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[multipart-form-data: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[redis: http] Command started
+[multipart-form-data: http] Command started
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[uuidm: http] Command started
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[multipart-form-data: ocaml build] Command started
+[uuidm: ocaml build] Command started
+-> removed   session.0.2.0
+-> installed multipart-form-data.0.1.0
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+[datakit-ci: ocaml build] Command started
+-> installed datakit-ci.~unknown
+Done.
+ ---> 8391e8bae557
+Removing intermediate container 78e8b8c73be5
+Step 12 : VOLUME /secrets
+ ---> Running in 947bcc5953a4
+ ---> b40ebce76482
+Removing intermediate container 947bcc5953a4
+Successfully built b40ebce76482
+[2017-01-12 19:34.44] Success
