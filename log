@@ -1,0 +1,60 @@
+=== Run docker-build-ci on commit 51de74750ea4851ee5e3f6b263d98a586157f888
+[2017-01-12 11:24.10] Starting...
+Cloning into '/tmp/with_clone144993a0'...
+done.
+HEAD is now at 51de747 prometheus: add to CI tests
+[2017-01-12 11:24.11] Running "docker" "build" "--pull" "-f" "Dockerfile.ci" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.599 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:728627fe43e575c10a750e4f6b5f4c4803845b6e8a59677149a3626f3abbfcf2
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> a42012e6449d
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 3efed043af41
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Using cache
+ ---> 0b5397314be8
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 64ba2ebf89c9
+Step 5 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> cef7865d6d8f
+Step 6 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Using cache
+ ---> 83f9c4828528
+Step 7 : RUN opam pin add github --dev
+ ---> Using cache
+ ---> 2b3f36f8139d
+Step 8 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> efb2a1409d7d
+Step 9 : ADD . /home/opam/datakit
+ ---> aec3a81ddf99
+Removing intermediate container c75c8abc71c6
+Step 10 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 2bd6843f98e5
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0mPackage datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following dependencies couldn't be met:
+  - datakit-ci -> prometheus
+Your request can't be satisfied:
+  - No package named prometheus found.
+
+No solution found, exiting
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0mThe command '/bin/sh -c opam pin add -k git datakit-ci /home/opam/datakit' returned a non-zero code: 3
+[2017-01-12 11:24.29] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
