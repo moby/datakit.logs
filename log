@@ -1,0 +1,61 @@
+=== Run docker-build-datakit on commit 076eea344a6de4e1e87c815055ce1a3642fe2123
+[2017-01-12 19:09.28] Starting...
+Cloning into '/tmp/with_clone21bb1116'...
+done.
+HEAD is now at 076eea3 prometheus: add convenience cohttp server
+[2017-01-12 19:09.28] Running "docker" "build" "--pull" "-f" "Dockerfile" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.715 MB
+Step 1 : FROM docker/datakit:server
+server: Pulling from docker/datakit
+Digest: sha256:8d7b0a50ce0e1fda0eb63ca0b6d76a56cae2f522892b8b89f8a85b14c65680d8
+Status: Image is up to date for docker/datakit:server
+ ---> da28ffaac645
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 6b7712976b1c
+Step 3 : COPY opam /home/opam/src/datakit/opam
+ ---> 281ea3b7c83d
+Removing intermediate container 5c05494a4a25
+Step 4 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Running in 13e5e6f8ee0b
+datakit is now path-pinned to /home/opam/src/datakit
+
+[datakit: local]
+[datakit] /home/opam/src/datakit/ synchronized
+[datakit] Installing new package description from /home/opam/src/datakit
+
+ ---> af56f9928444
+Removing intermediate container 13e5e6f8ee0b
+Step 5 : RUN opam depext datakit && opam install datakit --deps
+ ---> Running in f4fda6e3b434
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: linux-headers openssl-dev zlib-dev
+The following command needs to be run through "sudo":
+    apk add linux-headers openssl-dev zlib-dev
+(1/3) Installing linux-headers (4.4.6-r1)
+(2/3) Installing zlib-dev (1.2.8-r2)
+(3/3) Installing openssl-dev (1.0.2j-r0)
+OK: 435 MiB in 87 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit -> prometheus-cohttp
+Your request can't be satisfied:
+  - No package named prometheus-cohttp found.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit && opam install datakit --deps' returned a non-zero code: 3
+[2017-01-12 19:09.52] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 1
