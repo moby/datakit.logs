@@ -1,0 +1,188 @@
+=== Run docker-build-prometheus on commit 95722f29ca1208dd24e57fa29a19004f017d23a9
+[2017-01-12 11:29.24] Starting...
+Cloning into '/tmp/with_clonec9c8f16'...
+done.
+HEAD is now at 95722f2 prometheus: add to CI tests
+[2017-01-12 11:29.24] Running "docker" "build" "--pull" "-f" "Dockerfile.prometheus" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.607 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:728627fe43e575c10a750e4f6b5f4c4803845b6e8a59677149a3626f3abbfcf2
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> a42012e6449d
+Step 2 : RUN opam depext -ui fmt logs asetmap
+ ---> Running in 0569f1e31c8a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.4/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.4/community/x86_64/APKINDEX.tar.gz
+fetch http://www.cl.cam.ac.uk/~avsm2/alpine-ocaml/3.4/x86_64/APKINDEX.tar.gz
+v3.4.6-45-g3aa892a [http://dl-cdn.alpinelinux.org/alpine/v3.4/main]
+v3.4.6-33-g38ef2d2 [http://dl-cdn.alpinelinux.org/alpine/v3.4/community]
+testing v3.3.0-55-g55836a9 [http://www.cl.cam.ac.uk/~avsm2/alpine-ocaml/3.4]
+OK: 5978 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add m4
+(1/1) Installing m4 (1.4.17-r1)
+Executing busybox-1.24.2-r12.trigger
+OK: 422 MiB in 82 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install conf-m4   1                                         [required by ocamlfind]
+  - install result    1.2                                       [required by fmt, logs]
+  - install ocamlfind 1.7.1                                     [required by fmt, asetmap, logs]
+  - install topkg     0.8.1                                     [required by fmt, asetmap, logs]
+  - install fmt       0.8.0
+  - install asetmap   0.8.1
+  - install logs      0.6.2
+===== 7 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[fmt: http] Command started
+[logs: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[ocamlfind: http] Command started
+[logs: http] Command started
+[fmt: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[result: http] Command started
+[fmt.0.8.0] http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz downloaded
+[topkg: http] Command started
+[topkg: http] Command started
+[topkg.0.8.1] http://erratique.ch/software/topkg/releases/topkg-0.8.1.tbz downloaded
+[ocamlfind: http] Command started
+[ocamlfind.1.7.1] http://download.camlcity.org/download/findlib-1.7.1.tar.gz downloaded
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-m4: sh echo | m4] Command started
+[result: make] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+-> installed result.1.2
+[ocamlfind: make all] Command started
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+-> installed ocamlfind.1.7.1
+[topkg: ocaml build] Command started
+-> installed topkg.0.8.1
+[asetmap: ocaml build] Command started
+[fmt: ocaml build] Command started
+-> installed asetmap.0.8.1
+-> installed fmt.0.8.0
+[logs: ocaml build] Command started
+-> installed logs.0.6.2
+Done.
+ ---> 25c5004bfc2c
+Removing intermediate container 0569f1e31c8a
+Step 3 : ADD . /home/opam/datakit
+ ---> e4e3d7fa0686
+Removing intermediate container 621dc7b637c9
+Step 4 : RUN opam pin add -k git prometheus /home/opam/datakit
+ ---> Running in ca877e0beefe
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+prometheus is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[prometheus: git]
+[prometheus: git]
+[prometheus] /home/opam/datakit updated
+[prometheus] Installing new package description from /home/opam/datakit
+
+prometheus needs to be installed.
+The following actions will be performed:
+  - install   astring    0.8.3                                  [required by prometheus]
+  - install   ppx_tools  5.0+4.03.0                             [required by lwt]
+  - install   lwt        2.7.0                                  [required by prometheus]
+  - recompile logs       0.6.2                                  [uses lwt]
+  - install   prometheus *         
+===== 4 to install | 1 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring: http] Command started
+[lwt: http] Command started
+[ppx_tools: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[prometheus: git] Command started
+[prometheus: git] Command started
+[prometheus] /home/opam/datakit already up-to-date
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.03.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.03.0.tar.gz downloaded
+[lwt: http] Command started
+[lwt.2.7.0] https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   logs.0.6.2
+[astring: ocaml build] Command started
+[ppx_tools: make all] Command started
+-> installed astring.0.8.3
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.03.0
+[lwt: make setup] Command started
+[lwt: ocaml setup.ml] Command started
+[lwt: make build] Command started
+[lwt: make install] Command started
+-> installed lwt.2.7.0
+[logs: ocaml build] Command started
+-> installed logs.0.6.2
+[prometheus: ocaml build] Command started
+[91m[ERROR] The compilation of prometheus failed at "ocaml pkg/pkg.ml build
+        --pinned true --tests false -n prometheus".
+[0m[91m
+#=== ERROR while installing prometheus.~unknown ===============================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true --tests false -n prometheus
+# path                 /home/opam/.opam/4.03.0/build/prometheus.~unknown
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/prometheus.~unknown/prometheus-7-ab22a1.env
+# stdout-file          /home/opam/.opam/4.03.0/build/prometheus.~unknown/prometheus-7-ab22a1.out
+# stderr-file          /home/opam/.opam/4.03.0/build/prometheus.~unknown/prometheus-7-ab22a1.err
+### stdout ###
+# ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+# ocamlfind ocamldep -package 'logs, astring, asetmap, fmt, str' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules prometheus/src/prometheus.ml > prometheus/src/prometheus.ml.depends
+# + ocamlfind ocamldep -package 'logs, astring, asetmap, fmt, str' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules prometheus/src/prometheus.ml > prometheus/src/prometheus.ml.depends
+# ocamlfind: Package `cstruct' not found
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+#      'CHANGES.md' 'LICENSE.md' 'README.md' 'pkg/META.prometheus'
+#      'prometheus.opam' 'prometheus/src/prometheus.a'
+#      'prometheus/src/prometheus.cmxs' 'prometheus/src/prometheus.cmxa'
+#      'prometheus/src/prometheus.cma' 'prometheus/src/prometheus.cmx'
+#      'prometheus/src/prometheus.cmi' 'prometheus/src/prometheus.mli']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install prometheus ~unknown
+The following changes have been performed
+  - install astring   0.8.3     
+  - install lwt       2.7.0     
+  - install ppx_tools 5.0+4.03.0
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0m[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20170012113002.export"
+[0mThe command '/bin/sh -c opam pin add -k git prometheus /home/opam/datakit' returned a non-zero code: 4
+[2017-01-12 11:30.28] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.prometheus" "." exited with status 1
