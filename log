@@ -1,0 +1,138 @@
+=== Run docker-build-server on commit 3fb220ec2756b5c7664beeabd27ba64b3c4c8a49
+[2017-01-12 21:06.02] Starting...
+Cloning into '/tmp/with_clonef976ff6'...
+done.
+HEAD is now at 3fb220e prometheus: add convenience cohttp server
+[2017-01-12 21:06.03] Running "docker" "build" "--pull" "-f" "Dockerfile.server" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.743 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:2d15235a8150d49353533848c8a2c326996558d57872acec59de35f8965dab4d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> db734eca7ee9
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0d5e72c2a61e
+Step 3 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 64731c9f8991
+Step 4 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 1a4d1d6e30ea
+Step 5 : COPY prometheus.opam /home/opam/src/datakit/prometheus.opam
+ ---> Using cache
+ ---> 8e830158b020
+Step 6 : COPY prometheus-cohttp.opam /home/opam/src/datakit/prometheus-cohttp.opam
+ ---> Using cache
+ ---> 1ed388b8af0a
+Step 7 : RUN opam pin add prometheus.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> a02e2eb0cda4
+Step 8 : RUN opam pin add prometheus-cohttp.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 93383c7fe305
+Step 9 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 292924c639dd
+Step 10 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Using cache
+ ---> 76054c572299
+Step 11 : COPY . /home/opam/src/datakit
+ ---> 96a1c52221ee
+Removing intermediate container d94cdfd01406
+Step 12 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in c19cdba3d5d5
+ ---> 1d9be5aa95a6
+Removing intermediate container c19cdba3d5d5
+Step 13 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in fdb47b6792c6
+ M src/version.ml
+ ---> c6404b8e697b
+Removing intermediate container fdb47b6792c6
+Step 14 : RUN opam update datakit-server
+ ---> Running in 88c5a862d399
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ synchronized
+ ---> ebad8b291552
+Removing intermediate container 88c5a862d399
+Step 15 : RUN opam install datakit-server.dev -vv
+ ---> Running in 336c42f95fa6
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,246,006  speedup is 155.54
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-server dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,970 bytes  received 41 bytes  16,022.00 bytes/sec
+- total size is 1,246,006  speedup is 155.54
+[datakit-server.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-server" (CWD=/home/opam/.opam/4.03.0/build/datakit-server.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+- ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+- ocamlfind ocamlopt -shared -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+- ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.ml > src/datakit-server/fs9p_error.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.mli > src/datakit-server/fs9p_error.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmi src/datakit-server/fs9p_error.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p_error.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+- ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p.cmx -o src/datakit-server/fs9p.cmxa
+- ocamlfind ocamlopt -shared -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p.cmx -o src/datakit-server/fs9p.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmo src/datakit-server/fs9p.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmo src/datakit-server/fs9p_error.ml
+- ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p_error.cmo src/datakit-server/fs9p.cmo -o src/datakit-server/fs9p.cma
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/datakit-server.opam" "/home/opam/.opam/4.03.0/lib/datakit-server/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/pkg/META.server" "/home/opam/.opam/4.03.0/lib/datakit-server/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.a" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cma" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.a" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cma" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-server/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-server/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/README.md" "/home/opam/.opam/4.03.0/doc/datakit-server/README.md"
+-> installed datakit-server.dev
+Done.
+ ---> 14b308cbf471
+Removing intermediate container 336c42f95fa6
+Successfully built 14b308cbf471
+[2017-01-12 21:06.32] Success
