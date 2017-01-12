@@ -1,0 +1,80 @@
+=== Run docker-build-prometheus on commit eb6fcdfb34e87e2b08e1cf36cf1febc0dfc8245f
+[2017-01-12 11:41.30] Starting...
+Cloning into '/tmp/with_clone22d4e9fa'...
+done.
+HEAD is now at eb6fcdf prometheus: add some API documentation
+[2017-01-12 11:41.30] Running "docker" "build" "--pull" "-f" "Dockerfile.prometheus" "."...
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.622 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:728627fe43e575c10a750e4f6b5f4c4803845b6e8a59677149a3626f3abbfcf2
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> a42012e6449d
+Step 2 : RUN opam depext -ui fmt logs asetmap
+ ---> Using cache
+ ---> 25c5004bfc2c
+Step 3 : ADD . /home/opam/datakit
+ ---> 257495dfd96d
+Removing intermediate container d5cd2a843ee8
+Step 4 : RUN opam pin add -k git prometheus /home/opam/datakit
+ ---> Running in 2a5c876a242f
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0mprometheus is now git-pinned to /home/opam/datakit
+
+[prometheus: git]
+[prometheus: git]
+[prometheus] /home/opam/datakit updated
+[prometheus] Installing new package description from /home/opam/datakit
+
+prometheus needs to be installed.
+The following actions will be performed:
+  - install   astring    0.8.3                                  [required by prometheus]
+  - install   ppx_tools  5.0+4.03.0                             [required by lwt]
+  - install   lwt        2.7.0                                  [required by prometheus]
+  - install   prometheus *         
+  - recompile logs       0.6.2                                  [uses lwt]
+===== 4 to install | 1 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring: http] Command started
+[lwt: http] Command started
+[ppx_tools: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[prometheus: git] Command started
+[prometheus: git] Command started
+[prometheus] /home/opam/datakit already up-to-date
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.03.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.03.0.tar.gz downloaded
+[lwt: http] Command started
+[lwt.2.7.0] https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   logs.0.6.2
+[astring: ocaml build] Command started
+[ppx_tools: make all] Command started
+-> installed astring.0.8.3
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.03.0
+[lwt: make setup] Command started
+[lwt: ocaml setup.ml] Command started
+[lwt: make build] Command started
+[lwt: make install] Command started
+-> installed lwt.2.7.0
+[logs: ocaml build] Command started
+[prometheus: ocaml build] Command started
+-> installed prometheus.~unknown
+-> installed logs.0.6.2
+Done.
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+ ---> 78346cf2f133
+Removing intermediate container 2a5c876a242f
+Successfully built 78346cf2f133
+[2017-01-12 11:42.28] Success
