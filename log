@@ -1,0 +1,488 @@
+=== docker build -f "Dockerfile.github"
+[2017-01-13 14:04.46] Starting...
+Cloning into '/tmp/with_clone9886861'...
+done.
+HEAD is now at 0e03806 github: update the test to the new API (to support org hooks)
+[2017-01-13 14:06.31] Rewrite Dockerfile's first line to:
+FROM sha256:c14e7c0f8f30a851f6b224165df3abd965d86db6fc45f9970cc99d86cdfd0ff7
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.732 MB
+Step 1 : FROM sha256:c14e7c0f8f30a851f6b224165df3abd965d86db6fc45f9970cc99d86cdfd0ff7
+ ---> c14e7c0f8f30
+Step 2 : RUN cd /home/opam/opam-repository && git pull &&     opam update -y
+ ---> Running in e1fb1f390c2f
+Already up-to-date.
+
+=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default: local] Command started
+[default: local] Command started
+[default: local] Command started
+[default] /home/opam/opam-repository synchronized
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+ ---> 4cd24552611b
+Removing intermediate container e1fb1f390c2f
+Step 3 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> c1a88c55abe6
+Removing intermediate container 71d656f1af6e
+Step 4 : RUN opam pin add github --dev -n
+ ---> Running in ec93656637c0
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+ ---> 12648cbd8dc2
+Removing intermediate container ec93656637c0
+Step 5 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in bd953e525751
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+
+ ---> c52e019fb69b
+Removing intermediate container bd953e525751
+Step 6 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 938fde5c4431
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> 05d6872c9422
+Removing intermediate container 938fde5c4431
+Step 7 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 778c7c68d736
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2j-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r12.trigger
+OK: 479 MiB in 90 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install conf-perl        1             
+  - install magic-mime       1.0.0         
+  - install easy-format      1.2.0         
+  - install asl              0.10          
+  - install conf-gmp         1             
+  - install fieldslib        113.24.00     
+  - install duration         0.1.0         
+  - install ocamlify         0.0.1         
+  - install menhir           20170101      
+  - install mtime            0.8.3         
+  - install ocamlmod         0.0.8         
+  - install asetmap          0.8.1         
+  - install base64           2.1.2         
+  - install conf-which       1             
+  - install mirage-no-xen    1             
+  - install mirage-flow      1.1.0         
+  - install hex              1.0.0         
+  - install win-eventlog     0.1           
+  - install datakit-client   dev*          
+  - install zarith           1.4.1         
+  - install ppx_fields_conv  113.33.00+4.03
+  - install atd              1.2.0         
+  - install oasis            0.4.8         
+  - install biniou           1.0.12        
+  - install hvsock           0.11.1        
+  - install asn1-combinators 0.1.3         
+  - install nocrypto         0.5.3         
+  - install yojson           1.3.3         
+  - install x509             0.5.3         
+  - install atdgen           1.10.0        
+  - install tls              0.7.1         
+  - install conduit          0.14.4        
+  - install cohttp           0.21.0        
+  - install github           2.2.0*        
+  - install github-hooks     0.1.1         
+===== 35 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asl: http] Command started
+[asn1-combinators: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[atd: http] Command started
+[asn1-combinators: http] Command started
+[asn1-combinators.0.1.3] https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz downloaded
+[atdgen: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[base64: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[biniou: http] Command started
+[base64: http] Command started
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+[cohttp: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[conduit: http] Command started
+[biniou: http] Command started
+[biniou.1.0.12] https://github.com/mjambon/biniou/archive/v1.0.12.tar.gz downloaded
+[datakit-client: local] Command started
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+[duration: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[easy-format: http] Command started
+[conduit: http] Command started
+[conduit.0.14.4] https://github.com/mirage/ocaml-conduit/archive/v0.14.4.tar.gz downloaded
+[fieldslib: http] Command started
+[cohttp: http] Command started
+[cohttp.0.21.0] https://github.com/mirage/ocaml-cohttp/archive/v0.21.0.tar.gz downloaded
+[github: git] Command started
+[github: git] Command started
+[github: git] Command started
+[github: git] Command started
+[github] https://github.com/mirage/ocaml-github.git already up-to-date
+[github-hooks: http] Command started
+[fieldslib: http] Command started
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+[hex: http] Command started
+[easy-format: http] Command started
+[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[magic-mime: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[menhir: http] Command started
+[menhir: http] Command started
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+[mirage-flow: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[nocrypto: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+[oasis: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[ocamlify: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocamlmod: http] Command started
+[nocrypto: http] Command started
+[nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[tls: http] Command started
+[oasis: http] Command started
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
+[win-eventlog: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+[x509: http] Command started
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+[yojson: http] Command started
+[tls: http] Command started
+[tls.0.7.1] https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz downloaded
+[zarith: http] Command started
+[x509: http] Command started
+[x509.0.5.3] https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz downloaded
+[zarith: http] Command started
+[zarith.1.4.1] https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz downloaded
+[yojson: http] Command started
+[yojson.1.3.3] https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+[asl: make] Command started
+[base64: ocaml build] Command started
+[conf-gmp: sh] Command started
+-> installed conf-gmp.1
+[conf-perl: perl] Command started
+-> installed conf-perl.1
+[conf-which: which which] Command started
+-> installed conf-which.1
+[datakit-client: ocaml build] Command started
+-> installed base64.2.1.2
+[duration: ocaml build] Command started
+-> installed asetmap.0.8.1
+[easy-format: make] Command started
+-> installed duration.0.1.0
+[fieldslib: ./configure] Command started
+[easy-format: make install] Command started
+-> installed easy-format.1.2.0
+[biniou: make] Command started
+[fieldslib: make] Command started
+-> installed datakit-client.dev
+[hex: ./configure] Command started
+[biniou: make install] Command started
+-> installed biniou.1.0.12
+[magic-mime: ./configure] Command started
+[hex: make] Command started
+[magic-mime: make] Command started
+-> installed fieldslib.113.24.00
+[menhir: make Makefile] Command started
+[asl: make install] Command started
+[hex: make install] Command started
+-> installed asl.0.10
+[mirage-flow: ./configure] Command started
+[magic-mime: make install] Command started
+-> installed hex.1.0.0
+-> installed mirage-no-xen.1
+[mtime: ocaml] Command started
+[mtime: ocaml] Command started
+-> installed magic-mime.1.0.0
+[ocamlify: ocaml setup.ml] Command started
+[mirage-flow: make] Command started
+[ocamlify: ocaml setup.ml] Command started
+-> installed mtime.0.8.3
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[ocamlmod: ocaml setup.ml] Command started
+-> installed ocamlify.0.0.1
+[ppx_fields_conv: ./configure] Command started
+[mirage-flow: make install] Command started
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+[ppx_fields_conv: make] Command started
+[ocamlmod: ocaml setup.ml] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+[hvsock: make] Command started
+-> installed ppx_fields_conv.113.33.00+4.03
+[win-eventlog: make] Command started
+[oasis: ocaml setup.ml] Command started
+[win-eventlog: make install] Command started
+[hvsock: make install] Command started
+-> installed win-eventlog.0.1
+[yojson: make] Command started
+-> installed hvsock.0.11.1
+[zarith: ./configure] Command started
+[zarith: make] Command started
+[yojson: make install-lib] Command started
+-> installed yojson.1.3.3
+[zarith: make install] Command started
+-> installed zarith.1.4.1
+[asn1-combinators: ocaml build] Command started
+-> installed asn1-combinators.0.1.3
+[menhir: make Makefile] Command started
+-> installed menhir.20170101
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[oasis: ocaml setup.ml] Command started
+-> installed oasis.0.4.8
+[nocrypto: ./configure] Command started
+[nocrypto: make] Command started
+[nocrypto: make install] Command started
+-> installed nocrypto.0.5.3
+[x509: ./configure] Command started
+[x509: make] Command started
+[x509: make install] Command started
+-> installed x509.0.5.3
+[tls: ./configure] Command started
+[tls: make] Command started
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.21.0
+[github: ocaml setup.ml] Command started
+[github: ocaml setup.ml] Command started
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+[github-hooks: ocaml build] Command started
+-> installed github-hooks.0.1.1
+Done.
+ ---> 46e7d3a3cfcc
+Removing intermediate container 778c7c68d736
+Step 8 : COPY . /home/opam/src/datakit/
+ ---> 112fed9ca778
+Removing intermediate container c4d10d75ee1d
+Step 9 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 2822974068f6
+ ---> 483b098e57ad
+Removing intermediate container 2822974068f6
+Step 10 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in aace91f730b1
+diff --git a/Dockerfile.github b/Dockerfile.github
+index f475eb4..c1a799e 100644
+--- a/Dockerfile.github
++++ b/Dockerfile.github
+@@ -1,4 +1,4 @@
+-FROM docker/datakit:server
++FROM sha256:c14e7c0f8f30a851f6b224165df3abd965d86db6fc45f9970cc99d86cdfd0ff7
+ 
+ # TMP
+ RUN cd /home/opam/opam-repository && git pull && \
+ M Dockerfile.github
+ M src/version.ml
+ ---> b14e64c7b445
+Removing intermediate container aace91f730b1
+Step 11 : RUN opam update datakit-github
+ ---> Running in 9731bf49d199
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ synchronized
+ ---> 327b352a36a9
+Removing intermediate container 9731bf49d199
+Step 12 : RUN opam install datakit-github -vv
+ ---> Running in 4ff9ba2d5e69
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-github"
+- sending incremental file list
+- ./
+- api/
+- ci/
+- ci/static/
+- src/
+- 
+- sent 7,399 bytes  received 56 bytes  14,910.00 bytes/sec
+- total size is 1,223,828  speedup is 164.16
+[datakit-github] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install datakit-github dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-github"
+- sending incremental file list
+- ./
+- ci/
+- 
+- sent 7,390 bytes  received 47 bytes  14,874.00 bytes/sec
+- total size is 1,223,828  speedup is 164.56
+[datakit-github.dev] /home/opam/src/datakit/ synchronized
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-github" (CWD=/home/opam/.opam/4.03.0/build/datakit-github.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+- ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.mli > bridge/github/datakit_github.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmi bridge/github/datakit_github.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+- ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.ml > bridge/github/datakit_github.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+- File "bridge/github/datakit_github_api.ml", line 469, characters 30-39:
+- Error: Unbound value watch_org
+- Command exited with code 2.
+- pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+-      'CHANGES.md' 'LICENSE.md' 'README.md' 'pkg/META.github'
+-      'datakit-github.opam' 'bridge/github/datakit-github.a'
+-      'bridge/github/datakit-github.cmxs' 'bridge/github/datakit-github.cmxa'
+-      'bridge/github/datakit-github.cma'
+-      'bridge/github/datakit_github_api.cmx'
+-      'bridge/github/datakit_github_api.cmi'
+-      'bridge/github/datakit_github_api.mli'
+-      'bridge/github/datakit-github-client.a'
+-      'bridge/github/datakit-github-client.cmxs'
+-      'bridge/github/datakit-github-client.cmxa'
+-      'bridge/github/datakit-github-client.cma'
+-      'bridge/github/datakit_github_sync.cmx'
+-      'bridge/github/datakit_github_sync.cmi'
+-      'bridge/github/datakit_github_sync.mli'
+-      'bridge/github/datakit_github_conv.cmx'
+-      'bridge/github/datakit_github_conv.cmi'
+-      'bridge/github/datakit_github_conv.mli'
+-      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
+-      'bridge/github/datakit_github.mli'
+-      'bridge/github/datakit-github-server.a'
+-      'bridge/github/datakit-github-server.cmxs'
+-      'bridge/github/datakit-github-server.cmxa'
+-      'bridge/github/datakit-github-server.cma'
+-      'bridge/github/datakit_github_vfs.cmx'
+-      'bridge/github/datakit_github_vfs.cmi'
+-      'bridge/github/datakit_github_vfs.mli' 'bridge/github/main.native']: exited with 10
+[91m[ERROR] The compilation of datakit-github failed at "ocaml pkg/pkg.ml build
+        --pinned true -n datakit-github".
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-github dev
+No changes have been performed
+[91m
+#=== ERROR while installing datakit-github.dev ================================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-github
+# path                 /home/opam/.opam/4.03.0/build/datakit-github.dev
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-7-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-7-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-github.dev/datakit-github-7-ffb3fd.err
+### stdout ###
+# [...]
+# ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.mli > bridge/github/datakit_github.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmi bridge/github/datakit_github.mli
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+# ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.ml > bridge/github/datakit_github.ml.depends
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+# + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49 -w A-3-4-41-44 -I bridge/github -I src -I ci/src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+# File "bridge/github/datakit_github_api.ml", line 469, characters 30-39:
+# Error: Unbound value watch_org
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+# [...]
+#      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
+#      'bridge/github/datakit_github.mli'
+#      'bridge/github/datakit-github-server.a'
+#      'bridge/github/datakit-github-server.cmxs'
+#      'bridge/github/datakit-github-server.cmxa'
+#      'bridge/github/datakit-github-server.cma'
+#      'bridge/github/datakit_github_vfs.cmx'
+#      'bridge/github/datakit_github_vfs.cmi'
+#      'bridge/github/datakit_github_vfs.mli' 'bridge/github/main.native']: exited with 10
+
+[0m[91m'opam install datakit-github -vv' failed.
+[0mThe command '/bin/sh -c opam install datakit-github -vv' returned a non-zero code: 4
+[2017-01-13 14:11.20] Failed: Command "docker" "build" "-f" "Dockerfile.github" "." exited with status 1
