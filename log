@@ -1,6 +1,188 @@
 === docker build -f "Dockerfile.ci"
-[2017-01-13 13:58.49] Starting...
-Cloning into '/tmp/with_clone2d7cccc9'...
+[2017-01-13 14:11.58] Starting...
+Cloning into '/tmp/with_clone3f4cf73a'...
 done.
-fatal: Could not parse object '0d174d694d29611bb91349bb7b5599a2ca9be6c4'.
-[2017-01-13 13:58.49] Failed: Command "git" "reset" "--hard" "0d174d694d29611bb91349bb7b5599a2ca9be6c4" exited with status 128
+HEAD is now at 0d174d6 Removed hack to return io.EOF as it is now correctly handled by go-p9p
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.723 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:9ef64b186f23c58dc87a864ab45092a72135efbd5a0ef7ea4123f4d1a09fab5b
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> a47c78bf95a8
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 0b45a63cdc25
+Step 3 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 130cc3fa7b13
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 1fd3714bf11b
+Step 5 : RUN opam pin add multipart-form-data https://github.com/cryptosense/multipart-form-data.git
+ ---> Using cache
+ ---> de0223718f25
+Step 6 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 2e2a9c00e370
+Step 7 : ADD . /home/opam/datakit
+ ---> ab8f6f19f9f2
+Removing intermediate container 761616420aba
+Step 8 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 4a794b643ffb
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   menhir         20170101                           [required by atd]
+  - install   camomile       0.8.5                              [required by zed]
+  - install   crunch         1.4.1                              [required by datakit-ci]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atdgen         1.10.0                             [required by github]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   github         2.2.0                              [required by datakit-ci]
+  - recompile protocol-9p    0.8.0                              [uses lambda-term]
+  - recompile datakit-client 0.8.0*                             [uses protocol-9p]
+  - install   datakit-ci     *       
+===== 9 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[crunch: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[datakit-ci: git] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[github: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[lambda-term: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[menhir: http] Command started
+[github: http] Command started
+[github.2.2.0] https://github.com/mirage/ocaml-github/archive/v2.2.0.tar.gz downloaded
+[zed: http] Command started
+[menhir: http] Command started
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.8.0
+-> removed   protocol-9p.0.8.0
+[camomile: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[menhir: make Makefile] Command started
+[camomile: make] Command started
+[crunch: ocaml setup.ml] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[menhir: make Makefile] Command started
+-> installed menhir.20170101
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+[datakit-ci: ocaml build] Command started
+[91m[ERROR] The compilation of datakit-ci failed at "ocaml pkg/pkg.ml build
+        --pinned true --tests false -n datakit-ci".
+[0m[91m
+#=== ERROR while installing datakit-ci.~unknown ===============================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true --tests false -n datakit-ci
+# path                 /home/opam/.opam/4.03.0/build/datakit-ci.~unknown
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-7-5ddb38.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-7-5ddb38.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-7-5ddb38.err
+### stdout ###
+# Error: The implementation ci/src/cI_utils.ml
+# [...]
+#            ?max_fids:int32 -> unit -> t Protocol_9p.Error.t Lwt.t
+#        is not included in
+#          val connect :
+#            string ->
+#            string ->
+#            ?msize:int32 ->
+#            ?username:string ->
+#            ?aname:string -> unit -> t Protocol_9p_error.t Lwt.t
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-build-dir' '_build'
+# [...]
+#      'ci/src/cI_live_log.cmx' 'ci/src/cI_live_log.cmi'
+#      'ci/src/cI_live_log.mli' 'ci/src/cI_github_hooks.cmx'
+#      'ci/src/cI_github_hooks.cmi' 'ci/src/cI_github_hooks.mli'
+#      'ci/src/cI_eval.cmx' 'ci/src/cI_eval.cmi' 'ci/src/cI_eval.mli'
+#      'ci/src/cI_engine.cmx' 'ci/src/cI_engine.cmi' 'ci/src/cI_engine.mli'
+#      'ci/src/cI_config.cmx' 'ci/src/cI_config.cmi' 'ci/src/cI_config.mli'
+#      'ci/src/cI_cache.cmx' 'ci/src/cI_cache.cmi' 'ci/src/cI_cache.mli'
+#      'ci/src/cI_ACL.cmx' 'ci/src/cI_ACL.cmi' 'ci/src/cI_ACL.mli'
+#      'ci/src/dataKitCI.cmx' 'ci/src/dataKitCI.cmi' 'ci/src/dataKitCI.mli']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-ci ~unknown
+The following changes have been performed
+  - install atd         1.2.0   
+  - install atdgen      1.10.0  
+  - install camomile    0.8.5   
+  - install crunch      1.4.1   
+  - install github      2.2.0   
+  - install lambda-term 1.10.1  
+  - install menhir      20170101
+  - install zed         1.4     
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0m[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20170013141555.export"
+[0mThe command '/bin/sh -c opam pin add -k git datakit-ci /home/opam/datakit' returned a non-zero code: 4
+[2017-01-13 14:17.57] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
