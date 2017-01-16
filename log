@@ -1,0 +1,308 @@
+=== Docker build
+[2017-01-16 17:23.59] Starting...
+Cloning into '/tmp/with_clone1c1d5311'...
+done.
+HEAD is now at 52fe4c8 self-ci: test building self-ci itself
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.195 MB
+Step 1 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:587b5245fad6cf238d1edf8d74a1dbc3deaf47e0ae7f5499803e5b9e0fccb143
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 651ba2a9371b
+Step 2 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 08169d8e7b3c
+Step 3 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> cbc5d47f5378
+Step 4 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> f74ab600ea83
+Step 5 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -n
+ ---> Running in 8f44cf4790d8
+datakit-server is now path-pinned to /home/opam/src/datakit
+
+[datakit-server: local]
+[datakit-server] /home/opam/src/datakit/ synchronized
+
+ ---> e1e9338733c7
+Removing intermediate container 8f44cf4790d8
+Step 6 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Running in abf4036e1ac9
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install stringext        1.4.3         
+  - install rresult          0.5.0         
+  - install logs             0.6.2         
+  - install ppx_deriving     4.1           
+  - install ocplib-endian    1.0           
+  - install ocb-stubblr      0.1.0         
+  - install re               1.7.1         
+  - install win-error        0.2           
+  - install ppx_core         113.33.01+4.03
+  - install sexplib          113.33.00+4.03
+  - install named-pipe       0.4.0         
+  - install ppx_optcomp      113.33.00+4.03
+  - install cstruct          2.3.1         
+  - install ppx_driver       113.33.01+4.03
+  - install io-page          1.6.1         
+  - install ppx_type_conv    113.33.02+4.03
+  - install ppx_sexp_conv    113.33.01+4.03
+  - install uri              1.9.2         
+  - install ipaddr           2.7.1         
+  - install mirage-types     2.8.0         
+  - install mirage-types-lwt 2.8.0         
+  - install channel          1.1.1         
+  - install protocol-9p      0.8.0         
+===== 23 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[channel: http] Command started
+[cstruct: http] Command started
+[io-page: http] Command started
+[channel: http] Command started
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+[ipaddr: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[logs: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[mirage-types: http] Command started
+[cstruct: http] Command started
+[cstruct.2.3.1] https://github.com/mirage/ocaml-cstruct/archive/v2.3.1.tar.gz downloaded
+[named-pipe: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.7.1] https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.1/ipaddr-2.7.1.tbz downloaded
+[ocb-stubblr: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[ocplib-endian: http] Command started
+[mirage-types: http] Command started
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+[ppx_core: http] Command started
+[ppx_core: http] Command started
+[ppx_core.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.0] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.0/ocb-stubblr-0.1.0.tbz downloaded
+[ppx_driver: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.01+4.03.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_optcomp-113.33.00+4.03.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[protocol-9p: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz downloaded
+[re: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.113.33.02+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[sexplib: http] Command started
+[protocol-9p: http] Command started
+[protocol-9p.0.8.0] https://github.com/mirage/ocaml-9p/releases/download/v0.8.0/protocol-9p-0.8.0.tbz downloaded
+[stringext: http] Command started
+[sexplib: http] Command started
+[sexplib.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz downloaded
+[uri: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[win-error: http] Command started
+[stringext: http] Command started
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+[uri: http] Command started
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[logs: ocaml build] Command started
+[ocb-stubblr: ocaml build] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ppx_core: ./configure] Command started
+-> installed ocb-stubblr.0.1.0
+[named-pipe: ocaml build] Command started
+-> installed logs.0.6.2
+[ppx_deriving: ocaml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ppx_core: make] Command started
+-> installed named-pipe.0.4.0
+[re: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[re: ocaml setup.ml] Command started
+-> installed ocplib-endian.1.0
+[rresult: ocaml build] Command started
+-> installed rresult.0.5.0
+[sexplib: ./configure] Command started
+[sexplib: make] Command started
+-> installed ppx_deriving.4.1
+[stringext: ocaml setup.ml] Command started
+[re: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed re.1.7.1
+[win-error: make] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed sexplib.113.33.00+4.03
+[cstruct: ./configure] Command started
+-> installed stringext.1.4.3
+[win-error: make install] Command started
+[cstruct: make] Command started
+-> installed win-error.0.2
+[cstruct: make install] Command started
+-> installed ppx_core.113.33.01+4.03
+[ppx_optcomp: ./configure] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.3.1
+[io-page: ./configure] Command started
+[ppx_optcomp: make] Command started
+[io-page: make] Command started
+[io-page: make install] Command started
+-> installed ppx_optcomp.113.33.00+4.03
+[ppx_driver: ./configure] Command started
+-> installed io-page.1.6.1
+[ppx_driver: make] Command started
+-> installed ppx_driver.113.33.01+4.03
+[ppx_type_conv: ./configure] Command started
+[ppx_type_conv: make] Command started
+-> installed ppx_type_conv.113.33.02+4.03
+[ppx_sexp_conv: ./configure] Command started
+[ppx_sexp_conv: make] Command started
+-> installed ppx_sexp_conv.113.33.01+4.03
+[ipaddr: ocaml build] Command started
+[uri: ocaml setup.ml] Command started
+-> installed ipaddr.2.7.1
+[mirage-types: make build-types] Command started
+[uri: ocaml setup.ml] Command started
+[mirage-types: make install-types] Command started
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+[channel: ocaml build] Command started
+-> installed channel.1.1.1
+[protocol-9p: ocaml build] Command started
+[uri: ocaml setup.ml] Command started
+-> installed uri.1.9.2
+-> installed protocol-9p.0.8.0
+Done.
+ ---> a5cddddcf3ec
+Removing intermediate container abf4036e1ac9
+Step 7 : COPY . /home/opam/src/datakit
+ ---> d106b34df2d0
+Removing intermediate container b3d27e610db4
+Step 8 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in cbadbc9af2f8
+ ---> af721f02189c
+Removing intermediate container cbadbc9af2f8
+Step 9 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 7aaf4ee21f22
+ M src/version.ml
+ ---> fd6fdce5f33f
+Removing intermediate container 7aaf4ee21f22
+Step 10 : RUN opam update datakit-server
+ ---> Running in e39f62595846
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
+[datakit-server] /home/opam/src/datakit/ synchronized
+ ---> 3d0cc76e43e0
+Removing intermediate container e39f62595846
+Step 11 : RUN opam install datakit-server.dev -vv
+ ---> Running in 313e6f3a41cf
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,781 bytes  received 40 bytes  15,642.00 bytes/sec
+- total size is 1,249,511  speedup is 159.76
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-server dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 7,781 bytes  received 40 bytes  15,642.00 bytes/sec
+- total size is 1,249,511  speedup is 159.76
+[datakit-server.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-server" (CWD=/home/opam/.opam/4.03.0/build/datakit-server.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+- ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+- ocamlfind ocamlopt -shared -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+- ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.ml > src/datakit-server/fs9p_error.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.mli > src/datakit-server/fs9p_error.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p_error.cmi src/datakit-server/fs9p_error.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p_error.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+- ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p.cmx -o src/datakit-server/fs9p.cmxa
+- ocamlfind ocamlopt -shared -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p.cmx -o src/datakit-server/fs9p.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p.cmo src/datakit-server/fs9p.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -I prometheus/src -I ci/src -I src/datakit -o src/datakit-server/fs9p_error.cmo src/datakit-server/fs9p_error.ml
+- ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit-server/fs9p_error.cmo src/datakit-server/fs9p.cmo -o src/datakit-server/fs9p.cma
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/datakit-server.opam" "/home/opam/.opam/4.03.0/lib/datakit-server/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/pkg/META.server" "/home/opam/.opam/4.03.0/lib/datakit-server/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.a" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cma" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/fs9p_error.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/fs9p_error.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.a" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cma" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmi" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmti" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmx" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/src/datakit-server/vfs.mli" "/home/opam/.opam/4.03.0/lib/datakit-server/vfs.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-server/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-server/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-server.dev/_build/README.md" "/home/opam/.opam/4.03.0/doc/datakit-server/README.md"
+-> installed datakit-server.dev
+Done.
+ ---> d72fb84f4485
+Removing intermediate container 313e6f3a41cf
+Successfully built d72fb84f4485
+[2017-01-16 17:25.30] Success
