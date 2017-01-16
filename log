@@ -1,0 +1,527 @@
+=== Docker build
+[2017-01-16 17:01.30] Starting...
+Cloning into '/tmp/with_clone2e807dda'...
+done.
+HEAD is now at 1693c7c prometheus: move metrics report generation to Prometheus_app
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.189 MB
+Step 1 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:310d17e6d4dc049ba7f7a48f312c0d0e795b81af7e4facf92ff87451a7e5c3e9
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 1564014326aa
+Step 2 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> c112033f4faf
+Step 3 : RUN cd /home/opam/opam-repository &&     git pull && opam update -y
+ ---> Using cache
+ ---> eef7971e6336
+Step 4 : RUN opam depext -ui cohttp yojson ssl tyxml fmt rresult logs lwt conf-libev react camlp4     tls pbkdf ppx_sexp_conv webmachine session asetmap
+ ---> Using cache
+ ---> 3f6de265f523
+Step 5 : RUN opam pin add prometheus https://github.com/talex5/datakit.git#prometheus
+ ---> Using cache
+ ---> d7529359e640
+Step 6 : RUN opam pin add prometheus-app https://github.com/talex5/datakit.git#prometheus
+ ---> Running in 09e0baff5a00
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+prometheus-app is now git-pinned to https://github.com/talex5/datakit.git#prometheus
+
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app] https://github.com/talex5/datakit.git#prometheus updated
+[prometheus-app] Installing new package description from
+https://github.com/talex5/datakit.git#prometheus
+
+prometheus-app needs to be installed.
+The following actions will be performed:
+  - install prometheus-app *
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[prometheus-app] https://github.com/talex5/datakit.git#prometheus already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[prometheus-app: ocaml build] Command started
+-> installed prometheus-app.~unknown
+Done.
+ ---> 803596f8fc32
+Removing intermediate container 09e0baff5a00
+Step 7 : RUN opam pin add datakit-client https://github.com/docker/datakit.git
+ ---> Running in 3397dbbb5670
+datakit-client is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client] https://github.com/docker/datakit.git updated
+[datakit-client] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-client needs to be installed.
+The following actions will be performed:
+  - install   ocb-stubblr      0.1.0                            [required by named-pipe]
+  - install   win-error        0.2                              [required by protocol-9p]
+  - install   io-page          1.6.1                            [required by channel]
+  - install   named-pipe       0.4.0                            [required by protocol-9p]
+  - install   mirage-types     2.8.0                            [required by mirage-types-lwt]
+  - install   mirage-types-lwt 2.8.0                            [required by protocol-9p]
+  - install   channel          1.1.1                            [required by protocol-9p]
+  - recompile tls              0.7.1                            [uses mirage-types-lwt]
+  - install   protocol-9p      0.8.0                            [required by datakit-client]
+  - recompile conduit          0.14.4                           [uses mirage-types-lwt]
+  - install   datakit-client   0.8.0*
+  - recompile cohttp           0.20.2                           [uses conduit]
+  - recompile webmachine       0.3.2                            [uses cohttp]
+  - recompile prometheus-app   *                                [uses cohttp]
+  - recompile session          0.2.0                            [uses cohttp]
+===== 9 to install | 6 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[channel: http] Command started
+[datakit-client: git] Command started
+[io-page: http] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[mirage-types: http] Command started
+[channel: http] Command started
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+[named-pipe: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[ocb-stubblr: http] Command started
+[mirage-types: http] Command started
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.0] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.0/ocb-stubblr-0.1.0.tbz downloaded
+[protocol-9p: http] Command started
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[prometheus-app] https://github.com/talex5/datakit.git#prometheus already up-to-date
+[win-error: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+[protocol-9p: http] Command started
+[protocol-9p.0.8.0] https://github.com/mirage/ocaml-9p/releases/download/v0.8.0/protocol-9p-0.8.0.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   prometheus-app.~unknown
+[session: ocamlfind remove] Command started
+[io-page: ./configure] Command started
+[ocb-stubblr: ocaml build] Command started
+[win-error: make] Command started
+-> removed   session.0.2.0
+[webmachine: ocamlfind remove] Command started
+-> removed   webmachine.0.3.2
+[cohttp: ocamlfind remove] Command started
+-> removed   cohttp.0.20.2
+[conduit: ocamlfind remove] Command started
+-> removed   conduit.0.14.4
+[tls: ocamlfind remove] Command started
+-> removed   tls.0.7.1
+-> installed ocb-stubblr.0.1.0
+[named-pipe: ocaml build] Command started
+[io-page: make] Command started
+-> installed named-pipe.0.4.0
+[win-error: make install] Command started
+[io-page: make install] Command started
+-> installed win-error.0.2
+-> installed io-page.1.6.1
+[mirage-types: make build-types] Command started
+[mirage-types: make install-types] Command started
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+[channel: ocaml build] Command started
+[tls: ./configure] Command started
+-> installed channel.1.1.1
+[protocol-9p: ocaml build] Command started
+[tls: make] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.20.2
+[prometheus-app: ocaml build] Command started
+[webmachine: ocaml setup.ml] Command started
+[webmachine: ocaml setup.ml] Command started
+-> installed prometheus-app.~unknown
+[webmachine: ocaml setup.ml] Command started
+-> installed webmachine.0.3.2
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 04d33ec7a09f
+Removing intermediate container 3397dbbb5670
+Step 8 : RUN opam pin add session "https://github.com/talex5/ocaml-session.git#redis"
+ ---> Running in 486b893df4a9
+session is now git-pinned to https://github.com/talex5/ocaml-session.git#redis
+
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session: git]
+[session] https://github.com/talex5/ocaml-session.git#redis updated
+[session] Installing new package description from
+https://github.com/talex5/ocaml-session.git#redis
+
+session needs to be reinstalled.
+The following actions will be performed:
+  - recompile session 0.2.0*
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+-> removed   session.0.2.0
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+Done.
+ ---> 0dbcfda71bc2
+Removing intermediate container 486b893df4a9
+Step 9 : RUN opam pin add github --dev
+ ---> Running in f245a3e74179
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+github needs to be installed.
+The following actions will be performed:
+  - install   menhir         20170101                           [required by atd]
+  - install   camomile       0.8.5                              [required by zed]
+  - install   atd            1.2.0                              [required by atdgen]
+  - install   zed            1.4                                [required by lambda-term]
+  - install   atdgen         1.10.0                             [required by github]
+  - install   lambda-term    1.10.1                             [required by github]
+  - install   github         2.2.0*  
+  - recompile protocol-9p    0.8.0                              [uses lambda-term]
+  - recompile datakit-client 0.8.0*                             [uses protocol-9p]
+===== 7 to install | 2 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[atd: http] Command started
+[atdgen: http] Command started
+[camomile: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[atd: http] Command started
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[github: git] Command started
+[github: git] Command started
+[datakit-client: git] Command started
+[datakit-client: git] Command started
+[github: git] Command started
+[github: git] Command started
+[datakit-client] https://github.com/docker/datakit.git already up-to-date
+[lambda-term: http] Command started
+[github] https://github.com/mirage/ocaml-github.git already up-to-date
+[menhir: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[zed: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[menhir: http] Command started
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.8.0
+-> removed   protocol-9p.0.8.0
+[camomile: ./configure] Command started
+[menhir: make Makefile] Command started
+[camomile: make] Command started
+[menhir: make Makefile] Command started
+-> installed menhir.20170101
+[atd: make] Command started
+[atd: make install] Command started
+-> installed atd.1.2.0
+[atdgen: make] Command started
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+[atdgen: make findlib-install] Command started
+-> installed atdgen.1.10.0
+[zed: ocaml setup.ml] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+[github: ocaml setup.ml] Command started
+[protocol-9p: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed protocol-9p.0.8.0
+[datakit-client: ocaml build] Command started
+-> installed datakit-client.0.8.0
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+Done.
+ ---> 505517ca4cc0
+Removing intermediate container f245a3e74179
+Step 10 : RUN opam pin add datakit-github https://github.com/docker/datakit.git
+ ---> Running in 7dc663994028
+datakit-github is now git-pinned to https://github.com/docker/datakit.git
+
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] https://github.com/docker/datakit.git updated
+[datakit-github] Installing new package description from
+https://github.com/docker/datakit.git
+
+datakit-github needs to be installed.
+The following actions will be performed:
+  - install mtime          0.8.3                                [required by datakit-github]
+  - install asl            0.10                                 [required by datakit-github]
+  - install datakit-server 0.8.0                                [required by datakit-github]
+  - install mirage-flow    1.1.0                                [required by hvsock]
+  - install hex            1.0.0                                [required by datakit-github]
+  - install win-eventlog   0.1                                  [required by datakit-github]
+  - install duration       0.1.0                                [required by hvsock]
+  - install github-hooks   0.1.1                                [required by datakit-github]
+  - install hvsock         0.11.1                               [required by datakit-github]
+  - install datakit-github 0.8.1*
+===== 10 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: http] Command started
+[datakit-github: git] Command started
+[datakit-server: http] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github: git] Command started
+[datakit-github] https://github.com/docker/datakit.git already up-to-date
+[duration: http] Command started
+[asl: http] Command started
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+[github-hooks: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[hex: http] Command started
+[datakit-server: http] Command started
+[datakit-server.0.8.0] https://github.com/docker/datakit/releases/download/0.8.0/datakit-0.8.0.tbz downloaded
+[hvsock: http] Command started
+[github-hooks: http] Command started
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+[mirage-flow: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.3] http://erratique.ch/software/mtime/releases/mtime-0.8.3.tbz downloaded
+[win-eventlog: http] Command started
+[hvsock: http] Command started
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+[mirage-flow: http] Command started
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asl: make] Command started
+[datakit-server: ocaml build] Command started
+[duration: ocaml build] Command started
+[hex: ./configure] Command started
+-> installed duration.0.1.0
+[mirage-flow: ./configure] Command started
+[hex: make] Command started
+[mirage-flow: make] Command started
+-> installed datakit-server.0.8.0
+[mtime: ocaml] Command started
+[mtime: ocaml] Command started
+-> installed mtime.0.8.3
+[win-eventlog: make] Command started
+[hex: make install] Command started
+[mirage-flow: make install] Command started
+[asl: make install] Command started
+-> installed hex.1.0.0
+[github-hooks: ocaml build] Command started
+-> installed mirage-flow.1.1.0
+[hvsock: ocaml setup.ml] Command started
+-> installed github-hooks.0.1.1
+-> installed asl.0.10
+[hvsock: make] Command started
+[win-eventlog: make install] Command started
+-> installed win-eventlog.0.1
+[hvsock: make install] Command started
+-> installed hvsock.0.11.1
+[datakit-github: ocaml build] Command started
+-> installed datakit-github.0.8.1
+Done.
+ ---> 4095b7fcc69a
+Removing intermediate container 7dc663994028
+Step 11 : ADD . /home/opam/datakit
+ ---> 96da1f43d619
+Removing intermediate container 9d5cf865ad9f
+Step 12 : RUN opam pin add -k git datakit-ci /home/opam/datakit
+ ---> Running in 65c547b4dc35
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+datakit-ci is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] /home/opam/datakit updated
+[datakit-ci] Installing new package description from /home/opam/datakit
+
+datakit-ci needs to be installed.
+The following actions will be performed:
+  - install   uuidm               0.9.6                         [required by redis]
+  - install   crunch              1.4.1                         [required by datakit-ci]
+  - install   multipart-form-data 0.1.0                         [required by datakit-ci]
+  - install   redis               0.3.3                         [required by datakit-ci]
+  - recompile session             0.2.0*                        [uses redis]
+  - install   datakit-ci          *     
+===== 5 to install | 1 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[crunch: http] Command started
+[datakit-ci: git] Command started
+[multipart-form-data: http] Command started
+[datakit-ci: git] Command started
+[datakit-ci] /home/opam/datakit already up-to-date
+[redis: http] Command started
+[multipart-form-data: http] Command started
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+[session: git] Command started
+[session: git] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[uuidm: http] Command started
+[uuidm: http] Command started
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+[redis: http] Command started
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+[session: git] Command started
+[session: git] Command started
+[session] https://github.com/talex5/ocaml-session.git#redis already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[session: ocamlfind remove] Command started
+[crunch: ocaml setup.ml] Command started
+[multipart-form-data: ocaml build] Command started
+[uuidm: ocaml build] Command started
+-> removed   session.0.2.0
+-> installed multipart-form-data.0.1.0
+-> installed uuidm.0.9.6
+[redis: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[redis: make] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed crunch.1.4.1
+[redis: make install] Command started
+-> installed redis.0.3.3
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+[session: ocaml setup.ml] Command started
+-> installed session.0.2.0
+[datakit-ci: ocaml build] Command started
+[91m[ERROR] The compilation of datakit-ci failed at "ocaml pkg/pkg.ml build
+        --pinned true --tests false -n datakit-ci".
+[0m[91m
+#=== ERROR while installing datakit-ci.~unknown ===============================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml build --pinned true --tests false -n datakit-ci
+# path                 /home/opam/.opam/4.03.0/build/datakit-ci.~unknown
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-50de41.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-50de41.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-ci.~unknown/datakit-ci-6-50de41.err
+### stdout ###
+# [...]
+# findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs, /home/opam/.opam/4.03.0/lib/ocaml
+# ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package prometheus -package 'github.unix datakit-github.client' -package asetmap -package 'pbkdf, sexplib, ppx_sexp_conv' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, session.redis-lwt, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I ci -o ci/src/cI_log_reporter.cmx ci/src/cI_log_reporter.ml
+# + ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package prometheus -package 'github.unix datakit-github.client' -package asetmap -package 'pbkdf, sexplib, ppx_sexp_conv' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, session.redis-lwt, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I ci -o ci/src/cI_log_reporter.cmx ci/src/cI_log_reporter.ml
+# findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs, /home/opam/.opam/4.03.0/lib/ocaml
+# ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package prometheus -package 'github.unix datakit-github.client' -package asetmap -package 'pbkdf, sexplib, ppx_sexp_conv' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, session.redis-lwt, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I ci -o ci/src/cI_web.cmx ci/src/cI_web.ml
+# + ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package prometheus -package 'github.unix datakit-github.client' -package asetmap -package 'pbkdf, sexplib, ppx_sexp_conv' -package 'tls, channel, conduit.lwt-unix, io-page.unix' -package 'tyxml, webmachine, session.webmachine, session.redis-lwt, multipart-form-data' -package cohttp.lwt -package 'astring, cmdliner, fmt.tty, logs.fmt, fmt.cli, logs.cli' -package 'datakit-client, protocol-9p.unix' -w A-4-58 -package 'bytes lwt astring logs result cstruct fmt rresult' -I ci/src -I ci -o ci/src/cI_web.cmx ci/src/cI_web.ml
+# findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs, /home/opam/.opam/4.03.0/lib/ocaml
+# File "ci/src/cI_web.ml", line 89, characters 32-70:
+# Error: Unbound module Prometheus_app
+# Command exited with code 2.
+### stderr ###
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-Is' 'ci' '-build-dir'
+# [...]
+#      'ci/src/cI_web.cmx' 'ci/src/cI_utils.cmx' 'ci/src/cI_term.cmx'
+#      'ci/src/cI_target.cmx' 'ci/src/cI_static.cmx' 'ci/src/cI_secrets.cmx'
+#      'ci/src/cI_output.cmx' 'ci/src/cI_result.cmx' 'ci/src/cI_process.cmx'
+#      'ci/src/cI_monitored_pool.cmx' 'ci/src/cI_main.cmx'
+#      'ci/src/cI_log_reporter.cmx' 'ci/src/cI_live_log.cmx'
+#      'ci/src/cI_form.cmx' 'ci/src/cI_eval.cmx' 'ci/src/cI_engine.cmx'
+#      'ci/src/cI_docker.cmx' 'ci/src/cI_config.cmx' 'ci/src/cI_cache.cmx'
+#      'ci/src/cI_ACL.cmx' 'ci/src/cI_git.cmx' 'ci/src/datakit_ci.cmx'
+#      'ci/src/datakit_ci.cmi' 'ci/src/datakit_ci.mli']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-ci ~unknown
+The following changes have been performed
+  - install crunch              1.4.1
+  - install multipart-form-data 0.1.0
+  - install redis               0.3.3
+  - install uuidm               0.9.6
+[91m[NOTE] Pinning command successful, but your installed packages may be out of
+       sync.
+[0m[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20170016170821.export"
+[0mThe command '/bin/sh -c opam pin add -k git datakit-ci /home/opam/datakit' returned a non-zero code: 4
+[2017-01-16 17:08.58] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
