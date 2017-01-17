@@ -1,73 +1,30 @@
 === Docker build
-[2017-01-17 11:15.03] Starting...
-Cloning into '/tmp/with_clonee5513ec'...
+[2017-01-17 11:17.16] Starting...
+Cloning into '/tmp/with_clonebcd8911'...
 done.
 HEAD is now at 52fe4c8 self-ci: test building self-ci itself
-[2017-01-17 11:15.03] Rewrite Dockerfile's first line to:
+[2017-01-17 11:17.16] Rewrite Dockerfile's first line to:
 FROM sha256:42ba5aae204bb068cb28b42d041d6660db51a76ec73453b39e99669418641c6d
 Sending build context to Docker daemon 17.41 kB
 Step 1 : FROM sha256:42ba5aae204bb068cb28b42d041d6660db51a76ec73453b39e99669418641c6d
  ---> 42ba5aae204b
 Step 2 : RUN sudo apk add docker
- ---> Running in f0bbc3bd9f61
-(1/5) Installing libmnl (1.0.3-r1)
-(2/5) Installing libnftnl-libs (1.0.5-r0)
-(3/5) Installing iptables (1.6.0-r0)
-(4/5) Installing libseccomp (2.3.1-r0)
-(5/5) Installing docker (1.11.2-r1)
-Executing docker-1.11.2-r1.pre-install
-Executing busybox-1.24.2-r12.trigger
-OK: 556 MiB in 96 packages
+ ---> Using cache
  ---> ddf5896fa089
-Removing intermediate container f0bbc3bd9f61
 Step 3 : RUN opam pin add datakit-ci https://github.com/talex5/datakit.git#snap44
- ---> Running in 9339746d148a
-[91m[NOTE] datakit-ci is currently git-pinned to /home/opam/datakit.
-[0mProceed ? [Y/n] y
-datakit-ci is now git-pinned to https://github.com/talex5/datakit.git#snap44
-
-[datakit-ci: git]
-[datakit-ci: git]
-[datakit-ci: git]
-[datakit-ci: git]
-[datakit-ci: git]
-[datakit-ci: git]
-[datakit-ci] https://github.com/talex5/datakit.git#snap44 updated
-[datakit-ci] Installing new package description from
-https://github.com/talex5/datakit.git#snap44
-
-datakit-ci needs to be reinstalled.
-The following actions will be performed:
-  - recompile datakit-ci *
-Do you want to continue ? [Y/n] y
-
-=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-[datakit-ci: git] Command started
-[datakit-ci: git] Command started
-[datakit-ci: git] Command started
-[datakit-ci: git] Command started
-[datakit-ci] https://github.com/talex5/datakit.git#snap44 already up-to-date
-
-=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
--> removed   datakit-ci.~unknown
-[datakit-ci: ocaml build] Command started
--> installed datakit-ci.~unknown
-Done.
+ ---> Using cache
  ---> bee41f064e0a
-Removing intermediate container 9339746d148a
 Step 4 : ADD . /datakit-ci
+ ---> Using cache
  ---> b76cb7153b80
-Removing intermediate container a9a2a24e992f
 Step 5 : WORKDIR /datakit-ci
- ---> Running in 480a4f7ef1c5
+ ---> Using cache
  ---> 0be23997dacd
-Removing intermediate container 480a4f7ef1c5
 Step 6 : RUN sudo chown opam .
- ---> Running in c45939afdb44
+ ---> Using cache
  ---> abc3afdcb644
-Removing intermediate container c45939afdb44
 Step 7 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
- ---> Running in e9fd713727e4
+ ---> Running in 2d162bffd50e
 ocamlbuild -use-ocamlfind selfCI.native
 ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
 ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
@@ -82,4 +39,4 @@ Command exited with code 2.
 Makefile:6: recipe for target 'selfCI' failed
 [91mmake: *** [selfCI] Error 10
 [0mThe command '/bin/sh -c opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build' returned a non-zero code: 2
-[2017-01-17 11:15.45] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
+[2017-01-17 11:17.18] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
