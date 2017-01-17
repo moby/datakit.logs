@@ -1,0 +1,56 @@
+=== Docker build
+[2017-01-17 12:55.38] Starting...
+Cloning into '/tmp/with_clone3e4cc4e9'...
+done.
+HEAD is now at afac1ad Merge pull request #446 from talex5/docs
+[2017-01-17 12:55.38] Rewrite Dockerfile's first line to:
+FROM sha256:e8e28c15603cd0442906f0f566d36abe26ddd21f073f9e07e1b1c37330393c96
+Sending build context to Docker daemon 17.41 kB
+Step 1 : FROM sha256:e8e28c15603cd0442906f0f566d36abe26ddd21f073f9e07e1b1c37330393c96
+ ---> e8e28c15603c
+Step 2 : RUN sudo apk add docker
+ ---> Running in 653085f47804
+(1/5) Installing libmnl (1.0.3-r1)
+(2/5) Installing libnftnl-libs (1.0.5-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.11.2-r1)
+Executing docker-1.11.2-r1.pre-install
+Executing busybox-1.24.2-r12.trigger
+OK: 556 MiB in 96 packages
+ ---> effd255cd7a4
+Removing intermediate container 653085f47804
+Step 3 : ADD . /datakit-ci
+ ---> bbffc0b73ca8
+Removing intermediate container 8754762c9074
+Step 4 : WORKDIR /datakit-ci
+ ---> Running in 142ef3ade478
+ ---> a44135bc5584
+Removing intermediate container 142ef3ade478
+Step 5 : RUN sudo chown opam .
+ ---> Running in ed9588582d1f
+ ---> a8d72f98f73c
+Removing intermediate container ed9588582d1f
+Step 6 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
+ ---> Running in aed3847e4889
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 52a0965a9a4d
+Removing intermediate container aed3847e4889
+Step 7 : USER root
+ ---> Running in e0ab7da20f98
+ ---> f8eb16a58418
+Removing intermediate container e0ab7da20f98
+Step 8 : ENTRYPOINT /datakit-ci/datakit-ci
+ ---> Running in 7d345aeb8942
+ ---> 9b187037f692
+Removing intermediate container 7d345aeb8942
+Step 9 : CMD 
+ ---> Running in 586411cb129b
+ ---> 0f0fe8948b31
+Removing intermediate container 586411cb129b
+Successfully built 0f0fe8948b31
+[2017-01-17 12:55.49] Success
