@@ -1,0 +1,56 @@
+=== Docker build
+[2017-01-19 12:03.54] Starting...
+Cloning into '/tmp/with_clone70a260b'...
+done.
+HEAD is now at 9416611 Merge pull request #453 from talex5/log-redirect
+[2017-01-19 12:03.54] Rewrite Dockerfile's first line to:
+FROM sha256:446c9133af988a7aab68ae5698a8800639afbba5dbf52a58e343dfb841872b1a
+Sending build context to Docker daemon 17.41 kB
+Step 1 : FROM sha256:446c9133af988a7aab68ae5698a8800639afbba5dbf52a58e343dfb841872b1a
+ ---> 446c9133af98
+Step 2 : RUN sudo apk add docker
+ ---> Running in dceee4e84e58
+(1/5) Installing libmnl (1.0.3-r1)
+(2/5) Installing libnftnl-libs (1.0.5-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.11.2-r1)
+Executing docker-1.11.2-r1.pre-install
+Executing busybox-1.24.2-r12.trigger
+OK: 556 MiB in 96 packages
+ ---> 64ce3db4a564
+Removing intermediate container dceee4e84e58
+Step 3 : ADD . /datakit-ci
+ ---> 3e6ef34ebe89
+Removing intermediate container 233b57645e9c
+Step 4 : WORKDIR /datakit-ci
+ ---> Running in 05d344b0f8ee
+ ---> 02e0c464e2a3
+Removing intermediate container 05d344b0f8ee
+Step 5 : RUN sudo chown opam .
+ ---> Running in c1214932321e
+ ---> 178ebfae1362
+Removing intermediate container c1214932321e
+Step 6 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
+ ---> Running in 00a4f8f42eca
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 0d1394cfe2be
+Removing intermediate container 00a4f8f42eca
+Step 7 : USER root
+ ---> Running in 6c7ba1c49f8e
+ ---> 18edafce57dc
+Removing intermediate container 6c7ba1c49f8e
+Step 8 : ENTRYPOINT /datakit-ci/datakit-ci
+ ---> Running in 78bb33bfc283
+ ---> 871c37208cd1
+Removing intermediate container 78bb33bfc283
+Step 9 : CMD 
+ ---> Running in a6afe9828593
+ ---> f7120c4a034c
+Removing intermediate container a6afe9828593
+Successfully built f7120c4a034c
+[2017-01-19 12:04.05] Success
