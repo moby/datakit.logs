@@ -1,0 +1,56 @@
+=== Docker build
+[2017-01-19 14:23.55] Starting...
+Cloning into '/tmp/with_clone1ec85512'...
+done.
+HEAD is now at 04e8c90 self-ci: provide Prometheus metrics from bridge and CI
+[2017-01-19 14:23.55] Rewrite Dockerfile's first line to:
+FROM sha256:2493a58a914f5b38dd00833090faba3f940738d25bb63df0845364b037c24016
+Sending build context to Docker daemon 16.38 kB
+Step 1 : FROM sha256:2493a58a914f5b38dd00833090faba3f940738d25bb63df0845364b037c24016
+ ---> 2493a58a914f
+Step 2 : RUN sudo apk add docker
+ ---> Running in c68f418f84cf
+(1/5) Installing libmnl (1.0.3-r1)
+(2/5) Installing libnftnl-libs (1.0.5-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.11.2-r1)
+Executing docker-1.11.2-r1.pre-install
+Executing busybox-1.24.2-r12.trigger
+OK: 556 MiB in 96 packages
+ ---> 303308066d6f
+Removing intermediate container c68f418f84cf
+Step 3 : ADD . /datakit-ci
+ ---> 9a09fe213e09
+Removing intermediate container c3b89f01fd39
+Step 4 : WORKDIR /datakit-ci
+ ---> Running in 20021799de3e
+ ---> ac194a435828
+Removing intermediate container 20021799de3e
+Step 5 : RUN sudo chown opam .
+ ---> Running in 735d7cb3f58d
+ ---> 265410364da4
+Removing intermediate container 735d7cb3f58d
+Step 6 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
+ ---> Running in 757c5ad4ff27
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 6f04e020feec
+Removing intermediate container 757c5ad4ff27
+Step 7 : USER root
+ ---> Running in c88d92181dc8
+ ---> 0fb34ca0f3a2
+Removing intermediate container c88d92181dc8
+Step 8 : ENTRYPOINT /datakit-ci/datakit-ci
+ ---> Running in 207d93a87e3a
+ ---> 4e1d7243b699
+Removing intermediate container 207d93a87e3a
+Step 9 : CMD 
+ ---> Running in 4245b3806a11
+ ---> bba0e24771fd
+Removing intermediate container 4245b3806a11
+Successfully built bba0e24771fd
+[2017-01-19 14:24.05] Success
