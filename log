@@ -1,0 +1,55 @@
+=== Docker build
+[2017-01-24 10:33.23] Starting...
+Cloning into '/tmp/with_clone307a6eaa'...
+done.
+HEAD is now at 01a5990 Merge pull request #461 from talex5/title-prs
+[2017-01-24 10:33.23] Rewrite Dockerfile's first line to:
+FROM sha256:9815330e0b647cd157c5e088be160b5f74a91de0d9729f9f5eed79d1b42047e0
+Sending build context to Docker daemon 19.97 kB
+Step 1/9 : FROM sha256:9815330e0b647cd157c5e088be160b5f74a91de0d9729f9f5eed79d1b42047e0
+ ---> 9815330e0b64
+Step 2/9 : RUN sudo apk add docker
+ ---> Running in 211b731cf40e
+(1/5) Installing libmnl (1.0.3-r1)
+(2/5) Installing libnftnl-libs (1.0.5-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.11.2-r1)
+Executing docker-1.11.2-r1.pre-install
+Executing busybox-1.24.2-r13.trigger
+OK: 556 MiB in 96 packages
+ ---> df6215fb01fa
+Removing intermediate container 211b731cf40e
+Step 3/9 : ADD . /datakit-ci
+ ---> ddf5aa38e233
+Removing intermediate container c9037ea507a4
+Step 4/9 : WORKDIR /datakit-ci
+ ---> a9552007ea6c
+Removing intermediate container 687ae7666ddb
+Step 5/9 : RUN sudo chown opam .
+ ---> Running in b75ce43f4e0e
+ ---> 407f28a53fce
+Removing intermediate container b75ce43f4e0e
+Step 6/9 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
+ ---> Running in 6ff100663c85
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 0c8f4c829bd1
+Removing intermediate container 6ff100663c85
+Step 7/9 : USER root
+ ---> Running in 8b774866f5c9
+ ---> 420c5df72531
+Removing intermediate container 8b774866f5c9
+Step 8/9 : ENTRYPOINT /datakit-ci/datakit-ci
+ ---> Running in d485627fb65e
+ ---> c19bd3713e74
+Removing intermediate container d485627fb65e
+Step 9/9 : CMD 
+ ---> Running in 17514e110891
+ ---> ca588b5e83e1
+Removing intermediate container 17514e110891
+Successfully built ca588b5e83e1
+[2017-01-24 10:33.33] Success
