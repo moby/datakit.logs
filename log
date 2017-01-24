@@ -1,0 +1,55 @@
+=== Docker build
+[2017-01-24 16:04.06] Starting...
+Cloning into '/tmp/with_clone325ee1b8'...
+done.
+HEAD is now at 5175443 ci: add Docker.run
+[2017-01-24 16:04.07] Rewrite Dockerfile's first line to:
+FROM sha256:3a576b659d12b19c24f8ad0a3c3bb0bd6669e7e915f81932fc7a2a334ad0e1fb
+Sending build context to Docker daemon  21.5 kB
+Step 1/9 : FROM sha256:3a576b659d12b19c24f8ad0a3c3bb0bd6669e7e915f81932fc7a2a334ad0e1fb
+ ---> 3a576b659d12
+Step 2/9 : RUN sudo apk add docker
+ ---> Running in d9a410223756
+(1/5) Installing libmnl (1.0.3-r1)
+(2/5) Installing libnftnl-libs (1.0.5-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.11.2-r1)
+Executing docker-1.11.2-r1.pre-install
+Executing busybox-1.24.2-r13.trigger
+OK: 556 MiB in 96 packages
+ ---> 5fcb8e19935f
+Removing intermediate container d9a410223756
+Step 3/9 : ADD . /datakit-ci
+ ---> a8de05c0966c
+Removing intermediate container c4f864b2f130
+Step 4/9 : WORKDIR /datakit-ci
+ ---> 82b370a53b8a
+Removing intermediate container 51eb1c09e256
+Step 5/9 : RUN sudo chown opam .
+ ---> Running in 57d9ad9fd8bb
+ ---> 2a23119277e8
+Removing intermediate container 57d9ad9fd8bb
+Step 6/9 : RUN opam config exec make selfCI && ln _build/selfCI.native /datakit-ci/datakit-ci && rm -rf _build
+ ---> Running in 7534efe8200e
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 1663961e592c
+Removing intermediate container 7534efe8200e
+Step 7/9 : USER root
+ ---> Running in 2c032c471dfe
+ ---> 8e187b4059a3
+Removing intermediate container 2c032c471dfe
+Step 8/9 : ENTRYPOINT /datakit-ci/datakit-ci
+ ---> Running in eab0009e7f1c
+ ---> 7938faa5b3d0
+Removing intermediate container eab0009e7f1c
+Step 9/9 : CMD 
+ ---> Running in d6f9810172a9
+ ---> f7800bd133b6
+Removing intermediate container d6f9810172a9
+Successfully built f7800bd133b6
+[2017-01-24 16:04.17] Success
