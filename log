@@ -1,0 +1,81 @@
+=== Docker build Dockerfile.ci
+[2017-01-25 15:02.39] Starting...
+Cloning into '/tmp/with_clone36f7460'...
+done.
+HEAD is now at 3745eac ci: use opam 2 for builds
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.908 MB
+Step 1/16 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:6228db8ff53491f3ce29a3253d572603e76da9ad3e94e98b14712086354c2c5c
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> c94b531eae28
+Step 2/16 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> d6d75ecd6f34
+Step 3/16 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 19cf0811f5ef
+Step 4/16 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 8d78c7a92fd6
+Step 5/16 : RUN opam init -y
+ ---> Using cache
+ ---> 42a1ab04a757
+Step 6/16 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 3fed999879a9
+Step 7/16 : RUN opam install depext -y
+ ---> Using cache
+ ---> dcadbb93ad8e
+Step 8/16 : RUN opam pin add -yn prometheus https://github.com/docker/datakit.git &&     opam pin add -yn prometheus-app https://github.com/docker/datakit.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn session --dev &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/docker/datakit.git &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git &&     opam pin add -yn datakit https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 33c8448bc9b5
+Step 9/16 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> f1aa7879a5cf
+Step 10/16 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> 739dbf42a80d
+Step 11/16 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> af114c735875
+Step 12/16 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> 14bdb99fcb6f
+Step 13/16 : ADD . /home/opam/datakit
+ ---> ccf9147aba45
+Removing intermediate container 375dd250e2fa
+Step 14/16 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 085ff3f68ff9
+ ---> b0af730df26f
+Removing intermediate container 085ff3f68ff9
+Step 15/16 : RUN opam pin add -k git datakit-ci /home/opam/datakit -y
+ ---> Running in dc3c480c1004
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-ci/datakit-ci.opam from 1.2 to 2.0~alpha3
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit (version ~dev)
+
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0mThe following actions will be performed:
+  - install datakit-ci ~dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-ci: ocaml build]
+-> installed datakit-ci.~dev
+Done.
+# Run eval `opam config env` to update the current shell environment
+ ---> a7c18c1f317e
+Removing intermediate container dc3c480c1004
+Step 16/16 : VOLUME /secrets
+ ---> Running in 2bd5995c8f9f
+ ---> 877b3c5c4ef8
+Removing intermediate container 2bd5995c8f9f
+Successfully built 877b3c5c4ef8
+[2017-01-25 15:03.15] Success
