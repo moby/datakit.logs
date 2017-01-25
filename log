@@ -1,82 +1,125 @@
 === Docker run test-datakit
-[2017-01-25 11:05.33] Starting...
-[2017-01-25 11:05.33] Running "docker" "run" "--rm" "--entrypoint" "/bin/sh" "sha256:68d378af84fe42c01286e5346fb4a14a39ec29efbee96b5c1d7b58e112eef446" "-c" "opam remove \"datakit\"&& opam install -t --deps-only \"datakit\" && opam reinstall -v -t \"datakit\""
+[2017-01-25 11:11.40] Starting...
+[2017-01-25 11:11.40] Running "docker" "run" "--rm" "--entrypoint" "/bin/sh" "sha256:68d378af84fe42c01286e5346fb4a14a39ec29efbee96b5c1d7b58e112eef446" "-c" "opam remove \"datakit\" && opam depext -i \"conf-gmp\" \"conf-libpcre\" \"conf-perl\" \"conf-autoconf\"&& opam install -t --deps-only \"datakit\" && opam reinstall -v -t \"datakit\""
 The following actions will be performed:
   - remove datakit dev*
 
 =-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 -> removed   datakit.dev
 Done.
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - autoconf
+#  - gmp-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+pkgconfig
+# The following new OS packages need to be installed: autoconf gmp-dev pcre-dev perl
+The following command needs to be run through "sudo":
+    apk add autoconf gmp-dev pcre-dev perl
+(1/8) Installing perl (5.22.2-r0)
+(2/8) Installing autoconf (2.69-r0)
+(3/8) Installing libgmpxx (6.1.0-r0)
+(4/8) Installing gmp-dev (6.1.0-r0)
+(5/8) Installing libpcre16 (8.38-r1)
+(6/8) Installing libpcre32 (8.38-r1)
+(7/8) Installing libpcrecpp (8.38-r1)
+(8/8) Installing pcre-dev (8.38-r1)
+Executing busybox-1.24.2-r13.trigger
+OK: 483 MiB in 95 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install conf-perl       1  
+  - install conf-pkg-config 1.0                                 [required by conf-libpcre]
+  - install conf-which      1                                   [required by conf-autoconf]
+  - install conf-gmp        1  
+  - install conf-libpcre    1  
+  - install conf-autoconf   0.1
+===== 6 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-gmp: sh] Command started
+[conf-perl: perl] Command started
+[conf-pkg-config: pkg-config] Command started
+[conf-which: which which] Command started
+-> installed conf-perl.1
+-> installed conf-pkg-config.1.0
+[conf-libpcre: pkg-config libpcre] Command started
+-> installed conf-which.1
+[conf-autoconf: which autoconf] Command started
+-> installed conf-libpcre.1
+-> installed conf-autoconf.0.1
+-> installed conf-gmp.1
+Done.
 
 =-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit: local] Command started
 [datakit] /home/opam/src/datakit/ already up-to-date
 The following actions will be performed:
-  - install   conf-gmp           1       
+  - install   zarith             1.4.1   
+  - install   camlp4             4.03+1  
   - install   ocamlify           0.0.1   
+  - install   pcre               7.2.3   
   - install   menhir             20170101
   - install   ounit              2.0.0   
-  - install   conf-perl          1       
+  - install   hashcons           1.2     
   - install   easy-format        1.2.0   
-  - install   conf-pkg-config    1.0     
   - install   fpath              0.7.1   
-  - install   conf-which         1       
   - install   mirage-no-xen      1       
   - install   omake              0.10.1  
+  - recompile lwt                2.7.0   
+       For module Lwt_react, please install package lwt_react
   - install   qcheck             0.5.3   
   - install   ocamlmod           0.0.8   
   - install   fileutils          0.5.1   
-  - install   zarith             1.4.1   
-  - install   atd                1.2.0   
-  - install   conf-libpcre       1       
-  - install   conf-autoconf      0.1     
-  - install   camlp4             4.03+1  
   - install   biniou             1.0.12  
-  - install   qtest              2.5     
-  - install   pcre               7.2.3   
-  - install   hashcons           1.2     
-  - recompile lwt                2.7.0   
-       For module Lwt_react, please install package lwt_react
-  - install   yojson             1.3.3   
-  - install   batteries          2.5.3   
+  - install   atd                1.2.0   
   - recompile prometheus         dev*    
   - recompile named-pipe         0.4.0   
   - recompile logs               0.6.2   
   - recompile lambda-term        1.10.1  
-  - recompile inotify            2.3     
   - recompile cstruct            2.3.1   
-  - install   atdgen             1.10.0  
-  - install   expect             0.0.4   
+  - install   qtest              2.5     
+  - recompile inotify            2.3     
+  - install   yojson             1.3.3   
   - install   bos                0.1.4   
   - recompile win-eventlog       0.1     
   - recompile asl                0.10    
-  - recompile irmin-watcher      0.2.0   
   - install   pcap-format        0.4.0   
   - install   asn1-combinators   0.1.3   
   - recompile mstruct            1.3.2   
   - recompile io-page            1.6.1   
   - recompile hex                1.0.0   
-  - install   oasis              0.4.8   
+  - install   batteries          2.5.3   
+  - recompile irmin-watcher      0.2.0   
+  - install   atdgen             1.10.0  
   - install   mirage-profile     0.7.0   
   - recompile mirage-types       2.8.0   
   - recompile ezjsonm            0.4.3   
-  - install   nocrypto           0.5.3   
+  - install   expect             0.0.4   
   - install   shared-memory-ring 1.3.0   
   - install   mirage-vnetif      0.2.0   
   - install   mirage-clock-unix  1.0.0   
   - install   dns                0.18.1  
   - recompile mirage-types-lwt   2.8.0   
   - recompile mirage-tc          0.3.0   
-  - install   x509               0.5.3   
+  - install   oasis              0.4.8   
   - install   mirage-unix        2.6.0   
   - install   mirage-fs-unix     1.2.1   
   - recompile mirage-flow        1.1.0   
-  - install   tls                0.7.1   
+  - install   nocrypto           0.5.3   
   - install   mirage-console     2.1.3   
   - recompile hvsock             0.11.1  
   - recompile channel            1.1.1   
+  - install   x509               0.5.3   
   - install   tcpip              2.8.1   
   - recompile protocol-9p        0.8.0   
+  - install   tls                0.7.1   
   - install   mirage-dns         2.5.0   
   - install   datakit-client     0.8.0   
   - recompile datakit-server     dev*    
@@ -91,7 +134,7 @@ The following actions will be performed:
   - install   git-unix           1.7.1   
   - install   datakit-github     0.8.1   
   - recompile irmin              0.12.0  
-===== 51 to install | 27 to recompile =====
+===== 45 to install | 27 to recompile =====
 Do you want to continue ? [Y/n] y
 
 =-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -101,11 +144,11 @@ Do you want to continue ? [Y/n] y
 [asn1-combinators: http] Command started
 [asn1-combinators.0.1.3] https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz downloaded
 [batteries: http] Command started
-[atdgen: http] Command started
 [atd: http] Command started
-[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
-[biniou: http] Command started
 [atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+[biniou: http] Command started
+[atdgen: http] Command started
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
 [bos: http] Command started
 [bos: http] Command started
 [bos.0.1.4] http://erratique.ch/software/bos/releases/bos-0.1.4.tbz downloaded
@@ -124,14 +167,14 @@ Do you want to continue ? [Y/n] y
 [datakit-client: http] Command started
 [datakit-client.0.8.0] https://github.com/docker/datakit/releases/download/0.8.0/datakit-0.8.0.tbz downloaded
 [easy-format: http] Command started
-[dns: http] Command started
-[dns.0.18.1] https://github.com/mirage/ocaml-dns/archive/v0.18.1.tar.gz downloaded
-[expect: http] Command started
 [datakit-github: http] Command started
 [datakit-github.0.8.1] https://github.com/docker/datakit/releases/download/0.8.1/datakit-0.8.1.tbz downloaded
+[expect: http] Command started
+[dns: http] Command started
+[dns.0.18.1] https://github.com/mirage/ocaml-dns/archive/v0.18.1.tar.gz downloaded
 [fileutils: http] Command started
-[fileutils: http] Command started
-[fileutils.0.5.1] https://forge.ocamlcore.org/frs/download.php/1651/ocaml-fileutils-0.5.1.tar.gz downloaded
+[easy-format: http] Command started
+[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
 [fpath: http] Command started
 [fpath: http] Command started
 [fpath.0.7.1] http://erratique.ch/software/fpath/releases/fpath-0.7.1.tbz downloaded
@@ -139,8 +182,8 @@ Do you want to continue ? [Y/n] y
 [expect: http] Command started
 [expect.0.0.4] https://forge.ocamlcore.org/frs/download.php/1289/ocaml-expect-0.0.4.tar.gz downloaded
 [github-hooks: http] Command started
-[easy-format: http] Command started
-[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
+[fileutils: http] Command started
+[fileutils.0.5.1] https://forge.ocamlcore.org/frs/download.php/1651/ocaml-fileutils-0.5.1.tar.gz downloaded
 [hashcons: http] Command started
 [github-hooks: http] Command started
 [github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
@@ -175,11 +218,11 @@ Do you want to continue ? [Y/n] y
 [mirage-vnetif: http] Command started
 [mirage-vnetif.0.2.0] https://github.com/MagnusS/mirage-vnetif/archive/0.2.0.tar.gz downloaded
 [ocamlify: http] Command started
-[oasis: http] Command started
-[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
-[ocamlmod: http] Command started
 [ocamlify: http] Command started
 [ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ocamlmod: http] Command started
+[oasis: http] Command started
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
 [omake: http] Command started
 [ocamlmod: http] Command started
 [ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
@@ -190,11 +233,11 @@ Do you want to continue ? [Y/n] y
 [nocrypto: http] Command started
 [nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
 [pcre: http] Command started
-[pcap-format: http] Command started
 [omake: http] Command started
-[pcap-format.0.4.0] https://github.com/mirage/ocaml-pcap/archive/v0.4.0.tar.gz downloaded
-[prometheus: local] Command started
 [omake.0.10.1] https://github.com/ocaml-omake/omake/archive/omake-0.10.1.tar.gz downloaded
+[prometheus: local] Command started
+[pcap-format: http] Command started
+[pcap-format.0.4.0] https://github.com/mirage/ocaml-pcap/archive/v0.4.0.tar.gz downloaded
 [prometheus-app: local] Command started
 [prometheus.dev] /home/opam/src/datakit/ synchronized
 [qcheck: http] Command started
@@ -259,39 +302,31 @@ Do you want to continue ? [Y/n] y
 -> removed   mirage-types-lwt.2.8.0
 [mirage-types: ocamlfind remove] Command started
 -> removed   mstruct.1.3.2
-[conf-gmp: sh] Command started
+[camlp4: ./configure] Command started
 -> removed   win-eventlog.0.1
 -> removed   logs.0.6.2
-[conf-perl: perl] Command started
+[easy-format: make] Command started
 -> removed   hex.1.0.0
-[conf-pkg-config: pkg-config] Command started
+[fpath: ocaml build] Command started
 -> removed   mirage-types.2.8.0
 [io-page: ocamlfind remove] Command started
-[ERROR] The compilation of conf-gmp failed at "sh -exc cc -c $CFLAGS
-        -I/usr/local/include test.c".
-[conf-which: which which] Command started
-[ERROR] The compilation of conf-perl failed at "perl --version".
-[easy-format: make] Command started
--> installed conf-pkg-config.1.0
-[conf-libpcre: pkg-config libpcre] Command started
+[camlp4: make all] Command started
 -> removed   io-page.1.6.1
 [cstruct: make js-uninstall] Command started
--> installed conf-which.1
-[camlp4: ./configure] Command started
-[ERROR] The compilation of conf-libpcre failed at "pkg-config libpcre".
-[conf-autoconf: which autoconf] Command started
 [cstruct: ocamlfind remove] Command started
-[ERROR] The compilation of conf-autoconf failed at "which autoconf".
-[fpath: ocaml build] Command started
 -> removed   cstruct.2.3.1
 [lwt: ocamlfind remove] Command started
 -> removed   lwt.2.7.0
-[menhir: make Makefile] Command started
-[camlp4: make all] Command started
+[hashcons: autoconf] Command started
 [easy-format: make install] Command started
 -> installed easy-format.1.2.0
 [biniou: make] Command started
+[hashcons: ./configure] Command started
 -> installed fpath.0.7.1
+[menhir: make Makefile] Command started
+[hashcons: make all] Command started
+[hashcons: make install] Command started
+-> installed hashcons.1.2
 -> installed mirage-no-xen.1
 [ocamlify: ocaml setup.ml] Command started
 [biniou: make install] Command started
@@ -316,19 +351,26 @@ Do you want to continue ? [Y/n] y
 [ocamlmod: ocaml setup.ml] Command started
 [atd: make install] Command started
 -> installed atd.1.2.0
-[qcheck: ocaml setup.ml] Command started
+[pcre: ocaml setup.ml] Command started
 [ocamlmod: ocaml setup.ml] Command started
-[qcheck: make build] Command started
+[pcre: ocaml setup.ml] Command started
 [ocamlmod: ocaml setup.ml] Command started
 [ocamlmod: ocaml setup.ml] Command started
 -> installed ocamlmod.0.0.8
-[yojson: make] Command started
+[qcheck: ocaml setup.ml] Command started
+[pcre: ocaml setup.ml] Command started
+[qcheck: make build] Command started
+[pcre: ocaml setup.ml] Command started
+[pcre: ocaml setup.ml] Command started
+[pcre: ocaml setup.ml] Command started
 [qcheck: ./configure] Command started
+-> installed pcre.7.2.3
+[yojson: make] Command started
 [qcheck: make test] Command started
+[qcheck: make install] Command started
 [yojson: make install-lib] Command started
 -> installed yojson.1.3.3
 [atdgen: make] Command started
-[qcheck: make install] Command started
 -> installed qcheck.0.5.3
 [qtest: make build] Command started
 [qtest: make install] Command started
@@ -337,263 +379,226 @@ Do you want to continue ? [Y/n] y
 [batteries: make all] Command started
 [atdgen: make findlib-install] Command started
 -> installed atdgen.1.10.0
+[zarith: ./configure] Command started
+[zarith: make] Command started
 [omake: make install] Command started
+[zarith: make install] Command started
+-> installed zarith.1.4.1
 -> installed omake.0.10.1
 [batteries: make install] Command started
 -> installed batteries.2.5.3
+[expect: ocaml setup.ml] Command started
+[expect: ocaml setup.ml] Command started
+[expect: ocaml setup.ml] Command started
+-> installed expect.0.0.4
 [camlp4: make install] Command started
 -> installed camlp4.4.03+1
 [lwt: make setup] Command started
+[oasis: ocaml setup.ml] Command started
 [lwt: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
 [lwt: make build] Command started
 [lwt: ocaml setup.ml] Command started
+[oasis: ocaml setup.ml] Command started
 [lwt: make test] Command started
+[oasis: ocaml setup.ml] Command started
 [lwt: make install] Command started
 -> installed lwt.2.7.0
 [cstruct: ./configure] Command started
 [inotify: ocaml setup.ml] Command started
 [lambda-term: ocaml setup.ml] Command started
-[logs: ocaml build] Command started
--> installed logs.0.6.2
-[asl: make] Command started
 [inotify: ocaml setup.ml] Command started
 [lambda-term: ocaml setup.ml] Command started
 [cstruct: make] Command started
 [inotify: ocaml setup.ml] Command started
 -> installed inotify.2.3
-[bos: ocaml build] Command started
-[asl: make install] Command started
+[logs: ocaml build] Command started
+[oasis: ocaml setup.ml] Command started
+-> installed logs.0.6.2
+[asl: make] Command started
 [cstruct: ./configure] Command started
--> installed asl.0.10
-[irmin-watcher: ocaml build] Command started
--> installed bos.0.1.4
-[named-pipe: ocaml build] Command started
 [cstruct: make] Command started
-[irmin-watcher: ocaml build] Command started
-[named-pipe: ocaml build] Command started
-[irmin-watcher: ocaml test] Command started
-[named-pipe: ocaml test] Command started
--> installed named-pipe.0.4.0
-[prometheus: ocaml build] Command started
--> installed prometheus.dev
-[win-eventlog: make] Command started
+[asl: make install] Command started
+-> installed asl.0.10
+[bos: ocaml build] Command started
 [cstruct: make test] Command started
-[win-eventlog: make install] Command started
--> installed win-eventlog.0.1
+-> installed bos.0.1.4
+[irmin-watcher: ocaml build] Command started
+[irmin-watcher: ocaml build] Command started
+[irmin-watcher: ocaml test] Command started
 [cstruct: make install] Command started
 [cstruct: make js-install] Command started
 -> installed cstruct.2.3.1
+[asn1-combinators: ocaml build] Command started
+[asn1-combinators: ocaml build] Command started
+[asn1-combinators: ocaml test] Command started
+-> installed asn1-combinators.0.1.3
 [hex: ./configure] Command started
-[io-page: ./configure] Command started
 [hex: make] Command started
-[io-page: make] Command started
-[hex: ./configure] Command started
-[io-page: make install] Command started
-[hex: make test] Command started
--> installed io-page.1.6.1
-[mirage-profile: ./configure] Command started
-[mirage-profile: make] Command started
 [lambda-term: ocaml setup.ml] Command started
-[hex: make install] Command started
+[hex: ./configure] Command started
 -> installed lambda-term.1.10.1
-[mirage-types: make build-types] Command started
+[io-page: ./configure] Command started
+[hex: make test] Command started
+[io-page: make] Command started
+[hex: make install] Command started
+[io-page: make install] Command started
 -> installed hex.1.0.0
 [ezjsonm: ./configure] Command started
+-> installed io-page.1.6.1
+[mirage-profile: ./configure] Command started
+[ezjsonm: make] Command started
+[mirage-profile: make] Command started
+[ezjsonm: ./configure] Command started
 [mirage-profile: make install] Command started
+[ezjsonm: make test] Command started
+-> installed mirage-profile.0.7.0
+[mirage-types: make build-types] Command started
 [mirage-types: make install-types] Command started
 -> installed mirage-types.2.8.0
 [mirage-clock-unix: make unix-build] Command started
 [mirage-clock-unix: make unix-install] Command started
+[ezjsonm: make install] Command started
 -> installed mirage-clock-unix.1.0.0
 -> installed mirage-types-lwt.2.8.0
 [mirage-flow: ./configure] Command started
-[ezjsonm: make] Command started
--> installed mirage-profile.0.7.0
+-> installed ezjsonm.0.4.3
 [mirage-fs-unix: ./configure] Command started
 [mirage-flow: make] Command started
 [mirage-fs-unix: make] Command started
-[ezjsonm: ./configure] Command started
-[ezjsonm: make test] Command started
 [mirage-flow: ./configure] Command started
 [mirage-fs-unix: ./configure] Command started
 [mirage-flow: make test] Command started
 [mirage-fs-unix: make test] Command started
-[ezjsonm: make install] Command started
--> installed ezjsonm.0.4.3
-[mirage-vnetif: make] Command started
+[oasis: ocaml setup.ml] Command started
 [mirage-flow: make install] Command started
 [mirage-fs-unix: make install] Command started
 -> installed mirage-flow.1.1.0
 [channel: ocaml build] Command started
+-> installed oasis.0.4.8
+[hvsock: ocaml setup.ml] Command started
 [channel: ocaml build] Command started
 -> installed mirage-fs-unix.1.2.1
-[hvsock: ocaml setup.ml] Command started
+[mirage-vnetif: make] Command started
 -> installed channel.1.1.1
 [mstruct: ./configure] Command started
-[mirage-vnetif: make install] Command started
 [hvsock: make] Command started
 [mstruct: make] Command started
--> installed mirage-vnetif.0.2.0
-[pcap-format: ./configure] Command started
-[pcap-format: make] Command started
+[mirage-vnetif: make install] Command started
 [mstruct: make install] Command started
+-> installed mirage-vnetif.0.2.0
+[named-pipe: ocaml build] Command started
 -> installed mstruct.1.3.2
 [mirage-tc: ./configure] Command started
-[pcap-format: make install] Command started
 [hvsock: make test] Command started
 [mirage-tc: make] Command started
--> installed pcap-format.0.4.0
-[protocol-9p: ocaml build] Command started
+[named-pipe: ocaml build] Command started
+[named-pipe: ocaml test] Command started
+-> installed named-pipe.0.4.0
+[nocrypto: ./configure] Command started
 [mirage-tc: ./configure] Command started
 [hvsock: make install] Command started
 [mirage-tc: make test] Command started
+[nocrypto: make] Command started
 -> installed hvsock.0.11.1
-[shared-memory-ring: make all] Command started
+[pcap-format: ./configure] Command started
+[pcap-format: make] Command started
 [mirage-tc: make install] Command started
 -> installed mirage-tc.0.3.0
-[shared-memory-ring: make clean] Command started
+[prometheus: ocaml build] Command started
+[pcap-format: make install] Command started
+-> installed prometheus.dev
 [protocol-9p: ocaml build] Command started
-[shared-memory-ring: make test] Command started
+-> installed pcap-format.0.4.0
+[dns: ocaml setup.ml] Command started
+[dns: ocaml setup.ml] Command started
+[nocrypto: ./configure] Command started
+[protocol-9p: ocaml build] Command started
+[nocrypto: make test] Command started
 [protocol-9p: ocaml test] Command started
 -> installed protocol-9p.0.8.0
 [datakit-client: ocaml build] Command started
-[datakit-server: ocaml build] Command started
--> installed datakit-server.dev
+[dns: ocaml setup.ml] Command started
 -> installed datakit-client.0.8.0
+[datakit-server: ocaml build] Command started
+[dns: ocaml setup.ml] Command started
+-> installed datakit-server.dev
+[shared-memory-ring: make all] Command started
+[nocrypto: make install] Command started
+[shared-memory-ring: make clean] Command started
+-> installed nocrypto.0.5.3
+[win-eventlog: make] Command started
+[shared-memory-ring: make test] Command started
+[dns: ocaml setup.ml] Command started
+[win-eventlog: make install] Command started
+-> installed win-eventlog.0.1
+[x509: ./configure] Command started
 [shared-memory-ring: make install] Command started
+[x509: make] Command started
 -> installed shared-memory-ring.1.3.0
 [mirage-unix: make unix-build] Command started
 [mirage-unix: make unix-install] Command started
 -> installed mirage-unix.2.6.0
 [mirage-console: make] Command started
+[x509: ./configure] Command started
 [mirage-console: make install] Command started
 -> installed mirage-console.2.1.3
 [tcpip: ./configure] Command started
+[x509: make test] Command started
 [tcpip: make] Command started
+[x509: make install] Command started
+-> installed x509.0.5.3
+[tls: ./configure] Command started
+[tls: make] Command started
 [tcpip: ./configure] Command started
 [tcpip: make test] Command started
+[dns: ocaml setup.ml] Command started
+-> installed dns.0.18.1
+[tls: ./configure] Command started
+[tls: make test] Command started
 [tcpip: make install] Command started
 -> installed tcpip.2.8.1
+[mirage-dns: ocamlfind query] Command started
+-> installed mirage-dns.2.5.0
+[tls: make install] Command started
+-> installed tls.0.7.1
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[mirage-conduit: ocamlfind query] Command started
+-> installed mirage-conduit.2.2.0
+[cohttp: ocaml setup.ml] Command started
+[cohttp: ocaml setup.ml] Command started
 -> installed irmin-watcher.0.2.0
-
-#=== ERROR while installing conf-autoconf.0.1 =================================#
-# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
-# os                   linux
-# command              which autoconf
-# path                 /home/opam/.opam/4.03.0/build/conf-autoconf.0.1
-# compiler             4.03.0
-# exit-code            1
-# env-file             /home/opam/.opam/4.03.0/build/conf-autoconf.0.1/conf-autoconf-26-74f651.env
-# stdout-file          /home/opam/.opam/4.03.0/build/conf-autoconf.0.1/conf-autoconf-26-74f651.out
-# stderr-file          /home/opam/.opam/4.03.0/build/conf-autoconf.0.1/conf-autoconf-26-74f651.err
-
-
-#=== ERROR while installing conf-gmp.1 ========================================#
-# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
-# os                   linux
-# command              sh -exc cc -c $CFLAGS -I/usr/local/include test.c
-# path                 /home/opam/.opam/4.03.0/build/conf-gmp.1
-# compiler             4.03.0
-# exit-code            1
-# env-file             /home/opam/.opam/4.03.0/build/conf-gmp.1/conf-gmp-26-384e1f.env
-# stdout-file          /home/opam/.opam/4.03.0/build/conf-gmp.1/conf-gmp-26-384e1f.out
-# stderr-file          /home/opam/.opam/4.03.0/build/conf-gmp.1/conf-gmp-26-384e1f.err
-### stderr ###
-# + cc -c -I/usr/local/include test.c
-# test.c:1:17: fatal error: gmp.h: No such file or directory
-# compilation terminated.
-
-
-#=== ERROR while installing conf-libpcre.1 ====================================#
-# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
-# os                   linux
-# command              pkg-config libpcre
-# path                 /home/opam/.opam/4.03.0/build/conf-libpcre.1
-# compiler             4.03.0
-# exit-code            1
-# env-file             /home/opam/.opam/4.03.0/build/conf-libpcre.1/conf-libpcre-26-09b4f7.env
-# stdout-file          /home/opam/.opam/4.03.0/build/conf-libpcre.1/conf-libpcre-26-09b4f7.out
-# stderr-file          /home/opam/.opam/4.03.0/build/conf-libpcre.1/conf-libpcre-26-09b4f7.err
-
-
-#=== ERROR while installing conf-perl.1 =======================================#
-# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
-# os                   linux
-# command              perl --version
-# path                 /home/opam/.opam/4.03.0/build/conf-perl.1
-# compiler             4.03.0
-# exit-code            127
-# env-file             /home/opam/.opam/4.03.0/build/conf-perl.1/conf-perl-26-2f37d9.env
-# stdout-file          /home/opam/.opam/4.03.0/build/conf-perl.1/conf-perl-26-2f37d9.out
-# stderr-file          /home/opam/.opam/4.03.0/build/conf-perl.1/conf-perl-26-2f37d9.err
-
-
-
-=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-The following actions were aborted
-  - install asn1-combinators 0.1.3 
-  - install cohttp           0.21.0
-  - install conduit          0.14.4
-  - install datakit-github   0.8.1 
-  - install dns              0.18.1
-  - install expect           0.0.4 
-  - install git              1.9.3 
-  - install git-unix         1.7.1 
-  - install github           2.2.0 
-  - install github-hooks     0.1.1 
-  - install hashcons         1.2   
-  - install irmin            0.12.0
-  - install mirage-conduit   2.2.0 
-  - install mirage-dns       2.5.0 
-  - install mirage-http      2.5.3 
-  - install nocrypto         0.5.3 
-  - install oasis            0.4.8 
-  - install pcre             7.2.3 
-  - install prometheus-app   dev   
-  - install tls              0.7.1 
-  - install x509             0.5.3 
-  - install zarith           1.4.1 
-The following actions failed
-  - install conf-autoconf 0.1
-  - install conf-gmp      1  
-  - install conf-libpcre  1  
-  - install conf-perl     1  
-The following changes have been performed
-  - remove  cohttp             0.21.0  
-  - remove  conduit            0.14.4  
-  - remove  git                1.9.3   
-  - remove  irmin              0.12.0  
-  - remove  prometheus-app     dev     
-  - install atd                1.2.0   
-  - install atdgen             1.10.0  
-  - install batteries          2.5.3   
-  - install biniou             1.0.12  
-  - install bos                0.1.4   
-  - install camlp4             4.03+1  
-  - install conf-pkg-config    1.0     
-  - install conf-which         1       
-  - install datakit-client     0.8.0   
-  - install easy-format        1.2.0   
-  - install fileutils          0.5.1   
-  - install fpath              0.7.1   
-  - install menhir             20170101
-  - install mirage-clock-unix  1.0.0   
-  - install mirage-console     2.1.3   
-  - install mirage-fs-unix     1.2.1   
-  - install mirage-no-xen      1       
-  - install mirage-profile     0.7.0   
-  - install mirage-unix        2.6.0   
-  - install mirage-vnetif      0.2.0   
-  - install ocamlify           0.0.1   
-  - install ocamlmod           0.0.8   
-  - install omake              0.10.1  
-  - install ounit              2.0.0   
-  - install pcap-format        0.4.0   
-  - install qcheck             0.5.3   
-  - install qtest              2.5     
-  - install shared-memory-ring 1.3.0   
-  - install tcpip              2.8.1   
-  - install yojson             1.3.3   
+[cohttp: ocaml setup.ml] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.21.0
+[github: ocaml setup.ml] Command started
+[mirage-http: ocaml build] Command started
+[prometheus-app: ocaml build] Command started
+-> installed mirage-http.2.5.3
+[git: ocaml build] Command started
+[prometheus-app: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+[prometheus-app: ocaml test] Command started
+-> installed prometheus-app.dev
+[git: ocaml build] Command started
+[git: ocaml test] Command started
+-> installed git.1.9.3
+-> installed git-unix.1.7.1
+[irmin: ocaml build] Command started
+[irmin: ocaml build] Command started
+[github: ocaml setup.ml] Command started
+-> installed github.2.2.0
+[github-hooks: ocaml build] Command started
+-> installed github-hooks.0.1.1
+[datakit-github: ocaml build] Command started
+-> installed datakit-github.0.8.1
+[irmin: ocaml test] Command started
+-> installed irmin.0.12.0
+Done.
 
 =-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 => The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
@@ -606,26 +611,589 @@ The following changes have been performed
      To use it, still call `qtest` on your .ml/.mli files to extract tests,
      then compile the resulting suite using oUnit and qcheck.
 
-=-=- conf-autoconf.0.1 troobleshooting =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-=> This package relies on external (system) dependencies that may be missing.
-   `opam depext conf-autoconf.0.1' may help you find the correct installation
-   for your system.
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ already up-to-date
+Install ? [Y/n] y
+[WARNING] datakit is not installed.
+The following actions will be performed:
+  - install datakit dev*
 
-=-=- conf-gmp.1 troobleshooting -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-=> This package relies on external (system) dependencies that may be missing.
-   `opam depext conf-gmp.1' may help you find the correct installation for your
-   system.
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit.dev] /home/opam/src/datakit/ already up-to-date
 
-=-=- conf-libpcre.1 troobleshooting -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-=> This package relies on external (system) dependencies that may be missing.
-   `opam depext conf-libpcre.1' may help you find the correct installation for
-   your system.
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "--tests" "false" (CWD=/home/opam/.opam/4.03.0/build/datakit.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs.ml > src/datakit/ivfs.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs.mli > src/datakit/ivfs.mli.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_tree.mli > src/datakit/ivfs_tree.mli.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_blob.mli > src/datakit/ivfs_blob.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_blob.cmi src/datakit/ivfs_blob.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_tree.cmi src/datakit/ivfs_tree.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs.cmi src/datakit/ivfs.mli
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_blob.ml > src/datakit/ivfs_blob.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_merge.ml > src/datakit/ivfs_merge.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_merge.mli > src/datakit/ivfs_merge.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_merge.cmi src/datakit/ivfs_merge.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_blob.cmx src/datakit/ivfs_blob.ml
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_tree.ml > src/datakit/ivfs_tree.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_tree.cmx src/datakit/ivfs_tree.ml
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_remote.ml > src/datakit/ivfs_remote.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_remote.mli > src/datakit/ivfs_remote.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_remote.cmi src/datakit/ivfs_remote.mli
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_rw.ml > src/datakit/ivfs_rw.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ivfs_rw.mli > src/datakit/ivfs_rw.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_rw.cmi src/datakit/ivfs_rw.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_merge.cmx src/datakit/ivfs_merge.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_remote.cmx src/datakit/ivfs_remote.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_rw.cmx src/datakit/ivfs_rw.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs.cmx src/datakit/ivfs.ml
+- ocamlfind ocamlopt -a -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx -o src/datakit/ivfs.cmxa
+- ocamlfind ocamlopt -shared -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs.cmx -o src/datakit/ivfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs.cmo src/datakit/ivfs.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_tree.cmo src/datakit/ivfs_tree.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_remote.cmo src/datakit/ivfs_remote.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_blob.cmo src/datakit/ivfs_blob.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_merge.cmo src/datakit/ivfs_merge.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ivfs_rw.cmo src/datakit/ivfs_rw.ml
+- ocamlfind ocamlc -a -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ivfs_blob.cmo src/datakit/ivfs_tree.cmo src/datakit/ivfs_merge.cmo src/datakit/ivfs_remote.cmo src/datakit/ivfs_rw.cmo src/datakit/ivfs.cmo -o src/datakit/ivfs.cma
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/main.ml > src/datakit/main.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.mli > src/datakit_log.mli.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ir_io.mli > src/datakit/ir_io.mli.depends
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_conduit.cmi src/datakit_conduit.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_log.cmi src/datakit_log.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ir_io.cmi src/datakit/ir_io.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/version.cmo src/version.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/main.cmo src/datakit/main.ml
+- ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.ml > src/datakit_log.ml.depends
+- ocamlfind ocamldep -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit/ir_io.ml > src/datakit/ir_io.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_conduit.cmx src/datakit_conduit.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_log.cmx src/datakit_log.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/ir_io.cmx src/datakit/ir_io.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/version.cmx src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit -I src -o src/datakit/main.cmx src/datakit/main.ml
+- ocamlfind ocamlopt -linkpkg -g -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'datakit-server.vfs datakit-server.fs9p' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ir_io.cmx src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx src/datakit_conduit.cmx src/datakit_log.cmx src/version.cmx src/datakit/main.cmx -o src/datakit/main.native
+- ocamlfind ocamldep -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/mount.ml > src/datakit-client/mount.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -I src/datakit -o src/datakit-client/mount.cmo src/datakit-client/mount.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -I src/datakit -o src/datakit-client/mount.cmx src/datakit-client/mount.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' src/version.cmx src/datakit-client/mount.cmx -o src/datakit-client/mount.native
+[datakit: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "--tests" "true" (CWD=/home/opam/.opam/4.03.0/build/datakit.dev)
+- ocamlfind ocamldep -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules tests/test.ml > tests/test.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules tests/test_client.mli > tests/test_client.mli.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules tests/test_github.ml > tests/test_github.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules tests/test_utils.ml > tests/test_utils.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_utils.cmo tests/test_utils.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_client.cmi tests/test_client.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_github.cmo tests/test_github.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test.cmo tests/test.ml
+- ocamlfind ocamldep -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules tests/test_client.ml > tests/test_client.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_utils.cmx tests/test_utils.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_client.cmx tests/test_client.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test_github.cmx tests/test_github.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I tests -I src -I src/datakit -o tests/test.cmx tests/test.ml
+- ocamlfind ocamlopt -linkpkg -g -thread -package 'conduit.lwt-unix hvsock.lwt-unix named-pipe.lwt' -package datakit-github -package 'datakit-client datakit-server.vfs datakit-server.fs9p' -package 'git irmin.git' -package 'mirage-types.lwt protocol-9p.unix irmin irmin.mem camlzip' -package 'alcotest conduit.lwt-unix str logs.fmt fmt.tty mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' src/datakit/ir_io.cmx src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx src/datakit_conduit.cmx tests/test_utils.cmx tests/test_client.cmx tests/test_github.cmx tests/test.cmx -o tests/test.native
+- ocamlfind ocamldep -package 'datakit-client protocol-9p.unix' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules examples/ocaml-client/example.ml > examples/ocaml-client/example.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -strict-sequence -package 'datakit-client protocol-9p.unix' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I examples/ocaml-client -I src -I src/datakit -o examples/ocaml-client/example.cmo examples/ocaml-client/example.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -strict-sequence -package 'datakit-client protocol-9p.unix' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I examples/ocaml-client -I src -I src/datakit -o examples/ocaml-client/example.cmx examples/ocaml-client/example.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'datakit-client protocol-9p.unix' -package 'bytes lwt astring logs result cstruct fmt rresult' examples/ocaml-client/example.cmx -o examples/ocaml-client/example.native
+[datakit: ocaml test] Command started
++ ocaml "pkg/pkg.ml" "test" (CWD=/home/opam/.opam/4.03.0/build/datakit.dev)
+- Testing datakit.
+-  ...                server           0   Transaction.[OK]                server           0   Transaction.
+-  ...                server           1   Qids.[OK]                server           1   Qids.
+-  ...                server           2   Watch.[OK]                server           2   Watch.
+-  ...                server           3   Range.[OK]                server           3   Range.
+-  ...                server           4   Writes.[OK]                server           4   Writes.
+-  ...                server           5   Rename branch.[OK]                server           5   Rename branch.
+-  ...                server           6   Rename file.[OK]                server           6   Rename file.
+-  ...                server           7   Truncate.[OK]                server           7   Truncate.
+-  ...                server           8   Parents.[OK]                server           8   Parents.
+-  ...                server           9   Merge.[OK]                server           9   Merge.
+-  ...                server          10   Merge_metadata.[OK]                server          10   Merge_metadata.
+-  ...                server          11   Merge empty.[OK]                server          11   Merge empty.
+-  ...                server          12   Conflicts.[OK]                server          12   Conflicts.
+-  ...                server          13   Stable inodes.[OK]                server          13   Stable inodes.
+-  ...                server          14   RW.[OK]                server          14   RW.
+-  ...                server          15   Remotes.[SKIP]              server          15   Remotes.
+-  ...                server          16   Blobs fast.[OK]                server          16   Blobs fast.
+-  ...                server          17   Blobs random.[OK]                server          17   Blobs random.
+-  ...                server          18   Streams.[OK]                server          18   Streams.
+-  ...                server          19   Debug.[OK]                server          19   Debug.
+-  ...                client           0   Transaction.[OK]                client           0   Transaction.
+-  ...                client           1   Watch.[OK]                client           1   Watch.
+-  ...                client           2   Make dirs.[OK]                client           2   Make dirs.
+-  ...                client           3   Rename branch.[OK]                client           3   Rename branch.
+-  ...                client           4   Rename dir.[OK]                client           4   Rename dir.
+-  ...                client           5   Rename file.[OK]                client           5   Rename file.
+-  ...                client           6   Truncate.[OK]                client           6   Truncate.
+-  ...                client           7   Parents.[OK]                client           7   Parents.
+-  ...                client           8   Merge.[OK]                client           8   Merge.
+-  ...                client           9   Diff.[OK]                client           9   Diff.
+-  ...                client          10   Merge_metadata.[OK]                client          10   Merge_metadata.
+-  ...                client          11   Merge empty.[OK]                client          11   Merge empty.
+-  ...                client          12   Conflicts.[OK]                client          12   Conflicts.
+-  ...                client          13   Large write.[OK]                client          13   Large write.
+-  ...                client          14   Remove.[OK]                client          14   Remove.
+-  ...                client          15   Remotes.[SKIP]              client          15   Remotes.
+-  ...                client          16   Create_or_replace.[SKIP]              client          16   Create_or_replace.
+-  ...                github           0   basic-snapshot.[OK]                github           0   basic-snapshot.
+-  ...                github           1   snapshot.[OK]                github           1   snapshot.
+-  ...                github           2   capabilities.[OK]                github           2   capabilities.
+-  ...                github           3   cleanup.[ERROR]             github           3   cleanup.
+-  ...                github           4   events.[OK]                github           4   events.
+-  ...                github           5   updates.[OK]                github           5   updates.
+-  ...                github           6   startup.[OK]                github           6   startup.
+-  ...                github           7   random-github.
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+[ERROR] The compilation of datakit failed at "ocaml pkg/pkg.ml test".
+- [OK]                github           7   random-github.
+-  ...                github           8   random-github-*.[SKIP]              github           8   random-github-*.
+-  ...                github           9   random-datakit.[OK]                github           9   random-datakit.
+-  ...                github          10   random-datakit-*.[SKIP]              github          10   random-datakit-*.
+-  ...                conduit          0   basic.[OK]                conduit          0   basic.
+- -- github.003 Failed --
+- cleanup.
+- _build/_tests/github.003.output:
+- +726031us irmin.git  [DEBUG] remove ["test-snapshot"]
+- +726384us ivfs-remote [DEBUG] create
+- +726393us fs9p       [INFO] accepted a new connection on test
+- +726409us fs9p       [INFO] Using protocol TwoThousandU msize 8215
+- +726448us datakit.client [DEBUG] create_dir ["branch"; "test"]
+- +726493us dkt-github [DEBUG] [sync] test
+- +726503us dkt-github [DEBUG] init_sync test
+- +726542us datakit.client [DEBUG] read_all branch/test/head -> "\n"
+- +726554us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "7639369610889160361"]
+- +726606us datakit.client [DEBUG] create_file ["branch"; "test";
+-                                               "transactions";
+-                                               "7639369610889160361"; 
+-                                               "rw"; "README.md"]
+- +726658us datakit.client [DEBUG] write "Initial commit" to ["branch"; 
+-                                                             "test";
+-                                                             "transactions";
+-                                                             "7639369610889160361";
+-                                                             "msg"]
+- +726702us datakit.client [DEBUG] write "commit" to ["branch"; "test";
+-                                                     "transactions";
+-                                                     "7639369610889160361";
+-                                                     "ctl"]
+- +726771us irmin.git  [DEBUG] compare_and_set
+- +726784us irmin.git  [DEBUG] write_index
+- +726804us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "518914614565682692"]
+- +726847us dkt-github [DEBUG] snapshot first-sync old=*
+- +726888us datakit.client [DEBUG] read_all branch/test/transactions/518914614565682692/parents -> "053f0ebe9735b100ea9a0ebf5099b5bf9f424a41\n"
+- +726976us dkt-github [DEBUG] repos ->  
+- +726990us dkt-github [DEBUG] commits ->  
+- +726997us dkt-github [DEBUG] prs ->  
+- +727111us dkt-github [DEBUG] statuses_of_commits  ->  
+- +727119us dkt-github [DEBUG] statuses ->  
+- +727127us dkt-github [DEBUG] refs ->  
+- +727266us dkt-github [DEBUG] repos ->  
+- +727280us dkt-github [DEBUG] [first_sync] bridge: {}
+-                              datakit:
+-                                053f0ebe9735b100ea9a0ebf5099b5bf9f424a41: {}
+- +727294us datakit.client [DEBUG] write "close" to ["branch"; "test";
+-                                                    "transactions";
+-                                                    "518914614565682692";
+-                                                    "ctl"]
+- +727340us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "8513640568689875997"]
+- +727385us datakit.client [DEBUG] make_dirs.aux(["test"; "test"])
+- +727399us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "8513640568689875997"; "rw";
+-                                              "test"; "test"]
+- +727427us datakit.client [DEBUG] make_dirs.aux(["test"])
+- +727437us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "8513640568689875997"; "rw";
+-                                              "test"]
+- +727475us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "8513640568689875997"; "rw";
+-                                              "test"; "test"]
+- +727527us datakit.client [DEBUG] create_file ["branch"; "test";
+-                                               "transactions";
+-                                               "8513640568689875997"; 
+-                                               "rw"; "test"; "test";
+-                                               ".monitor"]
+- +727580us datakit.client [DEBUG] write "init" to ["branch"; "test";
+-                                                   "transactions";
+-                                                   "8513640568689875997";
+-                                                   "msg"]
+- +727623us datakit.client [DEBUG] write "commit" to ["branch"; "test";
+-                                                     "transactions";
+-                                                     "8513640568689875997";
+-                                                     "ctl"]
+- +727724us irmin.merge [DEBUG] some ["9a1a97df53ffcd82902a83cbb275c4bd3b4656a8"] | ["053f0ebe9735b100ea9a0ebf5099b5bf9f424a41"]
+- +727744us irmin.merge [DEBUG] default ["9a1a97df53ffcd82902a83cbb275c4bd3b4656a8"] | ["053f0ebe9735b100ea9a0ebf5099b5bf9f424a41"]
+- +727759us irmin.merge [DEBUG] default old=["9a1a97df53ffcd82902a83cbb275c4bd3b4656a8"]
+- +727769us irmin.git  [DEBUG] compare_and_set
+- +727778us irmin.git  [DEBUG] write_index
+- +727800us datakit.client [DEBUG] create_dir ["branch"; "test"]
+- --------------------------------------------------------------------------------
+- ASSERT counter: 0
+- --------------------------------------------------------------------------------
+- +727844us dkt-github [DEBUG] [sync] test
+- +727851us dkt-github [DEBUG] init_sync test
+- +727889us datakit.client [DEBUG] read_all branch/test/head -> "9a1a97df53ffcd82902a83cbb275c4bd3b4656a8\n"
+- +727901us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "6580023907820112310"]
+- +727943us dkt-github [DEBUG] snapshot first-sync old=*
+- +727982us datakit.client [DEBUG] read_all branch/test/transactions/6580023907820112310/parents -> "9a1a97df53ffcd82902a83cbb275c4bd3b4656a8\n"
+- +728176us datakit.client [DEBUG] read_all snapshots/9a1a97df53ffcd82902a83cbb275c4bd3b4656a8/ro/test/test/.monitor -> ""
+- +728278us dkt-github [DEBUG] repos ->  test/test
+- +728317us dkt-github [DEBUG] commits_of_repo test/test ->  
+- +728328us dkt-github [DEBUG] commits ->  
+- +728360us dkt-github [DEBUG] prs_of_repo test/test ->  
+- +728371us dkt-github [DEBUG] prs ->  
+- +728379us dkt-github [DEBUG] statuses_of_commits  ->  
+- +728386us dkt-github [DEBUG] statuses ->  
+- +728433us dkt-github [DEBUG] refs_of_repo test/test ->  
+- +728444us dkt-github [DEBUG] refs ->  
+- +728749us datakit.client [DEBUG] read_all snapshots/9a1a97df53ffcd82902a83cbb275c4bd3b4656a8/ro/test/test/.monitor -> ""
+- +728768us dkt-github [DEBUG] repos ->  test/test
+- +728837us dkt-github [DEBUG] [first_sync] bridge: {}
+-                              datakit:
+-                                9a1a97df53ffcd82902a83cbb275c4bd3b4656a8:
+-                                {repos: test/test }
+- +728859us dkt-github [INFO] API.prs test/test
+- +728867us dkt-github [DEBUG] X.check r read true
+- +728877us dkt-github [INFO] API.refs test/test
+- +728884us dkt-github [DEBUG] X.check r read true
+- +728892us dkt-github [INFO] API.status {test/test bar}
+- +728900us dkt-github [DEBUG] X.check r read true
+- +728909us dkt-github [DEBUG] State.import test/test
+-                              new:{repos: test/test refs:
+-                                                      {test/test heho[bar]} 
+-                                commits: {test/test bar} }
+- +728930us dkt-github [DEBUG] Snapshot.diff x={repos: test/test }
+-                              y={repos: test/test refs: {test/test heho[bar]} 
+-                              commits: {test/test bar} }
+-                              r=[update: 
+-                                remove: {test/test heho} {test/test bar}]
+- +728956us dkt-github [DEBUG] X.check r excl false
+- +728964us dkt-github [DEBUG] X.check r excl false
+- +728971us dkt-github [DEBUG] call_github_api: [update: 
+-                                               remove: {test/test heho}
+-                                                 {test/test bar}] [update: 
+-                                                                  remove: ]
+- +728987us dkt-github [DEBUG] State.apply [update:  remove: ]
+- +729001us dkt-github [DEBUG] [prune]+prs: 
+- +729013us dkt-github [DEBUG] [prune]-prs: 
+- +729019us dkt-github [DEBUG] [prune]+commits: {test/test bar}
+- +729027us dkt-github [DEBUG] [prune]-commits: 
+- +729033us dkt-github [DEBUG] [prune]+status: 
+- +729039us dkt-github [DEBUG] [prune]-status: 
+- +729046us dkt-github [DEBUG] Snapshot.diff
+-                              x={repos: test/test refs: {test/test heho[bar]} 
+-                              commits: {test/test bar} } y={repos: test/test }
+-                              r=[update: {test/test heho[bar]} {test/test bar}
+-                                remove: ]
+- +729076us dkt-github [DEBUG] update_snapshot (from commit):
+-                              {test/test heho[bar]} {test/test bar}
+- +729087us dkt-github [DEBUG] update_ref test/test/ref/heho
+- +729095us datakit.client [DEBUG] make_dirs.aux(["test"; "test"; "ref";
+-                                                 "heho"])
+- +729107us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "6580023907820112310"; "rw";
+-                                              "test"; "test"; "ref"; "heho"]
+- +729146us datakit.client [DEBUG] make_dirs.aux(["test"; "test"; "ref"])
+- +729158us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "6580023907820112310"; "rw";
+-                                              "test"; "test"; "ref"]
+- +729204us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "6580023907820112310"; "rw";
+-                                              "test"; "test"; "ref"; "heho"]
+- +729266us datakit.client [DEBUG] create_file ["branch"; "test";
+-                                               "transactions";
+-                                               "6580023907820112310"; 
+-                                               "rw"; "test"; "test"; "ref";
+-                                               "heho"; "head"]
+- +729327us datakit.client [DEBUG] make_dirs.aux(["test"; "test"; "commit"])
+- +729342us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "6580023907820112310"; "rw";
+-                                              "test"; "test"; "commit"]
+- +729463us datakit.client [DEBUG] write "2 items updated \n{test/test heho[bar]} {test/test bar}" to 
+-                                  ["branch"; "test"; "transactions";
+-                                   "6580023907820112310"; "msg"]
+- +729509us datakit.client [DEBUG] write "commit" to ["branch"; "test";
+-                                                     "transactions";
+-                                                     "6580023907820112310";
+-                                                     "ctl"]
+- +729627us irmin.merge [DEBUG] some ["772a022ef5d8666e77a9592c079951d4171d00a6"] | ["9a1a97df53ffcd82902a83cbb275c4bd3b4656a8"]
+- +729647us irmin.merge [DEBUG] default ["772a022ef5d8666e77a9592c079951d4171d00a6"] | ["9a1a97df53ffcd82902a83cbb275c4bd3b4656a8"]
+- +729661us irmin.merge [DEBUG] default old=["772a022ef5d8666e77a9592c079951d4171d00a6"]
+- +729671us irmin.git  [DEBUG] compare_and_set
+- +729681us irmin.git  [DEBUG] write_index
+- +729732us datakit.client [DEBUG] read_all branch/test/head -> "772a022ef5d8666e77a9592c079951d4171d00a6\n"
+- +729837us datakit.client [DEBUG] read_all snapshots/772a022ef5d8666e77a9592c079951d4171d00a6/ro/test/test/ref/heho/head -> "bar\n"
+- --------------------------------------------------------------------------------
+- ASSERT bar
+- --------------------------------------------------------------------------------
+- --------------------------------------------------------------------------------
+- ASSERT exists commit bar
+- --------------------------------------------------------------------------------
+- --------------------------------------------------------------------------------
+- ASSERT heho is bar
+- --------------------------------------------------------------------------------
+- --------------------------------------------------------------------------------
+- ASSERT counter: 1
+- --------------------------------------------------------------------------------
+- +729910us test       [INFO] TEST: add_event Ref: *{test/test heho[foo]}
+- +729923us dkt-github [DEBUG] [sync] test
+- +729930us dkt-github [DEBUG] init_sync test
+- +729969us datakit.client [DEBUG] read_all branch/test/head -> "772a022ef5d8666e77a9592c079951d4171d00a6\n"
+- +729982us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "675737769869558503"]
+- +730026us dkt-github [DEBUG] snapshot sync-once old=9a1a97df53ffcd82902a83cbb275c4bd3b4656a8
+- +730065us datakit.client [DEBUG] read_all branch/test/transactions/675737769869558503/parents -> "772a022ef5d8666e77a9592c079951d4171d00a6\n"
+- +730159us datakit.client [DEBUG] read_all snapshots/772a022ef5d8666e77a9592c079951d4171d00a6/diff/9a1a97df53ffcd82902a83cbb275c4bd3b4656a8 -> "+ test/test/ref/heho/head\n"
+- +730173us dkt-github [DEBUG] apply
+- +730265us datakit.client [DEBUG] read_all snapshots/772a022ef5d8666e77a9592c079951d4171d00a6/ro/test/test/ref/heho/head -> "bar\n"
+- +730282us dkt-github [DEBUG] ref_ test/test:heho -> bar
+- +730291us dkt-github [DEBUG] apply {test/test heho}
+-                              ->[update: {test/test heho[bar]} remove: ]
+- +730309us dkt-github [DEBUG] [sync_once]
+-                              old:bridge: {repos: test/test refs:
+-                                                              {test/test heho[bar]}
+-                                                              commits:
+-                                                                {test/test bar}
+-                                                                }
+-                              datakit:
+-                                9a1a97df53ffcd82902a83cbb275c4bd3b4656a8:
+-                                {repos: test/test }
+-                              new:bridge: {repos: test/test refs:
+-                                                              {test/test heho[bar]}
+-                                                              commits:
+-                                                                {test/test bar}
+-                                                                }
+-                              datakit:
+-                                772a022ef5d8666e77a9592c079951d4171d00a6:
+-                                {repos: test/test refs: {test/test heho[bar]} 
+-                                  commits: {test/test bar} }
+- +730353us dkt-github [DEBUG] [add_webhooks] repos: 
+- +730362us dkt-github [DEBUG] [sync_webhook] events:
+-                              [Ref: *{test/test heho[foo]};
+-                               Ref: *{test/test heho[foo]}]
+- +730376us dkt-github [INFO] API.status {test/test foo}
+- +730384us dkt-github [DEBUG] X.check r read true
+- +730395us dkt-github [DEBUG] State.import  new:{}
+- +730407us dkt-github [DEBUG] Snapshot.diff
+-                              x={repos: test/test refs: {test/test heho[bar]} 
+-                              commits: {test/test bar} }
+-                              y={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test bar} {test/test foo} }
+-                              r=[update: {test/test heho[bar]}
+-                                remove: {test/test foo}]
+- +730479us dkt-github [DEBUG] X.check r write false
+- +730488us dkt-github [DEBUG] X.check r write false
+- +730495us dkt-github [DEBUG] call_github_api: [update: {test/test heho[bar]}
+-                                               remove: {test/test foo}] 
+-                              [update:  remove: ]
+- +730510us dkt-github [DEBUG] State.apply [update:  remove: ]
+- +730524us dkt-github [DEBUG] [prune]+prs: 
+- +730530us dkt-github [DEBUG] [prune]-prs: 
+- +730537us dkt-github [DEBUG] [prune]+commits: {test/test foo}
+- +730544us dkt-github [DEBUG] [prune]-commits: {test/test bar}
+- +730551us dkt-github [DEBUG] [prune]+status: 
+- +730556us dkt-github [DEBUG] [prune]-status: 
+- +730570us dkt-github [DEBUG] Snapshot.diff
+-                              x={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test foo} }
+-                              y={repos: test/test refs: {test/test heho[bar]} 
+-                              commits: {test/test bar} }
+-                              r=[update: {test/test heho[foo]} {test/test foo}
+-                                remove: {test/test bar}]
+- +730606us dkt-github [DEBUG] remove_snapshot (from commit): {test/test bar}
+- +730615us datakit.client [DEBUG] remove ["branch"; "test"; "transactions";
+-                                          "675737769869558503"; "rw"; 
+-                                          "test"; "test"; "commit"; "bar"]
+- +730665us dkt-github [DEBUG] update_snapshot (from commit):
+-                              {test/test heho[foo]} {test/test foo}
+- +730678us dkt-github [DEBUG] update_ref test/test/ref/heho
+- +730685us datakit.client [DEBUG] make_dirs.aux(["test"; "test"; "ref";
+-                                                 "heho"])
+- +730697us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "675737769869558503"; "rw";
+-                                              "test"; "test"; "ref"; "heho"]
+- +730783us datakit.client [DEBUG] replace_file ["branch"; "test";
+-                                                "transactions";
+-                                                "675737769869558503"; 
+-                                                "rw"; "test"; "test"; 
+-                                                "ref"; "heho"; "head"] -> "foo\n"
+- +730950us datakit.client [DEBUG] make_dirs.aux(["test"; "test"; "commit"])
+- +730966us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "675737769869558503"; "rw";
+-                                              "test"; "test"; "commit"]
+- +731012us datakit.client [DEBUG] write "3 items modified  Updated  {test/test heho[foo]} {test/test foo} \nRemoved  {test/test bar}" to 
+-                                  ["branch"; "test"; "transactions";
+-                                   "675737769869558503"; "msg"]
+- +731056us datakit.client [DEBUG] write "commit" to ["branch"; "test";
+-                                                     "transactions";
+-                                                     "675737769869558503";
+-                                                     "ctl"]
+- +731175us irmin.merge [DEBUG] some ["7e3e4bd103acf27c0d344d6e13677a589800a949"] | ["772a022ef5d8666e77a9592c079951d4171d00a6"]
+- +731195us irmin.merge [DEBUG] default ["7e3e4bd103acf27c0d344d6e13677a589800a949"] | ["772a022ef5d8666e77a9592c079951d4171d00a6"]
+- +731210us irmin.merge [DEBUG] default old=["7e3e4bd103acf27c0d344d6e13677a589800a949"]
+- +731220us irmin.git  [DEBUG] compare_and_set
+- +731229us irmin.git  [DEBUG] write_index
+- +731280us datakit.client [DEBUG] read_all branch/test/head -> "7e3e4bd103acf27c0d344d6e13677a589800a949\n"
+- +731386us datakit.client [DEBUG] read_all snapshots/7e3e4bd103acf27c0d344d6e13677a589800a949/ro/test/test/ref/heho/head -> "foo\n"
+- --------------------------------------------------------------------------------
+- ASSERT foo
+- --------------------------------------------------------------------------------
+- --------------------------------------------------------------------------------
+- ASSERT exists commit foo
+- --------------------------------------------------------------------------------
+- --------------------------------------------------------------------------------
+- ASSERT heho is foo
+- --------------------------------------------------------------------------------
+- +731474us datakit.client [DEBUG] read_all branch/test/head -> "7e3e4bd103acf27c0d344d6e13677a589800a949\n"
+- +731486us dkt-github [DEBUG] [sync] test
+- +731493us dkt-github [DEBUG] init_sync test
+- +731528us datakit.client [DEBUG] read_all branch/test/head -> "7e3e4bd103acf27c0d344d6e13677a589800a949\n"
+- +731774us datakit.client [DEBUG] create_dir ["branch"; "test";
+-                                              "transactions";
+-                                              "8808306083341186790"]
+- +731825us dkt-github [DEBUG] snapshot sync-once old=772a022ef5d8666e77a9592c079951d4171d00a6
+- +731865us datakit.client [DEBUG] read_all branch/test/transactions/8808306083341186790/parents -> "7e3e4bd103acf27c0d344d6e13677a589800a949\n"
+- +731925us datakit.client [DEBUG] read_all snapshots/7e3e4bd103acf27c0d344d6e13677a589800a949/diff/772a022ef5d8666e77a9592c079951d4171d00a6 -> "* test/test/ref/heho/head\n"
+- +731939us dkt-github [DEBUG] apply
+- +732033us datakit.client [DEBUG] read_all snapshots/7e3e4bd103acf27c0d344d6e13677a589800a949/ro/test/test/ref/heho/head -> "foo\n"
+- +732051us dkt-github [DEBUG] ref_ test/test:heho -> foo
+- +732060us dkt-github [DEBUG] apply {test/test heho}
+-                              ->[update: {test/test heho[foo]} remove: ]
+- +732078us dkt-github [DEBUG] [sync_once]
+-                              old:bridge: {repos: test/test refs:
+-                                                              {test/test heho[foo]}
+-                                                              commits:
+-                                                                {test/test foo}
+-                                                                }
+-                              datakit:
+-                                772a022ef5d8666e77a9592c079951d4171d00a6:
+-                                {repos: test/test refs: {test/test heho[bar]} 
+-                                  commits: {test/test bar} }
+-                              new:bridge: {repos: test/test refs:
+-                                                              {test/test heho[foo]}
+-                                                              commits:
+-                                                                {test/test foo}
+-                                                                }
+-                              datakit:
+-                                7e3e4bd103acf27c0d344d6e13677a589800a949:
+-                                {repos: test/test refs: {test/test heho[foo]} 
+-                                  commits: {test/test bar} {test/test foo} }
+- +732129us dkt-github [DEBUG] State.import  new:{}
+- +732142us dkt-github [DEBUG] Snapshot.diff
+-                              x={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test bar} {test/test foo} }
+-                              y={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test foo} }
+-                              r=[update: {test/test bar} remove: ]
+- +732171us dkt-github [DEBUG] X.check r write false
+- +732179us dkt-github [DEBUG] call_github_api: [update: {test/test bar}
+-                                               remove: ] [update:  remove: ]
+- +732193us dkt-github [DEBUG] State.apply [update:  remove: ]
+- +732205us dkt-github [DEBUG] [prune]+prs: 
+- +732212us dkt-github [DEBUG] [prune]-prs: 
+- +732218us dkt-github [DEBUG] [prune]+commits: {test/test foo}
+- +732225us dkt-github [DEBUG] [prune]-commits: 
+- +732232us dkt-github [DEBUG] [prune]+status: 
+- +732238us dkt-github [DEBUG] [prune]-status: 
+- +732247us dkt-github [DEBUG] Snapshot.diff
+-                              x={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test foo} }
+-                              y={repos: test/test refs: {test/test heho[foo]} 
+-                              commits: {test/test bar} {test/test foo} }
+-                              r=[update:  remove: {test/test bar}]
+- +732277us dkt-github [DEBUG] remove_snapshot (from commit): {test/test bar}
+- +732286us datakit.client [DEBUG] remove ["branch"; "test"; "transactions";
+-                                          "8808306083341186790"; "rw"; 
+-                                          "test"; "test"; "commit"; "bar"]
+- +732333us datakit.client [DEBUG] write "1 item removed \n{test/test bar}" to 
+-                                  ["branch"; "test"; "transactions";
+-                                   "8808306083341186790"; "msg"]
+- +732384us datakit.client [DEBUG] write "commit" to ["branch"; "test";
+-                                                     "transactions";
+-                                                     "8808306083341186790";
+-                                                     "ctl"]
+- +732549us irmin.merge [DEBUG] some ["f4d7c6f769da1bc69c1f027ecc39b5f104a7e697"] | ["7e3e4bd103acf27c0d344d6e13677a589800a949"]
+- +732569us irmin.merge [DEBUG] default ["f4d7c6f769da1bc69c1f027ecc39b5f104a7e697"] | ["7e3e4bd103acf27c0d344d6e13677a589800a949"]
+- +732584us irmin.merge [DEBUG] default old=["f4d7c6f769da1bc69c1f027ecc39b5f104a7e697"]
+- +732594us irmin.git  [DEBUG] compare_and_set
+- +732604us irmin.git  [DEBUG] write_index
+- +732654us datakit.client [DEBUG] read_all branch/test/head -> "f4d7c6f769da1bc69c1f027ecc39b5f104a7e697\n"
+- --------------------------------------------------------------------------------
+- ASSERT same head
+- --------------------------------------------------------------------------------
+- [failure] Error same head: expecting 7e3e4bd103acf27c0d344d6e13677a589800a949, got f4d7c6f769da1bc69c1f027ecc39b5f104a7e697.
+- Raised at file "src/core/lwt.ml", line 805, characters 22-23
+- Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+- Called from file "src/alcotest.ml", line 268, characters 8-12
+- 
+- 
+- [failure] Error same head: expecting 7e3e4bd103acf27c0d344d6e13677a589800a949, got f4d7c6f769da1bc69c1f027ecc39b5f104a7e697.
+- Raised at file "src/core/lwt.ml", line 805, characters 22-23
+- Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+- Called from file "src/alcotest.ml", line 268, characters 8-12
+- 
+- 
+- The full test results are available in `_build/_tests`.
+- 1 error! in 1.808s. 44 tests run.
+- pkg.ml: [ERROR] Some tests failed.
 
-=-=- conf-perl.1 troobleshooting =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-=> This package relies on external (system) dependencies that may be missing.
-   `opam depext conf-perl.1' may help you find the correct installation for
-   your system.
+#=== ERROR while installing datakit.dev =======================================#
+# opam-version         1.2.2 (58ef3b8213100953848d362f7120a30356d7f77d)
+# os                   linux
+# command              ocaml pkg/pkg.ml test
+# path                 /home/opam/.opam/4.03.0/build/datakit.dev
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit.dev/datakit-64313-1872ec.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-64313-1872ec.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit.dev/datakit-64313-1872ec.err
+### stdout ###
+# Called from file "src/alcotest.ml", line 268, characters 8-12
+# [...]
+# 
+# [failure] Error same head: expecting 7e3e4bd103acf27c0d344d6e13677a589800a949, got f4d7c6f769da1bc69c1f027ecc39b5f104a7e697.
+# Raised at file "src/core/lwt.ml", line 805, characters 22-23
+# Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+# Called from file "src/alcotest.ml", line 268, characters 8-12
+# 
+# 
+# The full test results are available in `_build/_tests`.
+# 1 error! in 1.808s. 44 tests run.
+### stderr ###
+# /bin/sh: tput: not found
+# stty: standard input: Not a tty
+# pkg.ml: [ERROR] Some tests failed.
 
-The former state can be restored with:
-    opam switch import "~/.opam/4.03.0/backup/state-20170025110543.export"
-[2017-01-25 11:10.17] Failed: Command "docker" "run" "--rm" "--entrypoint" "/bin/sh" "sha256:68d378af84fe42c01286e5346fb4a14a39ec29efbee96b5c1d7b58e112eef446" "-c" "opam remove \"datakit\"&& opam install -t --deps-only \"datakit\" && opam reinstall -v -t \"datakit\"" exited with status 4
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit dev
+No changes have been performed
+'opam reinstall -v -t datakit' failed.
+[2017-01-25 11:20.16] Failed: Command "docker" "run" "--rm" "--entrypoint" "/bin/sh" "sha256:68d378af84fe42c01286e5346fb4a14a39ec29efbee96b5c1d7b58e112eef446" "-c" "opam remove \"datakit\" && opam depext -i \"conf-gmp\" \"conf-libpcre\" \"conf-perl\" \"conf-autoconf\"&& opam install -t --deps-only \"datakit\" && opam reinstall -v -t \"datakit\"" exited with status 4
