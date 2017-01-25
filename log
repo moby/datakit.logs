@@ -1,0 +1,248 @@
+=== Docker build Dockerfile.prometheus
+[2017-01-25 11:02.11] Starting...
+Cloning into '/tmp/with_cloneaeb528c'...
+done.
+HEAD is now at ff68de8 self-ci: test DataKit and Prometheus too
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.839 MB
+Step 1/5 : FROM ocaml/opam:alpine-3.4_ocaml-4.03.0
+alpine-3.4_ocaml-4.03.0: Pulling from ocaml/opam
+Digest: sha256:59a446b5e228ac6dded324e3e2378f7200800005e532e1f120d860c601ce6e18
+Status: Image is up to date for ocaml/opam:alpine-3.4_ocaml-4.03.0
+ ---> 883abf6925be
+Step 2/5 : RUN opam depext -ui fmt logs asetmap
+ ---> Using cache
+ ---> 388cab32db86
+Step 3/5 : ADD . /home/opam/datakit
+ ---> 473762e361ca
+Removing intermediate container 155b5f3645e3
+Step 4/5 : RUN opam pin add -k git prometheus /home/opam/datakit -n
+ ---> Running in ceda650f4071
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+prometheus is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[prometheus: git]
+[prometheus: git]
+[prometheus] /home/opam/datakit updated
+[prometheus] Installing new package description from /home/opam/datakit
+
+ ---> 758618764811
+Removing intermediate container ceda650f4071
+Step 5/5 : RUN opam pin add -k git prometheus-app /home/opam/datakit
+ ---> Running in b08cbdfe100a
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+prometheus-app is now git-pinned to /home/opam/datakit
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current
+       working tree from /home/opam/datakit. If this is not what you want, pin
+       to a given branch (e.g. /home/opam/datakit#HEAD)
+[0m
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app] /home/opam/datakit updated
+[prometheus-app] Installing new package description from /home/opam/datakit
+
+prometheus-app needs to be installed.
+The following actions will be performed:
+  - install   magic-mime      1.0.0                             [required by cohttp]
+  - install   astring         0.8.3                             [required by prometheus]
+  - install   ppx_tools       5.0+4.03.0                        [required by ppx_fields_conv]
+  - install   base-bytes      base                              [required by cohttp]
+  - install   sexplib         113.33.00+4.03                    [required by cohttp]
+  - install   fieldslib       113.24.00                         [required by cohttp]
+  - install   ppx_core        113.33.01+4.03                    [required by ppx_fields_conv]
+  - install   lwt             2.7.0                             [required by prometheus-app]
+  - install   stringext       1.4.3                             [required by cohttp]
+  - install   re              1.7.1                             [required by cohttp]
+  - install   cppo            1.4.1                             [required by ocplib-endian]
+  - install   base64          2.1.2                             [required by cohttp]
+  - install   ppx_optcomp     113.33.00+4.03                    [required by conduit]
+  - install   prometheus      *                                 [required by prometheus-app]
+  - recompile logs            0.6.2                             [uses lwt]
+  - install   ppx_deriving    4.1                               [required by ppx_type_conv]
+  - install   ocplib-endian   1.0                               [required by cstruct]
+  - install   ppx_driver      113.33.01+4.03                    [required by conduit]
+  - install   cstruct         2.3.1                             [required by conduit]
+  - install   ppx_type_conv   113.33.02+4.03                    [required by ppx_fields_conv]
+  - install   ppx_sexp_conv   113.33.01+4.03                    [required by cohttp]
+  - install   ppx_fields_conv 113.33.00+4.03                    [required by cohttp]
+  - install   uri             1.9.2                             [required by cohttp]
+  - install   ipaddr          2.7.1                             [required by conduit]
+  - install   conduit         0.14.4                            [required by cohttp]
+  - install   cohttp          0.21.0                            [required by prometheus-app]
+  - install   prometheus-app  *             
+===== 26 to install | 1 to recompile =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring: http] Command started
+[base64: http] Command started
+[cohttp: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[conduit: http] Command started
+[base64: http] Command started
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+[cppo: http] Command started
+[conduit: http] Command started
+[conduit.0.14.4] https://github.com/mirage/ocaml-conduit/archive/v0.14.4.tar.gz downloaded
+[cstruct: http] Command started
+[cohttp: http] Command started
+[cohttp.0.21.0] https://github.com/mirage/ocaml-cohttp/archive/v0.21.0.tar.gz downloaded
+[fieldslib: http] Command started
+[fieldslib: http] Command started
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+[ipaddr: http] Command started
+[cppo: http] Command started
+[cppo.1.4.1] https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz downloaded
+[lwt: http] Command started
+[cstruct: http] Command started
+[cstruct.2.3.1] https://github.com/mirage/ocaml-cstruct/archive/v2.3.1.tar.gz downloaded
+[magic-mime: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.7.1] https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.1/ipaddr-2.7.1.tbz downloaded
+[ocplib-endian: http] Command started
+[lwt: http] Command started
+[lwt.2.7.0] https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz downloaded
+[ppx_core: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz downloaded
+[ppx_driver: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.01+4.03.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+[ppx_tools: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_optcomp-113.33.00+4.03.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz downloaded
+[prometheus: git] Command started
+[prometheus: git] Command started
+[prometheus] /home/opam/datakit already up-to-date
+[prometheus-app: git] Command started
+[prometheus-app: git] Command started
+[prometheus-app] /home/opam/datakit already up-to-date
+[re: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.113.33.02+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz downloaded
+[sexplib: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0+4.03.0] https://github.com/alainfrisch/ppx_tools/archive/5.0+4.03.0.tar.gz downloaded
+[stringext: http] Command started
+[sexplib: http] Command started
+[sexplib.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz downloaded
+[uri: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[stringext: http] Command started
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+[uri: http] Command started
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   logs.0.6.2
+[astring: ocaml build] Command started
+-> installed base-bytes.base
+[base64: ocaml build] Command started
+[cppo: make opt] Command started
+[fieldslib: ./configure] Command started
+-> installed base64.2.1.2
+[magic-mime: ./configure] Command started
+[cppo: make ocamlbuild] Command started
+-> installed astring.0.8.3
+[ppx_tools: make all] Command started
+[fieldslib: make] Command started
+[cppo: make install-lib] Command started
+-> installed cppo.1.4.1
+[ocplib-endian: ocaml setup.ml] Command started
+[magic-mime: make] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed fieldslib.113.24.00
+[re: ocaml setup.ml] Command started
+[magic-mime: make install] Command started
+[re: ocaml setup.ml] Command started
+-> installed magic-mime.1.0.0
+[sexplib: ./configure] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0+4.03.0
+[lwt: make setup] Command started
+[sexplib: make] Command started
+-> installed ocplib-endian.1.0
+[ppx_core: ./configure] Command started
+[lwt: ocaml setup.ml] Command started
+[ppx_core: make] Command started
+[re: ocaml setup.ml] Command started
+[lwt: make build] Command started
+-> installed re.1.7.1
+[ppx_deriving: ocaml] Command started
+-> installed sexplib.113.33.00+4.03
+[stringext: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed stringext.1.4.3
+-> installed ppx_deriving.4.1
+[lwt: make install] Command started
+-> installed lwt.2.7.0
+[cstruct: ./configure] Command started
+[logs: ocaml build] Command started
+[prometheus: ocaml build] Command started
+-> installed prometheus.~unknown
+-> installed logs.0.6.2
+-> installed ppx_core.113.33.01+4.03
+[ppx_optcomp: ./configure] Command started
+[cstruct: make] Command started
+[ppx_optcomp: make] Command started
+[cstruct: make install] Command started
+-> installed ppx_optcomp.113.33.00+4.03
+[ppx_driver: ./configure] Command started
+[ppx_driver: make] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.3.1
+-> installed ppx_driver.113.33.01+4.03
+[ppx_type_conv: ./configure] Command started
+[ppx_type_conv: make] Command started
+-> installed ppx_type_conv.113.33.02+4.03
+[ppx_fields_conv: ./configure] Command started
+[ppx_sexp_conv: ./configure] Command started
+[ppx_fields_conv: make] Command started
+[ppx_sexp_conv: make] Command started
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed ppx_sexp_conv.113.33.01+4.03
+[ipaddr: ocaml build] Command started
+[uri: ocaml setup.ml] Command started
+-> installed ipaddr.2.7.1
+[uri: ocaml setup.ml] Command started
+[uri: ocaml setup.ml] Command started
+-> installed uri.1.9.2
+[conduit: ./configure] Command started
+[conduit: make] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.21.0
+[prometheus-app: ocaml build] Command started
+-> installed prometheus-app.~unknown
+Done.
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+ ---> 1436e720af8c
+Removing intermediate container b08cbdfe100a
+Successfully built 1436e720af8c
+[2017-01-25 11:03.54] Success
