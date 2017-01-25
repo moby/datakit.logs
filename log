@@ -1,0 +1,195 @@
+=== Docker build Dockerfile.server
+[2017-01-25 14:41.16] Starting...
+Cloning into '/tmp/with_clone2eebcdd2'...
+done.
+HEAD is now at de78aaa ci: use opam 2 for builds
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.881 MB
+Step 1/20 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:6228db8ff53491f3ce29a3253d572603e76da9ad3e94e98b14712086354c2c5c
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> c94b531eae28
+Step 2/20 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> d6d75ecd6f34
+Step 3/20 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 19cf0811f5ef
+Step 4/20 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 8d78c7a92fd6
+Step 5/20 : RUN opam init -y
+ ---> Using cache
+ ---> 42a1ab04a757
+Step 6/20 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 3fed999879a9
+Step 7/20 : RUN opam install depext -y
+ ---> Using cache
+ ---> dcadbb93ad8e
+Step 8/20 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 0e1020abdca8
+Step 9/20 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 69e974039441
+Step 10/20 : COPY prometheus.opam /home/opam/src/datakit/prometheus.opam
+ ---> Using cache
+ ---> cb299f06ebe2
+Step 11/20 : COPY prometheus-app.opam /home/opam/src/datakit/prometheus-app.opam
+ ---> Using cache
+ ---> eebe1cd61f30
+Step 12/20 : RUN opam pin add prometheus.dev /home/opam/src/datakit -yn
+ ---> Running in 111d539aee98
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+[prometheus: rsync]
+[prometheus.dev] file:///home/opam/src/datakit/ synchronized
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus/prometheus.opam from 1.2 to 2.0~alpha3
+[0mprometheus is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> dc86703a2613
+Removing intermediate container 111d539aee98
+Step 13/20 : RUN opam pin add prometheus-app.dev /home/opam/src/datakit -yn
+ ---> Running in 2462aacfeb89
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+[prometheus-app: rsync]
+[prometheus-app.dev] file:///home/opam/src/datakit/ synchronized
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus-app/prometheus-app.opam from 1.2 to 2.0~alpha3
+[0mprometheus-app is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> ba28e67be1e1
+Removing intermediate container 2462aacfeb89
+Step 14/20 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn
+ ---> Running in adc64a1e12eb
+[datakit-server: rsync]
+[datakit-server.dev] file:///home/opam/src/datakit/ synchronized
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-server/datakit-server.opam from 1.2 to 2.0~alpha3
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 9c54048b36bf
+Removing intermediate container adc64a1e12eb
+Step 15/20 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Running in 9a4a07fee246
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-server: rsync]
+[datakit-server.dev] file:///home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install conf-m4          1             
+  - install result           1.2           
+  - install ocamlfind        1.7.1         
+  - install topkg            0.8.1         
+  - install sexplib          113.33.00+4.03
+  - install ppx_tools        5.0           
+  - install base-bytes       base          
+  - install rresult          0.5.0         
+  - install fmt              0.8.0         
+  - install astring          0.8.3         
+  - install ppx_core         113.33.01+4.03
+  - install lwt              2.7.0         
+  - install win-error        0.2           
+  - install stringext        1.4.3         
+  - install re               1.7.1         
+  - install cppo             1.4.1         
+  - install ocb-stubblr      0.1.0         
+  - install ppx_optcomp      113.33.01+4.03
+  - install logs             0.6.2         
+  - install ppx_deriving     4.1           
+  - install ocplib-endian    1.0           
+  - install named-pipe       0.4.0         
+  - install ppx_driver       113.33.01+4.03
+  - install cstruct          2.3.1         
+  - install ppx_type_conv    113.33.02+4.03
+  - install io-page          1.6.1         
+  - install ppx_sexp_conv    113.33.01+4.03
+  - install uri              1.9.2         
+  - install ipaddr           2.7.1         
+  - install mirage-types     2.8.0         
+  - install mirage-types-lwt 2.8.0         
+  - install channel          1.1.1         
+  - install protocol-9p      0.8.0         
+===== 33 to install =====
+Do you want to continue ? [Y/n] n
+ ---> c22371eaad28
+Removing intermediate container 9a4a07fee246
+Step 16/20 : COPY . /home/opam/src/datakit
+ ---> 741c5536db87
+Removing intermediate container 67880e10a7fd
+Step 17/20 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 81d31b3f45b8
+ ---> 61be863be4ec
+Removing intermediate container 81d31b3f45b8
+Step 18/20 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in c0612a94eb53
+ M src/version.ml
+ ---> daf18a4c82c0
+Removing intermediate container c0612a94eb53
+Step 19/20 : RUN opam update datakit-server
+ ---> Running in ffad6af84992
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-server: rsync]
+[datakit-server.dev] file:///home/opam/src/datakit/ synchronized
+Now run 'opam upgrade' to apply any package updates.
+ ---> cae5ddad4e45
+Removing intermediate container ffad6af84992
+Step 20/20 : RUN opam install datakit-server.dev -vv
+ ---> Running in 08974bf547a4
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-server: rsync]
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--exclude" "_opam" "--delete" "--delete-excluded" "/home/opam/src/datakit/" "/home/opam/.opam/default/.opam-switch/packages.dev/datakit-server"
+- sending incremental file list
+- 
+- sent 8,504 bytes  received 42 bytes  17,092.00 bytes/sec
+- total size is 1,281,417  speedup is 149.94
+[datakit-server.dev] file:///home/opam/src/datakit/ already up-to-date
++ ocamlc "-vnum"
+- 4.04.0
+The following actions will be performed:
+  - install conf-m4          1                                  [required by ocamlfind]
+  - install result           1.2                                [required by protocol-9p, fmt, logs, rresult]
+  - install ocamlfind        1.7.1                              [required by datakit-server]
+  - install topkg            0.8.1                              [required by datakit-server]
+  - install sexplib          113.33.00+4.03                     [required by datakit-server]
+  - install ppx_tools        5.0                                [required by cstruct, protocol-9p]
+  - install base-bytes       base                               [required by datakit-server]
+  - install rresult          0.5.0                              [required by datakit-server]
+  - install fmt              0.8.0                              [required by datakit-server]
+  - install astring          0.8.3                              [required by datakit-server]
+  - install ppx_core         113.33.01+4.03                     [required by ppx_sexp_conv]
+  - install lwt              2.7.0                              [required by mirage-types-lwt, cstruct, logs, protocol-9p]
+  - install win-error        0.2                                [required by protocol-9p]
+  - install stringext        1.4.3                              [required by uri]
+  - install re               1.7.1                              [required by uri]
+  - install cppo             1.4.1                              [required by ocplib-endian]
+  - install ocb-stubblr      0.1.0                              [required by named-pipe]
+  - install ppx_optcomp      113.33.01+4.03                     [required by ppx_driver]
+  - install logs             0.6.2                              [required by datakit-server]
+  - install ppx_deriving     4.1                                [required by protocol-9p]
+  - install ocplib-endian    1.0                                [required by cstruct]
+  - install named-pipe       0.4.0                              [required by protocol-9p]
+  - install ppx_driver       113.33.01+4.03                     [required by ppx_type_conv]
+  - install cstruct          2.3.1                              [required by datakit-server]
+  - install ppx_type_conv    113.33.02+4.03                     [required by ppx_sexp_conv]
+  - install io-page          1.6.1                              [required by mirage-types-lwt]
+  - install ppx_sexp_conv    113.33.01+4.03                     [required by protocol-9p, uri]
+  - install uri              1.9.2                              [required by datakit-server]
+  - install ipaddr           2.7.1                              [required by mirage-types-lwt]
+  - install mirage-types     2.8.0                              [required by mirage-types-lwt]
+  - install mirage-types-lwt 2.8.0                              [required by datakit-server]
+  - install channel          1.1.1                              [required by protocol-9p]
+  - install protocol-9p      0.8.0                              [required by datakit-server]
+  - install datakit-server   dev*          
+===== 34 to install =====
+Do you want to continue ? [Y/n] n
+ ---> 7f3b223ef9fc
+Removing intermediate container 08974bf547a4
+Successfully built 7f3b223ef9fc
+[2017-01-25 14:41.54] Success
