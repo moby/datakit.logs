@@ -1,0 +1,100 @@
+=== Docker build Dockerfile.server
+[2017-01-25 14:39.46] Starting...
+Cloning into '/tmp/with_clone7ff55df'...
+done.
+HEAD is now at 10afbf0 ci: use opam 2 for builds
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.877 MB
+Step 1/20 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:6228db8ff53491f3ce29a3253d572603e76da9ad3e94e98b14712086354c2c5c
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> c94b531eae28
+Step 2/20 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> d6d75ecd6f34
+Step 3/20 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 19cf0811f5ef
+Step 4/20 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 8d78c7a92fd6
+Step 5/20 : RUN opam init -y
+ ---> Using cache
+ ---> 42a1ab04a757
+Step 6/20 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 3fed999879a9
+Step 7/20 : RUN opam install depext -y
+ ---> Using cache
+ ---> dcadbb93ad8e
+Step 8/20 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Running in 4f496a41518a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - libev-dev
+#  - m4
+#  - ncurses-dev
+#  - pcre-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: libev-dev pcre-dev
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.0-81-ge13e9f0ab0 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.0-75-ga859cb3a7a [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7961 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add libev-dev pcre-dev
+(1/6) Installing libev (4.22-r0)
+(2/6) Installing libev-dev (4.22-r0)
+(3/6) Installing libpcre16 (8.39-r0)
+(4/6) Installing libpcre32 (8.39-r0)
+(5/6) Installing libpcrecpp (8.39-r0)
+(6/6) Installing pcre-dev (8.39-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 632 MiB in 99 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install conf-m4     1                                       [required by ocamlfind]
+  - install conf-libev  4-11  
+  - install result      1.2                                     [required by alcotest, lwt]
+  - install ocamlfind   1.7.1                                   [required by lambda-term, alcotest, inotify, lwt]
+  - install topkg       0.8.1                                   [required by alcotest]
+  - install react       1.2.0                                   [required by lambda-term, lwt]
+  - install ppx_tools   5.0                                     [required by lwt]
+  - install base-bytes  base                                    [required by inotify]
+  - install fmt         0.8.0                                   [required by alcotest]
+  - install astring     0.8.3                                   [required by alcotest]
+  - install lwt         2.7.0 
+       For module Lwt_react, please install package lwt_react
+  - install cppo        1.4.1                                   [required by camomile]
+  - install alcotest    0.7.2 
+  - install inotify     2.3   
+  - install camomile    0.8.5                                   [required by zed]
+  - install zed         1.4                                     [required by lambda-term]
+  - install lambda-term 1.10.1
+===== 17 to install =====
+Do you want to continue ? [Y/n] n
+ ---> 0e1020abdca8
+Removing intermediate container 4f496a41518a
+Step 9/20 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 69e974039441
+Removing intermediate container b19d9b9a6025
+Step 10/20 : COPY prometheus.opam /home/opam/src/datakit/prometheus.opam
+ ---> cb299f06ebe2
+Removing intermediate container b66417cb7917
+Step 11/20 : COPY prometheus-app.opam /home/opam/src/datakit/prometheus-app.opam
+ ---> eebe1cd61f30
+Removing intermediate container 934fec635f3b
+Step 12/20 : RUN opam pin add prometheus.dev /home/opam/src/datakit -n
+ ---> Running in 611b387feeb9
+Package prometheus does not exist, create as a NEW package ? [Y/n] n
+Aborting.
+The command '/bin/sh -c opam pin add prometheus.dev /home/opam/src/datakit -n' returned a non-zero code: 10
+[2017-01-25 14:40.08] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 10
