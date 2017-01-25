@@ -1,0 +1,60 @@
+=== Docker build Dockerfile.self-ci
+[2017-01-25 16:38.17] Starting...
+Cloning into '/tmp/with_clone2c9714b9'...
+done.
+HEAD is now at ea6f402 Merge pull request #463 from talex5/replace-travis
+[2017-01-25 16:38.17] Rewrite Dockerfile's first line to:
+FROM sha256:e79bf908bc838619c8b37f01b8fb68bc5f666470947eebf6d6de12ed92a43f2d
+Sending build context to Docker daemon 22.02 kB
+Step 1/9 : FROM sha256:e79bf908bc838619c8b37f01b8fb68bc5f666470947eebf6d6de12ed92a43f2d
+ ---> e79bf908bc83
+Step 2/9 : RUN sudo apk update && sudo apk add docker
+ ---> Running in 0675d0d9e16e
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.0-81-ge13e9f0ab0 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.0-75-ga859cb3a7a [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7961 distinct packages available
+(1/5) Installing libmnl (1.0.4-r0)
+(2/5) Installing libnftnl-libs (1.0.7-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+Executing busybox-1.25.1-r0.trigger
+OK: 753 MiB in 109 packages
+ ---> bff439624201
+Removing intermediate container 0675d0d9e16e
+Step 3/9 : ADD . /home/opam/build
+ ---> 9ef34a3476f4
+Removing intermediate container 16ba88b088e5
+Step 4/9 : WORKDIR /home/opam/build
+ ---> 2136853aa839
+Removing intermediate container 06038bdd7459
+Step 5/9 : RUN sudo chown opam .
+ ---> Running in 9e5570bb9844
+ ---> 841d5dbb3148
+Removing intermediate container 9e5570bb9844
+Step 6/9 : RUN opam config exec make selfCI && sudo cp _build/selfCI.native /bin/datakit-ci && rm -rf /home/opam/build
+ ---> Running in 302742a7e953
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> ebb2852f48bc
+Removing intermediate container 302742a7e953
+Step 7/9 : USER root
+ ---> Running in b7d087825ec0
+ ---> c85b362e3b37
+Removing intermediate container b7d087825ec0
+Step 8/9 : ENTRYPOINT /bin/datakit-ci
+ ---> Running in 731a28fa5fc5
+ ---> 24f0b128a2d0
+Removing intermediate container 731a28fa5fc5
+Step 9/9 : CMD 
+ ---> Running in 43966139105b
+ ---> 01a2ca1b5401
+Removing intermediate container 43966139105b
+Successfully built 01a2ca1b5401
+[2017-01-25 16:38.28] Success
