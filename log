@@ -1,0 +1,84 @@
+=== Docker build Dockerfile.ci
+[2017-02-01 11:43.35] Starting...
+Cloning into '/tmp/with_clone84407fd'...
+done.
+HEAD is now at 7d1a74e ci: add a lock to update statuses in series
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.103 MBSending build context to Docker daemon 6.103 MB
+Step 1/17 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:aa72b91ed887e6e3161121642b32c7415c4f57047c5eb7011594cbd224773113
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> d584e207406b
+Step 2/17 : ENV OPAMYES 1
+ ---> Using cache
+ ---> 9de7042c1dcd
+Step 3/17 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> b5373e968868
+Step 4/17 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> c2b3d781c608
+Step 5/17 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 6e1946554a77
+Step 6/17 : RUN opam init -y
+ ---> Using cache
+ ---> c65d20ed6d1a
+Step 7/17 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> ad56d0b53b1f
+Step 8/17 : RUN opam install depext -y
+ ---> Using cache
+ ---> f46f233ad38b
+Step 9/17 : RUN opam pin add -yn prometheus https://github.com/docker/datakit.git &&     opam pin add -yn prometheus-app https://github.com/docker/datakit.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/docker/datakit.git &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git &&     opam pin add -yn datakit https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> c43d250da63e
+Step 10/17 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> b12027a29de6
+Step 11/17 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> a3320e539ba6
+Step 12/17 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> a173e112e948
+Step 13/17 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> 72e8556d8772
+Step 14/17 : ADD . /home/opam/datakit
+ ---> 267d9104c37d
+Removing intermediate container dac7a3d05e78
+Step 15/17 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in ff49a549fa69
+ ---> 97f401bd2518
+Removing intermediate container ff49a549fa69
+Step 16/17 : RUN opam pin add -k git datakit-ci /home/opam/datakit -y
+ ---> Running in 902cfd88cedc
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-ci/datakit-ci.opam from 1.2 to 2.0~alpha3
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit (version ~dev)
+
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0mThe following actions will be performed:
+  - install datakit-ci ~dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-ci: ocaml build]
+-> installed datakit-ci.~dev
+Done.
+# Run eval `opam config env` to update the current shell environment
+ ---> 0d27cf01b202
+Removing intermediate container 902cfd88cedc
+Step 17/17 : VOLUME /secrets
+ ---> Running in ad166c6522d2
+ ---> 1fb01e98ad3b
+Removing intermediate container ad166c6522d2
+Successfully built 1fb01e98ad3b
+[2017-02-01 11:44.15] Success
