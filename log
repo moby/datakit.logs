@@ -1,0 +1,62 @@
+=== Docker build Dockerfile.server
+[2017-02-03 14:40.45] Starting...
+Cloning into '/tmp/with_clone18cccfaa'...
+done.
+HEAD is now at 706137d Replace error strings in client API with variants
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.281 MB
+Step 1/22 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:aa72b91ed887e6e3161121642b32c7415c4f57047c5eb7011594cbd224773113
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> d584e207406b
+Step 2/22 : ENV OPAMYES 1 OPAMERRLOGLEN 0
+ ---> Using cache
+ ---> 1255f358dc55
+Step 3/22 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 92729858fff0
+Step 4/22 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 76ce230b8da6
+Step 5/22 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> b8a1ac879f2d
+Step 6/22 : RUN opam init -y
+ ---> Using cache
+ ---> 98f4135022f3
+Step 7/22 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 20d8b472ad7e
+Step 8/22 : RUN opam install depext -y
+ ---> Using cache
+ ---> 1082799e6bef
+Step 9/22 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> c74396e7fd82
+Step 10/22 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 84b6292064f9
+Step 11/22 : COPY prometheus.opam /home/opam/src/datakit/prometheus.opam
+ ---> Using cache
+ ---> 465452bf09c9
+Step 12/22 : COPY prometheus-app.opam /home/opam/src/datakit/prometheus-app.opam
+ ---> Using cache
+ ---> e7b9b4852e81
+Step 13/22 : RUN opam pin add prometheus.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 62fdf00fb830
+Step 14/22 : RUN opam pin add prometheus-app.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 4440520dd0b4
+Step 15/22 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 28a01f238931
+Step 16/22 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -yn
+ ---> Running in c005c6491986
+[datakit-client: rsync]
+[datakit-client.dev] file:///home/opam/src/datakit/ synchronized
+[91mError opening terminal: unknown.
+[ERROR] Empty file or editor error, aborting.
+[ERROR] No valid package definition found
+[0mThe command '/bin/sh -c opam pin add datakit-client.dev /home/opam/src/datakit -yn' returned a non-zero code: 66
+[2017-02-03 14:40.55] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 66
