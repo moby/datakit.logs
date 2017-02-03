@@ -1,0 +1,58 @@
+=== Docker build Dockerfile.ci
+[2017-02-03 16:56.52] Starting...
+Cloning into '/tmp/with_clonea0935c'...
+done.
+HEAD is now at 4a37cb7 Update opam constraints
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.356 MB
+Step 1/18 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:aa72b91ed887e6e3161121642b32c7415c4f57047c5eb7011594cbd224773113
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> d584e207406b
+Step 2/18 : ENV OPAMYES 1 OPAMERRLOGLEN 0
+ ---> Using cache
+ ---> 1255f358dc55
+Step 3/18 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 92729858fff0
+Step 4/18 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 76ce230b8da6
+Step 5/18 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> b8a1ac879f2d
+Step 6/18 : RUN opam init -y
+ ---> Using cache
+ ---> 98f4135022f3
+Step 7/18 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 20d8b472ad7e
+Step 8/18 : RUN opam install depext -y
+ ---> Using cache
+ ---> 1082799e6bef
+Step 9/18 : RUN opam pin add -yn prometheus https://github.com/docker/datakit.git &&     opam pin add -yn prometheus-app https://github.com/docker/datakit.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/docker/datakit.git &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git &&     opam pin add -yn datakit https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> e4f306fe3720
+Step 10/18 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> b53e2c49ee7a
+Step 11/18 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> d4dbfe53f926
+Step 12/18 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> 09fd75c98f69
+Step 13/18 : RUN opam install --deps-only tmp -y
+ ---> Running in ef0ce764d752
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [tmp: rsync]
+[tmp.~dev] file:///tmp/deps/opam already up-to-date
+The following dependencies couldn't be met:
+  - tmp -> datakit-github >= 0.9.0
+Your request can't be satisfied:
+  - No package matching "datakit-github>=0.9.0" found
+
+No solution found, exiting
+The command '/bin/sh -c opam install --deps-only tmp -y' returned a non-zero code: 3
+[2017-02-03 16:57.07] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 3
