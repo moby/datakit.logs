@@ -1,0 +1,95 @@
+=== Docker build Dockerfile.prometheus
+[2017-02-03 16:56.10] Starting...
+Cloning into '/tmp/with_clone2666d4c6'...
+done.
+HEAD is now at 504f848 Update opam constraints
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.354 MB
+Step 1/16 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:aa72b91ed887e6e3161121642b32c7415c4f57047c5eb7011594cbd224773113
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> d584e207406b
+Step 2/16 : ENV OPAMYES 1 OPAMERRLOGLEN 0
+ ---> Using cache
+ ---> 1255f358dc55
+Step 3/16 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 92729858fff0
+Step 4/16 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 76ce230b8da6
+Step 5/16 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> b8a1ac879f2d
+Step 6/16 : RUN opam init -y
+ ---> Using cache
+ ---> 98f4135022f3
+Step 7/16 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 20d8b472ad7e
+Step 8/16 : RUN OPAMYES=1 opam depext -i cohttp lwt fmt
+ ---> Using cache
+ ---> 32dab5a46972
+Step 9/16 : ADD prometheus.opam /tmp/deps/opam
+ ---> Using cache
+ ---> 2cb8a1990ff8
+Step 10/16 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> 40a23198f154
+Step 11/16 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> 7ccc333fa93a
+Step 12/16 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> 822082b04505
+Step 13/16 : ADD . /home/opam/datakit
+ ---> 9137227d1489
+Removing intermediate container 699a224d4089
+Step 14/16 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in bfb5d36ab7fe
+ ---> cd6e5221135c
+Removing intermediate container bfb5d36ab7fe
+Step 15/16 : RUN opam pin add -y -k git prometheus /home/opam/datakit -n
+ ---> Running in 01ac8903b79a
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+[prometheus: git]
+[prometheus: git]
+[prometheus] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus/prometheus.opam from 1.2 to 2.0~alpha3
+[0mprometheus is now pinned to git+file:///home/opam/datakit (version ~dev)
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0m ---> 4862ed58aa1b
+Removing intermediate container 01ac8903b79a
+Step 16/16 : RUN opam pin add -y -k git prometheus-app /home/opam/datakit
+ ---> Running in ed18a08ad682
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus-app/prometheus-app.opam from 1.2 to 2.0~alpha3
+[0mprometheus-app is now pinned to git+file:///home/opam/datakit (version ~dev)
+
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0mThe following actions will be performed:
+  - install prometheus     ~dev*                                [required by prometheus-app]
+  - install prometheus-app ~dev*
+===== 2 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [prometheus: git]
+Processing  2/2: [prometheus: git] [prometheus-app: git]
+[prometheus] git+file:///home/opam/datakit changed
+Processing  2/2: [prometheus-app: git]
+[prometheus-app] git+file:///home/opam/datakit changed
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/4: [prometheus: ocaml build]
+-> installed prometheus.~dev
+Processing  3/4: [prometheus-app: ocaml build]
+-> installed prometheus-app.~dev
+Done.
+# Run eval `opam config env` to update the current shell environment
+ ---> c769b7898be2
+Removing intermediate container ed18a08ad682
+Successfully built c769b7898be2
+[2017-02-03 16:56.37] Success
