@@ -1,0 +1,1160 @@
+=== Docker build Dockerfile.ci
+[2017-02-06 14:48.41] Starting...
+Cloning into '/tmp/with_clone302c9e2e'...
+done.
+HEAD is now at 703b7e2 Move Prometheus libraries into a separate repository
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.376 MB
+Step 1/19 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:29fbcdf704ed24b28d873c491db2d78e1e0eda8e8c81bf1c8bb5a95ddc17a5b6
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> 6d8185a9354a
+Step 2/19 : ENV OPAMYES 1 OPAMERRLOGLEN 0
+ ---> Using cache
+ ---> c07fce1d14f5
+Step 3/19 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> c7940c385e48
+Step 4/19 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 66176dfb7526
+Step 5/19 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> d24549fe05af
+Step 6/19 : RUN opam init -y
+ ---> Using cache
+ ---> 54aa18bea0ea
+Step 7/19 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 6f6dde4db1ed
+Step 8/19 : RUN opam install depext -y
+ ---> Using cache
+ ---> c756e2cf4ccf
+Step 9/19 : RUN opam pin add -yn prometheus.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn prometheus-app.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/docker/datakit.git &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git &&     opam pin add -yn datakit https://github.com/docker/datakit.git
+ ---> Running in 1cb2294b7b8a
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus] git+https://github.com/mirage/prometheus.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus/prometheus.opam from 1.2 to 2.0~alpha3
+[0mprometheus is now pinned to git+https://github.com/mirage/prometheus.git (version dev)
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app] git+https://github.com/mirage/prometheus.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus-app/prometheus-app.opam from 1.2 to 2.0~alpha3
+[0mprometheus-app is now pinned to git+https://github.com/mirage/prometheus.git (version dev)
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client] git+https://github.com/docker/datakit.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-client/datakit-client.opam from 1.2 to 2.0~alpha3
+[0mdatakit-client is now pinned to git+https://github.com/docker/datakit.git (version 0.8.0)
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] git+https://github.com/mirage/ocaml-github.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/github/opam from 1.2 to 2.0~alpha3
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 2.2.0)
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] git+https://github.com/docker/datakit.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-github/datakit-github.opam from 1.2 to 2.0~alpha3
+[0mdatakit-github is now pinned to git+https://github.com/docker/datakit.git (version 0.8.1)
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server] git+https://github.com/docker/datakit.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-server/datakit-server.opam from 1.2 to 2.0~alpha3
+[0mdatakit-server is now pinned to git+https://github.com/docker/datakit.git (version 0.8.0)
+[datakit: git]
+[datakit: git]
+[datakit: git]
+[datakit: git]
+[datakit: git]
+[datakit: git]
+[datakit] git+https://github.com/docker/datakit.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit/opam from 1.2 to 2.0~alpha3
+[0mdatakit is now pinned to git+https://github.com/docker/datakit.git (version 0.8.0)
+ ---> b4c12e3d3faa
+Removing intermediate container 1cb2294b7b8a
+Step 10/19 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> e70b2e9c8c4c
+Removing intermediate container 3cc29e56811a
+Step 11/19 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Running in ef6a39d0e5b4
+Package tmp does not exist, create as a NEW package ? [Y/n] y
+[tmp: rsync]
+[tmp.~dev] file:///tmp/deps/opam synchronized
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/tmp/opam from 1.2 to 2.0~alpha3
+[0mtmp is now pinned to file:///tmp/deps/opam (version ~dev)
+ ---> d0dba6c78e9c
+Removing intermediate container ef6a39d0e5b4
+Step 12/19 : RUN opam depext tmp -y
+ ---> Running in d75bf6d26e1f
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+perl
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev pcre-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev pcre-dev
+(1/11) Installing libgmpxx (6.1.1-r0)
+(2/11) Installing gmp-dev (6.1.1-r0)
+(3/11) Installing linux-headers (4.4.6-r1)
+(4/11) Installing zlib-dev (1.2.8-r2)
+(5/11) Installing libcrypto1.0 (1.0.2k-r0)
+(6/11) Installing libssl1.0 (1.0.2k-r0)
+(7/11) Installing openssl-dev (1.0.2k-r0)
+(8/11) Installing libpcre16 (8.39-r0)
+(9/11) Installing libpcre32 (8.39-r0)
+(10/11) Installing libpcrecpp (8.39-r0)
+(11/11) Installing pcre-dev (8.39-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 659 MiB in 104 packages
+# OS packages installation successful
+ ---> 5f93ffd14291
+Removing intermediate container d75bf6d26e1f
+Step 13/19 : RUN opam install --deps-only tmp -y
+ ---> Running in f76753b4f150
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [tmp: rsync]
+[tmp.~dev] file:///tmp/deps/opam already up-to-date
+The following actions will be performed:
+  - install conf-gmp            1             
+  - install mirage-no-xen       1             
+  - install conf-m4             1             
+  - install conf-perl           1             
+  - install conf-which          1             
+  - install result              1.2           
+  - install ocamlfind           1.7.1         
+  - install zarith              1.4.1         
+  - install uutf                0.9.4         
+  - install topkg               0.8.1         
+  - install sexplib             113.33.00+4.03
+  - install react               1.2.0         
+  - install ppx_tools           5.0           
+  - install ocamlmod            0.0.8         
+  - install ocamlify            0.0.1         
+  - install menhir              20170101      
+  - install magic-mime          1.0.0         
+  - install fieldslib           113.24.00     
+  - install easy-format         1.2.0         
+  - install dispatch            0.3.0         
+  - install crunch              1.4.1         
+  - install base-bytes          base          
+  - install rresult             0.5.0         
+  - install mtime               0.8.4         
+  - install fmt                 0.8.0         
+  - install duration            0.1.0         
+  - install astring             0.8.3         
+  - install asetmap             0.8.1         
+  - install ppx_core            113.33.01+4.03
+  - install lwt                 2.7.0         
+       For module Lwt_react, please install package lwt_react
+  - install oasis               0.4.8         
+  - install biniou              1.0.12        
+  - install atd                 1.2.0         
+  - install win-error           0.2           
+  - install uuidm               0.9.6         
+  - install stringext           1.4.3         
+  - install re                  1.7.1         
+  - install cppo                1.4.1         
+  - install base64              2.1.2         
+  - install ocb-stubblr         0.1.0         
+  - install ppx_optcomp         113.33.01+4.03
+  - install prometheus          dev*          
+  - install logs                0.6.2         
+  - install multipart-form-data 0.1.0         
+  - install tyxml               4.0.1         
+       For tyxml's ppx, please install tyxml-ppx.
+  - install redis               0.3.3         
+  - install yojson              1.3.3         
+  - install ppx_deriving        4.1           
+  - install ocplib-endian       1.0           
+  - install camomile            0.8.5         
+  - install named-pipe          0.4.0         
+  - install ppx_driver          113.33.02+4.03
+  - install win-eventlog        0.1           
+  - install asl                 0.10          
+  - install atdgen              1.10.0        
+  - install cstruct             2.3.1         
+  - install zed                 1.4           
+  - install ppx_type_conv       113.33.02+4.03
+  - install io-page             1.6.1         
+  - install hex                 1.0.0         
+  - install asn1-combinators    0.1.3         
+  - install lambda-term         1.10.1        
+  - install ppx_sexp_conv       113.33.01+4.03
+  - install ppx_fields_conv     113.33.00+4.03
+  - install uri                 1.9.2         
+  - install nocrypto            0.5.3         
+  - install ipaddr              2.7.1         
+  - install x509                0.5.3         
+  - install pbkdf               0.2.0         
+  - install mirage-types        2.8.0         
+  - install mirage-types-lwt    2.8.0         
+  - install tls                 0.7.1         
+  - install mirage-flow         1.1.0         
+  - install channel             1.1.1         
+  - install conduit             0.14.5        
+  - install hvsock              0.11.1        
+  - install protocol-9p         0.8.0         
+  - install cohttp              0.20.2        
+  - install datakit-server      0.8.0*        
+  - install datakit-client      0.8.0*        
+  - install webmachine          0.3.2         
+  - install prometheus-app      dev*          
+  - install github              2.2.0*        
+  - install session             0.3.0         
+  - install github-hooks        0.1.1         
+  - install datakit-github      0.8.1*        
+===== 86 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/86: [asetmap: http]
+Processing  2/86: [asetmap: http] [asl: http]
+Processing  3/86: [asetmap: http] [asl: http] [asn1-combinators: http]
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+Processing  3/86: [asl: http] [asn1-combinators: http]
+Processing  4/86: [asl: http] [asn1-combinators: http] [astring: http]
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+Processing  4/86: [asl: http] [asn1-combinators: http]
+Processing  5/86: [asl: http] [asn1-combinators: http] [atd: http]
+[asl.0.10] https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz downloaded
+Processing  5/86: [asn1-combinators: http] [atd: http]
+Processing  6/86: [asn1-combinators: http] [atd: http] [atdgen: http]
+[asn1-combinators.0.1.3] https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz downloaded
+Processing  6/86: [atd: http] [atdgen: http]
+Processing  7/86: [atd: http] [atdgen: http]
+Processing  8/86: [atd: http] [atdgen: http] [base64: http]
+[atd.1.2.0] https://github.com/mjambon/atd/archive/v1.2.0.tar.gz downloaded
+Processing  8/86: [atdgen: http] [base64: http]
+Processing  9/86: [atdgen: http] [base64: http] [biniou: http]
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+Processing  9/86: [atdgen: http] [biniou: http]
+Processing 10/86: [atdgen: http] [biniou: http] [camomile: http]
+[atdgen.1.10.0] https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz downloaded
+Processing 10/86: [biniou: http] [camomile: http]
+Processing 11/86: [biniou: http] [camomile: http] [channel: http]
+[biniou.1.0.12] https://github.com/mjambon/biniou/archive/v1.0.12.tar.gz downloaded
+Processing 11/86: [camomile: http] [channel: http]
+Processing 12/86: [camomile: http] [channel: http] [cohttp: http]
+[channel.1.1.1] https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz downloaded
+Processing 12/86: [camomile: http] [cohttp: http]
+Processing 13/86: [camomile: http] [cohttp: http] [conduit: http]
+[cohttp.0.20.2] https://github.com/mirage/ocaml-cohttp/archive/v0.20.2.tar.gz downloaded
+Processing 13/86: [camomile: http] [conduit: http]
+Processing 14/86: [camomile: http] [conduit: http]
+Processing 15/86: [camomile: http] [conduit: http]
+Processing 16/86: [camomile: http] [conduit: http]
+Processing 17/86: [camomile: http] [conduit: http]
+Processing 18/86: [camomile: http] [conduit: http] [cppo: http]
+[conduit.0.14.5] https://github.com/mirage/ocaml-conduit/archive/v0.14.5.tar.gz downloaded
+Processing 18/86: [camomile: http] [cppo: http]
+Processing 19/86: [camomile: http] [cppo: http] [crunch: http]
+[cppo.1.4.1] https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz downloaded
+Processing 19/86: [camomile: http] [crunch: http]
+Processing 20/86: [camomile: http] [crunch: http] [cstruct: http]
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+Processing 20/86: [camomile: http] [cstruct: http]
+Processing 21/86: [camomile: http] [cstruct: http] [datakit-client: git]
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+Processing 21/86: [cstruct: http] [datakit-client: git]
+Processing 22/86: [cstruct: http] [datakit-client: git] [datakit-github: git]
+[cstruct.2.3.1] https://github.com/mirage/ocaml-cstruct/archive/v2.3.1.tar.gz downloaded
+Processing 22/86: [datakit-client: git] [datakit-github: git]
+Processing 23/86: [datakit-client: git] [datakit-github: git] [datakit-server: git]
+[datakit-client] git+https://github.com/docker/datakit.git already up-to-date
+Processing 23/86: [datakit-github: git] [datakit-server: git]
+Processing 24/86: [datakit-github: git] [datakit-server: git] [dispatch: http]
+[datakit-github] git+https://github.com/docker/datakit.git already up-to-date
+Processing 24/86: [datakit-server: git] [dispatch: http]
+Processing 25/86: [datakit-server: git] [dispatch: http] [duration: http]
+[datakit-server] git+https://github.com/docker/datakit.git already up-to-date
+Processing 25/86: [dispatch: http] [duration: http]
+Processing 26/86: [dispatch: http] [duration: http] [easy-format: http]
+[dispatch.0.3.0] https://github.com/inhabitedtype/ocaml-dispatch/archive/0.3.0.tar.gz downloaded
+Processing 26/86: [duration: http] [easy-format: http]
+Processing 27/86: [duration: http] [easy-format: http] [fieldslib: http]
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+Processing 27/86: [easy-format: http] [fieldslib: http]
+Processing 28/86: [easy-format: http] [fieldslib: http] [fmt: http]
+[fmt.0.8.0] http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz downloaded
+Processing 28/86: [easy-format: http] [fieldslib: http]
+Processing 29/86: [easy-format: http] [fieldslib: http] [github: git]
+[easy-format.1.2.0] https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz downloaded
+Processing 29/86: [fieldslib: http] [github: git]
+Processing 30/86: [fieldslib: http] [github: git] [github-hooks: http]
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+Processing 30/86: [github: git] [github-hooks: http]
+Processing 31/86: [github: git] [github-hooks: http] [hex: http]
+[github] git+https://github.com/mirage/ocaml-github.git already up-to-date
+Processing 31/86: [github-hooks: http] [hex: http]
+Processing 32/86: [github-hooks: http] [hex: http] [hvsock: http]
+[github-hooks.0.1.1] https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz downloaded
+Processing 32/86: [hex: http] [hvsock: http]
+Processing 33/86: [hex: http] [hvsock: http] [io-page: http]
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+Processing 33/86: [hvsock: http] [io-page: http]
+Processing 34/86: [hvsock: http] [io-page: http] [ipaddr: http]
+[hvsock.0.11.1] https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz downloaded
+Processing 34/86: [io-page: http] [ipaddr: http]
+Processing 35/86: [io-page: http] [ipaddr: http] [lambda-term: http]
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+Processing 35/86: [ipaddr: http] [lambda-term: http]
+Processing 36/86: [ipaddr: http] [lambda-term: http] [logs: http]
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+Processing 36/86: [ipaddr: http] [lambda-term: http]
+Processing 37/86: [ipaddr: http] [lambda-term: http] [lwt: http]
+[ipaddr.2.7.1] https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.1/ipaddr-2.7.1.tbz downloaded
+Processing 37/86: [lambda-term: http] [lwt: http]
+Processing 38/86: [lambda-term: http] [lwt: http] [magic-mime: http]
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+Processing 38/86: [lwt: http] [magic-mime: http]
+Processing 39/86: [lwt: http] [magic-mime: http] [menhir: http]
+[lwt.2.7.0] https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz downloaded
+Processing 39/86: [magic-mime: http] [menhir: http]
+Processing 40/86: [magic-mime: http] [menhir: http] [mirage-flow: http]
+[menhir.20170101] http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz downloaded
+Processing 40/86: [magic-mime: http] [mirage-flow: http]
+Processing 41/86: [magic-mime: http] [mirage-flow: http]
+Processing 42/86: [magic-mime: http] [mirage-flow: http] [mirage-types: http]
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+Processing 42/86: [mirage-flow: http] [mirage-types: http]
+Processing 43/86: [mirage-flow: http] [mirage-types: http]
+Processing 44/86: [mirage-flow: http] [mirage-types: http] [mtime: http]
+[mtime.0.8.4] http://erratique.ch/software/mtime/releases/mtime-0.8.4.tbz downloaded
+Processing 44/86: [mirage-flow: http] [mirage-types: http]
+Processing 45/86: [mirage-flow: http] [mirage-types: http] [multipart-form-data: http]
+[multipart-form-data.0.1.0] https://github.com/cryptosense/multipart-form-data/releases/download/v0.1.0/multipart-form-data-0.1.0.tbz downloaded
+Processing 45/86: [mirage-flow: http] [mirage-types: http]
+Processing 46/86: [mirage-flow: http] [mirage-types: http] [named-pipe: http]
+[mirage-types.2.8.0] https://github.com/mirage/mirage/archive/v2.8.0.tar.gz downloaded
+Processing 46/86: [mirage-flow: http] [named-pipe: http]
+Processing 47/86: [mirage-flow: http] [named-pipe: http] [nocrypto: http]
+[mirage-flow.1.1.0] https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz downloaded
+Processing 47/86: [named-pipe: http] [nocrypto: http]
+Processing 48/86: [named-pipe: http] [nocrypto: http] [oasis: http]
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+Processing 48/86: [nocrypto: http] [oasis: http]
+Processing 49/86: [nocrypto: http] [oasis: http] [ocamlfind: http]
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
+Processing 49/86: [nocrypto: http] [ocamlfind: http]
+Processing 50/86: [nocrypto: http] [ocamlfind: http] [ocamlify: http]
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+Processing 50/86: [nocrypto: http] [ocamlfind: http]
+Processing 51/86: [nocrypto: http] [ocamlfind: http] [ocamlmod: http]
+[ocamlfind.1.7.1] http://download.camlcity.org/download/findlib-1.7.1.tar.gz downloaded
+Processing 51/86: [nocrypto: http] [ocamlmod: http]
+Processing 52/86: [nocrypto: http] [ocamlmod: http] [ocb-stubblr: http]
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+Processing 52/86: [nocrypto: http] [ocb-stubblr: http]
+Processing 53/86: [nocrypto: http] [ocb-stubblr: http] [ocplib-endian: http]
+[nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
+Processing 53/86: [ocb-stubblr: http] [ocplib-endian: http]
+Processing 54/86: [ocb-stubblr: http] [ocplib-endian: http] [pbkdf: http]
+[ocb-stubblr.0.1.0] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.0/ocb-stubblr-0.1.0.tbz downloaded
+Processing 54/86: [ocplib-endian: http] [pbkdf: http]
+Processing 55/86: [ocplib-endian: http] [pbkdf: http] [ppx_core: http]
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+Processing 55/86: [pbkdf: http] [ppx_core: http]
+Processing 56/86: [pbkdf: http] [ppx_core: http] [ppx_deriving: http]
+[ppx_core.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz downloaded
+Processing 56/86: [pbkdf: http] [ppx_deriving: http]
+Processing 57/86: [pbkdf: http] [ppx_deriving: http] [ppx_driver: http]
+[pbkdf.0.2.0] https://github.com/abeaumont/ocaml-pbkdf/archive/0.2.0.tar.gz downloaded
+Processing 57/86: [ppx_deriving: http] [ppx_driver: http]
+Processing 58/86: [ppx_deriving: http] [ppx_driver: http] [ppx_fields_conv: http]
+[ppx_driver.113.33.02+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.02+4.03.tar.gz downloaded
+Processing 58/86: [ppx_deriving: http] [ppx_fields_conv: http]
+Processing 59/86: [ppx_deriving: http] [ppx_fields_conv: http] [ppx_optcomp: http]
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+Processing 59/86: [ppx_deriving: http] [ppx_optcomp: http]
+Processing 60/86: [ppx_deriving: http] [ppx_optcomp: http] [ppx_sexp_conv: http]
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+Processing 60/86: [ppx_optcomp: http] [ppx_sexp_conv: http]
+Processing 61/86: [ppx_optcomp: http] [ppx_sexp_conv: http] [ppx_tools: http]
+[ppx_sexp_conv.113.33.01+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz downloaded
+Processing 61/86: [ppx_optcomp: http] [ppx_tools: http]
+Processing 62/86: [ppx_optcomp: http] [ppx_tools: http] [ppx_type_conv: http]
+[ppx_optcomp.113.33.01+4.03] https://github.com/janestreet/ppx_optcomp/archive/113.33.01+4.03.tar.gz downloaded
+Processing 62/86: [ppx_tools: http] [ppx_type_conv: http]
+Processing 63/86: [ppx_tools: http] [ppx_type_conv: http] [prometheus: git]
+[ppx_type_conv.113.33.02+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz downloaded
+Processing 63/86: [ppx_tools: http] [prometheus: git]
+Processing 64/86: [ppx_tools: http] [prometheus: git] [prometheus-app: git]
+[ppx_tools.5.0] https://github.com/alainfrisch/ppx_tools/tarball/f70ca1d07d565989a0041e312e8efc00ff2ad87e downloaded
+Processing 64/86: [prometheus: git] [prometheus-app: git]
+Processing 65/86: [prometheus: git] [prometheus-app: git] [protocol-9p: http]
+[prometheus] git+https://github.com/mirage/prometheus.git already up-to-date
+Processing 65/86: [prometheus-app: git] [protocol-9p: http]
+Processing 66/86: [prometheus-app: git] [protocol-9p: http] [re: http]
+[prometheus-app] git+https://github.com/mirage/prometheus.git already up-to-date
+Processing 66/86: [protocol-9p: http] [re: http]
+Processing 67/86: [protocol-9p: http] [re: http] [react: http]
+[react.1.2.0] http://erratique.ch/software/react/releases/react-1.2.0.tbz downloaded
+Processing 67/86: [protocol-9p: http] [re: http]
+Processing 68/86: [protocol-9p: http] [re: http] [redis: http]
+[protocol-9p.0.8.0] https://github.com/mirage/ocaml-9p/releases/download/v0.8.0/protocol-9p-0.8.0.tbz downloaded
+Processing 68/86: [re: http] [redis: http]
+Processing 69/86: [re: http] [redis: http] [result: http]
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+Processing 69/86: [redis: http] [result: http]
+Processing 70/86: [redis: http] [result: http] [rresult: http]
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+Processing 70/86: [redis: http] [result: http]
+Processing 71/86: [redis: http] [result: http] [session: http]
+[redis.0.3.3] https://github.com/0xffea/ocaml-redis/archive/0.3.3.tar.gz downloaded
+Processing 71/86: [result: http] [session: http]
+Processing 72/86: [result: http] [session: http] [sexplib: http]
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+Processing 72/86: [session: http] [sexplib: http]
+Processing 73/86: [session: http] [sexplib: http] [stringext: http]
+[sexplib.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz downloaded
+Processing 73/86: [session: http] [stringext: http]
+Processing 74/86: [session: http] [stringext: http] [tls: http]
+[session.0.3.0] https://github.com/inhabitedtype/ocaml-session/archive/0.3.0.tar.gz downloaded
+Processing 74/86: [stringext: http] [tls: http]
+Processing 75/86: [stringext: http] [tls: http] [topkg: http]
+[topkg.0.8.1] http://erratique.ch/software/topkg/releases/topkg-0.8.1.tbz downloaded
+Processing 75/86: [stringext: http] [tls: http]
+Processing 76/86: [stringext: http] [tls: http] [tyxml: http]
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+Processing 76/86: [tls: http] [tyxml: http]
+Processing 77/86: [tls: http] [tyxml: http] [uri: http]
+[tls.0.7.1] https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz downloaded
+Processing 77/86: [tyxml: http] [uri: http]
+Processing 78/86: [tyxml: http] [uri: http] [uuidm: http]
+[uuidm.0.9.6] http://erratique.ch/software/uuidm/releases/uuidm-0.9.6.tbz downloaded
+Processing 78/86: [tyxml: http] [uri: http]
+Processing 79/86: [tyxml: http] [uri: http] [uutf: http]
+[tyxml.4.0.1] https://github.com/ocsigen/tyxml/archive/4.0.1.tar.gz downloaded
+Processing 79/86: [uri: http] [uutf: http]
+Processing 80/86: [uri: http] [uutf: http] [webmachine: http]
+[uutf.0.9.4] http://erratique.ch/software/uutf/releases/uutf-0.9.4.tbz downloaded
+Processing 80/86: [uri: http] [webmachine: http]
+Processing 81/86: [uri: http] [webmachine: http] [win-error: http]
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+Processing 81/86: [webmachine: http] [win-error: http]
+Processing 82/86: [webmachine: http] [win-error: http] [win-eventlog: http]
+[webmachine.0.3.2] https://github.com/inhabitedtype/ocaml-webmachine/archive/0.3.2.tar.gz downloaded
+Processing 82/86: [win-error: http] [win-eventlog: http]
+Processing 83/86: [win-error: http] [win-eventlog: http] [x509: http]
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+Processing 83/86: [win-eventlog: http] [x509: http]
+Processing 84/86: [win-eventlog: http] [x509: http] [yojson: http]
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+Processing 84/86: [x509: http] [yojson: http]
+Processing 85/86: [x509: http] [yojson: http] [zarith: http]
+[zarith.1.4.1] https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz downloaded
+Processing 85/86: [x509: http] [yojson: http]
+Processing 86/86: [x509: http] [yojson: http] [zed: http]
+[yojson.1.3.3] https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz downloaded
+Processing 86/86: [x509: http] [zed: http]
+[x509.0.5.3] https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz downloaded
+Processing 86/86: [zed: http]
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/172: [conf-gmp: sh]
+Processing  2/172: [conf-gmp: sh] [conf-m4: sh echo | m4]
+Processing  3/172: [conf-gmp: sh] [conf-m4: sh echo | m4] [conf-perl: perl]
+Processing  4/172: [conf-gmp: sh] [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+Processing  5/172: [conf-gmp: sh] [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+Processing  6/172: [conf-gmp: sh] [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+-> installed mirage-no-xen.1
+Processing  7/172: [conf-gmp: sh] [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+Processing  7/172: [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+-> installed conf-gmp.1
+Processing  8/172: [conf-m4: sh echo | m4] [conf-perl: perl] [conf-which: which which]
+Processing  8/172: [conf-perl: perl] [conf-which: which which]
+-> installed conf-m4.1
+Processing  9/172: [conf-perl: perl] [conf-which: which which]
+Processing 10/172: [conf-perl: perl] [conf-which: which which]
+Processing 10/172: [conf-which: which which]
+-> installed conf-perl.1
+Processing 11/172: [conf-which: which which]
+Processing 11/172:
+-> installed conf-which.1
+Processing 12/172:
+Processing 12/172: [result: make]
+Processing 12/172: [ocamlfind: patch] [result: make]
+Processing 12/172: [ocamlfind: ./configure] [result: make]
+Processing 12/172: [ocamlfind: ./configure]
+-> installed result.1.2
+Processing 13/172: [ocamlfind: ./configure]
+Processing 13/172: [ocamlfind: make all]
+Processing 13/172: [ocamlfind: make opt]
+Processing 14/172: [ocamlfind: make install]
+Processing 14/172: [ocamlfind: install 0755]
+-> installed ocamlfind.1.7.1
+Processing 16/172:
+Processing 17/172:
+Processing 18/172:
+Processing 19/172:
+Processing 20/172:
+Processing 21/172:
+Processing 22/172:
+Processing 23/172:
+Processing 24/172:
+Processing 25/172:
+Processing 26/172:
+Processing 27/172:
+Processing 28/172:
+Processing 29/172:
+-> installed base-bytes.base
+Processing 30/172:
+Processing 31/172:
+Processing 31/172: [crunch: ocaml setup.ml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml]
+Processing 31/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml] [zarith: ./configure]
+Processing 31/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [easy-format: make] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml] [zarith: ./configure]
+Processing 31/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml] [zarith: ./configure]
+Processing 32/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml] [zarith: ./configure]
+Processing 32/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [uutf: ocaml] [zarith: ./configure]
+Processing 32/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [zarith: ./configure]
+Processing 33/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [topkg: ocaml build] [zarith: ./configure]
+Processing 33/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: ./configure]
+Processing 33/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: ./configure] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: make]
+Processing 33/172: [cppo: make opt] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: make]
+Processing 33/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ppx_tools: make all] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: make]
+Processing 33/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: make]
+Processing 34/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [zarith: make]
+Processing 34/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: ./configure] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 34/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: ./configure] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 34/172: [cppo: make ocamlbuild] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 34/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 35/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [cppo: make install-lib]
+-> installed cppo.1.4.1
+Processing 35/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 36/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [react: ocaml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 36/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 37/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 37/172: [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 37/172: [camomile: patch] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 37/172: [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlify: ocaml setup.ml] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 37/172: [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 38/172: [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [easy-format: make install]
+-> installed easy-format.1.2.0
+Processing 38/172: [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 39/172: [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 39/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [fieldslib: make] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 39/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+-> installed fieldslib.113.24.00
+Processing 40/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make]
+Processing 41/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [magic-mime: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [dispatch: ocaml setup.ml] [magic-mime: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [magic-mime: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [zarith: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: ./configure] [crunch: ocaml setup.ml] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: ./configure] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [ocamlify: ocaml setup.ml]
+Processing 41/172: [biniou: make] [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [ocamlify: ocaml setup.ml]
+-> installed ocamlify.0.0.1
+Processing 41/172: [biniou: make] [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make]
+Processing 42/172: [biniou: make] [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [stringext: ocaml setup.ml] [topkg: ocaml build] [win-error: make] [crunch: ocaml setup.ml]
+Processing 42/172: [biniou: make] [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [topkg: ocaml build] [win-error: make] [crunch: ocaml setup.ml]
+Processing 42/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [topkg: ocaml build] [win-error: make] [crunch: ocaml setup.ml]
+Processing 42/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [topkg: ocaml build] [crunch: ocaml setup.ml]
+Processing 42/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [crunch: ocaml setup.ml]
+-> installed crunch.1.4.1
+Processing 42/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make]
+Processing 43/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [biniou: make install]
+-> installed biniou.1.0.12
+Processing 43/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make]
+Processing 44/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make]
+Processing 45/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [dispatch: ocaml setup.ml]
+Processing 45/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml] [re: ocaml setup.ml] [sexplib: make] [yojson: make] [dispatch: ocaml setup.ml]
+Processing 45/172: [camomile: make] [menhir: make Makefile] [re: ocaml setup.ml] [sexplib: make] [yojson: make] [dispatch: ocaml setup.ml]
+Processing 45/172: [camomile: make] [menhir: make Makefile] [sexplib: make] [yojson: make] [dispatch: ocaml setup.ml]
+-> installed dispatch.0.3.0
+Processing 45/172: [camomile: make] [menhir: make Makefile] [sexplib: make] [yojson: make]
+Processing 46/172: [camomile: make] [menhir: make Makefile] [sexplib: make] [yojson: make] [magic-mime: make install]
+Processing 46/172: [camomile: make] [menhir: make Makefile] [yojson: make] [magic-mime: make install]
+-> installed magic-mime.1.0.0
+Processing 46/172: [camomile: make] [menhir: make Makefile] [yojson: make]
+Processing 47/172: [camomile: make] [menhir: make Makefile] [yojson: make] [ocamlmod: ocaml setup.ml]
+Processing 47/172: [camomile: make] [menhir: make Makefile] [ocamlmod: ocaml setup.ml]
+-> installed ocamlmod.0.0.8
+Processing 47/172: [camomile: make] [menhir: make Makefile]
+Processing 48/172: [camomile: make] [menhir: make Makefile]
+Processing 49/172: [camomile: make] [menhir: make Makefile] [ocplib-endian: ocaml setup.ml]
+Processing 49/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ocplib-endian: ocaml setup.ml]
+-> installed ocplib-endian.1.0
+Processing 49/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml]
+Processing 50/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_tools: make install]
+-> installed ppx_tools.5.0
+Processing 50/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml]
+Processing 51/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml]
+Processing 52/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml]
+Processing 53/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [re: ocaml setup.ml]
+Processing 53/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: ./configure] [re: ocaml setup.ml]
+Processing 53/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: ./configure] [ppx_deriving: ocaml] [re: ocaml setup.ml]
+Processing 53/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [re: ocaml setup.ml]
+-> installed re.1.7.1
+Processing 53/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed react.1.2.0
+Processing 54/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 55/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed sexplib.113.33.00+4.03
+Processing 56/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 57/172: [camomile: make] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [stringext: ocaml setup.ml]
+Processing 57/172: [camomile: make] [lwt: make setup] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [stringext: ocaml setup.ml]
+Processing 57/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [stringext: ocaml setup.ml]
+-> installed stringext.1.4.3
+Processing 57/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed topkg.0.8.1
+Processing 58/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 59/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 60/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 61/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 62/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 63/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 64/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 65/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 66/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 67/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [duration: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [rresult: ocaml build] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [base64: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [rresult: ocaml build] [uuidm: ocaml build] [uutf: ocaml]
+Processing 67/172: [asetmap: ocaml build] [astring: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [rresult: ocaml build] [uuidm: ocaml build] [uutf: ocaml]
+Processing 67/172: [astring: ocaml build] [camomile: make] [duration: ocaml build] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [rresult: ocaml build] [uuidm: ocaml build] [uutf: ocaml]
+Processing 67/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [rresult: ocaml build] [uuidm: ocaml build] [uutf: ocaml]
+Processing 67/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uuidm: ocaml build] [uutf: ocaml]
+Processing 67/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [uutf: ocaml]
+-> installed uutf.0.9.4
+Processing 67/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 68/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed asetmap.0.8.1
+Processing 69/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed base64.2.1.2
+Processing 70/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed duration.0.1.0
+Processing 71/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed rresult.0.5.0
+Processing 72/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+-> installed uuidm.0.9.6
+Processing 73/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml]
+Processing 74/172: [astring: ocaml build] [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [win-error: make install]
+Processing 74/172: [camomile: make] [fmt: ocaml build] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [win-error: make install]
+Processing 74/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [mtime: ocaml build] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [win-error: make install]
+Processing 74/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [win-error: make install]
+Processing 74/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [ppx_deriving: ocaml] [tyxml: ocaml setup.ml] [win-error: make install]
+Processing 74/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml] [win-error: make install]
+-> installed win-error.0.2
+Processing 74/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+-> installed astring.0.8.3
+Processing 75/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 76/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+-> installed fmt.0.8.0
+Processing 77/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+-> installed mtime.0.8.4
+Processing 78/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+-> installed ppx_deriving.4.1
+Processing 79/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 80/172: [camomile: make] [lwt: ocaml setup.ml] [menhir: make Makefile] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml] [yojson: make install-lib]
+Processing 80/172: [camomile: make] [lwt: ocaml setup.ml] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml] [yojson: make install-lib]
+Processing 80/172: [camomile: make] [lwt: ocaml setup.ml] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml] [yojson: make install-lib]
+Processing 80/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml] [yojson: make install-lib]
+-> installed yojson.1.3.3
+Processing 80/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 81/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml] [menhir: make Makefile]
+-> installed menhir.20170101
+Processing 81/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 82/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 83/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml] [zarith: make install]
+Processing 83/172: [atd: make] [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml] [zarith: make install]
+-> installed zarith.1.4.1
+Processing 83/172: [atd: make] [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ocb-stubblr: ocaml build] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 83/172: [atd: make] [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+-> installed ocb-stubblr.0.1.0
+Processing 84/172: [atd: make] [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 84/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 85/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml] [atd: make install]
+-> installed atd.1.2.0
+Processing 85/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 86/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 86/172: [atdgen: make] [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 86/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 87/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml] [atdgen: make findlib-install]
+-> installed atdgen.1.10.0
+Processing 87/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_core: make] [tyxml: ocaml setup.ml]
+Processing 87/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [tyxml: ocaml setup.ml]
+-> installed ppx_core.113.33.01+4.03
+Processing 88/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [tyxml: ocaml setup.ml]
+Processing 89/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [tyxml: ocaml setup.ml]
+Processing 89/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_optcomp: ./configure] [tyxml: ocaml setup.ml]
+Processing 89/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_optcomp: ./configure]
+Processing 90/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_optcomp: ./configure] [tyxml: ocaml setup.ml]
+Processing 90/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [tyxml: ocaml setup.ml]
+-> installed tyxml.4.0.1
+Processing 90/172: [camomile: make] [lwt: make build] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 90/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 91/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make] [lwt: make install]
+-> installed lwt.2.7.0
+Processing 91/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 92/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 93/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 94/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 95/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make]
+Processing 96/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [multipart-form-data: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [multipart-form-data: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [multipart-form-data: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build] [redis: ./configure]
+Processing 97/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build] [redis: ./configure]
+-> installed multipart-form-data.0.1.0
+Processing 98/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [prometheus: ocaml build] [redis: ./configure]
+Processing 98/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+-> installed prometheus.dev
+Processing 99/172: [camomile: make] [cstruct: ./configure] [logs: ocaml build] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+Processing 99/172: [camomile: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+-> installed logs.0.6.2
+Processing 100/172: [camomile: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+Processing 101/172: [camomile: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+Processing 102/172: [camomile: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+Processing 102/172: [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure]
+Processing 103/172: [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [ppx_optcomp: make] [redis: ./configure] [camomile: make install]
+Processing 103/172: [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [camomile: make install]
+Processing 103/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [camomile: make install]
+Processing 103/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make] [camomile: make install]
+-> installed camomile.0.8.5
+Processing 103/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+Processing 104/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+-> installed ppx_optcomp.113.33.01+4.03
+Processing 105/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+Processing 106/172: [asl: make] [cstruct: ./configure] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+Processing 106/172: [asl: make] [cstruct: make] [named-pipe: ocaml build] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+Processing 106/172: [asl: make] [cstruct: make] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+-> installed named-pipe.0.4.0
+Processing 107/172: [asl: make] [cstruct: make] [oasis: ocaml setup.ml] [redis: ./configure] [win-eventlog: make]
+Processing 107/172: [asl: make] [cstruct: make] [oasis: ocaml setup.ml] [redis: make] [win-eventlog: make]
+Processing 107/172: [asl: make] [cstruct: make] [oasis: ocaml setup.ml] [redis: make] [win-eventlog: make] [zed: ocaml setup.ml]
+Processing 107/172: [asl: make] [cstruct: make] [oasis: ocaml setup.ml] [ppx_driver: ./configure] [redis: make] [win-eventlog: make] [zed: ocaml setup.ml]
+Processing 107/172: [asl: make] [cstruct: make] [ppx_driver: ./configure] [redis: make] [win-eventlog: make] [zed: ocaml setup.ml]
+Processing 108/172: [asl: make] [cstruct: make] [ppx_driver: ./configure] [redis: make] [win-eventlog: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [asl: make] [cstruct: make] [ppx_driver: make] [redis: make] [win-eventlog: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [asl: make] [cstruct: make] [ppx_driver: make] [redis: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [cstruct: make] [ppx_driver: make] [redis: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [cstruct: make] [redis: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [redis: make] [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+Processing 108/172: [zed: ocaml setup.ml] [oasis: ocaml setup.ml]
+-> installed oasis.0.4.8
+Processing 108/172: [zed: ocaml setup.ml]
+Processing 109/172: [zed: ocaml setup.ml] [asl: make install]
+Processing 109/172: [asl: make install]
+-> installed asl.0.10
+Processing 110/172: [cstruct: make install]
+Processing 110/172: [cstruct: make js-install]
+-> installed cstruct.2.3.1
+Processing 111/172:
+Processing 112/172:
+Processing 113/172:
+-> installed ppx_driver.113.33.02+4.03
+Processing 114/172:
+Processing 115/172:
+Processing 116/172: [redis: make install]
+Processing 116/172: [asn1-combinators: ocaml build] [redis: make install]
+Processing 116/172: [asn1-combinators: ocaml build] [hex: ./configure] [redis: make install]
+Processing 116/172: [asn1-combinators: ocaml build] [hex: ./configure] [io-page: ./configure] [redis: make install]
+Processing 116/172: [asn1-combinators: ocaml build] [hex: ./configure] [io-page: ./configure] [ppx_type_conv: ./configure] [redis: make install]
+Processing 116/172: [asn1-combinators: ocaml build] [hex: make] [io-page: ./configure] [ppx_type_conv: ./configure] [redis: make install]
+-> installed redis.0.3.3
+Processing 116/172: [asn1-combinators: ocaml build] [hex: make] [io-page: ./configure] [ppx_type_conv: ./configure]
+Processing 117/172: [asn1-combinators: ocaml build] [hex: make] [io-page: ./configure] [ppx_type_conv: ./configure] [win-eventlog: make install]
+Processing 117/172: [hex: make] [io-page: ./configure] [ppx_type_conv: ./configure] [win-eventlog: make install]
+Processing 117/172: [hex: make] [io-page: make] [ppx_type_conv: ./configure] [win-eventlog: make install]
+Processing 117/172: [hex: make] [io-page: make] [ppx_type_conv: make] [win-eventlog: make install]
+-> installed win-eventlog.0.1
+Processing 117/172: [hex: make] [io-page: make] [ppx_type_conv: make]
+-> installed asn1-combinators.0.1.3
+Processing 118/172: [hex: make] [io-page: make] [ppx_type_conv: make]
+Processing 119/172: [hex: make] [io-page: make] [ppx_type_conv: make] [zed: ocaml setup.ml]
+Processing 119/172: [io-page: make] [ppx_type_conv: make] [zed: ocaml setup.ml]
+Processing 119/172: [ppx_type_conv: make] [zed: ocaml setup.ml]
+Processing 119/172: [zed: ocaml setup.ml]
+-> installed zed.1.4
+Processing 120/172:
+Processing 121/172: [hex: make install]
+Processing 121/172: [lambda-term: ocaml setup.ml] [hex: make install]
+-> installed hex.1.0.0
+Processing 121/172: [lambda-term: ocaml setup.ml]
+Processing 122/172: [lambda-term: ocaml setup.ml] [io-page: make install]
+-> installed io-page.1.6.1
+Processing 122/172: [lambda-term: ocaml setup.ml]
+-> installed ppx_type_conv.113.33.02+4.03
+Processing 123/172: [lambda-term: ocaml setup.ml]
+Processing 124/172: [lambda-term: ocaml setup.ml]
+Processing 125/172: [lambda-term: ocaml setup.ml]
+Processing 125/172: [lambda-term: ocaml setup.ml] [ppx_fields_conv: ./configure]
+Processing 125/172: [lambda-term: ocaml setup.ml] [ppx_fields_conv: ./configure] [ppx_sexp_conv: ./configure]
+Processing 125/172: [lambda-term: ocaml setup.ml] [ppx_fields_conv: make] [ppx_sexp_conv: ./configure]
+Processing 125/172: [lambda-term: ocaml setup.ml] [ppx_fields_conv: make] [ppx_sexp_conv: make]
+Processing 125/172: [lambda-term: ocaml setup.ml] [ppx_sexp_conv: make]
+-> installed ppx_fields_conv.113.33.00+4.03
+Processing 126/172: [lambda-term: ocaml setup.ml] [ppx_sexp_conv: make]
+Processing 126/172: [lambda-term: ocaml setup.ml]
+-> installed ppx_sexp_conv.113.33.01+4.03
+Processing 127/172: [lambda-term: ocaml setup.ml]
+Processing 128/172: [lambda-term: ocaml setup.ml]
+Processing 129/172: [lambda-term: ocaml setup.ml]
+Processing 130/172: [lambda-term: ocaml setup.ml]
+Processing 130/172: [ipaddr: ocaml build] [lambda-term: ocaml setup.ml]
+Processing 130/172: [ipaddr: ocaml build] [lambda-term: ocaml setup.ml] [uri: ocaml setup.ml]
+Processing 130/172: [ipaddr: ocaml build] [lambda-term: ocaml setup.ml] [nocrypto: ./configure] [uri: ocaml setup.ml]
+Processing 130/172: [lambda-term: ocaml setup.ml] [nocrypto: ./configure] [uri: ocaml setup.ml]
+-> installed ipaddr.2.7.1
+Processing 131/172: [lambda-term: ocaml setup.ml] [nocrypto: ./configure] [uri: ocaml setup.ml]
+Processing 132/172: [lambda-term: ocaml setup.ml] [nocrypto: ./configure] [uri: ocaml setup.ml]
+Processing 132/172: [lambda-term: ocaml setup.ml] [mirage-types: make build-types] [nocrypto: ./configure] [uri: ocaml setup.ml]
+Processing 132/172: [lambda-term: ocaml setup.ml] [mirage-types: make build-types] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 132/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 133/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml] [mirage-types: make install-types]
+-> installed mirage-types.2.8.0
+Processing 133/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 134/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+-> installed mirage-types-lwt.2.8.0
+Processing 135/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 136/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 137/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 137/172: [lambda-term: ocaml setup.ml] [mirage-flow: ./configure] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 137/172: [channel: ocaml build] [lambda-term: ocaml setup.ml] [mirage-flow: ./configure] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 137/172: [lambda-term: ocaml setup.ml] [mirage-flow: ./configure] [nocrypto: make] [uri: ocaml setup.ml]
+-> installed channel.1.1.1
+Processing 138/172: [lambda-term: ocaml setup.ml] [mirage-flow: ./configure] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 138/172: [lambda-term: ocaml setup.ml] [mirage-flow: make] [nocrypto: make] [uri: ocaml setup.ml]
+Processing 138/172: [lambda-term: ocaml setup.ml] [mirage-flow: make] [nocrypto: make]
+Processing 139/172: [lambda-term: ocaml setup.ml] [mirage-flow: make] [nocrypto: make] [uri: ocaml setup.ml]
+-> installed uri.1.9.2
+Processing 139/172: [lambda-term: ocaml setup.ml] [mirage-flow: make] [nocrypto: make]
+Processing 139/172: [lambda-term: ocaml setup.ml] [nocrypto: make]
+Processing 140/172: [lambda-term: ocaml setup.ml] [nocrypto: make] [mirage-flow: make install]
+-> installed mirage-flow.1.1.0
+Processing 140/172: [lambda-term: ocaml setup.ml] [nocrypto: make]
+Processing 141/172: [lambda-term: ocaml setup.ml] [nocrypto: make]
+Processing 141/172: [hvsock: ocaml setup.ml] [lambda-term: ocaml setup.ml] [nocrypto: make]
+Processing 141/172: [hvsock: ocaml setup.ml] [nocrypto: make]
+Processing 142/172: [hvsock: ocaml setup.ml] [nocrypto: make] [lambda-term: ocaml setup.ml]
+Processing 142/172: [hvsock: make] [nocrypto: make] [lambda-term: ocaml setup.ml]
+-> installed lambda-term.1.10.1
+Processing 142/172: [hvsock: make] [nocrypto: make]
+Processing 143/172: [hvsock: make] [nocrypto: make]
+Processing 143/172: [hvsock: make]
+Processing 144/172: [hvsock: make] [nocrypto: make install]
+Processing 144/172: [hvsock: make] [protocol-9p: ocaml build] [nocrypto: make install]
+-> installed nocrypto.0.5.3
+Processing 144/172: [hvsock: make] [protocol-9p: ocaml build]
+Processing 145/172: [hvsock: make] [protocol-9p: ocaml build]
+Processing 146/172: [hvsock: make] [protocol-9p: ocaml build]
+Processing 146/172: [hvsock: make] [pbkdf: ocaml build] [protocol-9p: ocaml build]
+Processing 146/172: [hvsock: make] [pbkdf: ocaml build] [protocol-9p: ocaml build] [x509: ./configure]
+Processing 146/172: [hvsock: make] [protocol-9p: ocaml build] [x509: ./configure]
+-> installed pbkdf.0.2.0
+Processing 147/172: [hvsock: make] [protocol-9p: ocaml build] [x509: ./configure]
+Processing 147/172: [protocol-9p: ocaml build] [x509: ./configure]
+Processing 148/172: [protocol-9p: ocaml build] [x509: ./configure] [hvsock: make install]
+Processing 148/172: [protocol-9p: ocaml build] [x509: make] [hvsock: make install]
+-> installed hvsock.0.11.1
+Processing 148/172: [protocol-9p: ocaml build] [x509: make]
+Processing 148/172: [x509: make]
+-> installed protocol-9p.0.8.0
+Processing 149/172: [x509: make]
+Processing 150/172: [datakit-client: ocaml build] [x509: make]
+Processing 151/172: [datakit-client: ocaml build] [datakit-server: ocaml build] [x509: make]
+Processing 151/172: [datakit-client: ocaml build] [x509: make]
+-> installed datakit-server.0.8.0
+Processing 152/172: [datakit-client: ocaml build] [x509: make]
+Processing 152/172: [x509: make]
+-> installed datakit-client.0.8.0
+Processing 153/172: [x509: make]
+Processing 154/172: [x509: make install]
+-> installed x509.0.5.3
+Processing 155/172:
+Processing 155/172: [tls: ./configure]
+Processing 155/172: [tls: make]
+Processing 156/172: [tls: make install]
+-> installed tls.0.7.1
+Processing 157/172:
+Processing 157/172: [conduit: ./configure]
+Processing 157/172: [conduit: make]
+Processing 158/172: [conduit: make install]
+-> installed conduit.0.14.5
+Processing 159/172:
+Processing 159/172: [cohttp: make]
+Processing 160/172: [cohttp: make install]
+-> installed cohttp.0.20.2
+Processing 161/172: [github: ocaml setup.ml]
+Processing 162/172: [github: ocaml setup.ml] [prometheus-app: ocaml build]
+Processing 163/172: [github: ocaml setup.ml] [prometheus-app: ocaml build]
+Processing 163/172: [github: ocaml setup.ml] [prometheus-app: ocaml build] [webmachine: ocaml setup.ml]
+Processing 163/172: [github: ocaml setup.ml] [webmachine: ocaml setup.ml]
+-> installed prometheus-app.dev
+Processing 164/172: [github: ocaml setup.ml] [webmachine: ocaml setup.ml]
+Processing 164/172: [github: ocaml setup.ml]
+Processing 165/172: [github: ocaml setup.ml] [webmachine: ocaml setup.ml]
+-> installed webmachine.0.3.2
+Processing 165/172: [github: ocaml setup.ml]
+Processing 166/172: [github: ocaml setup.ml]
+Processing 166/172: [github: ocaml setup.ml] [session: ocaml setup.ml]
+Processing 166/172: [github: ocaml setup.ml]
+Processing 167/172: [github: ocaml setup.ml] [session: ocaml setup.ml]
+-> installed session.0.3.0
+Processing 167/172: [github: ocaml setup.ml]
+Processing 168/172: [github: ocaml setup.ml]
+-> installed github.2.2.0
+Processing 169/172:
+Processing 169/172: [github-hooks: ocaml build]
+-> installed github-hooks.0.1.1
+Processing 171/172: [datakit-github: ocaml build]
+[91m[ERROR] The compilation of datakit-github failed at "ocaml pkg/pkg.ml build --pinned true -n datakit-github".
+[0m[91m
+#=== ERROR while compiling datakit-github.0.8.1 ===============================#
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-github
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-github.0.8.1
+# exit-code            1
+# env-file             /home/opam/.opam/default/.opam-switch/build/datakit-github.0.8.1/datakit-github-7-312b50.env
+# output-file          /home/opam/.opam/default/.opam-switch/build/datakit-github.0.8.1/datakit-github-7-312b50.out
+### output ###
+# pkg.ml: [WARNING] Watermarks: OPAM fields of datakit-github.opam: topkg: no such command. Did you install topkg-care ?
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "maintainer" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "authors" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "homepage" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "bug-reports" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "doc" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "license" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-github.opam: opam field "dev-repo" undefined or unsupported
+# ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+# ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.mli > bridge/github/datakit_github.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github.cmi bridge/github/datakit_github.mli
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+# ocamlfind ocamldep -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github.ml > bridge/github/datakit_github.ml.depends
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github.cmx bridge/github/datakit_github.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+# ocamlfind ocamlopt -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github_api.cmx -o bridge/github/datakit-github.cmxa
+# ocamlfind ocamlopt -shared -linkall -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit-github.cmxa -o bridge/github/datakit-github.cmxs
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_api.cmo bridge/github/datakit_github_api.ml
+# ocamlfind ocamlc -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github_api.cmo -o bridge/github/datakit-github.cma
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_conv.ml > bridge/github/datakit_github_conv.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_conv.mli > bridge/github/datakit_github_conv.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_conv.cmi bridge/github/datakit_github_conv.mli
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_sync.ml > bridge/github/datakit_github_sync.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_sync.mli > bridge/github/datakit_github_sync.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_sync.cmi bridge/github/datakit_github_sync.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_conv.cmx bridge/github/datakit_github_conv.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_sync.cmx bridge/github/datakit_github_sync.ml
+# ocamlfind ocamlopt -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github.cmx bridge/github/datakit_github_conv.cmx bridge/github/datakit_github_sync.cmx -o bridge/github/datakit-github-client.cmxa
+# ocamlfind ocamlopt -shared -linkall -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit-github-client.cmxa -o bridge/github/datakit-github-client.cmxs
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github.cmo bridge/github/datakit_github.ml
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_conv.cmo bridge/github/datakit_github_conv.ml
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_sync.cmo bridge/github/datakit_github_sync.ml
+# ocamlfind ocamlc -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github.cmo bridge/github/datakit_github_conv.cmo bridge/github/datakit_github_sync.cmo -o bridge/github/datakit-github-client.cma
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_vfs.ml > bridge/github/datakit_github_vfs.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/datakit_github_vfs.mli > bridge/github/datakit_github_vfs.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_vfs.cmi bridge/github/datakit_github_vfs.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_vfs.ml
+# ocamlfind ocamlopt -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github_vfs.cmx -o bridge/github/datakit-github-server.cmxa
+# ocamlfind ocamlopt -shared -linkall -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit-github-server.cmxa -o bridge/github/datakit-github-server.cmxs
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/datakit_github_vfs.cmo bridge/github/datakit_github_vfs.ml
+# ocamlfind ocamlc -a -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' bridge/github/datakit_github_vfs.cmo -o bridge/github/datakit-github-server.cma
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'github.unix github-hooks.unix' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/main.ml > bridge/github/main.ml.depends
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'github.unix github-hooks.unix' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules bridge/github/main.mli > bridge/github/main.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'github.unix github-hooks.unix' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/main.cmi bridge/github/main.mli
+# ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+# ocamlfind ocamldep -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_conduit.cmi src/datakit_conduit.mli
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.ml > src/datakit_log.ml.depends
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit_log.mli > src/datakit_log.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_log.cmi src/datakit_log.mli
+# ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/version.ml > src/version.ml.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/version.cmo src/version.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_conduit.cmx src/datakit_conduit.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/datakit_log.cmx src/datakit_log.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit -o src/version.cmx src/version.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'github.unix github-hooks.unix' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/main.cmx bridge/github/main.ml
+# + ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'github.unix github-hooks.unix' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app' -package 'uri datakit-client datakit-server.vfs asetmap prometheus' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I bridge/github -I src -I src/datakit -o bridge/github/main.cmx bridge/github/main.ml
+# File "bridge/github/main.ml", line 89, characters 27-47:
+# Error: Unbound value Prometheus_app.serve
+# Command exited with code 2.
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-tag' 'debug' '-Is' 'src,src/datakit'
+#      '-build-dir' '_build' 'CHANGES.md' 'LICENSE.md' 'README.md'
+#      'pkg/META.github' 'datakit-github.opam' 'bridge/github/datakit-github.a'
+#      'bridge/github/datakit-github.cmxs' 'bridge/github/datakit-github.cmxa'
+#      'bridge/github/datakit-github.cma'
+#      'bridge/github/datakit_github_api.cmx'
+#      'bridge/github/datakit_github_api.cmi'
+#      'bridge/github/datakit_github_api.mli'
+#      'bridge/github/datakit-github-client.a'
+#      'bridge/github/datakit-github-client.cmxs'
+#      'bridge/github/datakit-github-client.cmxa'
+#      'bridge/github/datakit-github-client.cma'
+#      'bridge/github/datakit_github_sync.cmx'
+#      'bridge/github/datakit_github_sync.cmi'
+#      'bridge/github/datakit_github_sync.mli'
+#      'bridge/github/datakit_github_conv.cmx'
+#      'bridge/github/datakit_github_conv.cmi'
+#      'bridge/github/datakit_github_conv.mli'
+#      'bridge/github/datakit_github.cmx' 'bridge/github/datakit_github.cmi'
+#      'bridge/github/datakit_github.mli'
+#      'bridge/github/datakit-github-server.a'
+#      'bridge/github/datakit-github-server.cmxs'
+#      'bridge/github/datakit-github-server.cmxa'
+#      'bridge/github/datakit-github-server.cma'
+#      'bridge/github/datakit_github_vfs.cmx'
+#      'bridge/github/datakit_github_vfs.cmi'
+#      'bridge/github/datakit_github_vfs.mli' 'bridge/github/main.native']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-github 0.8.1
++- 
++- The following changes have been performed
+| - install asetmap             0.8.1         
+| - install asl                 0.10          
+| - install asn1-combinators    0.1.3         
+| - install astring             0.8.3         
+| - install atd                 1.2.0         
+| - install atdgen              1.10.0        
+| - install base-bytes          base          
+| - install base64              2.1.2         
+| - install biniou              1.0.12        
+| - install camomile            0.8.5         
+| - install channel             1.1.1         
+| - install cohttp              0.20.2        
+| - install conduit             0.14.5        
+| - install conf-gmp            1             
+| - install conf-m4             1             
+| - install conf-perl           1             
+| - install conf-which          1             
+| - install cppo                1.4.1         
+| - install crunch              1.4.1         
+| - install cstruct             2.3.1         
+| - install datakit-client      0.8.0         
+| - install datakit-server      0.8.0         
+| - install dispatch            0.3.0         
+| - install duration            0.1.0         
+| - install easy-format         1.2.0         
+| - install fieldslib           113.24.00     
+| - install fmt                 0.8.0         
+| - install github              2.2.0         
+| - install github-hooks        0.1.1         
+| - install hex                 1.0.0         
+| - install hvsock              0.11.1        
+| - install io-page             1.6.1         
+| - install ipaddr              2.7.1         
+| - install lambda-term         1.10.1        
+| - install logs                0.6.2         
+| - install lwt                 2.7.0         
+| - install magic-mime          1.0.0         
+| - install menhir              20170101      
+| - install mirage-flow         1.1.0         
+| - install mirage-no-xen       1             
+| - install mirage-types        2.8.0         
+| - install mirage-types-lwt    2.8.0         
+| - install mtime               0.8.4         
+| - install multipart-form-data 0.1.0         
+| - install named-pipe          0.4.0         
+| - install nocrypto            0.5.3         
+| - install oasis               0.4.8         
+| - install ocamlfind           1.7.1         
+| - install ocamlify            0.0.1         
+| - install ocamlmod            0.0.8         
+| - install ocb-stubblr         0.1.0         
+| - install ocplib-endian       1.0           
+| - install pbkdf               0.2.0         
+| - install ppx_core            113.33.01+4.03
+| - install ppx_deriving        4.1           
+| - install ppx_driver          113.33.02+4.03
+| - install ppx_fields_conv     113.33.00+4.03
+| - install ppx_optcomp         113.33.01+4.03
+| - install ppx_sexp_conv       113.33.01+4.03
+| - install ppx_tools           5.0           
+| - install ppx_type_conv       113.33.02+4.03
+| - install prometheus          dev           
+| - install prometheus-app      dev           
+| - install protocol-9p         0.8.0         
+| - install re                  1.7.1         
+| - install react               1.2.0         
+| - install redis               0.3.3         
+| - install result              1.2           
+| - install rresult             0.5.0         
+| - install session             0.3.0         
+| - install sexplib             113.33.00+4.03
+| - install stringext           1.4.3         
+| - install tls                 0.7.1         
+| - install topkg               0.8.1         
+| - install tyxml               4.0.1         
+| - install uri                 1.9.2         
+| - install uuidm               0.9.6         
+| - install uutf                0.9.4         
+| - install webmachine          0.3.2         
+| - install win-error           0.2           
+| - install win-eventlog        0.1           
+| - install x509                0.5.3         
+| - install yojson              1.3.3         
+| - install zarith              1.4.1         
+| - install zed                 1.4           
++- 
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+# Run eval `opam config env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170206144910.export"
+[0mThe command '/bin/sh -c opam install --deps-only tmp -y' returned a non-zero code: 4
+[2017-02-06 14:52.18] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 4
