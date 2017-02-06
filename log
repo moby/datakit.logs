@@ -1,0 +1,52 @@
+=== Docker build Dockerfile.self-ci
+[2017-02-06 15:13.54] Starting...
+Cloning into '/tmp/with_clone1a7ec150'...
+done.
+HEAD is now at e3f0235 Move Prometheus libraries into a separate repository
+[2017-02-06 15:13.55] Rewrite Dockerfile's first line to:
+FROM sha256:828b72d7199fafbe16f7eb62d7e7774b63aec94405248443666697f779ac04c0
+Sending build context to Docker daemon 22.02 kB
+Step 1/9 : FROM sha256:828b72d7199fafbe16f7eb62d7e7774b63aec94405248443666697f779ac04c0
+ ---> 828b72d7199f
+Step 2/9 : RUN sudo apk update && sudo apk add docker
+ ---> Running in 6a4c1a7f9384
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.1-19-ge8237cd8d1 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.1-19-ge8237cd8d1 [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7957 distinct packages available
+(1/5) Installing libmnl (1.0.4-r0)
+(2/5) Installing libnftnl-libs (1.0.7-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+Executing busybox-1.25.1-r0.trigger
+OK: 753 MiB in 109 packages
+ ---> dc23f0b4a9d9
+Removing intermediate container 6a4c1a7f9384
+Step 3/9 : ADD . /home/opam/build
+ ---> 25477dbe2f98
+Removing intermediate container c74916954138
+Step 4/9 : WORKDIR /home/opam/build
+ ---> 188103c3b839
+Removing intermediate container de5838438204
+Step 5/9 : RUN sudo chown opam .
+ ---> Running in ae11dad1b996
+ ---> 444ef48fc0e6
+Removing intermediate container ae11dad1b996
+Step 6/9 : RUN opam config exec make selfCI && sudo cp _build/selfCI.native /bin/datakit-ci && rm -rf /home/opam/build
+ ---> Running in 3ef670549117
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmo selfCI.ml
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+File "_none_", line 1:
+Error: No implementations provided for the following modules:
+         Prometheus_unix referenced from /home/opam/.opam/default/lib/datakit-ci/datakit-ci.cmxa(CI_main)
+Command exited with code 2.
+[91mmake: *** [Makefile:6: selfCI] Error 10
+[0mThe command '/bin/sh -c opam config exec make selfCI && sudo cp _build/selfCI.native /bin/datakit-ci && rm -rf /home/opam/build' returned a non-zero code: 2
+[2017-02-06 15:14.02] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 2
