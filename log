@@ -1,0 +1,94 @@
+=== Docker build Dockerfile.ci
+[2017-02-06 15:08.17] Starting...
+Cloning into '/tmp/with_clone9966495'...
+done.
+HEAD is now at 015baa2 Move Prometheus libraries into a separate repository
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.391 MB
+Step 1/18 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:29fbcdf704ed24b28d873c491db2d78e1e0eda8e8c81bf1c8bb5a95ddc17a5b6
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> 6d8185a9354a
+Step 2/18 : ENV OPAMYES 1 OPAMERRLOGLEN 0
+ ---> Using cache
+ ---> c07fce1d14f5
+Step 3/18 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> c7940c385e48
+Step 4/18 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 66176dfb7526
+Step 5/18 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> d24549fe05af
+Step 6/18 : RUN opam init -y
+ ---> Using cache
+ ---> 54aa18bea0ea
+Step 7/18 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 6f6dde4db1ed
+Step 8/18 : RUN opam install depext -y
+ ---> Using cache
+ ---> c756e2cf4ccf
+Step 9/18 : RUN opam pin add -yn prometheus.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn prometheus-app.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git#split-prometheus &&     opam pin add -yn datakit https://github.com/docker/datakit.git
+ ---> Running in ca75c37d74eb
+Package prometheus does not exist, create as a NEW package ? [Y/n] y
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus: git]
+[prometheus] git+https://github.com/mirage/prometheus.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus/prometheus.opam from 1.2 to 2.0~alpha3
+[0mprometheus is now pinned to git+https://github.com/mirage/prometheus.git (version dev)
+Package prometheus-app does not exist, create as a NEW package ? [Y/n] y
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app: git]
+[prometheus-app] git+https://github.com/mirage/prometheus.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/prometheus-app/prometheus-app.opam from 1.2 to 2.0~alpha3
+[0mprometheus-app is now pinned to git+https://github.com/mirage/prometheus.git (version dev)
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client: git]
+[datakit-client] git+https://github.com/docker/datakit.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-client/datakit-client.opam from 1.2 to 2.0~alpha3
+[0mdatakit-client is now pinned to git+https://github.com/docker/datakit.git (version 0.8.0)
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] git+https://github.com/mirage/ocaml-github.git changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/github/opam from 1.2 to 2.0~alpha3
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 2.2.0)
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] git+https://github.com/talex5/datakit.git#split-prometheus changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-github/datakit-github.opam from 1.2 to 2.0~alpha3
+[0mdatakit-github is now pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version 0.8.1)
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server: git]
+[datakit-server] git+https://github.com/docker/datakit.git#split-prometheus unavailable
+[91m[ERROR] Could not synchronize default from "git+https://github.com/docker/datakit.git#split-prometheus":
+        "git fetch -q origin +split-prometheus:refs/remotes/opam-ref" exited with code 128 "fatal: Couldn't find remote ref split-prometheus"
+[ERROR] Error getting source from git+https://github.com/docker/datakit.git#split-prometheus
+[0mThe command '/bin/sh -c opam pin add -yn prometheus.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn prometheus-app.dev https://github.com/mirage/prometheus.git &&     opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit-server https://github.com/docker/datakit.git#split-prometheus &&     opam pin add -yn datakit https://github.com/docker/datakit.git' returned a non-zero code: 66
+[2017-02-06 15:08.34] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 66
