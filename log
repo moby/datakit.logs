@@ -1,0 +1,75 @@
+=== Docker build Dockerfile
+[2017-02-07 09:52.29] Starting...
+Cloning into '/tmp/with_clone3eac2529'...
+done.
+HEAD is now at 83488c9 Move Prometheus libraries into a separate repository
+[2017-02-07 09:52.30] Rewrite Dockerfile's first line to:
+FROM sha256:0e5b001eee5e87519247ac63eb05ecc5c697b2538776eb0b79930f5cefc90f65
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.412 MB
+Step 1/15 : FROM sha256:0e5b001eee5e87519247ac63eb05ecc5c697b2538776eb0b79930f5cefc90f65
+ ---> 0e5b001eee5e
+Step 2/15 : COPY opam /home/opam/src/datakit/opam
+ ---> cccc2ad9b359
+Removing intermediate container f6d180917c52
+Step 3/15 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Running in 0645a811d3dd
+[datakit: git]
+[datakit: git]
+[datakit] git+file:///home/opam/src/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit/opam from 1.2 to 2.0~alpha3
+[0mdatakit is now pinned to git+file:///home/opam/src/datakit (version dev)
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/src/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/src/datakit#HEAD)
+[0m ---> 20f154e7878e
+Removing intermediate container 0645a811d3dd
+Step 4/15 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in a9325e584867
+[datakit-github: git]
+[datakit-github: git]
+[datakit-github] git+file:///home/opam/src/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-github/datakit-github.opam from 1.2 to 2.0~alpha3
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit (version dev)
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/src/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/src/datakit#HEAD)
+[0m ---> f73143c184a4
+Removing intermediate container a9325e584867
+Step 5/15 : RUN opam depext datakit && opam install datakit -y --deps
+ ---> Running in fe255dc108ca
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+perl
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev zlib-dev
+(1/7) Installing libgmpxx (6.1.1-r0)
+(2/7) Installing gmp-dev (6.1.1-r0)
+(3/7) Installing linux-headers (4.4.6-r1)
+(4/7) Installing zlib-dev (1.2.8-r2)
+(5/7) Installing libcrypto1.0 (1.0.2k-r0)
+(6/7) Installing libssl1.0 (1.0.2k-r0)
+(7/7) Installing openssl-dev (1.0.2k-r0)
+OK: 659 MiB in 106 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit: git]
+[datakit] git+file:///home/opam/src/datakit changed
+The following dependencies couldn't be met:
+  - datakit -> prometheus-app
+Your request can't be satisfied:
+  - No package matching "prometheus-app" found
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit && opam install datakit -y --deps' returned a non-zero code: 3
+[2017-02-07 09:52.53] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 3
