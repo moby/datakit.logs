@@ -1,0 +1,130 @@
+=== Docker build Dockerfile.ci
+[2017-02-07 10:58.40] Starting...
+Cloning into '/tmp/with_clone23a194e7'...
+done.
+HEAD is now at bf8042a Move Prometheus libraries into a separate repository
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.438 MB
+Step 1/19 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:29fbcdf704ed24b28d873c491db2d78e1e0eda8e8c81bf1c8bb5a95ddc17a5b6
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> 6d8185a9354a
+Step 2/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 50f634ac6b91
+Step 3/19 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> e3e04df67808
+Step 4/19 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> de857195ce8b
+Step 5/19 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> b33da6cc9763
+Step 6/19 : RUN opam init -y
+ ---> Using cache
+ ---> e32acb65a7f8
+Step 7/19 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> d51c1d1a3c55
+Step 8/19 : RUN opam install depext -y
+ ---> Using cache
+ ---> 3b4467ae7a7b
+Step 9/19 : RUN opam pin add -yn datakit-client https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit-server https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit https://github.com/talex5/datakit.git#split-prometheus
+ ---> Using cache
+ ---> 030044d6e911
+Step 10/19 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> 6568447ddb36
+Step 11/19 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> a5cb10e7b2dd
+Step 12/19 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> df1dbc079cf5
+Step 13/19 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> f726dee7505c
+Step 14/19 : ADD . /home/opam/datakit
+ ---> 2bd36e637c52
+Removing intermediate container 077a053abc91
+Step 15/19 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 42e718ce0b3c
+ ---> f91f9dbff0e4
+Removing intermediate container 42e718ce0b3c
+Step 16/19 : RUN opam pin add -k git datakit-client /home/opam/datakit -y
+ ---> Running in 97c33dafb81e
+Proceed and change pinning target ? [Y/n] y
+[91m[NOTE] Package datakit-client is currently pinned to git+https://github.com/docker/datakit.git (version 0.8.0).
+[0m[datakit-client: git]
+[datakit-client: git]
+[datakit-client] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-client/datakit-client.opam from 1.2 to 2.0~alpha3
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit (version 0.8.0)
+
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0mThe following actions will be performed:
+  - recompile datakit-client 0.8.0*
+  - recompile datakit-github 0.8.1*                             [uses datakit-client]
+===== 2 to recompile =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-client: git]
+Processing  2/2: [datakit-client: git] [datakit-github: git]
+[datakit-client] git+file:///home/opam/datakit changed
+Processing  2/2: [datakit-github: git]
+[datakit-github] git+https://github.com/talex5/datakit.git#split-prometheus changed
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/6: [datakit-client: ocaml build]
+-> removed   datakit-github.0.8.1
+-> removed   datakit-client.0.8.0
+-> installed datakit-client.0.8.0
+Processing  5/6: [datakit-github: ocaml build]
+-> installed datakit-github.0.8.1
+Done.
+# Run eval `opam config env` to update the current shell environment
+ ---> 950c972c045a
+Removing intermediate container 97c33dafb81e
+Step 17/19 : RUN opam pin add -k git datakit-ci /home/opam/datakit -y
+ ---> Running in e72374f49e02
+Package datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[datakit-ci: git]
+[datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-ci/datakit-ci.opam from 1.2 to 2.0~alpha3
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit (version ~dev)
+
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0mThe following actions will be performed:
+  - install datakit-ci ~dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-ci: git]
+[datakit-ci] git+file:///home/opam/datakit changed
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-ci: ocaml build]
+-> installed datakit-ci.~dev
+Done.
+# Run eval `opam config env` to update the current shell environment
+ ---> 9f2840b7dfb3
+Removing intermediate container e72374f49e02
+Step 18/19 : RUN opam pin add -k git datakit-github /home/opam/datakit -yn
+ ---> Running in c5f1f66e9fe9
+Proceed and change pinning target ? [Y/n] y
+[91m[NOTE] Package datakit-github is currently pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version 0.8.1).
+[0m[datakit-github: git]
+[datakit-github: git]
+[datakit-github] git+file:///home/opam/datakit changed
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/packages.dev/datakit-github/datakit-github.opam from 1.2 to 2.0~alpha3
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit (version 0.8.1)
+[91m[NOTE] Pinning in mixed mode: OPAM will use tracked files in the current working tree from /home/opam/datakit. If this is not what you want, pin to a given branch (e.g. git+file:///home/opam/datakit#HEAD)
+[0m ---> 5fb24d2f0294
+Removing intermediate container c5f1f66e9fe9
+Step 19/19 : VOLUME /secrets
+ ---> Running in dfbbe827b2a9
+ ---> 0fa038500272
+Removing intermediate container dfbbe827b2a9
+Successfully built 0fa038500272
+[2017-02-07 10:59.32] Success
