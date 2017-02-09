@@ -1,0 +1,32 @@
+=== Docker build Dockerfile.self-ci
+[2017-02-09 18:53.24] Starting...
+Cloning into '/tmp/with_clone152dad19'...
+done.
+HEAD is now at fa2216f Merge pull request #479 from talex5/fix-navbar
+[2017-02-09 18:53.24] Rewrite Dockerfile's first line to:
+FROM sha256:0b9257d90ccc5f74fd39edee0ac0ae72a98bf7adfd4ab3bf98bfb2787f62c729
+Sending build context to Docker daemon 23.55 kB
+Step 1/5 : FROM sha256:0b9257d90ccc5f74fd39edee0ac0ae72a98bf7adfd4ab3bf98bfb2787f62c729
+ ---> 0b9257d90ccc
+Step 2/5 : ADD . /home/opam/build
+ ---> 775ecd285b41
+Removing intermediate container e03352ad6834
+Step 3/5 : WORKDIR /home/opam/build
+ ---> 83d8fd91f9f9
+Removing intermediate container 95ac53ab4836
+Step 4/5 : RUN sudo chown opam .
+ ---> Running in ee81adc2db44
+ ---> d9400e36af3f
+Removing intermediate container ee81adc2db44
+Step 5/5 : RUN opam config exec make selfCI
+ ---> Running in 890db411bcb3
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> fdb8286eeec3
+Removing intermediate container 890db411bcb3
+Successfully built fdb8286eeec3
+[2017-02-09 18:53.30] Success
