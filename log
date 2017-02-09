@@ -1,0 +1,431 @@
+=== Docker build Dockerfile.bridge-local-git
+[2017-02-09 17:52.22] Starting...
+Cloning into '/tmp/with_clone345b1e02'...
+done.
+HEAD is now at 6cf213a Split datakit-github into datakit-github and datakit-bridge-github
+[2017-02-09 17:52.23] Rewrite Dockerfile's first line to:
+FROM sha256:df44a3b375a1c780eacd80f3531a662755514c217454091a0d8d3f5c3623be42
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 6.789 MB
+Step 1/17 : FROM sha256:df44a3b375a1c780eacd80f3531a662755514c217454091a0d8d3f5c3623be42
+ ---> df44a3b375a1
+Step 2/17 : RUN opam pin add github --dev -n
+ ---> Running in 058bf10445aa
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+ ---> 92c1cf86ca02
+Removing intermediate container 058bf10445aa
+Step 3/17 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in a61dc1a3ed80
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> aeb536ae113e
+Removing intermediate container a61dc1a3ed80
+Step 4/17 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 518e92fd0f79
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install asetmap 0.8.1
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+-> installed asetmap.0.8.1
+Done.
+ ---> 68d15249e5fa
+Removing intermediate container 518e92fd0f79
+Step 5/17 : COPY datakit-bridge-local-git.opam /home/opam/src/datakit/datakit-bridge-local-git.opam
+ ---> 096607124f32
+Removing intermediate container aafb19b36e58
+Step 6/17 : RUN opam pin add datakit-bridge-local-git.dev /home/opam/src/datakit -n
+ ---> Running in da5ddc032487
+Package datakit-bridge-local-git does not exist, create as a NEW package ?
+[Y/n] y
+datakit-bridge-local-git is now path-pinned to /home/opam/src/datakit
+
+[datakit-bridge-local-git: local]
+[datakit-bridge-local-git] /home/opam/src/datakit/ synchronized
+[datakit-bridge-local-git] Installing new package description from
+/home/opam/src/datakit
+
+ ---> 7c54b49f7787
+Removing intermediate container da5ddc032487
+Step 7/17 : RUN opam depext datakit-bridge-local-git && opam install datakit-bridge-local-git --deps
+ ---> Running in fbd1026a17ed
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2k-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r13.trigger
+OK: 479 MiB in 90 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: local] Command started
+[datakit-bridge-local-git] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-github  dev*          
+  - install conf-perl       1             
+  - install camlzip         1.07          
+  - install ocamlmod        0.0.8         
+  - install bin_prot        113.33.00+4.03
+  - install mtime           0.8.4         
+  - install conduit         0.14.5        
+  - install uchar           0.0.1         
+  - install magic-mime      1.0.0         
+  - install base64          2.1.2         
+  - install irmin-watcher   0.2.0         
+  - install mstruct         1.3.2         
+  - install crunch          1.4.1         
+  - install mirage-no-xen   1             
+  - install conf-gmp        1             
+  - install hex             1.0.0         
+  - install fieldslib       113.24.00     
+  - install ocamlgraph      1.8.7         
+  - install ocamlify        0.0.1         
+  - install uutf            1.0.0         
+  - install zarith          1.4.1         
+  - install ppx_fields_conv 113.33.00+4.03
+  - install oasis           0.4.8         
+  - install jsonm           1.0.0         
+  - install cohttp          0.21.0        
+  - install nocrypto        0.5.3         
+  - install ezjsonm         0.4.3         
+  - install git             1.9.3         
+  - install mirage-tc       0.3.0         
+  - install git-unix        1.7.1         
+  - install irmin           0.12.0        
+  - install irmin-unix      0.12.0        
+===== 32 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[base64: http] Command started
+[bin_prot: http] Command started
+[camlzip: http] Command started
+[bin_prot: http] Command started
+[bin_prot.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/bin_prot-113.33.00+4.03.tar.gz downloaded
+[cohttp: http] Command started
+[base64: http] Command started
+[base64.2.1.2] https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz downloaded
+[conduit: http] Command started
+[camlzip: http] Command started
+[camlzip.1.07] https://github.com/xavierleroy/camlzip/archive/rel107.zip downloaded
+[crunch: http] Command started
+[cohttp: http] Command started
+[cohttp.0.21.0] https://github.com/mirage/ocaml-cohttp/archive/v0.21.0.tar.gz downloaded
+[datakit-github: local] Command started
+[datakit-github.dev] /home/opam/src/datakit/ already up-to-date
+[ezjsonm: http] Command started
+[conduit: http] Command started
+[conduit.0.14.5] https://github.com/mirage/ocaml-conduit/archive/v0.14.5.tar.gz downloaded
+[fieldslib: http] Command started
+[crunch: http] Command started
+[crunch.1.4.1] https://github.com/mirage/ocaml-crunch/archive/v1.4.1.tar.gz downloaded
+[git: http] Command started
+[fieldslib: http] Command started
+[fieldslib.113.24.00] https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz downloaded
+[hex: http] Command started
+[ezjsonm: http] Command started
+[ezjsonm.0.4.3] https://github.com/mirage/ezjsonm/archive/0.4.3.tar.gz downloaded
+[irmin: http] Command started
+[git: http] Command started
+[git.1.9.3] https://github.com/mirage/ocaml-git/releases/download/1.9.3/git-1.9.3.tbz downloaded
+[irmin-watcher: http] Command started
+[hex: http] Command started
+[hex.1.0.0] https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz downloaded
+[jsonm: http] Command started
+[jsonm: http] Command started
+[jsonm.1.0.0] http://erratique.ch/software/jsonm/releases/jsonm-1.0.0.tbz downloaded
+[magic-mime: http] Command started
+[irmin: http] Command started
+[irmin.0.12.0] https://github.com/mirage/irmin/releases/download/0.12.0/irmin-0.12.0.tbz downloaded
+[mirage-tc: http] Command started
+[irmin-watcher: http] Command started
+[irmin-watcher.0.2.0] https://github.com/samoht/irmin-watcher/releases/download/0.2.0/irmin-watcher-0.2.0.tbz downloaded
+[mstruct: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.0.0] https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.0.8.4] http://erratique.ch/software/mtime/releases/mtime-0.8.4.tbz downloaded
+[nocrypto: http] Command started
+[mirage-tc: http] Command started
+[mirage-tc.0.3.0] https://github.com/mirage/mirage-tc/archive/0.3.0.tar.gz downloaded
+[oasis: http] Command started
+[mstruct: http] Command started
+[mstruct.1.3.2] https://github.com/mirage/ocaml-mstruct/archive/1.3.2.tar.gz downloaded
+[ocamlgraph: http] Command started
+[oasis: http] Command started
+[oasis.0.4.8] https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz downloaded
+[ocamlify: http] Command started
+[ocamlgraph: http] Command started
+[ocamlgraph.1.8.7] http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.7.tar.gz downloaded
+[ocamlmod: http] Command started
+[ocamlify: http] Command started
+[ocamlify.0.0.1] http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[nocrypto: http] Command started
+[nocrypto.0.5.3] https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz downloaded
+[uchar: http] Command started
+[ocamlmod: http] Command started
+[ocamlmod.0.0.8] https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.1.0.0] http://erratique.ch/software/uutf/releases/uutf-1.0.0.tbz downloaded
+[zarith: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.113.33.00+4.03] https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz downloaded
+[zarith: http] Command started
+[zarith.1.4.1] https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz downloaded
+[uchar: http] Command started
+[uchar.0.0.1] https://github.com/ocaml/uchar/releases/download/v0.0.1/uchar-0.0.1.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[base64: ocaml build] Command started
+[bin_prot: ./configure] Command started
+[camlzip: make all] Command started
+[conduit: ./configure] Command started
+[conduit: make] Command started
+-> installed base64.2.1.2
+[conf-gmp: sh] Command started
+-> installed conf-gmp.1
+[conf-perl: perl] Command started
+-> installed conf-perl.1
+[crunch: ocaml setup.ml] Command started
+[camlzip: make allopt] Command started
+[bin_prot: make] Command started
+[camlzip: make install-findlib] Command started
+-> installed camlzip.1.07
+[datakit-github: ocaml build] Command started
+[crunch: ocaml setup.ml] Command started
+-> installed datakit-github.dev
+[fieldslib: ./configure] Command started
+[crunch: ocaml setup.ml] Command started
+[fieldslib: make] Command started
+-> installed bin_prot.113.33.00+4.03
+[hex: ./configure] Command started
+-> installed crunch.1.4.1
+[irmin-watcher: ocaml build] Command started
+[conduit: make install] Command started
+-> installed conduit.0.14.5
+[magic-mime: ./configure] Command started
+[hex: make] Command started
+-> installed irmin-watcher.0.2.0
+-> installed mirage-no-xen.1
+[mstruct: ./configure] Command started
+-> installed fieldslib.113.24.00
+[mtime: ocaml build] Command started
+[magic-mime: make] Command started
+-> installed mtime.0.8.4
+[ocamlgraph: touch] Command started
+[ocamlgraph: ./configure] Command started
+[mstruct: make] Command started
+[ocamlgraph: make] Command started
+[hex: make install] Command started
+[magic-mime: make install] Command started
+-> installed hex.1.0.0
+[ocamlify: ocaml setup.ml] Command started
+[mstruct: make install] Command started
+[ocamlify: ocaml setup.ml] Command started
+-> installed magic-mime.1.0.0
+[ocamlmod: ocaml setup.ml] Command started
+-> installed mstruct.1.3.2
+[ppx_fields_conv: ./configure] Command started
+[ocamlmod: ocaml setup.ml] Command started
+[ocamlify: ocaml setup.ml] Command started
+[ppx_fields_conv: make] Command started
+-> installed ocamlify.0.0.1
+[uchar: ocaml] Command started
+[uchar: ocaml] Command started
+-> installed uchar.0.0.1
+[uutf: ocaml build] Command started
+[ocamlmod: ocaml setup.ml] Command started
+-> installed uutf.1.0.0
+[jsonm: ocaml build] Command started
+[ocamlgraph: make install-findlib] Command started
+-> installed ocamlgraph.1.8.7
+[zarith: ./configure] Command started
+-> installed ppx_fields_conv.113.33.00+4.03
+[cohttp: make] Command started
+-> installed ocamlmod.0.0.8
+[oasis: ocaml setup.ml] Command started
+[zarith: make] Command started
+-> installed jsonm.1.0.0
+[ezjsonm: ./configure] Command started
+[ezjsonm: make] Command started
+[oasis: ocaml setup.ml] Command started
+[zarith: make install] Command started
+-> installed zarith.1.4.1
+[ezjsonm: make install] Command started
+-> installed ezjsonm.0.4.3
+[mirage-tc: ./configure] Command started
+[mirage-tc: make] Command started
+[mirage-tc: make install] Command started
+-> installed mirage-tc.0.3.0
+[oasis: ocaml setup.ml] Command started
+-> installed oasis.0.4.8
+[nocrypto: ./configure] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.21.0
+[nocrypto: make] Command started
+[nocrypto: make install] Command started
+-> installed nocrypto.0.5.3
+[git: ocaml build] Command started
+-> installed git.1.9.3
+-> installed git-unix.1.7.1
+[irmin: ocaml build] Command started
+-> installed irmin.0.12.0
+-> installed irmin-unix.0.12.0
+Done.
+ ---> 358ea48fe126
+Removing intermediate container fbd1026a17ed
+Step 8/17 : COPY . /home/opam/src/datakit/
+ ---> 0607d478a028
+Removing intermediate container 57c2ff0b9ceb
+Step 9/17 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 256653bf6fe7
+ ---> 22ace2877a94
+Removing intermediate container 256653bf6fe7
+Step 10/17 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 102300793d59
+diff --git a/Dockerfile.bridge-local-git b/Dockerfile.bridge-local-git
+index d93d44e..090e8d5 100644
+--- a/Dockerfile.bridge-local-git
++++ b/Dockerfile.bridge-local-git
+@@ -1,4 +1,4 @@
+-FROM docker/datakit:client
++FROM sha256:df44a3b375a1c780eacd80f3531a662755514c217454091a0d8d3f5c3623be42
+ 
+ RUN opam pin add github --dev -n
+ RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ M Dockerfile.bridge-local-git
+ M src/version.ml
+ ---> 8191ed2599c9
+Removing intermediate container 102300793d59
+Step 11/17 : RUN opam update datakit-bridge-local-git
+ ---> Running in 23058bbab188
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: local] Command started
+[datakit-bridge-local-git] /home/opam/src/datakit/ synchronized
+ ---> bef16324bc7c
+Removing intermediate container 23058bbab188
+Step 12/17 : RUN opam install datakit-bridge-local-git -vv
+ ---> Running in cf31d2afb013
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-bridge-local-git"
+- sending incremental file list
+- ./
+- api/
+- bridge/
+- ci/
+- ci/static/
+- src/
+- 
+- sent 8,394 bytes  received 61 bytes  16,910.00 bytes/sec
+- total size is 1,281,278  speedup is 151.54
+[datakit-bridge-local-git] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install datakit-bridge-local-git dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-bridge-local-git"
+- sending incremental file list
+- ./
+- ci/
+- 
+- sent 8,382 bytes  received 49 bytes  16,862.00 bytes/sec
+- total size is 1,281,278  speedup is 151.97
+[datakit-bridge-local-git.dev] /home/opam/src/datakit/ synchronized
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-bridge-local-git" (CWD=/home/opam/.opam/4.03.0/build/datakit-bridge-local-git.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -modules bridge/local/main.ml > bridge/local/main.ml.depends
+- ocamlfind ocamldep -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -modules bridge/local/main.mli > bridge/local/main.mli.depends
+- ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -I bridge/local -o bridge/local/main.cmi bridge/local/main.mli
+- ocamlfind ocamldep -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -modules bridge/local/sync.ml > bridge/local/sync.ml.depends
+- ocamlfind ocamldep -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -modules bridge/local/sync.mli > bridge/local/sync.mli.depends
+- ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -strict-sequence -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -I bridge/local -o bridge/local/sync.cmi bridge/local/sync.mli
+- ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -I bridge/local -o bridge/local/sync.cmx bridge/local/sync.ml
+- ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -strict-sequence -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -w A -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client -I bridge/local -o bridge/local/main.cmx bridge/local/main.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'irmin.unix, irmin.git, irmin-watcher, datakit-github' -package 'cmdliner, logs, datakit-client, protocol-9p.unix, fmt.cli, fmt.tty, logs.cli' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-github,datakit-client bridge/local/sync.cmx bridge/local/main.cmx -o bridge/local/main.native
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit-bridge-local-git.dev/_build/bridge/local/main.native" "/home/opam/.opam/4.03.0/bin/datakit-bridge-local-git"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-bridge-local-git.dev/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-bridge-local-git/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-bridge-local-git.dev/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-bridge-local-git/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-bridge-local-git.dev/_build/README.md" "/home/opam/.opam/4.03.0/doc/datakit-bridge-local-git/README.md"
+-> installed datakit-bridge-local-git.dev
+Done.
+ ---> 7b424abede72
+Removing intermediate container cf31d2afb013
+Step 13/17 : RUN opam config exec -- ocaml /home/opam/src/datakit/check-libev.ml
+ ---> Running in 0266fdde6d28
+ ---> 6d5e4e428a54
+Removing intermediate container 0266fdde6d28
+Step 14/17 : RUN sudo cp $(opam config exec -- which datakit-bridge-local-git) /usr/bin/
+ ---> Running in 94e285777be5
+ ---> fc6c3795887d
+Removing intermediate container 94e285777be5
+Step 15/17 : USER root
+ ---> Running in 1c2e4bb5da2e
+ ---> eddfcde89435
+Removing intermediate container 1c2e4bb5da2e
+Step 16/17 : ENTRYPOINT /usr/bin/datakit-bridge-local-git
+ ---> Running in 355a2dbd2d17
+ ---> fc490f96c47c
+Removing intermediate container 355a2dbd2d17
+Step 17/17 : CMD -v --datakit=tcp:datakit:5640
+ ---> Running in 4ab09bbe2b1d
+ ---> b3d97baea36e
+Removing intermediate container 4ab09bbe2b1d
+Successfully built b3d97baea36e
+[2017-02-09 17:55.02] Success
