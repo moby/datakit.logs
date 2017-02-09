@@ -1,0 +1,468 @@
+=== Docker build Dockerfile.ci
+[2017-02-09 18:18.19] Starting...
+Cloning into '/tmp/with_clone1c08aa70'...
+done.
+HEAD is now at ad9887a ci: pin dev packages in CircleCI and Appveyor using a .dev version
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 6.825 MB
+Step 1/19 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:8c73fc2a9afe303ec8f249d55b0e92548856c0520be31f392054aca16a138f10
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> 059d7cd6ce55
+Step 2/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 58e79a59d19c
+Step 3/19 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 9473c3be3943
+Step 4/19 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 6d5e3ad4ecfd
+Step 5/19 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 97e046be63c5
+Step 6/19 : RUN opam init -y
+ ---> Using cache
+ ---> 9494d04b832f
+Step 7/19 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 1d4450f1863c
+Step 8/19 : RUN opam install depext -y
+ ---> Using cache
+ ---> 552f58a316f5
+Step 9/19 : RUN opam pin add -yn datakit-client.dev https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github.dev https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit-server.dev https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit.dev https://github.com/talex5/datakit.git#split-prometheus
+ ---> Running in ad3bebe2b18d
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+https://github.com/docker/datakit.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+https://github.com/docker/datakit.git (version dev)
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/opam from 1.2 to 2.0~beta
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 2.2.0)
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+https://github.com/talex5/datakit.git#split-prometheus
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version dev)
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+https://github.com/talex5/datakit.git#split-prometheus
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version dev)
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+https://github.com/talex5/datakit.git#split-prometheus
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version dev)
+ ---> b3f2a42a67cf
+Removing intermediate container ad3bebe2b18d
+Step 10/19 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> e7304be3cd6e
+Removing intermediate container 043b04354c2c
+Step 11/19 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Running in cccad6a5f92d
+Package tmp does not exist, create as a NEW package ? [Y/n] y
+[tmp.~dev: rsync]
+[tmp.~dev] downloaded from file:///tmp/deps/opam
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/tmp/opam from 1.2 to 2.0~beta
+[0mtmp is now pinned to file:///tmp/deps/opam (version ~dev)
+ ---> e37cc4949a47
+Removing intermediate container cccad6a5f92d
+Step 12/19 : RUN opam depext tmp -y
+ ---> Running in 68fe9fadcb6a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+perl
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev pcre-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev pcre-dev
+(1/11) Installing libgmpxx (6.1.1-r0)
+(2/11) Installing gmp-dev (6.1.1-r0)
+(3/11) Installing linux-headers (4.4.6-r1)
+(4/11) Installing zlib-dev (1.2.8-r2)
+(5/11) Installing libcrypto1.0 (1.0.2k-r0)
+(6/11) Installing libssl1.0 (1.0.2k-r0)
+(7/11) Installing openssl-dev (1.0.2k-r0)
+(8/11) Installing libpcre16 (8.39-r0)
+(9/11) Installing libpcre32 (8.39-r0)
+(10/11) Installing libpcrecpp (8.39-r0)
+(11/11) Installing pcre-dev (8.39-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 659 MiB in 104 packages
+# OS packages installation successful
+ ---> e8a857b73712
+Removing intermediate container 68fe9fadcb6a
+Step 13/19 : RUN opam install --deps-only tmp -y
+ ---> Running in 82a95b26ea8c
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[tmp.~dev] no changes from file:///tmp/deps/opam
+
+The following actions will be performed:
+  - install conf-gmp            1
+  - install mirage-no-xen       1
+  - install conf-m4             1
+  - install conf-perl           1
+  - install conf-which          1
+  - install result              1.2
+  - install ocamlfind           1.7.1
+  - install zarith              1.4.1
+  - install uutf                0.9.4
+  - install topkg               0.8.1
+  - install sexplib             113.33.00+4.03
+  - install react               1.2.0
+  - install ppx_tools           5.0
+  - install ocamlmod            0.0.8
+  - install ocamlify            0.0.1
+  - install menhir              20170101
+  - install magic-mime          1.0.0
+  - install fieldslib           113.24.00
+  - install easy-format         1.2.0
+  - install dispatch            0.3.0
+  - install crunch              1.4.1
+  - install base-bytes          base
+  - install rresult             0.5.0
+  - install mtime               0.8.4
+  - install fmt                 0.8.0
+  - install duration            0.1.0
+  - install astring             0.8.3
+  - install asetmap             0.8.1
+  - install ppx_core            113.33.01+4.03
+  - install lwt                 2.7.0
+       For module Lwt_react, please install package lwt_react
+  - install oasis               0.4.8
+  - install biniou              1.0.12
+  - install atd                 1.2.0
+  - install win-error           0.2
+  - install uuidm               0.9.6
+  - install stringext           1.4.3
+  - install re                  1.7.1
+  - install cppo                1.4.1
+  - install base64              2.1.2
+  - install ocb-stubblr         0.1.0
+  - install ppx_optcomp         113.33.01+4.03
+  - install prometheus          0.1
+  - install logs                0.6.2
+  - install multipart-form-data 0.1.0
+  - install tyxml               4.0.1
+       For tyxml's ppx, please install tyxml-ppx.
+  - install redis               0.3.3
+  - install yojson              1.3.3
+  - install ppx_deriving        4.1
+  - install ocplib-endian       1.0
+  - install camomile            0.8.5
+  - install named-pipe          0.4.0
+  - install ppx_driver          113.33.02+4.03
+  - install win-eventlog        0.1
+  - install asl                 0.10
+  - install atdgen              1.10.0
+  - install cstruct             2.3.1
+  - install zed                 1.4
+  - install ppx_type_conv       113.33.02+4.03
+  - install io-page             1.6.1
+  - install hex                 1.0.0
+  - install asn1-combinators    0.1.3
+  - install lambda-term         1.10.1
+  - install ppx_sexp_conv       113.33.01+4.03
+  - install ppx_fields_conv     113.33.00+4.03
+  - install uri                 1.9.2
+  - install nocrypto            0.5.3
+  - install ipaddr              2.7.1
+  - install x509                0.5.3
+  - install pbkdf               0.2.0
+  - install mirage-types        2.8.0
+  - install mirage-types-lwt    2.8.0
+  - install tls                 0.7.1
+  - install mirage-flow         1.1.0
+  - install channel             1.1.1
+  - install conduit             0.14.5
+  - install hvsock              0.11.1
+  - install protocol-9p         0.8.0
+  - install cohttp              0.20.2
+  - install datakit-server      dev*
+  - install datakit-client      dev*
+  - install webmachine          0.3.2
+  - install prometheus-app      0.1
+  - install github              2.2.0*
+  - install session             0.3.0
+  - install github-hooks        0.1.1
+  - install datakit-github      dev*
+===== 86 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap.0.8.1] downloaded from https://opam.ocaml.org/2.0/cache
+[asn1-combinators.0.1.3] downloaded from https://opam.ocaml.org/2.0/cache
+[asl.0.10] downloaded from https://opam.ocaml.org/2.0/cache
+[astring.0.8.3] downloaded from https://opam.ocaml.org/2.0/cache
+[atd.1.2.0] downloaded from https://opam.ocaml.org/2.0/cache
+[atdgen.1.10.0] downloaded from https://opam.ocaml.org/2.0/cache
+[base64.2.1.2] downloaded from https://opam.ocaml.org/2.0/cache
+[biniou.1.0.12] downloaded from https://opam.ocaml.org/2.0/cache
+[channel.1.1.1] downloaded from https://opam.ocaml.org/2.0/cache
+[conduit.0.14.5] downloaded from https://opam.ocaml.org/2.0/cache
+[cohttp.0.20.2] downloaded from https://opam.ocaml.org/2.0/cache
+[cppo.1.4.1] downloaded from https://opam.ocaml.org/2.0/cache
+[crunch.1.4.1] downloaded from https://opam.ocaml.org/2.0/cache
+[cstruct.2.3.1] downloaded from https://opam.ocaml.org/2.0/cache
+[datakit-client.dev] synchronised from git+https://github.com/docker/datakit.git
+[datakit-github.dev] synchronised from git+https://github.com/talex5/datakit.git#split-prometheus
+[datakit-server.dev] synchronised from git+https://github.com/talex5/datakit.git#split-prometheus
+[duration.0.1.0] downloaded from https://opam.ocaml.org/2.0/cache
+[dispatch.0.3.0] downloaded from https://opam.ocaml.org/2.0/cache
+[easy-format.1.2.0] downloaded from https://opam.ocaml.org/2.0/cache
+[fieldslib.113.24.00] downloaded from https://opam.ocaml.org/2.0/cache
+[fmt.0.8.0] downloaded from https://opam.ocaml.org/2.0/cache
+[github-hooks.0.1.1] downloaded from https://opam.ocaml.org/2.0/cache
+[camomile.0.8.5] downloaded from https://opam.ocaml.org/2.0/cache
+[hex.1.0.0] downloaded from https://opam.ocaml.org/2.0/cache
+[github.2.2.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[hvsock.0.11.1] downloaded from https://opam.ocaml.org/2.0/cache
+[io-page.1.6.1] downloaded from https://opam.ocaml.org/2.0/cache
+[ipaddr.2.7.1] downloaded from https://opam.ocaml.org/2.0/cache
+[logs.0.6.2] downloaded from https://opam.ocaml.org/2.0/cache
+[lambda-term.1.10.1] downloaded from https://opam.ocaml.org/2.0/cache
+[magic-mime.1.0.0] downloaded from https://opam.ocaml.org/2.0/cache
+[lwt.2.7.0] downloaded from https://opam.ocaml.org/2.0/cache
+[mirage-flow.1.1.0] downloaded from https://opam.ocaml.org/2.0/cache
+[mtime.0.8.4] downloaded from https://opam.ocaml.org/2.0/cache
+[mirage-types.2.8.0] downloaded from https://opam.ocaml.org/2.0/cache
+[multipart-form-data.0.1.0] downloaded from https://opam.ocaml.org/2.0/cache
+[named-pipe.0.4.0] downloaded from https://opam.ocaml.org/2.0/cache
+[menhir.20170101] downloaded from https://opam.ocaml.org/2.0/cache
+[oasis.0.4.8] downloaded from https://opam.ocaml.org/2.0/cache
+[ocamlfind.1.7.1] downloaded from https://opam.ocaml.org/2.0/cache
+[ocamlify.0.0.1] downloaded from https://opam.ocaml.org/2.0/cache
+[ocamlmod.0.0.8] downloaded from https://opam.ocaml.org/2.0/cache
+[ocb-stubblr.0.1.0] downloaded from https://opam.ocaml.org/2.0/cache
+[ocplib-endian.1.0] downloaded from https://opam.ocaml.org/2.0/cache
+[pbkdf.0.2.0] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_deriving.4.1] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_core.113.33.01+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[nocrypto.0.5.3] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_driver.113.33.02+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_fields_conv.113.33.00+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_optcomp.113.33.01+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_tools.5.0] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_sexp_conv.113.33.01+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[prometheus.0.1] downloaded from https://opam.ocaml.org/2.0/cache
+[ppx_type_conv.113.33.02+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[protocol-9p.0.8.0] downloaded from https://opam.ocaml.org/2.0/cache
+[prometheus-app.0.1] downloaded from https://opam.ocaml.org/2.0/cache
+[re.1.7.1] downloaded from https://opam.ocaml.org/2.0/cache
+[react.1.2.0] downloaded from https://opam.ocaml.org/2.0/cache
+[result.1.2] downloaded from https://opam.ocaml.org/2.0/cache
+[rresult.0.5.0] downloaded from https://opam.ocaml.org/2.0/cache
+[redis.0.3.3] downloaded from https://opam.ocaml.org/2.0/cache
+[session.0.3.0] downloaded from https://opam.ocaml.org/2.0/cache
+[stringext.1.4.3] downloaded from https://opam.ocaml.org/2.0/cache
+[sexplib.113.33.00+4.03] downloaded from https://opam.ocaml.org/2.0/cache
+[topkg.0.8.1] downloaded from https://opam.ocaml.org/2.0/cache
+[tyxml.4.0.1] downloaded from https://opam.ocaml.org/2.0/cache
+[uuidm.0.9.6] downloaded from https://opam.ocaml.org/2.0/cache
+[tls.0.7.1] downloaded from https://opam.ocaml.org/2.0/cache
+[uri.1.9.2] downloaded from https://opam.ocaml.org/2.0/cache
+[uutf.0.9.4] downloaded from https://opam.ocaml.org/2.0/cache
+[webmachine.0.3.2] downloaded from https://opam.ocaml.org/2.0/cache
+[win-error.0.2] downloaded from https://opam.ocaml.org/2.0/cache
+[win-eventlog.0.1] downloaded from https://opam.ocaml.org/2.0/cache
+[yojson.1.3.3] downloaded from https://opam.ocaml.org/2.0/cache
+[x509.0.5.3] downloaded from https://opam.ocaml.org/2.0/cache
+[zarith.1.4.1] downloaded from https://opam.ocaml.org/2.0/cache
+[zed.1.4] downloaded from https://opam.ocaml.org/2.0/cache
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed mirage-no-xen.1
+-> installed conf-gmp.1
+-> installed conf-m4.1
+-> installed conf-perl.1
+-> installed conf-which.1
+-> installed result.1.2
+-> installed ocamlfind.1.7.1
+-> installed base-bytes.base
+-> installed easy-format.1.2.0
+-> installed cppo.1.4.1
+-> installed ocamlify.0.0.1
+-> installed biniou.1.0.12
+-> installed crunch.1.4.1
+-> installed dispatch.0.3.0
+-> installed fieldslib.113.24.00
+-> installed magic-mime.1.0.0
+-> installed ocamlmod.0.0.8
+-> installed ocplib-endian.1.0
+-> installed ppx_tools.5.0
+-> installed re.1.7.1
+-> installed react.1.2.0
+-> installed sexplib.113.33.00+4.03
+-> installed stringext.1.4.3
+-> installed topkg.0.8.1
+-> installed uutf.0.9.4
+-> installed asetmap.0.8.1
+-> installed base64.2.1.2
+-> installed duration.0.1.0
+-> installed mtime.0.8.4
+-> installed rresult.0.5.0
+-> installed uuidm.0.9.6
+-> installed win-error.0.2
+-> installed astring.0.8.3
+-> installed fmt.0.8.0
+-> installed menhir.20170101
+-> installed ppx_deriving.4.1
+-> installed yojson.1.3.3
+-> installed ocb-stubblr.0.1.0
+-> installed zarith.1.4.1
+-> installed atd.1.2.0
+-> installed atdgen.1.10.0
+-> installed ppx_core.113.33.01+4.03
+-> installed tyxml.4.0.1
+-> installed camomile.0.8.5
+-> installed lwt.2.7.0
+-> installed multipart-form-data.0.1.0
+-> installed prometheus.0.1
+-> installed ppx_optcomp.113.33.01+4.03
+-> installed logs.0.6.2
+-> installed named-pipe.0.4.0
+-> installed oasis.0.4.8
+-> installed ppx_driver.113.33.02+4.03
+-> installed zed.1.4
+-> installed asl.0.10
+-> installed cstruct.2.3.1
+-> installed redis.0.3.3
+-> installed asn1-combinators.0.1.3
+-> installed ppx_type_conv.113.33.02+4.03
+-> installed win-eventlog.0.1
+-> installed hex.1.0.0
+-> installed io-page.1.6.1
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed ppx_sexp_conv.113.33.01+4.03
+-> installed ipaddr.2.7.1
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+-> installed channel.1.1.1
+-> installed uri.1.9.2
+-> installed mirage-flow.1.1.0
+-> installed lambda-term.1.10.1
+-> installed nocrypto.0.5.3
+-> installed pbkdf.0.2.0
+-> installed hvsock.0.11.1
+-> installed protocol-9p.0.8.0
+-> installed datakit-server.dev
+-> installed datakit-client.dev
+-> installed x509.0.5.3
+-> installed tls.0.7.1
+-> installed conduit.0.14.5
+-> installed cohttp.0.20.2
+-> installed prometheus-app.0.1
+-> installed webmachine.0.3.2
+-> installed session.0.3.0
+-> installed github.2.2.0
+-> installed github-hooks.0.1.1
+-> installed datakit-github.dev
+Done.
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+# Run eval `opam env` to update the current shell environment
+ ---> 7c794894abe0
+Removing intermediate container 82a95b26ea8c
+Step 14/19 : ADD . /home/opam/datakit
+ ---> 8ef284ad0c9d
+Removing intermediate container 405296813c10
+Step 15/19 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 73d9522a5562
+ ---> 49012902018d
+Removing intermediate container 73d9522a5562
+Step 16/19 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in 97a587d341b0
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-client is currently pinned to git+https://github.com/docker/datakit.git (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - recompile datakit-client dev*
+  - recompile datakit-github dev*                               [uses datakit-client]
+===== 2 to recompile =====
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-github.dev
+-> removed   datakit-client.dev
+-> installed datakit-client.dev
+-> installed datakit-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 8dac4e5c0dc1
+Removing intermediate container 97a587d341b0
+Step 17/19 : RUN opam pin add -k git datakit-ci.dev /home/opam/datakit -y
+ ---> Running in 7bf4c792817e
+[91m[NOTE] Will pin to 'master' using git
+[0mPackage datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-ci dev*
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-ci.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 89d3aacd71e1
+Removing intermediate container 7bf4c792817e
+Step 18/19 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -yn
+ ---> Running in 046ab1e12d10
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-github is currently pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+ ---> cfa72d43a4df
+Removing intermediate container 046ab1e12d10
+Step 19/19 : VOLUME /secrets
+ ---> Running in 02beaec13c3e
+ ---> d7e4ca5516dd
+Removing intermediate container 02beaec13c3e
+Successfully built d7e4ca5516dd
+[2017-02-09 18:22.54] Success
