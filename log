@@ -1,0 +1,72 @@
+=== Docker build Dockerfile.bridge-local-git
+[2017-02-09 14:17.36] Starting...
+Cloning into '/tmp/with_clone3d3c57de'...
+done.
+HEAD is now at 19b5457 Update opam constraints
+[2017-02-09 14:17.39] Rewrite Dockerfile's first line to:
+FROM sha256:ce5da25af44bae7750c016f4c62824fb6fa4e2ccf686ccddd53ed73edc635faf
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.576 MB
+Step 1/17 : FROM sha256:ce5da25af44bae7750c016f4c62824fb6fa4e2ccf686ccddd53ed73edc635faf
+ ---> ce5da25af44b
+Step 2/17 : RUN opam pin add github --dev -n
+ ---> Running in 0e1436e24a8f
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+ ---> f00fe5cc7bea
+Removing intermediate container 0e1436e24a8f
+Step 3/17 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in a28f8e8c5f10
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> 309ec9fd1c6a
+Removing intermediate container a28f8e8c5f10
+Step 4/17 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in 5edd7a85ae17
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconfig
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/6) Installing libgmpxx (6.1.0-r0)
+(2/6) Installing gmp-dev (6.1.0-r0)
+(3/6) Installing linux-headers (4.4.6-r1)
+(4/6) Installing zlib-dev (1.2.8-r2)
+(5/6) Installing openssl-dev (1.0.2k-r0)
+(6/6) Installing perl (5.22.2-r0)
+Executing busybox-1.24.2-r13.trigger
+OK: 479 MiB in 90 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-github -> datakit-server >= 0.9.0
+Your request can't be satisfied:
+  - No package matches datakit-server>=0.9.0.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-github && opam install datakit-github --deps' returned a non-zero code: 3
+[2017-02-09 14:18.06] Failed: Command "docker" "build" "-f" "Dockerfile.bridge-local-git" "." exited with status 3
