@@ -1,0 +1,32 @@
+=== Docker build Dockerfile.self-ci
+[2017-02-10 12:55.03] Starting...
+Cloning into '/tmp/with_clone25703eed'...
+done.
+HEAD is now at 4f63031 Add a multi-release helper
+[2017-02-10 12:55.04] Rewrite Dockerfile's first line to:
+FROM sha256:1344549747bdc51a0801a4b2be4a6123279d014a65ca46d29fd6dc66dfccd070
+Sending build context to Docker daemon 23.55 kB
+Step 1/5 : FROM sha256:1344549747bdc51a0801a4b2be4a6123279d014a65ca46d29fd6dc66dfccd070
+ ---> 1344549747bd
+Step 2/5 : ADD . /home/opam/build
+ ---> 4ba74d8702bd
+Removing intermediate container c884b82fba48
+Step 3/5 : WORKDIR /home/opam/build
+ ---> beb8f1ed3af9
+Removing intermediate container fb54cf442b5d
+Step 4/5 : RUN sudo chown opam .
+ ---> Running in 041de53b26cf
+ ---> bed92ad8edb8
+Removing intermediate container 041de53b26cf
+Step 5/5 : RUN opam config exec make selfCI
+ ---> Running in 086685f152d9
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 820c8805d904
+Removing intermediate container 086685f152d9
+Successfully built 820c8805d904
+[2017-02-10 12:55.07] Success
