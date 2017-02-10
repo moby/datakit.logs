@@ -1,0 +1,124 @@
+=== Docker build Dockerfile.ci
+[2017-02-10 13:03.20] Starting...
+Cloning into '/tmp/with_clone32cb50e6'...
+done.
+HEAD is now at 8034982 Merge pull request #485 from samoht/master
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 6.878 MB
+Step 1/19 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:8c73fc2a9afe303ec8f249d55b0e92548856c0520be31f392054aca16a138f10
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> 059d7cd6ce55
+Step 2/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 58e79a59d19c
+Step 3/19 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 9473c3be3943
+Step 4/19 : RUN opam depext -i opam-devel && sudo cp $(opam config var "opam-devel:lib")/opam /usr/bin/opam
+ ---> Using cache
+ ---> 6d5e3ad4ecfd
+Step 5/19 : RUN rm -rf ~/.opam
+ ---> Using cache
+ ---> 97e046be63c5
+Step 6/19 : RUN opam init -y
+ ---> Using cache
+ ---> 9494d04b832f
+Step 7/19 : RUN opam install ocaml -y
+ ---> Using cache
+ ---> 1d4450f1863c
+Step 8/19 : RUN opam install depext -y
+ ---> Using cache
+ ---> 552f58a316f5
+Step 9/19 : RUN opam pin add -yn datakit-client.dev https://github.com/docker/datakit.git &&     opam pin add -yn github --dev &&     opam pin add -yn datakit-github.dev https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit-server.dev https://github.com/talex5/datakit.git#split-prometheus &&     opam pin add -yn datakit.dev https://github.com/talex5/datakit.git#split-prometheus
+ ---> Using cache
+ ---> f0ebb08c82ab
+Step 10/19 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> e60667123bd0
+Step 11/19 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> c055c409d798
+Step 12/19 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> 41aff451c7ef
+Step 13/19 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> 437554af7cbf
+Step 14/19 : ADD . /home/opam/datakit
+ ---> bd8a32b4fcc3
+Removing intermediate container 37387c4f0a23
+Step 15/19 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in b30208d0a7d3
+ ---> 4d90b29e2831
+Removing intermediate container b30208d0a7d3
+Step 16/19 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in c3e76749e086
+[91m[NOTE] Will pin to 'master' using git
+[0mProceed and change pinning target ? [Y/n] y
+[91m[NOTE] Package datakit-client is currently pinned to git+https://github.com/docker/datakit.git (version dev).
+[0m[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - recompile datakit-client dev*
+  - recompile datakit-github dev*                               [uses datakit-client]
+===== 2 to recompile =====
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-github.dev
+-> removed   datakit-client.dev
+-> installed datakit-client.dev
+-> installed datakit-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 61c859a43c10
+Removing intermediate container c3e76749e086
+Step 17/19 : RUN opam pin add -k git datakit-ci.dev /home/opam/datakit -y
+ ---> Running in 5f5c1f09d07e
+[91m[NOTE] Will pin to 'master' using git
+[0mPackage datakit-ci does not exist, create as a NEW package ? [Y/n] y
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-ci dev*
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-ci.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 6e902306f595
+Removing intermediate container 5f5c1f09d07e
+Step 18/19 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -yn
+ ---> Running in 5b33a43dbce1
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-github is currently pinned to git+https://github.com/talex5/datakit.git#split-prometheus (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+ ---> ea03fd728ea7
+Removing intermediate container 5b33a43dbce1
+Step 19/19 : VOLUME /secrets
+ ---> Running in 7bd394086c61
+ ---> b5a3dbf4e860
+Removing intermediate container 7bd394086c61
+Successfully built b5a3dbf4e860
+[2017-02-10 13:04.23] Success
