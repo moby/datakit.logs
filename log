@@ -1,0 +1,109 @@
+=== Docker build Dockerfile.ci
+[2017-03-13 16:18.44] Starting...
+Cloning into '/tmp/with_clonecb68d73'...
+done.
+HEAD is now at 4d83ed5 Add some missing opam constraints
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.555 MB
+Step 1/14 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+ ---> 1db57234caaa
+Step 2/14 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> de8c8aa8b39b
+Step 3/14 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 0f695c6b527d
+Step 4/14 : RUN opam pin add -yn datakit-client.dev https://github.com/docker/datakit.git
+ ---> Using cache
+ ---> 36c37c4a2197
+Step 5/14 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> Using cache
+ ---> 9bc5103e272d
+Step 6/14 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Using cache
+ ---> 15a52857a416
+Step 7/14 : RUN opam depext tmp -y
+ ---> Using cache
+ ---> 32d990c1de27
+Step 8/14 : RUN opam install --deps-only tmp -y
+ ---> Using cache
+ ---> 24a3dc1dac84
+Step 9/14 : ADD . /home/opam/datakit
+ ---> d31f01ec6a64
+Removing intermediate container faa933b07573
+Step 10/14 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 672bb76fbdab
+ ---> ea5ad90e71ac
+Removing intermediate container 672bb76fbdab
+Step 11/14 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in 66a61fb238a7
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-client is currently pinned to git+https://github.com/docker/datakit.git (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - recompile datakit-client dev*
+  - recompile datakit-github 0.9.0                              [uses datakit-client]
+===== 2 to recompile =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github.0.9.0] found in cache
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-github.0.9.0
+-> removed   datakit-client.dev
+-> installed datakit-client.dev
+-> installed datakit-github.0.9.0
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 11db27c09a5a
+Removing intermediate container 66a61fb238a7
+Step 12/14 : RUN opam pin add -k git datakit-ci.dev /home/opam/datakit -y
+ ---> Running in 70a58326374a
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-ci dev*
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-ci.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 062ab0520739
+Removing intermediate container 70a58326374a
+Step 13/14 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -yn
+ ---> Running in 6116d02182e1
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+ ---> 930e05002ef0
+Removing intermediate container 6116d02182e1
+Step 14/14 : VOLUME /secrets
+ ---> Running in 286ff4217ac2
+ ---> 6989c126a521
+Removing intermediate container 286ff4217ac2
+Successfully built 6989c126a521
+[2017-03-13 16:19.44] Success
