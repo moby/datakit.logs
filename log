@@ -1,0 +1,108 @@
+=== Docker build Dockerfile.github
+[2017-03-13 10:57.04] Starting...
+Cloning into '/tmp/with_clonef9766f3'...
+done.
+HEAD is now at f5f5043 cmdliner: restrict to < 1.0
+[2017-03-13 10:57.05] Rewrite Dockerfile's first line to:
+FROM sha256:053a98c31764d97c593daee6a8e17ed9e12263e7d5fb0429034f2d6271d60976
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.537 MB
+Step 1/19 : FROM sha256:053a98c31764d97c593daee6a8e17ed9e12263e7d5fb0429034f2d6271d60976
+ ---> 053a98c31764
+Step 2/19 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 123764dcaf05
+Removing intermediate container 4cd9112ba04e
+Step 3/19 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> 8091da9cd933
+Removing intermediate container 9b6054ecbd6e
+Step 4/19 : RUN opam pin add github --dev -n
+ ---> Running in 9d8d9f0c6976
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/opam from 1.2 to 2.0~beta
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 2.2.0)
+ ---> 8207a6c9fbd7
+Removing intermediate container 9d8d9f0c6976
+Step 5/19 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 4592e7d7b1ce
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-client is currently pinned to file:///home/opam/src/datakit (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 5d65a5f7b56f
+Removing intermediate container 4592e7d7b1ce
+Step 6/19 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 955314c78e53
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 68edd48813c6
+Removing intermediate container 955314c78e53
+Step 7/19 : RUN opam pin add datakit-bridge-github.dev /home/opam/src/datakit -n
+ ---> Running in d9e92c2fd419
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0mdatakit-bridge-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 7df83ce53a5b
+Removing intermediate container d9e92c2fd419
+Step 8/19 : RUN opam depext datakit-bridge-github && opam install datakit-bridge-github --deps
+ ---> Running in 84016cea9d47
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 631 MiB in 96 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit-bridge-github.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0m
+The following dependencies couldn't be met:
+  - datakit-bridge-github -> cmdliner < 1.0.0
+    unavailable for unknown reasons (this may be a bug in opam)
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-bridge-github && opam install datakit-bridge-github --deps' returned a non-zero code: 3
+[2017-03-13 10:57.43] Failed: Command "docker" "build" "-f" "Dockerfile.github" "." exited with status 3
