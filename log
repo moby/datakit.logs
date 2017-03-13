@@ -1,0 +1,81 @@
+=== Docker build Dockerfile
+[2017-03-13 15:33.48] Starting...
+Cloning into '/tmp/with_clone2d737464'...
+done.
+HEAD is now at 74165e0 Add missing constraint on protocol-9p
+[2017-03-13 15:33.48] Rewrite Dockerfile's first line to:
+FROM sha256:e55d90cfb7890a72b19278a8e8e74ed7ff71706239a0ecd2e1e8e19a2fef009d
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.543 MB
+Step 1/15 : FROM sha256:e55d90cfb7890a72b19278a8e8e74ed7ff71706239a0ecd2e1e8e19a2fef009d
+ ---> e55d90cfb789
+Step 2/15 : COPY opam /home/opam/src/datakit/opam
+ ---> 74e581518f8d
+Removing intermediate container 60462f7d365b
+Step 3/15 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Running in 5a5c62282db7
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> a2dd1cd18dda
+Removing intermediate container 5a5c62282db7
+Step 4/15 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in c6a1ae6749e9
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 3ab15d4dbcba
+Removing intermediate container c6a1ae6749e9
+Step 5/15 : RUN opam depext datakit && opam install datakit -y --deps
+ ---> Running in d138f876e900
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 631 MiB in 96 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0m
+The following dependencies couldn't be met:
+  - datakit -> cmdliner < 1.0.0
+    unavailable for unknown reasons (this may be a bug in opam)
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit && opam install datakit -y --deps' returned a non-zero code: 3
+[2017-03-13 15:34.17] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 3
