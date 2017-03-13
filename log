@@ -1,0 +1,65 @@
+=== Docker build Dockerfile.server
+[2017-03-13 16:04.56] Starting...
+Cloning into '/tmp/with_clone5fe5a3'...
+done.
+HEAD is now at 6ea6fda Add missing opam constraints
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.547 MB
+Step 1/14 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+ ---> 1db57234caaa
+Step 2/14 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> de8c8aa8b39b
+Step 3/14 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 0f695c6b527d
+Step 4/14 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
+ ---> Using cache
+ ---> 5fd8725a86e1
+Step 5/14 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 088ccd9ebf08
+Step 6/14 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 36d11b9eaacb
+Removing intermediate container 00ae4bfea423
+Step 7/14 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn
+ ---> Running in e4adc2068325
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 08af17ba2144
+Removing intermediate container e4adc2068325
+Step 8/14 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -yn
+ ---> Running in 01ef422b1e58
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 2f0efb4c6ec7
+Removing intermediate container 01ef422b1e58
+Step 9/14 : RUN opam depext datakit-server && opam install datakit-server --deps
+ ---> Running in 708d6a2fe58c
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0m
+The following dependencies couldn't be met:
+  - datakit-server -> cmdliner < 1.0.0
+    unavailable for unknown reasons (this may be a bug in opam)
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-server && opam install datakit-server --deps' returned a non-zero code: 3
+[2017-03-13 16:05.27] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.server" "." exited with status 3
