@@ -1,0 +1,416 @@
+=== Docker build Dockerfile.github
+[2017-03-13 10:48.02] Starting...
+Cloning into '/tmp/with_clone115d19f8'...
+done.
+HEAD is now at a68eee0 cmdliner: restrict to < 1.0
+[2017-03-13 10:48.03] Rewrite Dockerfile's first line to:
+FROM sha256:287329eb07ecc76e8f05b90837674d79afc7305c27b7db2d4b43016998d2e5f7
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.529 MB
+Step 1/19 : FROM sha256:287329eb07ecc76e8f05b90837674d79afc7305c27b7db2d4b43016998d2e5f7
+ ---> 287329eb07ec
+Step 2/19 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 20b18fd3e7d2
+Removing intermediate container a044d10fd8a0
+Step 3/19 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> 6e2ad15703fb
+Removing intermediate container 7e43ac6d5018
+Step 4/19 : RUN opam pin add github --dev -n
+ ---> Running in c113004d6028
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0: git]
+[github.2.2.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/opam from 1.2 to 2.0~beta
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 2.2.0)
+ ---> ff9744a819f0
+Removing intermediate container c113004d6028
+Step 5/19 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 72a0e3c49281
+[91m[NOTE] Will pin to 'master' using git
+[0m[91m[NOTE] Package datakit-client is currently pinned to file:///home/opam/src/datakit (version dev).
+[0mProceed and change pinning target ? [Y/n] y
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 6dde8b486fec
+Removing intermediate container 72a0e3c49281
+Step 6/19 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 06b723102a7e
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 30c3fb5fad9e
+Removing intermediate container 06b723102a7e
+Step 7/19 : RUN opam pin add datakit-bridge-github.dev /home/opam/src/datakit -n
+ ---> Running in 775606ac0804
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev: git]
+[datakit-bridge-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0mdatakit-bridge-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 30c7e115d279
+Removing intermediate container 775606ac0804
+Step 8/19 : RUN opam depext datakit-bridge-github && opam install datakit-bridge-github --deps
+ ---> Running in ce55cf26e6ab
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 631 MiB in 96 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit-bridge-github.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install   menhir           20170101
+  - install   conf-gmp         1
+  - install   mirage-no-xen    1
+  - install   stringext        1.4.3                            [required by uri]
+  - install   conf-perl        1
+  - install   ocamlmod         0.0.8
+  - install   easy-format      1.2.0
+  - install   asl              0.10
+  - install   win-eventlog     0.1
+  - install   asetmap          0.8.1
+  - install   mtime            0.8.4
+  - install   base64           2.1.2
+  - install   mirage-flow      1.1.0
+  - install   ocamlify         0.0.1
+  - install   fieldslib        113.24.00
+  - install   magic-mime       1.0.0
+  - install   hex              1.0.0
+  - upgrade   uri              1.3.12 to 1.9.2
+  - install   zarith           1.4.1
+  - install   biniou           1.0.6
+  - install   atd              1.2.0
+  - install   prometheus       0.1
+  - install   hvsock           0.10.0
+  - install   oasis            0.4.8
+  - install   ppx_fields_conv  113.33.00+4.03
+  - install   datakit-client   dev*
+  - recompile datakit-server   dev*                             [uses uri]
+  - install   asn1-combinators 0.1.3
+  - install   yojson           1.3.3
+  - install   nocrypto         0.5.3
+  - install   datakit-github   dev*
+  - install   atdgen           1.10.0
+  - install   x509             0.5.3
+  - install   tls              0.7.1
+  - install   conduit          0.14.5
+  - install   cohttp           0.21.1
+  - install   prometheus-app   0.1
+  - install   github           2.2.0*
+  - install   github-hooks     0.1.1
+===== 37 to install | 1 to recompile | 1 to upgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[asn1-combinators.0.1.3] downloaded from https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz
+[asl.0.10] downloaded from https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz
+[atd.1.2.0] downloaded from https://github.com/mjambon/atd/archive/v1.2.0.tar.gz
+[base64.2.1.2] downloaded from https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz
+[atdgen.1.10.0] downloaded from https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz
+[biniou.1.0.6] downloaded from https://github.com/mjambon/biniou/archive/v1.0.6.tar.gz
+[datakit-client.dev] synchronised from git+file:///home/opam/src/datakit#master
+[conduit.0.14.5] downloaded from https://github.com/mirage/ocaml-conduit/archive/v0.14.5.tar.gz
+[cohttp.0.21.1] downloaded from https://github.com/mirage/ocaml-cohttp/archive/v0.21.1.tar.gz
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[fieldslib.113.24.00] downloaded from https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz
+[easy-format.1.2.0] downloaded from https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz
+[github-hooks.0.1.1] downloaded from https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz
+[hex.1.0.0] downloaded from https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz
+[github.2.2.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[menhir.20170101] downloaded from http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz
+[hvsock.0.10.0] downloaded from https://github.com/djs55/ocaml-hvsock/archive/v0.10.0.tar.gz
+[mtime.0.8.4] downloaded from http://erratique.ch/software/mtime/releases/mtime-0.8.4.tbz
+[magic-mime.1.0.0] downloaded from https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz
+[mirage-flow.1.1.0] downloaded from https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz
+[oasis.0.4.8] downloaded from https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz
+[ocamlify.0.0.1] downloaded from http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz
+[ocamlmod.0.0.8] downloaded from https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz
+[nocrypto.0.5.3] downloaded from https://github.com/mirleft/ocaml-nocrypto/archive/v0.5.3.tar.gz
+[ppx_fields_conv.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz
+[prometheus.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[prometheus-app.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[stringext.1.4.3] downloaded from https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz
+[uri.1.9.2] downloaded from https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz
+[tls.0.7.1] downloaded from https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz
+[win-eventlog.0.1] downloaded from https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz
+[zarith.1.4.1] downloaded from https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz
+[x509.0.5.3] downloaded from https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz
+[yojson.1.3.3] downloaded from https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-server.dev
+-> removed   uri.1.3.12
+-> installed asetmap.0.8.1
+-> installed asl.0.10
+-> installed base64.2.1.2
+-> installed conf-gmp.1
+-> installed conf-perl.1
+-> installed easy-format.1.2.0
+-> installed biniou.1.0.6
+-> installed fieldslib.113.24.00
+-> installed hex.1.0.0
+-> installed magic-mime.1.0.0
+-> installed menhir.20170101
+-> installed atd.1.2.0
+-> installed mirage-flow.1.1.0
+-> installed hvsock.0.10.0
+-> installed mirage-no-xen.1
+-> installed mtime.0.8.4
+-> installed ocamlify.0.0.1
+-> installed ocamlmod.0.0.8
+-> installed oasis.0.4.8
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed prometheus.0.1
+-> installed stringext.1.4.3
+-> installed uri.1.9.2
+-> installed datakit-client.dev
+-> installed datakit-github.dev
+-> installed datakit-server.dev
+-> installed win-eventlog.0.1
+-> installed yojson.1.3.3
+-> installed atdgen.1.10.0
+-> installed zarith.1.4.1
+-> installed asn1-combinators.0.1.3
+-> installed nocrypto.0.5.3
+-> installed x509.0.5.3
+-> installed tls.0.7.1
+-> installed conduit.0.14.5
+-> installed cohttp.0.21.1
+-> installed github.2.2.0
+-> installed github-hooks.0.1.1
+-> installed prometheus-app.0.1
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 4421546f79c3
+Removing intermediate container ce55cf26e6ab
+Step 9/19 : COPY . /home/opam/src/datakit/
+ ---> 67c92e6e15d2
+Removing intermediate container 279d092064c6
+Step 10/19 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in ca550118442b
+ ---> bf4e69417649
+Removing intermediate container ca550118442b
+Step 11/19 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 6936c65fac26
+diff --git a/Dockerfile.github b/Dockerfile.github
+index 7039a91..6809207 100644
+--- a/Dockerfile.github
++++ b/Dockerfile.github
+@@ -1,4 +1,4 @@
+-FROM docker/datakit:server
++FROM sha256:287329eb07ecc76e8f05b90837674d79afc7305c27b7db2d4b43016998d2e5f7
+ 
+ COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ M Dockerfile.github
+ M src/version.ml
+ ---> cbe847c12128
+Removing intermediate container 6936c65fac26
+Step 12/19 : RUN opam update datakit-bridge-github
+ ---> Running in 8d90ce10c0e0
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit-bridge-github.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0mNow run 'opam upgrade' to apply any package updates.
+ ---> b6f7778a7cd6
+Removing intermediate container 8d90ce10c0e0
+Step 13/19 : RUN opam install datakit-bridge-github -vv -y
+ ---> Running in 223ddf593df5
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1:
++ git "symbolic-ref" "--quiet" "--short" "HEAD" (CWD=/home/opam/src/datakit)
+- master
++ git "diff" "--quiet" (CWD=/home/opam/src/datakit)
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0mProcessing  1/1: [datakit-bridge-github.dev: git]
++ git "fetch" "-q" "file:///home/opam/src/datakit" "--update-shallow" "+master:refs/remotes/opam-ref-master" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
++ git "diff" "--quiet" "refs/remotes/opam-ref-master" "--" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
+[datakit-bridge-github.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0m
++ uname "-m"
+- x86_64
++ ocamlc "-vnum"
+- 4.04.0
+The following actions will be performed:
+  - install datakit-bridge-github dev*
++ git "init" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
+- Initialized empty Git repository in /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/.git/
++ git "config" "--local" "fetch.prune" "false" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
++ git "fetch" "-q" "file:///home/opam/src/datakit" "--update-shallow" "+master:refs/remotes/opam-ref-master" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
++ git "reset" "--hard" "refs/remotes/opam-ref-master" "--" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github)
+- HEAD is now at a68eee0 cmdliner: restrict to < 1.0
+[datakit-bridge-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-bridge-github: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-bridge-github" "--tests" "false" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+- pkg.ml: [WARNING] Watermarks: OPAM fields of datakit-bridge-github.opam: topkg: no such command. Did you install topkg-care ?
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "maintainer" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "authors" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "homepage" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "bug-reports" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "doc" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "license" undefined or unsupported
+- pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "dev-repo" undefined or unsupported
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/main.ml > bridge/github/main.ml.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/main.mli > bridge/github/main.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/main.cmi bridge/github/main.mli
+- ocamlfind ocamldep -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_conduit.cmi src/datakit_conduit.mli
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_sync.ml > bridge/github/datakit_github_sync.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_sync.mli > bridge/github/datakit_github_sync.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_sync.cmi bridge/github/datakit_github_sync.mli
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_state.ml > bridge/github/datakit_github_state.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_state.mli > bridge/github/datakit_github_state.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_state.cmi bridge/github/datakit_github_state.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_state.cmx bridge/github/datakit_github_state.ml
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_vfs.ml > bridge/github/datakit_github_vfs.ml.depends
+- ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_vfs.mli > bridge/github/datakit_github_vfs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_vfs.cmi bridge/github/datakit_github_vfs.mli
+[91m[ERROR] The compilation of datakit-bridge-github failed at "ocaml pkg/pkg.ml build --pinned true -n datakit-bridge-github --tests false".
+[0m- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_log.ml > src/datakit_log.ml.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_log.mli > src/datakit_log.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmi src/datakit_log.mli
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/version.cmo src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_conduit.cmx src/datakit_conduit.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_sync.cmx bridge/github/datakit_github_sync.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_vfs.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmx src/datakit_log.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmx src/datakit_log.ml
+- File "src/datakit_log.ml", line 66, characters 19-23:
+- Error: This expression has type
+-          ?docv:string ->
+-          (string -> ('a, [ `Msg of string ]) Result.result) *
+-          'a Cmdliner.Arg.printer -> 'a Cmdliner.Arg.conv
+-        but an expression was expected of type
+-          'b Cmdliner.Arg.conv =
+-            'b Cmdliner.Arg.parser * 'b Cmdliner.Arg.printer
+- Command exited with code 2.
+- pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+-      '-build-dir' '_build' '-Is' 'src,bridge/github' '-package'
+-      'datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github'
+-      'CHANGES.md' 'LICENSE.md' 'README.md' 'bridge/github/main.native']: exited with 10
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-bridge-github dev
++- 
+- No changes have been performed
+[91m
+#=== ERROR while compiling datakit-bridge-github.dev ==========================#
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-bridge-github --tests false
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-bridge-github-7-ad8886.env
+# output-file          /home/opam/.opam/log/datakit-bridge-github-7-ad8886.out
+### output ###
+# pkg.ml: [WARNING] Watermarks: OPAM fields of datakit-bridge-github.opam: topkg: no such command. Did you install topkg-care ?
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "maintainer" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "authors" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "homepage" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "bug-reports" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "doc" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "license" undefined or unsupported
+# pkg.ml: [WARNING] file datakit-bridge-github.opam: opam field "dev-repo" undefined or unsupported
+# ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/main.ml > bridge/github/main.ml.depends
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/main.mli > bridge/github/main.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'github.unix github-hooks.unix prometheus' -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'datakit-server.fs9p prometheus-app.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/main.cmi bridge/github/main.mli
+# ocamlfind ocamldep -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+# ocamlfind ocamldep -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_conduit.cmi src/datakit_conduit.mli
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_api.ml > bridge/github/datakit_github_api.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_api.mli > bridge/github/datakit_github_api.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_api.cmi bridge/github/datakit_github_api.mli
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_sync.ml > bridge/github/datakit_github_sync.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_sync.mli > bridge/github/datakit_github_sync.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_sync.cmi bridge/github/datakit_github_sync.mli
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_state.ml > bridge/github/datakit_github_state.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_state.mli > bridge/github/datakit_github_state.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_state.cmi bridge/github/datakit_github_state.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_state.cmx bridge/github/datakit_github_state.ml
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_vfs.ml > bridge/github/datakit_github_vfs.ml.depends
+# ocamlfind ocamldep -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules bridge/github/datakit_github_vfs.mli > bridge/github/datakit_github_vfs.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_vfs.cmi bridge/github/datakit_github_vfs.mli
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_log.ml > src/datakit_log.ml.depends
+# ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/datakit_log.mli > src/datakit_log.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmi src/datakit_log.mli
+# ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -modules src/version.ml > src/version.ml.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/version.cmo src/version.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package protocol-9p.unix -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_conduit.cmx src/datakit_conduit.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_api.cmx bridge/github/datakit_github_api.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_sync.cmx bridge/github/datakit_github_sync.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'github github-hooks.unix' -package 'uri datakit-client datakit-server.vfs asetmap  datakit-github' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I bridge/github -I src -o bridge/github/datakit_github_vfs.cmx bridge/github/datakit_github_vfs.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmx src/datakit_log.ml
+# + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github -I src -I bridge/github -o src/datakit_log.cmx src/datakit_log.ml
+# File "src/datakit_log.ml", line 66, characters 19-23:
+# Error: This expression has type
+#          ?docv:string ->
+#          (string -> ('a, [ `Msg of string ]) Result.result) *
+#          'a Cmdliner.Arg.printer -> 'a Cmdliner.Arg.conv
+#        but an expression was expected of type
+#          'b Cmdliner.Arg.conv =
+#            'b Cmdliner.Arg.parser * 'b Cmdliner.Arg.printer
+# Command exited with code 2.
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+#      '-build-dir' '_build' '-Is' 'src,bridge/github' '-package'
+#      'datakit-client,datakit-server.vfs,datakit-server.fs9p,datakit-github'
+#      'CHANGES.md' 'LICENSE.md' 'README.md' 'bridge/github/main.native']: exited with 10
+
+[0m# Run eval `opam env` to update the current shell environment
+[91m'opam install datakit-bridge-github -vv -y' failed.
+[0mThe command '/bin/sh -c opam install datakit-bridge-github -vv -y' returned a non-zero code: 4
+[2017-03-13 10:52.19] Failed: Command "docker" "build" "-f" "Dockerfile.github" "." exited with status 4
