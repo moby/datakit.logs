@@ -1,0 +1,369 @@
+=== Docker build Dockerfile
+[2017-03-28 11:14.12] Starting...
+Cloning into '/tmp/with_cloned4e0c35'...
+done.
+HEAD is now at d0f2536 Fix escaping in git push
+[2017-03-28 11:14.13] Rewrite Dockerfile's first line to:
+FROM sha256:6db2d0d4997cecd4c70a6f055c1fec19654bc74f965ca2cd52b4727c561c07f5
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.671 MB
+Step 1/15 : FROM sha256:6db2d0d4997cecd4c70a6f055c1fec19654bc74f965ca2cd52b4727c561c07f5
+ ---> 6db2d0d4997c
+Step 2/15 : COPY opam /home/opam/src/datakit/opam
+ ---> d8c08f5809b6
+Removing intermediate container f29af6016e25
+Step 3/15 : RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ ---> Running in d292ecaa2cd8
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 9a6d54857bb5
+Removing intermediate container d292ecaa2cd8
+Step 4/15 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 8a135895d829
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> ce33805f7e60
+Removing intermediate container 8a135895d829
+Step 5/15 : RUN opam depext datakit && opam install datakit -y --deps
+ ---> Running in a3caf7191067
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 631 MiB in 96 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install   asl             0.10
+  - install   win-eventlog    0.1
+  - install   uutf            0.9.4
+  - install   camlzip         1.07
+  - install   irmin-watcher   0.2.0
+  - install   asetmap         0.8.1
+  - install   mtime           0.8.4
+  - install   base64          2.1.2
+  - install   mirage-flow     1.1.0
+  - install   stringext       1.4.3                             [required by uri]
+  - install   ocamlgraph      1.8.7
+  - install   bin_prot        113.33.00+4.03
+  - install   fieldslib       113.24.00
+  - install   magic-mime      1.0.0
+  - install   crunch          2.0.0
+  - install   hex             1.0.0
+  - install   mstruct         1.3.2
+  - install   jsonm           0.9.1
+  - install   prometheus      0.1
+  - install   hvsock          0.10.0
+  - upgrade   uri             1.3.12 to 1.9.2
+  - install   ppx_fields_conv 113.33.00+4.03
+  - install   ezjsonm         0.4.3
+  - install   conduit         0.14.5
+  - recompile datakit-server  dev*                              [uses uri]
+  - install   mirage-tc       0.3.0
+  - install   cohttp          0.21.1
+  - install   prometheus-app  0.1
+  - install   git             1.9.3
+  - install   irmin           0.12.0
+===== 28 to install | 1 to recompile | 1 to upgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[base64.2.1.2] downloaded from https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz
+[asl.0.10] downloaded from https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz
+[bin_prot.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/bin_prot-113.33.00+4.03.tar.gz
+[camlzip.1.07] downloaded from https://github.com/xavierleroy/camlzip/archive/rel107.zip
+[conduit.0.14.5] downloaded from https://github.com/mirage/ocaml-conduit/archive/v0.14.5.tar.gz
+[cohttp.0.21.1] downloaded from https://github.com/mirage/ocaml-cohttp/archive/v0.21.1.tar.gz
+[crunch.2.0.0] downloaded from https://github.com/mirage/ocaml-crunch/releases/download/2.0.0/crunch-2.0.0.tbz
+[fieldslib.113.24.00] downloaded from https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz
+[ezjsonm.0.4.3] downloaded from https://github.com/mirage/ezjsonm/archive//0.4.3.tar.gz
+[hex.1.0.0] downloaded from https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz
+[hvsock.0.10.0] downloaded from https://github.com/djs55/ocaml-hvsock/archive/v0.10.0.tar.gz
+[git.1.9.3] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.9.3/git-1.9.3.tbz
+[jsonm.0.9.1] downloaded from http://erratique.ch/software/jsonm/releases/jsonm-0.9.1.tbz
+[irmin-watcher.0.2.0] downloaded from https://github.com/samoht/irmin-watcher/releases/download/0.2.0/irmin-watcher-0.2.0.tbz
+[irmin.0.12.0] downloaded from https://github.com/mirage/irmin/releases/download/0.12.0/irmin-0.12.0.tbz
+[mirage-flow.1.1.0] downloaded from https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz
+[mirage-tc.0.3.0] downloaded from https://github.com/mirage/mirage-tc/archive//0.3.0.tar.gz
+[mtime.0.8.4] downloaded from http://erratique.ch/software/mtime/releases/mtime-0.8.4.tbz
+[mstruct.1.3.2] downloaded from https://github.com/mirage/ocaml-mstruct/archive/1.3.2.tar.gz
+[magic-mime.1.0.0] downloaded from https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz
+[ocamlgraph.1.8.7] downloaded from http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.7.tar.gz
+[ppx_fields_conv.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz
+[prometheus.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[prometheus-app.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[uutf.0.9.4] downloaded from http://erratique.ch/software/uutf/releases/uutf-0.9.4.tbz
+[stringext.1.4.3] downloaded from https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz
+[uri.1.9.2] downloaded from https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz
+[win-eventlog.0.1] downloaded from https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-server.dev
+-> removed   uri.1.3.12
+-> installed asetmap.0.8.1
+-> installed asl.0.10
+-> installed base64.2.1.2
+-> installed bin_prot.113.33.00+4.03
+-> installed camlzip.1.07
+-> installed crunch.2.0.0
+-> installed fieldslib.113.24.00
+-> installed hex.1.0.0
+-> installed irmin-watcher.0.2.0
+-> installed magic-mime.1.0.0
+-> installed mirage-flow.1.1.0
+-> installed hvsock.0.10.0
+-> installed mstruct.1.3.2
+-> installed mtime.0.8.4
+-> installed ocamlgraph.1.8.7
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed prometheus.0.1
+-> installed stringext.1.4.3
+-> installed uri.1.9.2
+-> installed conduit.0.14.5
+-> installed cohttp.0.21.1
+-> installed datakit-server.dev
+-> installed git.1.9.3
+-> installed prometheus-app.0.1
+-> installed uutf.0.9.4
+-> installed jsonm.0.9.1
+-> installed ezjsonm.0.4.3
+-> installed mirage-tc.0.3.0
+-> installed irmin.0.12.0
+-> installed win-eventlog.0.1
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 57861537b7d3
+Removing intermediate container a3caf7191067
+Step 6/15 : COPY . /home/opam/src/datakit/
+ ---> 60c39a0ab32b
+Removing intermediate container ab882a2bd3af
+Step 7/15 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in a5dbb26dfc0e
+ ---> f2c1022b80bb
+Removing intermediate container a5dbb26dfc0e
+Step 8/15 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 10cd71fc81a9
+diff --git a/Dockerfile b/Dockerfile
+index 33277c4..d233e88 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,4 +1,4 @@
+-FROM docker/datakit:server
++FROM sha256:6db2d0d4997cecd4c70a6f055c1fec19654bc74f965ca2cd52b4727c561c07f5
+ 
+ COPY opam /home/opam/src/datakit/opam
+ RUN opam pin add datakit.dev /home/opam/src/datakit -n
+ M Dockerfile
+ M src/version.ml
+ ---> a5e739ccf415
+Removing intermediate container 10cd71fc81a9
+Step 9/15 : RUN opam update datakit
+ ---> Running in bbf654af171f
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0mNow run 'opam upgrade' to apply any package updates.
+ ---> 0132fc92f5f6
+Removing intermediate container bbf654af171f
+Step 10/15 : RUN opam install datakit -vv -y
+ ---> Running in 1ceb582c8532
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1:
++ git "symbolic-ref" "--quiet" "--short" "HEAD" (CWD=/home/opam/src/datakit)
+- master
++ git "diff" "--quiet" (CWD=/home/opam/src/datakit)
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0mProcessing  1/1: [datakit.dev: git]
++ git "fetch" "-q" "file:///home/opam/src/datakit" "--update-shallow" "+master:refs/remotes/opam-ref-master" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
++ git "diff" "--quiet" "refs/remotes/opam-ref-master" "--" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
+[datakit.dev] no changes from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0m
++ uname "-m"
+- x86_64
++ ocamlc "-vnum"
+- 4.04.0
+The following actions will be performed:
+  - install datakit dev*
++ git "init" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
+- Initialized empty Git repository in /home/opam/.opam/default/.opam-switch/sources/datakit/.git/
++ git "config" "--local" "fetch.prune" "false" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
++ git "fetch" "-q" "file:///home/opam/src/datakit" "--update-shallow" "+master:refs/remotes/opam-ref-master" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
++ git "reset" "--hard" "refs/remotes/opam-ref-master" "--" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit)
+- HEAD is now at d0f2536 Fix escaping in git push
+[datakit.dev] synchronised from git+file:///home/opam/src/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "--tests" "false" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+- pkg.ml: [WARNING] Watermarks: OPAM fields of opam: topkg: no such command. Did you install topkg-care ?
+- pkg.ml: [WARNING] file opam: opam field "maintainer" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "authors" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "homepage" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "bug-reports" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "doc" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "license" undefined or unsupported
+- pkg.ml: [WARNING] file opam: opam field "dev-repo" undefined or unsupported
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs.ml > src/datakit/ivfs.ml.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs.mli > src/datakit/ivfs.mli.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_tree.mli > src/datakit/ivfs_tree.mli.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_blob.mli > src/datakit/ivfs_blob.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_blob.cmi src/datakit/ivfs_blob.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_tree.cmi src/datakit/ivfs_tree.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs.cmi src/datakit/ivfs.mli
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_blob.ml > src/datakit/ivfs_blob.ml.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_merge.ml > src/datakit/ivfs_merge.ml.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_merge.mli > src/datakit/ivfs_merge.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_merge.cmi src/datakit/ivfs_merge.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_blob.cmx src/datakit/ivfs_blob.ml
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_tree.ml > src/datakit/ivfs_tree.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_tree.cmx src/datakit/ivfs_tree.ml
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_remote.ml > src/datakit/ivfs_remote.ml.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_remote.mli > src/datakit/ivfs_remote.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_remote.cmi src/datakit/ivfs_remote.mli
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_rw.ml > src/datakit/ivfs_rw.ml.depends
+- ocamlfind ocamldep -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/ivfs_rw.mli > src/datakit/ivfs_rw.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_rw.cmi src/datakit/ivfs_rw.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_merge.cmx src/datakit/ivfs_merge.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_remote.cmx src/datakit/ivfs_remote.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_rw.cmx src/datakit/ivfs_rw.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs.cmx src/datakit/ivfs.ml
+- ocamlfind ocamlopt -a -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -I src/datakit src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx -o src/datakit/ivfs.cmxa
+- ocamlfind ocamlopt -shared -linkall -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -I src/datakit src/datakit/ivfs.cmxa -o src/datakit/ivfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs.cmo src/datakit/ivfs.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_tree.cmo src/datakit/ivfs_tree.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_remote.cmo src/datakit/ivfs_remote.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_blob.cmo src/datakit/ivfs_blob.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_merge.cmo src/datakit/ivfs_merge.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/ivfs_rw.cmo src/datakit/ivfs_rw.ml
+- ocamlfind ocamlc -a -package prometheus-app.unix -package 'irmin tc datakit-server.vfs asetmap' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -I src/datakit src/datakit/ivfs_blob.cmo src/datakit/ivfs_tree.cmo src/datakit/ivfs_merge.cmo src/datakit/ivfs_remote.cmo src/datakit/ivfs_rw.cmo src/datakit/ivfs.cmo -o src/datakit/ivfs.cma
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit/main.ml > src/datakit/main.ml.depends
+- ocamlfind ocamldep -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_conduit.mli > src/datakit_conduit.mli.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_io.mli > src/datakit_io.mli.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_log.mli > src/datakit_log.mli.depends
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_conduit.cmi src/datakit_conduit.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_io.cmi src/datakit_io.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_log.cmi src/datakit_log.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/version.cmo src/version.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/main.cmo src/datakit/main.ml
+- ocamlfind ocamldep -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_conduit.ml > src/datakit_conduit.ml.depends
+- ocamlfind ocamldep -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_io.ml > src/datakit_io.ml.depends
+- ocamlfind ocamldep -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit_log.ml > src/datakit_log.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_conduit.cmx src/datakit_conduit.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'conduit.lwt-unix irmin lwt.unix uri camlzip git tc' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_io.cmx src/datakit_io.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asl win-eventlog cmdliner logs.cli mtime.os' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/datakit_log.cmx src/datakit_log.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit -o src/version.cmx src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src -o src/datakit/main.cmx src/datakit/main.ml
+- ocamlfind ocamlopt -linkpkg -g -thread -package 'asl win-eventlog cmdliner mtime.os logs.cli' -package 'protocol-9p.unix datakit-server.fs9p' -package 'hvsock.lwt-unix named-pipe.lwt uri mirage-flow' -package 'threads conduit.lwt-unix hvsock.lwt' -package 'protocol-9p.unix camlzip' -package 'irmin.http cohttp.lwt irmin-watcher' -package 'git irmin irmin.git irmin.mem irmin-watcher' -package 'cmdliner fmt.cli fmt.tty logs.fmt asetmap' -package prometheus-app.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -I src/datakit -I src src/datakit/ivfs_blob.cmx src/datakit/ivfs_tree.cmx src/datakit/ivfs_merge.cmx src/datakit/ivfs_remote.cmx src/datakit/ivfs_rw.cmx src/datakit/ivfs.cmx src/datakit_conduit.cmx src/datakit_io.cmx src/datakit_log.cmx src/version.cmx src/datakit/main.cmx -o src/datakit/main.native
+- ocamlfind ocamldep -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -modules src/datakit-client/mount.ml > src/datakit-client/mount.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit-client -I src -I src/datakit -o src/datakit-client/mount.cmo src/datakit-client/mount.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-server.vfs,datakit-server.fs9p -I src/datakit-client -I src -I src/datakit -o src/datakit-client/mount.cmx src/datakit-client/mount.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-server.vfs,datakit-server.fs9p -I src -I src/datakit-client src/version.cmx src/datakit-client/mount.cmx -o src/datakit-client/mount.native
+- pkg.ml: [WARNING] Package description has 8 warning(s), see log above.
+-> compiled  datakit.dev
++ install "-m" "0755" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit-client/mount.native" "/home/opam/.opam/default/bin/datakit-mount"
++ install "-m" "0755" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/main.native" "/home/opam/.opam/default/bin/datakit"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/opam" "/home/opam/.opam/default/lib/datakit/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/pkg/META" "/home/opam/.opam/default/lib/datakit/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.a" "/home/opam/.opam/default/lib/datakit/ivfs.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cma" "/home/opam/.opam/default/lib/datakit/ivfs.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cmi" "/home/opam/.opam/default/lib/datakit/ivfs.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cmti" "/home/opam/.opam/default/lib/datakit/ivfs.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cmx" "/home/opam/.opam/default/lib/datakit/ivfs.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cmxa" "/home/opam/.opam/default/lib/datakit/ivfs.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.cmxs" "/home/opam/.opam/default/lib/datakit/ivfs.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs.mli" "/home/opam/.opam/default/lib/datakit/ivfs.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_blob.cmi" "/home/opam/.opam/default/lib/datakit/ivfs_blob.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_blob.cmti" "/home/opam/.opam/default/lib/datakit/ivfs_blob.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_blob.cmx" "/home/opam/.opam/default/lib/datakit/ivfs_blob.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_blob.mli" "/home/opam/.opam/default/lib/datakit/ivfs_blob.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_merge.cmi" "/home/opam/.opam/default/lib/datakit/ivfs_merge.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_merge.cmti" "/home/opam/.opam/default/lib/datakit/ivfs_merge.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_merge.cmx" "/home/opam/.opam/default/lib/datakit/ivfs_merge.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_merge.mli" "/home/opam/.opam/default/lib/datakit/ivfs_merge.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_remote.cmi" "/home/opam/.opam/default/lib/datakit/ivfs_remote.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_remote.cmti" "/home/opam/.opam/default/lib/datakit/ivfs_remote.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_remote.cmx" "/home/opam/.opam/default/lib/datakit/ivfs_remote.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_remote.mli" "/home/opam/.opam/default/lib/datakit/ivfs_remote.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_rw.cmi" "/home/opam/.opam/default/lib/datakit/ivfs_rw.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_rw.cmti" "/home/opam/.opam/default/lib/datakit/ivfs_rw.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_rw.cmx" "/home/opam/.opam/default/lib/datakit/ivfs_rw.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_rw.mli" "/home/opam/.opam/default/lib/datakit/ivfs_rw.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_tree.cmi" "/home/opam/.opam/default/lib/datakit/ivfs_tree.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_tree.cmti" "/home/opam/.opam/default/lib/datakit/ivfs_tree.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_tree.cmx" "/home/opam/.opam/default/lib/datakit/ivfs_tree.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/src/datakit/ivfs_tree.mli" "/home/opam/.opam/default/lib/datakit/ivfs_tree.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/CHANGES.md" "/home/opam/.opam/default/doc/datakit/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/LICENSE.md" "/home/opam/.opam/default/doc/datakit/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit.dev/_build/README.md" "/home/opam/.opam/default/doc/datakit/README.md"
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> dbb4b381c4df
+Removing intermediate container 1ceb582c8532
+Step 11/15 : EXPOSE 5640
+ ---> Running in ba1dc277c85a
+ ---> bd97a10b3ff2
+Removing intermediate container ba1dc277c85a
+Step 12/15 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit) /usr/bin/datakit &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 65f1382a34a1
+ ---> 81aa772e0dca
+Removing intermediate container 65f1382a34a1
+Step 13/15 : RUN opam config exec -- ocaml /home/opam/src/datakit/check-libev.ml
+ ---> Running in 8f0c864a4989
+ ---> ee56c48dee20
+Removing intermediate container 8f0c864a4989
+Step 14/15 : ENTRYPOINT /usr/bin/datakit
+ ---> Running in 0d826f643e35
+ ---> 2c5ecd096aac
+Removing intermediate container 0d826f643e35
+Step 15/15 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Running in b6c8ff744845
+ ---> c55302b6e7a6
+Removing intermediate container b6c8ff744845
+Successfully built c55302b6e7a6
+[2017-03-28 11:17.18] Success
