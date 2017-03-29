@@ -1,0 +1,83 @@
+=== Docker build Dockerfile.ci
+[2017-03-29 13:56.34] Starting...
+Cloning into '/tmp/with_clone10be65ac'...
+done.
+HEAD is now at a6e3d02 ci: update to topkg 0.9.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.774 MBSending build context to Docker daemon 7.774 MB
+Step 1/14 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/14 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> de8c8aa8b39b
+Step 3/14 : RUN sudo apk add tzdata
+ ---> Using cache
+ ---> 0f695c6b527d
+Step 4/14 : RUN opam pin add -yn datakit-client.dev https://github.com/docker/datakit.git
+ ---> Running in 78621d32c8ce
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+https://github.com/docker/datakit.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+https://github.com/docker/datakit.git (version dev)
+ ---> fcfc95fbbc41
+Removing intermediate container 78621d32c8ce
+Step 5/14 : ADD datakit-ci.opam /tmp/deps/opam
+ ---> 1701c39b03dc
+Removing intermediate container 77e5d86c67d0
+Step 6/14 : RUN opam pin add -y tmp /tmp/deps/opam -n
+ ---> Running in 33e895bfafc0
+Package tmp does not exist, create as a NEW package ? [Y/n] y
+[tmp.~dev: rsync]
+[tmp.~dev] downloaded from file:///tmp/deps/opam
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/tmp/opam from 1.2 to 2.0~beta
+[0mtmp is now pinned to file:///tmp/deps/opam (version ~dev)
+ ---> 157d96cd2d40
+Removing intermediate container 33e895bfafc0
+Step 7/14 : RUN opam depext tmp -y
+ ---> Running in b85e795a360b
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers m4 pcre-dev perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers m4 pcre-dev perl
+(1/9) Installing libgmpxx (6.1.1-r0)
+(2/9) Installing gmp-dev (6.1.1-r0)
+(3/9) Installing linux-headers (4.4.6-r1)
+(4/9) Installing m4 (1.4.17-r1)
+(5/9) Installing libpcre16 (8.39-r0)
+(6/9) Installing libpcre32 (8.39-r0)
+(7/9) Installing libpcrecpp (8.39-r0)
+(8/9) Installing pcre-dev (8.39-r0)
+(9/9) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 610 MiB in 90 packages
+# OS packages installation successful
+ ---> 238bfde7485b
+Removing intermediate container b85e795a360b
+Step 8/14 : RUN opam install --deps-only tmp -y
+ ---> Running in e826329fa397
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[tmp.~dev] no changes from file:///tmp/deps/opam
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/tmp/opam from 1.2 to 2.0~beta
+[0m
+Your request can't be satisfied:
+  - unavailable for unknown reasons (this may be a bug in opam)
+
+No solution found, exiting
+The command '/bin/sh -c opam install --deps-only tmp -y' returned a non-zero code: 3
+[2017-03-29 13:57.11] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 3
