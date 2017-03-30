@@ -1,0 +1,55 @@
+=== Docker build Dockerfile.self-ci
+[2017-03-30 09:33.07] Starting...
+Cloning into '/tmp/with_clone39d966f2'...
+done.
+HEAD is now at 1f0584c ci: fix head status history link
+[2017-03-30 09:33.08] Rewrite Dockerfile's first line to:
+FROM sha256:a5df7b3b3173006550179c55c6baf8e69634d04a600cef2994e5c5c2d760abd8
+Sending build context to Docker daemon 23.55 kB
+Step 1/8 : FROM sha256:a5df7b3b3173006550179c55c6baf8e69634d04a600cef2994e5c5c2d760abd8
+ ---> a5df7b3b3173
+Step 2/8 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 30f4fb06d1f6
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 717 MiB in 104 packages
+ ---> 79c51035dc16
+Removing intermediate container 30f4fb06d1f6
+Step 3/8 : ADD . /home/opam/build
+ ---> 667963abc155
+Removing intermediate container 0d1b05c0960a
+Step 4/8 : WORKDIR /home/opam/build
+ ---> 21fbae4fa40d
+Removing intermediate container 11ffb46eaffc
+Step 5/8 : RUN sudo chown opam .
+ ---> Running in fc606c8e044b
+ ---> 9882a2ab7c0a
+Removing intermediate container fc606c8e044b
+Step 6/8 : RUN opam config exec make selfCI
+ ---> Running in 657c2511c06a
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> e40b781cfff4
+Removing intermediate container 657c2511c06a
+Step 7/8 : ENTRYPOINT /home/opam/build/_build/selfCI.native
+ ---> Running in 39b40f6d8ba4
+ ---> c8912ce1e270
+Removing intermediate container 39b40f6d8ba4
+Step 8/8 : USER root
+ ---> Running in a4bf44fb7e92
+ ---> f4786d8d66f8
+Removing intermediate container a4bf44fb7e92
+Successfully built f4786d8d66f8
+[2017-03-30 09:33.16] Success
