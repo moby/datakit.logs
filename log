@@ -1,0 +1,57 @@
+=== Docker build Dockerfile.self-ci
+[2017-04-07 09:45.17] Starting...
+Cloning into '/tmp/with_clone1fbf3d37'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 73840dd Merge pull request #516 from talex5/webhook-dns
+[2017-04-07 09:45.17] Rewrite Dockerfile's first line to:
+FROM sha256:2e904a71f1ac3fec1ee6f74e733b2cd7821d84e6db2b4bcf3e71fcb8589b0def
+Sending build context to Docker daemon 24.06 kB
+Step 1/8 : FROM sha256:2e904a71f1ac3fec1ee6f74e733b2cd7821d84e6db2b4bcf3e71fcb8589b0def
+ ---> 2e904a71f1ac
+Step 2/8 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in e1a12b96e119
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 717 MiB in 104 packages
+ ---> 7b2f8bdd208f
+Removing intermediate container e1a12b96e119
+Step 3/8 : ADD . /home/opam/build
+ ---> f09682abbce3
+Removing intermediate container 599fc46bb459
+Step 4/8 : WORKDIR /home/opam/build
+ ---> 23fd48d5687a
+Removing intermediate container 1267d33d486d
+Step 5/8 : RUN sudo chown opam .
+ ---> Running in caf020964df0
+ ---> dd3e35104e48
+Removing intermediate container caf020964df0
+Step 6/8 : RUN opam config exec make selfCI
+ ---> Running in 60de3f698cb6
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 46b1950663dd
+Removing intermediate container 60de3f698cb6
+Step 7/8 : ENTRYPOINT /home/opam/build/_build/selfCI.native
+ ---> Running in c1b72e407fff
+ ---> 46f3ba8510e1
+Removing intermediate container c1b72e407fff
+Step 8/8 : USER root
+ ---> Running in 29faed3e46e0
+ ---> 07e85b4150c2
+Removing intermediate container 29faed3e46e0
+Successfully built 07e85b4150c2
+[2017-04-07 09:45.26] Success
