@@ -1,6 +1,6 @@
 === Docker build Dockerfile.server
-[2017-04-12 10:43.25] Starting...
-Cloning into '/tmp/with_clone3a72d3c0'...
+[2017-04-13 10:46.13] Starting...
+Cloning into '/tmp/with_clone258b0bef'...
 done.
 warning: remote HEAD refers to nonexistent ref, unable to checkout.
 
@@ -8,70 +8,317 @@ HEAD is now at 4acbe0a Merge pull request #518 from talex5/ci-switch-off
 Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.039 MB
 Step 1/16 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
 sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+627beaf3eaaf: Already exists
+a8da75275fdb: Pulling fs layer
+8369b3912e59: Pulling fs layer
+199a68aaa28d: Pulling fs layer
+8369b3912e59: Verifying Checksum
+8369b3912e59: Download complete
+199a68aaa28d: Verifying Checksum
+199a68aaa28d: Download complete
+a8da75275fdb: Verifying Checksum
+a8da75275fdb: Download complete
+a8da75275fdb: Pull complete
+8369b3912e59: Pull complete
+199a68aaa28d: Pull complete
 Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
-Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Downloaded newer image for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
  ---> 1db57234caaa
 Step 2/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
- ---> Using cache
- ---> de8c8aa8b39b
+ ---> Running in a83eca34e214
+ ---> cc9fd0f47aac
+Removing intermediate container a83eca34e214
 Step 3/16 : RUN sudo apk add tzdata aspcud
- ---> Using cache
- ---> eceb961cff1e
+ ---> Running in 96d885413920
+(1/9) Installing boost-system (1.62.0-r3)
+(2/9) Installing boost-filesystem (1.62.0-r3)
+(3/9) Installing boost-regex (1.62.0-r3)
+(4/9) Installing boost-thread (1.62.0-r3)
+(5/9) Installing boost (1.62.0-r3)
+(6/9) Installing gringo (4.5.2-r0)
+(7/9) Installing clasp (3.1.3-r0)
+(8/9) Installing aspcud (1.9.1-r0)
+(9/9) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 569 MiB in 89 packages
+ ---> 8c71ee82f35c
+Removing intermediate container 96d885413920
 Step 4/16 : RUN opam pin add cmdliner 0.9.8
- ---> Using cache
- ---> 3ee15d4a0803
+ ---> Running in 806b9c9555e2
+cmdliner is now pinned to version 0.9.8
+
+The following actions will be performed:
+  - install cmdliner 0.9.8*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[cmdliner.0.9.8] downloaded from http://erratique.ch/software/cmdliner/releases/cmdliner-0.9.8.tbz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed cmdliner.0.9.8
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> e1edc8d9791f
+Removing intermediate container 806b9c9555e2
 Step 5/16 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term
- ---> Using cache
- ---> 2a571701c40c
+ ---> Running in 2c476b78d9f9
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - libev-dev
+#  - m4
+#  - ncurses-dev
+#  - pcre-dev
+#  - pkgconfig
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: libev-dev m4 pcre-dev
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.2-42-g0c50a730f9 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.2-23-g0306a37de3 [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7962 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add libev-dev m4 pcre-dev
+(1/7) Installing libev (4.22-r0)
+(2/7) Installing libev-dev (4.22-r0)
+(3/7) Installing m4 (1.4.17-r1)
+(4/7) Installing libpcre16 (8.39-r0)
+(5/7) Installing libpcre32 (8.39-r0)
+(6/7) Installing libpcrecpp (8.39-r0)
+(7/7) Installing pcre-dev (8.39-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 572 MiB in 96 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install conf-m4     1                                       [required by ocamlfind]
+  - install conf-libev  4-11
+  - install result      1.2                                     [required by alcotest, lwt]
+  - install ocamlfind   1.7.1                                   [required by lambda-term, alcotest, inotify, lwt]
+  - install topkg       0.8.1                                   [required by alcotest]
+  - install react       1.2.0                                   [required by lambda-term, lwt]
+  - install ppx_tools   5.0                                     [required by lwt]
+  - install base-bytes  base                                    [required by inotify]
+  - install fmt         0.8.0                                   [required by alcotest]
+  - install astring     0.8.3                                   [required by alcotest]
+  - install lwt         2.7.0
+       For module Lwt_react, please install package lwt_react
+  - install cppo        1.4.1                                   [required by camomile]
+  - install alcotest    0.7.2
+  - install inotify     2.3
+  - install camomile    0.8.5                                   [required by zed]
+  - install zed         1.4                                     [required by lambda-term]
+  - install lambda-term 1.10.1
+===== 17 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[astring.0.8.3] downloaded from http://erratique.ch/software/astring/releases/astring-0.8.3.tbz
+[cppo.1.4.1] downloaded from https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz
+[alcotest.0.7.2] downloaded from https://github.com/mirage/alcotest/releases/download/0.7.2/alcotest-0.7.2.tbz
+[fmt.0.8.0] downloaded from http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz
+[inotify.2.3] downloaded from https://github.com/whitequark/ocaml-inotify/archive/v2.3.tar.gz
+[lambda-term.1.10.1] downloaded from https://github.com/diml/lambda-term/archive/1.10.1.tar.gz
+[ocamlfind.1.7.1] downloaded from http://download.camlcity.org/download/findlib-1.7.1.tar.gz
+[lwt.2.7.0] downloaded from https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz
+[react.1.2.0] downloaded from http://erratique.ch/software/react/releases/react-1.2.0.tbz
+[ppx_tools.5.0] downloaded from https://github.com/alainfrisch/ppx_tools/tarball/f70ca1d07d565989a0041e312e8efc00ff2ad87e
+[topkg.0.8.1] downloaded from http://erratique.ch/software/topkg/releases/topkg-0.8.1.tbz
+[result.1.2] downloaded from https://github.com/janestreet/result/archive/1.2.tar.gz
+[camomile.0.8.5] downloaded from https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2
+[zed.1.4] downloaded from https://github.com/diml/zed/archive/1.4.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed conf-libev.4-11
+-> installed conf-m4.1
+-> installed ocamlfind.1.7.1
+-> installed base-bytes.base
+-> installed cppo.1.4.1
+-> installed camomile.0.8.5
+-> installed ppx_tools.5.0
+-> installed react.1.2.0
+-> installed result.1.2
+-> installed lwt.2.7.0
+-> installed inotify.2.3
+-> installed topkg.0.8.1
+-> installed astring.0.8.3
+-> installed fmt.0.8.0
+-> installed alcotest.0.7.2
+-> installed zed.1.4
+-> installed lambda-term.1.10.1
+Done.
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+# Run eval `opam env` to update the current shell environment
+ ---> a8fd16f86614
+Removing intermediate container 2c476b78d9f9
 Step 6/16 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
- ---> Using cache
- ---> f853c33709f5
+ ---> Running in 17b40f5820f0
+[protocol-9p.0.8.0: git]
+[protocol-9p.0.8.0: git]
+[protocol-9p.0.8.0: git]
+[protocol-9p.0.8.0: git]
+[protocol-9p.0.8.0] synchronised from git+https://github.com/talex5/ocaml-9p.git#ping
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/protocol-9p/opam from 1.2 to 2.0~beta
+[0mprotocol-9p is now pinned to git+https://github.com/talex5/ocaml-9p.git#ping (version 0.8.0)
+ ---> e0439cd5935b
+Removing intermediate container 17b40f5820f0
 Step 7/16 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
- ---> Using cache
- ---> 2ac74c037b26
+ ---> 4284eb8e7967
+Removing intermediate container ff54ce47d86a
 Step 8/16 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
- ---> Using cache
- ---> 55c7f6943b29
+ ---> d5ff52448c75
+Removing intermediate container eb5359c32466
 Step 9/16 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn
- ---> Using cache
- ---> 65ba8cd7215f
+ ---> Running in 905eeba84a54
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> cbc9deadd7b8
+Removing intermediate container 905eeba84a54
 Step 10/16 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -yn
- ---> Using cache
- ---> 589a71a5c687
+ ---> Running in 30edde6f5af5
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> bc90774de9a0
+Removing intermediate container 30edde6f5af5
 Step 11/16 : RUN opam depext datakit-server && opam install datakit-server --deps
- ---> Using cache
- ---> f6966c82a584
+ ---> Running in 2e6b2c82f584
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install logs             0.6.2
+  - install re               1.7.1
+  - install rresult          0.5.0
+  - install asetmap          0.8.1
+  - install sexplib          113.33.00+4.03
+  - install ppx_deriving     4.1
+  - install stringext        1.4.3
+  - install win-error        0.2
+  - install ocb-stubblr      0.1.1
+  - install ocplib-endian    1.0
+  - install ppx_core         113.33.01+4.03
+  - install prometheus       0.1
+  - install named-pipe       0.4.0
+  - install cstruct          2.3.2
+  - install ppx_optcomp      113.33.01+4.03
+  - install io-page          1.6.1
+  - install ppx_driver       113.33.02+4.03
+  - install ppx_type_conv    113.33.02+4.03
+  - install ppx_sexp_conv    113.33.01+4.03
+  - install uri              1.9.2
+  - install ipaddr           2.7.2
+  - install mirage-types     2.8.0
+  - install mirage-types-lwt 2.8.0
+  - install channel          1.1.1
+  - install protocol-9p      0.8.0*
+===== 25 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[channel.1.1.1] downloaded from https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz
+[io-page.1.6.1] downloaded from https://github.com/mirage/io-page/archive/v1.6.1.tar.gz
+[logs.0.6.2] downloaded from http://erratique.ch/software/logs/releases/logs-0.6.2.tbz
+[cstruct.2.3.2] downloaded from https://github.com/mirage/ocaml-cstruct/archive/v2.3.2.tar.gz
+[ipaddr.2.7.2] downloaded from https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.2/ipaddr-2.7.2.tbz
+[mirage-types.2.8.0] downloaded from https://github.com/mirage/mirage/archive/v2.8.0.tar.gz
+[named-pipe.0.4.0] downloaded from https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz
+[ppx_core.113.33.01+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz
+[ocb-stubblr.0.1.1] downloaded from https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[ppx_driver.113.33.02+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.02+4.03.tar.gz
+[ppx_deriving.4.1] downloaded from https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz
+[ppx_optcomp.113.33.01+4.03] downloaded from https://github.com/janestreet/ppx_optcomp/archive/113.33.01+4.03.tar.gz
+[ppx_sexp_conv.113.33.01+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz
+[ppx_type_conv.113.33.02+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz
+[prometheus.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[rresult.0.5.0] downloaded from http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz
+[protocol-9p.0.8.0] synchronised from git+https://github.com/talex5/ocaml-9p.git#ping
+[re.1.7.1] downloaded from https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz
+[sexplib.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz
+[stringext.1.4.3] downloaded from https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz
+[uri.1.9.2] downloaded from https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz
+[win-error.0.2] downloaded from https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed asetmap.0.8.1
+-> installed logs.0.6.2
+-> installed ocb-stubblr.0.1.1
+-> installed named-pipe.0.4.0
+-> installed ocplib-endian.1.0
+-> installed ppx_core.113.33.01+4.03
+-> installed ppx_deriving.4.1
+-> installed ppx_optcomp.113.33.01+4.03
+-> installed ppx_driver.113.33.02+4.03
+-> installed ppx_type_conv.113.33.02+4.03
+-> installed prometheus.0.1
+-> installed re.1.7.1
+-> installed rresult.0.5.0
+-> installed sexplib.113.33.00+4.03
+-> installed cstruct.2.3.2
+-> installed io-page.1.6.1
+-> installed ppx_sexp_conv.113.33.01+4.03
+-> installed ipaddr.2.7.2
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+-> installed channel.1.1.1
+-> installed stringext.1.4.3
+-> installed uri.1.9.2
+-> installed win-error.0.2
+-> installed protocol-9p.0.8.0
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 01f1b7784bb2
+Removing intermediate container 2e6b2c82f584
 Step 12/16 : COPY . /home/opam/src/datakit
- ---> 606c7ea91c11
-Removing intermediate container 23d672572945
+ ---> 05766c6b787b
+Removing intermediate container 7c6b2402a1c0
 Step 13/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
- ---> Running in 8df9c142c4c8
- ---> 6a0cd82ddd4f
-Removing intermediate container 8df9c142c4c8
+ ---> Running in 3b4e589a421c
+ ---> 4f44dad70063
+Removing intermediate container 3b4e589a421c
 Step 14/16 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
- ---> Running in c9cae69174fd
+ ---> Running in 1002a3ac9887
  M src/version.ml
- ---> 9456659e5c56
-Removing intermediate container c9cae69174fd
+ ---> 5c7cfa59ea59
+Removing intermediate container 1002a3ac9887
 Step 15/16 : RUN opam update datakit-server
- ---> Running in 7bcf6a539078
+ ---> Running in 320239b9f65a
 
 =-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 [datakit-server.dev] synchronised from file:///home/opam/src/datakit
 [91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
 [0mNow run 'opam upgrade' to apply any package updates.
- ---> 15460df0caf3
-Removing intermediate container 7bcf6a539078
+ ---> cef4e98cd35e
+Removing intermediate container 320239b9f65a
 Step 16/16 : RUN opam install datakit-server.dev -vv
- ---> Running in 3161abcc46a4
+ ---> Running in aa3eb26eccbd
 
 =-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Processing  1/1: [datakit-server.dev: rsync]
 + rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--exclude" "_opam*" "--delete" "--delete-excluded" "/home/opam/src/datakit/" "/home/opam/.opam/default/.opam-switch/sources/datakit-server"
 - sending incremental file list
 - 
-- sent 8,342 bytes  received 39 bytes  16,762.00 bytes/sec
-- total size is 1,316,656  speedup is 157.10
+- sent 8,248 bytes  received 39 bytes  16,574.00 bytes/sec
+- total size is 1,316,656  speedup is 158.88
 [datakit-server.dev] no changes from file:///home/opam/src/datakit
 [91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
 [0m
@@ -340,7 +587,7 @@ The following actions will be performed:
 - tests/test_github.ml
 - tests/test_utils.ml
 - 
-- sent 1,335,022 bytes  received 4,527 bytes  2,679,098.00 bytes/sec
+- sent 1,334,928 bytes  received 4,527 bytes  2,678,910.00 bytes/sec
 - total size is 1,316,656  speedup is 0.98
 [datakit-server.dev] synchronised from file:///home/opam/src/datakit
 
@@ -398,7 +645,7 @@ Processing  1/2: [datakit-server: ocaml build]
 -> installed datakit-server.dev
 Done.
 # Run eval `opam env` to update the current shell environment
- ---> 6c32c9d5d805
-Removing intermediate container 3161abcc46a4
-Successfully built 6c32c9d5d805
-[2017-04-12 10:43.45] Success
+ ---> 07600e695a1a
+Removing intermediate container aa3eb26eccbd
+Successfully built 07600e695a1a
+[2017-04-13 10:50.37] Success
