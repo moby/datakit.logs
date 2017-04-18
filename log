@@ -1,54 +1,42 @@
 === Docker build Dockerfile.self-ci
-[2017-04-18 17:35.23] Starting...
-Cloning into '/tmp/with_clone222620ba'...
+[2017-04-18 17:36.22] Starting...
+Cloning into '/tmp/with_clone76d386f'...
 done.
 warning: remote HEAD refers to nonexistent ref, unable to checkout.
 
 HEAD is now at d7ac959 self-ci: update for new project location
-[2017-04-18 17:35.23] Rewrite Dockerfile's first line to:
-FROM sha256:31d48a90cf51154af37be85f3daef93abfbb340a20ccd8855be63c184351b34a
+[2017-04-18 17:36.22] Rewrite Dockerfile's first line to:
+FROM sha256:31d48a90cf51154af37be85f3daef93abfbb340a20ccd8855be63c184351b34a AS build-env
 Sending build context to Docker daemon  21.5 kB
-Step 1/12 : FROM sha256:31d48a90cf51154af37be85f3daef93abfbb340a20ccd8855be63c184351b34a
+Step 1/12 : FROM sha256:31d48a90cf51154af37be85f3daef93abfbb340a20ccd8855be63c184351b34a AS build-env
  ---> 31d48a90cf51
 Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
- ---> Running in 3a0a81cbde63
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
-(1/6) Installing libmnl (1.0.4-r0)
-(2/6) Installing libnftnl-libs (1.0.7-r0)
-(3/6) Installing iptables (1.6.0-r0)
-(4/6) Installing libseccomp (2.3.1-r0)
-(5/6) Installing docker (1.12.6-r0)
-Executing docker-1.12.6-r0.pre-install
-(6/6) Installing libev (4.22-r0)
-Executing busybox-1.25.1-r0.trigger
-OK: 717 MiB in 104 packages
+ ---> Using cache
  ---> 3b1dbefc58bd
-Removing intermediate container 3a0a81cbde63
 Step 3/12 : ADD . /home/opam/build
- ---> 5c0f50b52cd9
-Removing intermediate container db7b24f0f43c
+ ---> b7ab43e62b7c
+Removing intermediate container 0c03f6b8780a
 Step 4/12 : WORKDIR /home/opam/build
- ---> 831093f9eeb8
-Removing intermediate container ca6bf27f7084
+ ---> 4669b1defe05
+Removing intermediate container c2d6c26beb7b
 Step 5/12 : RUN sudo chown opam .
- ---> Running in 1e85e24f7b90
- ---> f3bd6d6518fd
-Removing intermediate container 1e85e24f7b90
+ ---> Running in 54edfd2ae358
+ ---> f27a4f55fb2c
+Removing intermediate container 54edfd2ae358
 Step 6/12 : RUN opam config exec make selfCI
- ---> Running in d47a8fa9baef
+ ---> Running in 70c7a2dd1d72
 ocamlbuild -use-ocamlfind selfCI.native
 ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
 ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
 ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
 ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
 ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
- ---> c5186809c1bd
-Removing intermediate container d47a8fa9baef
+ ---> 52a95577941c
+Removing intermediate container 70c7a2dd1d72
 Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
- ---> Running in 70be3b757a75
- ---> faadfb7b0464
-Removing intermediate container 70be3b757a75
+ ---> Running in c15a81f4b6d9
+ ---> e2559045940f
+Removing intermediate container c15a81f4b6d9
 Step 8/12 : FROM alpine:3.5
  ---> 4a415e366388
 Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
@@ -61,5 +49,7 @@ Step 11/12 : ENTRYPOINT /usr/local/bin/ci
  ---> Using cache
  ---> 2008218bef64
 Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
-invalid from flag value build-env: repository build-env not found: does not exist or no pull access
-[2017-04-18 17:35.37] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
+ ---> 19646e403442
+Removing intermediate container ae13bfe179e3
+Successfully built 19646e403442
+[2017-04-18 17:36.29] Success
