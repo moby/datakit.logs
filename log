@@ -1,0 +1,121 @@
+=== Docker build Dockerfile
+[2017-04-19 10:16.24] Starting...
+Cloning into '/tmp/with_clone101926a7'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at bec2eba Simplify the Dockerfiles
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.122 MB
+Step 1/25 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/25 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/25 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 8c71ee82f35c
+Step 4/25 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> 30a0d05e709e
+Step 5/25 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term asl win-eventlog camlzip irmin-watcher mtime mirage-flow conduit hvsock cohttp prometheus-app git.1.9.3 mirage-tc irmin.0.12.0 cmdliner.0.9.8 protocol-9p channel rresult win-error named-pipe
+ ---> Using cache
+ ---> b8d76533353d
+Step 6/25 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 805b9ee3df24
+Step 7/25 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 3d458c8115ff
+Step 8/25 : COPY opam /home/opam/src/datakit/opam
+ ---> Using cache
+ ---> 3c43d7164327
+Step 9/25 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 23878eccb5ea
+Step 10/25 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> c4dded8d7198
+Step 11/25 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn	       &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> fa1cd959260b
+Step 12/25 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> d439785d9958
+Step 13/25 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Using cache
+ ---> 093763af7900
+Step 14/25 : COPY . /home/opam/src/datakit
+ ---> 7076b63807e8
+Error removing intermediate container e34375c19a9d: Driver aufs failed to remove root filesystem e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064: rename /var/lib/docker/aufs/mnt/8f269b9b63a0a62589c25efaf0c84797d142361b2af421d7444189f92ed64bc9 /var/lib/docker/aufs/mnt/8f269b9b63a0a62589c25efaf0c84797d142361b2af421d7444189f92ed64bc9-removing: device or resource busy
+Step 15/25 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in f9deaac178f1
+ ---> 59ecfad0ca2a
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 16/25 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 378cdfdba9a7
+ M src/version.ml
+ ---> cfb7e01358c0
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 17/25 : RUN opam install datakit -y
+ ---> Running in e697307baec1
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install datakit-server dev*                                 [required by datakit]
+  - install datakit        dev*
+===== 2 to install =====
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> c9be91439f5e
+Removing intermediate container 378cdfdba9a7
+Removing intermediate container e697307baec1
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 18/25 : RUN sudo cp $(opam config exec -- which datakit) /usr/bin/datakit &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in e1d7d7f72651
+ ---> fa2a11dd2f4d
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 19/25 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:58e1a1bb75db1b5a24a462dd5e2915277ea06438c3f105138f97eb53149673c4
+Status: Image is up to date for alpine:3.5
+ ---> 4a415e366388
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 20/25 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> cfa1a4a81238
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 21/25 : EXPOSE 5640
+ ---> Using cache
+ ---> 8877e13165b7
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 22/25 : ENTRYPOINT /usr/bin/datakit
+ ---> Using cache
+ ---> a0c95fd02137
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 23/25 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Using cache
+ ---> 1aa637390a81
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 24/25 : COPY --from=0 /usr/bin/datakit /usr/bin/datakit
+ ---> 58b2bfeb8815
+Removing intermediate container f9deaac178f1
+Removing intermediate container e1d7d7f72651
+Removing intermediate container 267ce0beccdb
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Step 25/25 : COPY --from=0 /usr/bin/datakit-mount /usr/bin/datakit-mount
+ ---> 270426612784
+Error removing intermediate container e34375c19a9d: No such container: e34375c19a9de637c7c61645eb56a1724d2a272632024229a643b599001c1064
+Successfully built 270426612784
+[2017-04-19 10:17.04] Success
