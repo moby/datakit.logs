@@ -1,0 +1,548 @@
+=== Docker build Dockerfile.github
+[2017-04-19 10:04.15] Starting...
+Cloning into '/tmp/with_clone386e5a7c'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 004bcd6 Merge pull request #251 from samoht/master
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.211 MB
+Step 1/24 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:8f656a87109cbaca7fd86e405a66b87f10b23df731f08df42742150ef9a8c6dc
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 2ad2f3609e7e
+Step 2/24 : RUN opam update
+ ---> Running in cc43bb8ffbcc
+
+=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default: local] Command started
+[default: local] Command started
+[default: local] Command started
+[default] /home/opam/opam-repository synchronized
+ ---> b4bafb0876b9
+Removing intermediate container cc43bb8ffbcc
+Step 3/24 : RUN sudo apk add ncurses-dev libev-dev
+ ---> Running in f4cf568728ff
+(1/2) Installing libev (4.22-r0)
+(2/2) Installing libev-dev (4.22-r0)
+OK: 582 MiB in 92 packages
+ ---> 6a6e4bb9006a
+Error removing intermediate container f4cf568728ff: Driver aufs failed to remove root filesystem f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67: rename /var/lib/docker/aufs/mnt/5a1c9646a8ee412e1e49f8a19ea94998809fa304b62a71fd25fe5f8b5d03c367 /var/lib/docker/aufs/mnt/5a1c9646a8ee412e1e49f8a19ea94998809fa304b62a71fd25fe5f8b5d03c367-removing: device or resource busy
+Step 4/24 : RUN opam depext ssl lwt react lambda-term &&     opam install ssl react lwt base-unix base-threads conf-libev          lambda-term mirage-types-lwt
+ ---> Running in ba43ec2cd76b
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pkgconfig
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: m4 openssl-dev
+The following command needs to be run through "sudo":
+    apk add m4 openssl-dev
+(1/5) Installing m4 (1.4.17-r1)
+(2/5) Installing zlib-dev (1.2.8-r2)
+(3/5) Installing libcrypto1.0 (1.0.2k-r0)
+(4/5) Installing libssl1.0 (1.0.2k-r0)
+(5/5) Installing openssl-dev (1.0.2k-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 603 MiB in 97 packages
+# OS packages installation successful
+[91m[NOTE] Package base-unix is already installed (current version is base).
+[NOTE] Package base-threads is already installed (current version is base).
+[0mThe following actions will be performed:
+  - install result                  1.2                         [required by lwt]
+  - install uchar                   0.0.1                       [required by fmt]
+  - install conf-m4                 1                           [required by ocamlfind]
+  - install conf-pkg-config         1.0                         [required by conf-openssl]
+  - install conf-libev              4-11     
+  - install conf-which              1                           [required by ssl]
+  - install ocamlfind               1.7.1                       [required by react, lwt, lambda-term, etc.]
+  - install conf-openssl            1                           [required by ssl]
+  - install topkg                   0.9.0                       [required by mirage-types-lwt, react]
+  - install ppx_tools               5.0                         [required by lwt]
+  - install jbuilder                1.0+beta7                   [required by sexplib, ocaml-migrate-parsetree, ppx_sexp_conv]
+  - install base-bytes              base                        [required by ipaddr, zed, cstruct, mirage-block-lwt]
+  - install ssl                     0.5.3    
+  - install react                   1.2.1    
+  - install fmt                     0.8.3                       [required by mirage-protocols, mirage-flow-lwt, logs, etc.]
+  - install sexplib                 v0.9.1                      [required by cstruct, ipaddr]
+  - install ppx_traverse_builtins   v0.9.0                      [required by ppx_core, ppx_metaquot]
+  - install ocaml-migrate-parsetree 1.0                         [required by cstruct]
+  - install ocaml-compiler-libs     v0.9.0                      [required by ppx_core]
+  - install cppo                    1.4.1                       [required by lwt]
+  - install mirage-flow             1.2.0                       [required by mirage-types]
+  - install mirage-device           1.0.0                       [required by mirage-types]
+  - install base                    v0.9.1                      [required by ppx_core]
+  - install ppx_tools_versioned     5.0beta1                    [required by cstruct]
+  - install ppx_ast                 v0.9.1                      [required by ppx_core]
+  - install ppx_deriving            4.1                         [required by ipaddr]
+  - install ocplib-endian           1.0                         [required by cstruct]
+  - install lwt                     2.7.1    
+       For module Lwt_ssl, please install package lwt_ssl
+       For module Lwt_react, please install package lwt_react
+  - install camomile                0.8.5                       [required by zed]
+  - install mirage-channel          3.0.0                       [required by mirage-channel-lwt, mirage-types]
+  - install mirage-time             1.0.0                       [required by mirage-time-lwt, mirage-types]
+  - install mirage-protocols        1.1.0                       [required by mirage-protocols-lwt, mirage-types]
+  - install mirage-net              1.0.0                       [required by mirage-net-lwt, mirage-types]
+  - install mirage-kv               1.0.0                       [required by mirage-types]
+  - install mirage-fs               1.0.0                       [required by mirage-fs-lwt, mirage-types]
+  - install mirage-console          2.2.0                       [required by mirage-console-lwt, mirage-types]
+  - install mirage-clock            1.2.0                       [required by mirage-clock-lwt, mirage-types]
+  - install mirage-block            1.0.0                       [required by mirage-block-lwt, mirage-types]
+  - install stdio                   v0.9.0                      [required by ppx_core]
+  - install logs                    0.6.2                       [required by mirage-block-lwt, mirage-channel-lwt]
+  - install cstruct                 2.4.0                       [required by mirage-types-lwt]
+  - install zed                     1.4                         [required by lambda-term]
+  - install mirage-time-lwt         1.0.0                       [required by mirage-types-lwt]
+  - install mirage-stack            1.0.0                       [required by mirage-stack-lwt, mirage-types]
+  - install mirage-clock-lwt        1.2.0                       [required by mirage-types-lwt]
+  - install ppx_core                v0.9.0                      [required by ppx_sexp_conv]
+  - install mirage-random           1.0.0                       [required by mirage-types-lwt]
+  - install mirage-kv-lwt           1.0.0                       [required by mirage-types-lwt]
+  - install mirage-flow-lwt         1.2.0                       [required by mirage-types-lwt]
+  - install mirage-console-lwt      2.2.0                       [required by mirage-types-lwt]
+  - install io-page                 1.6.1                       [required by mirage-types-lwt]
+  - install lambda-term             1.10.1   
+  - install ppx_optcomp             v0.9.0                      [required by ppx_driver]
+  - install mirage-types            3.0.0                       [required by mirage-types-lwt]
+  - install mirage-fs-lwt           1.0.0                       [required by mirage-types-lwt]
+  - install mirage-channel-lwt      3.0.0                       [required by mirage-types-lwt]
+  - install mirage-block-lwt        1.0.0                       [required by mirage-types-lwt]
+  - install ppx_driver              v0.9.0                      [required by ppx_sexp_conv]
+  - install ppx_metaquot            v0.9.0                      [required by ppx_sexp_conv]
+  - install ppx_type_conv           v0.9.0                      [required by ppx_sexp_conv]
+  - install ppx_sexp_conv           v0.9.0                      [required by ipaddr]
+  - install ipaddr                  2.7.2                       [required by mirage-types-lwt]
+  - install mirage-stack-lwt        1.0.0                       [required by mirage-types-lwt]
+  - install mirage-protocols-lwt    1.1.0                       [required by mirage-types-lwt]
+  - install mirage-net-lwt          1.0.0                       [required by mirage-types-lwt]
+  - install mirage-types-lwt        3.0.0    
+===== 66 to install =====
+Do you want to continue ? [Y/n] y
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[base: http] Command started
+[camomile: http] Command started
+[cppo: http] Command started
+[cppo: http] Command started
+[cppo.1.4.1] https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz downloaded
+[cstruct: http] Command started
+[base: http] Command started
+[base.v0.9.1] https://github.com/janestreet/base/archive/v0.9.1.tar.gz downloaded
+[fmt: http] Command started
+[fmt: http] Command started
+[fmt.0.8.3] http://erratique.ch/software/fmt/releases/fmt-0.8.3.tbz downloaded
+[io-page: http] Command started
+[cstruct: http] Command started
+[cstruct.2.4.0] https://github.com/mirage/ocaml-cstruct/archive/v2.4.0.tar.gz downloaded
+[ipaddr: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[jbuilder: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.7.2] https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.2/ipaddr-2.7.2.tbz downloaded
+[lambda-term: http] Command started
+[jbuilder: http] Command started
+[jbuilder.1.0+beta7] https://github.com/janestreet/jbuilder/archive/1.0+beta7.tar.gz downloaded
+[logs: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[lwt: http] Command started
+[lambda-term: http] Command started
+[lambda-term.1.10.1] https://github.com/diml/lambda-term/archive/1.10.1.tar.gz downloaded
+[mirage-block: http] Command started
+[mirage-block: http] Command started
+[mirage-block.1.0.0] https://github.com/mirage/mirage-block/releases/download/1.0.0/mirage-block-1.0.0.tbz downloaded
+[mirage-block-lwt: http] Command started
+[lwt: http] Command started
+[lwt.2.7.1] https://github.com/ocsigen/lwt/archive/2.7.1.tar.gz downloaded
+[mirage-channel: http] Command started
+[mirage-block-lwt: http] Command started
+[mirage-block-lwt.1.0.0] https://github.com/mirage/mirage-block/releases/download/1.0.0/mirage-block-lwt-1.0.0.tbz downloaded
+[mirage-channel-lwt: http] Command started
+[mirage-channel: http] Command started
+[mirage-channel.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-3.0.0.tbz downloaded
+[mirage-clock: http] Command started
+[mirage-channel-lwt: http] Command started
+[mirage-channel-lwt.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-lwt-3.0.0.tbz downloaded
+[mirage-clock-lwt: http] Command started
+[mirage-clock: http] Command started
+[mirage-clock.1.2.0] https://github.com/mirage/mirage-clock/releases/download/1.2.0/mirage-clock-1.2.0.tbz downloaded
+[mirage-console: http] Command started
+[mirage-clock-lwt: http] Command started
+[mirage-clock-lwt.1.2.0] https://github.com/mirage/mirage-clock/releases/download/1.2.0/mirage-clock-lwt-1.2.0.tbz downloaded
+[mirage-console-lwt: http] Command started
+[mirage-console: http] Command started
+[mirage-console.2.2.0] https://github.com/mirage/mirage-console/releases/download/2.2.0/mirage-console-2.2.0.tbz downloaded
+[mirage-device: http] Command started
+[mirage-console-lwt: http] Command started
+[mirage-console-lwt.2.2.0] https://github.com/mirage/mirage-console/releases/download/2.2.0/mirage-console-lwt-2.2.0.tbz downloaded
+[mirage-flow: http] Command started
+[mirage-device: http] Command started
+[mirage-device.1.0.0] https://github.com/mirage/mirage-device/releases/download/1.0.0/mirage-device-1.0.0.tbz downloaded
+[mirage-flow-lwt: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-1.2.0.tbz downloaded
+[mirage-fs: http] Command started
+[mirage-flow-lwt: http] Command started
+[mirage-flow-lwt.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-lwt-1.2.0.tbz downloaded
+[mirage-fs-lwt: http] Command started
+[mirage-fs: http] Command started
+[mirage-fs.1.0.0] https://github.com/mirage/mirage-fs/releases/download/1.0.0/mirage-fs-1.0.0.tbz downloaded
+[mirage-kv: http] Command started
+[mirage-fs-lwt: http] Command started
+[mirage-fs-lwt.1.0.0] https://github.com/mirage/mirage-fs/releases/download/1.0.0/mirage-fs-lwt-1.0.0.tbz downloaded
+[mirage-kv-lwt: http] Command started
+[mirage-kv: http] Command started
+[mirage-kv.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-1.0.0.tbz downloaded
+[mirage-net: http] Command started
+[mirage-kv-lwt: http] Command started
+[mirage-kv-lwt.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-lwt-1.0.0.tbz downloaded
+[mirage-net-lwt: http] Command started
+[mirage-net: http] Command started
+[mirage-net.1.0.0] https://github.com/mirage/mirage-net/releases/download/1.0.0/mirage-net-1.0.0.tbz downloaded
+[mirage-protocols: http] Command started
+[mirage-net-lwt: http] Command started
+[mirage-net-lwt.1.0.0] https://github.com/mirage/mirage-net/releases/download/1.0.0/mirage-net-lwt-1.0.0.tbz downloaded
+[mirage-protocols-lwt: http] Command started
+[mirage-protocols: http] Command started
+[mirage-protocols.1.1.0] https://github.com/mirage/mirage-protocols/releases/download/1.1.0/mirage-protocols-1.1.0.tbz downloaded
+[mirage-random: http] Command started
+[mirage-protocols-lwt: http] Command started
+[mirage-protocols-lwt.1.1.0] https://github.com/mirage/mirage-protocols/releases/download/1.1.0/mirage-protocols-lwt-1.1.0.tbz downloaded
+[mirage-stack: http] Command started
+[mirage-random: http] Command started
+[mirage-random.1.0.0] https://github.com/mirage/mirage-random/releases/download/1.0.0/mirage-random-1.0.0.tbz downloaded
+[mirage-stack-lwt: http] Command started
+[mirage-stack: http] Command started
+[mirage-stack.1.0.0] https://github.com/mirage/mirage-stack/releases/download/1.0.0/mirage-stack-1.0.0.tbz downloaded
+[mirage-time: http] Command started
+[mirage-stack-lwt: http] Command started
+[mirage-stack-lwt.1.0.0] https://github.com/mirage/mirage-stack/releases/download/1.0.0/mirage-stack-lwt-1.0.0.tbz downloaded
+[mirage-time-lwt: http] Command started
+[mirage-time: http] Command started
+[mirage-time.1.0.0] https://github.com/mirage/mirage-time/releases/download/1.0.0/mirage-time-1.0.0.tbz downloaded
+[mirage-types: http] Command started
+[mirage-time-lwt: http] Command started
+[mirage-time-lwt.1.0.0] https://github.com/mirage/mirage-time/releases/download/1.0.0/mirage-time-lwt-1.0.0.tbz downloaded
+[mirage-types-lwt: http] Command started
+[mirage-types: http] Command started
+[mirage-types.3.0.0] https://github.com/mirage/mirage/archive/v3.0.0.tar.gz downloaded
+[ocaml-compiler-libs: http] Command started
+[mirage-types-lwt: http] Command started
+[mirage-types-lwt.3.0.0] https://github.com/mirage/mirage/archive/v3.0.0.tar.gz downloaded
+[ocaml-migrate-parsetree: http] Command started
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ocaml-compiler-libs-v0.9.0.tar.gz downloaded
+[ocamlfind: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.7.1] http://download.camlcity.org/download/findlib-1.7.1.tar.gz downloaded
+[ocplib-endian: http] Command started
+[ocaml-migrate-parsetree: http] Command started
+[ocaml-migrate-parsetree.1.0] https://github.com/let-def/ocaml-migrate-parsetree/archive/v1.0.tar.gz downloaded
+[ppx_ast: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_core: http] Command started
+[ppx_ast: http] Command started
+[ppx_ast.v0.9.1] https://github.com/janestreet/ppx_ast/archive/v0.9.1.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_core-v0.9.0.tar.gz downloaded
+[ppx_driver: http] Command started
+[camomile: http] Command started
+[camomile.0.8.5] https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2 downloaded
+[ppx_metaquot: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_driver-v0.9.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_metaquot: http] Command started
+[ppx_metaquot.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_metaquot-v0.9.0.tar.gz downloaded
+[ppx_tools: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_optcomp-v0.9.0.tar.gz downloaded
+[ppx_tools_versioned: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_sexp_conv-v0.9.0.tar.gz downloaded
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_traverse_builtins-v0.9.0.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0] https://github.com/alainfrisch/ppx_tools/tarball/f70ca1d07d565989a0041e312e8efc00ff2ad87e downloaded
+[react: http] Command started
+[react: http] Command started
+[react.1.2.1] http://erratique.ch/software/react/releases/react-1.2.1.tbz downloaded
+[result: http] Command started
+[ppx_tools_versioned: http] Command started
+[ppx_tools_versioned.5.0beta1] https://github.com/let-def/ppx_tools_versioned/archive/5.0beta1.tar.gz downloaded
+[sexplib: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_type_conv-v0.9.0.tar.gz downloaded
+[ssl: http] Command started
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+[stdio: http] Command started
+[stdio: http] Command started
+[stdio.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/stdio-v0.9.0.tar.gz downloaded
+[topkg: http] Command started
+[topkg: http] Command started
+[topkg.0.9.0] http://erratique.ch/software/topkg/releases/topkg-0.9.0.tbz downloaded
+[uchar: http] Command started
+[sexplib: http] Command started
+[sexplib.v0.9.1] https://github.com/janestreet/sexplib/archive/v0.9.1.tar.gz downloaded
+[zed: http] Command started
+[uchar: http] Command started
+[uchar.0.0.1] https://github.com/ocaml/uchar/releases/download/v0.0.1/uchar-0.0.1.tbz downloaded
+[zed: http] Command started
+[zed.1.4] https://github.com/diml/zed/archive/1.4.tar.gz downloaded
+[ssl: http] Command started
+[ssl.0.5.3] https://github.com/savonet/ocaml-ssl/releases/download/0.5.3/ocaml-ssl-0.5.3.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[conf-libev: sh] Command started
+[conf-m4: sh echo | m4] Command started
+[conf-pkg-config: pkg-config] Command started
+[conf-which: which which] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+-> installed conf-pkg-config.1.0
+[conf-openssl: pkg-config openssl] Command started
+-> installed conf-which.1
+[result: make] Command started
+-> installed conf-openssl.1
+[uchar: ocaml] Command started
+-> installed conf-libev.4-11
+[uchar: ocaml] Command started
+-> installed result.1.2
+[ocamlfind: make all] Command started
+-> installed uchar.0.0.1
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+-> installed ocamlfind.1.7.1
+-> installed base-bytes.base
+[cppo: make opt] Command started
+[jbuilder: ocaml bootstrap.ml] Command started
+[ppx_tools: make all] Command started
+[ssl: ./configure] Command started
+[cppo: make ocamlbuild] Command started
+[cppo: make install-lib] Command started
+-> installed cppo.1.4.1
+[camomile: ./configure] Command started
+[ssl: make] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0
+[ocplib-endian: ocaml setup.ml] Command started
+[camomile: make] Command started
+[jbuilder: ./boot.exe 4] Command started
+[ssl: make install] Command started
+-> installed ssl.0.5.3
+[ppx_deriving: ocaml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed jbuilder.1.0+beta7
+[ocaml-compiler-libs: jbuilder build] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed ocaml-compiler-libs.v0.9.0
+[ocaml-migrate-parsetree: jbuilder build] Command started
+-> installed ocplib-endian.1.0
+[ppx_traverse_builtins: jbuilder build] Command started
+-> installed ppx_traverse_builtins.v0.9.0
+[sexplib: jbuilder build] Command started
+-> installed sexplib.v0.9.1
+[base: jbuilder build] Command started
+-> installed ppx_deriving.4.1
+[topkg: ocaml build] Command started
+-> installed ocaml-migrate-parsetree.1.0
+[ppx_ast: jbuilder build] Command started
+-> installed ppx_ast.v0.9.1
+[ppx_tools_versioned: make all] Command started
+-> installed topkg.0.9.0
+[fmt: ocaml build] Command started
+-> installed fmt.0.8.3
+[mirage-device: ocaml build] Command started
+-> installed mirage-device.1.0.0
+[mirage-block: ocaml build] Command started
+-> installed base.v0.9.1
+[mirage-clock: ocaml build] Command started
+-> installed mirage-block.1.0.0
+[mirage-flow: ocaml build] Command started
+-> installed mirage-clock.1.2.0
+[mirage-fs: ocaml build] Command started
+-> installed mirage-flow.1.2.0
+[mirage-channel: ocaml build] Command started
+-> installed mirage-channel.3.0.0
+[mirage-console: ocaml build] Command started
+-> installed mirage-fs.1.0.0
+[mirage-kv: ocaml build] Command started
+-> installed mirage-console.2.2.0
+[mirage-net: ocaml build] Command started
+-> installed mirage-kv.1.0.0
+[mirage-protocols: ocaml build] Command started
+-> installed mirage-net.1.0.0
+[mirage-time: ocaml build] Command started
+-> installed mirage-time.1.0.0
+[react: ocaml build] Command started
+-> installed mirage-protocols.1.1.0
+[mirage-stack: ocaml build] Command started
+-> installed mirage-stack.1.0.0
+[stdio: jbuilder build] Command started
+[ppx_tools_versioned: make install] Command started
+-> installed ppx_tools_versioned.5.0beta1
+-> installed stdio.v0.9.0
+[ppx_core: jbuilder build] Command started
+-> installed react.1.2.1
+[lwt: make setup] Command started
+[lwt: ocaml setup.ml] Command started
+-> installed ppx_core.v0.9.0
+[ppx_optcomp: jbuilder build] Command started
+[lwt: make build] Command started
+-> installed ppx_optcomp.v0.9.0
+[ppx_driver: jbuilder build] Command started
+-> installed ppx_driver.v0.9.0
+[ppx_metaquot: jbuilder build] Command started
+[camomile: make install] Command started
+-> installed camomile.0.8.5
+[zed: ocaml setup.ml] Command started
+-> installed ppx_metaquot.v0.9.0
+[ppx_type_conv: jbuilder build] Command started
+[zed: ocaml setup.ml] Command started
+-> installed ppx_type_conv.v0.9.0
+[ppx_sexp_conv: jbuilder build] Command started
+-> installed ppx_sexp_conv.v0.9.0
+[ipaddr: ocaml build] Command started
+[zed: ocaml setup.ml] Command started
+-> installed zed.1.4
+-> installed ipaddr.2.7.2
+[lwt: make install] Command started
+-> installed lwt.2.7.1
+[cstruct: ./configure] Command started
+[lambda-term: ocaml setup.ml] Command started
+[logs: ocaml build] Command started
+[mirage-clock-lwt: ocaml build] Command started
+-> installed mirage-clock-lwt.1.2.0
+[mirage-time-lwt: ocaml build] Command started
+-> installed mirage-time-lwt.1.0.0
+-> installed logs.0.6.2
+[lambda-term: ocaml setup.ml] Command started
+[cstruct: make] Command started
+[cstruct: make install] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.4.0
+[io-page: ./configure] Command started
+[mirage-console-lwt: ocaml build] Command started
+[mirage-flow-lwt: ocaml build] Command started
+-> installed mirage-console-lwt.2.2.0
+[mirage-kv-lwt: ocaml build] Command started
+-> installed mirage-flow-lwt.1.2.0
+[mirage-protocols-lwt: ocaml build] Command started
+-> installed mirage-kv-lwt.1.0.0
+[mirage-fs-lwt: ocaml build] Command started
+-> installed mirage-protocols-lwt.1.1.0
+[mirage-random: ocaml build] Command started
+-> installed mirage-fs-lwt.1.0.0
+[mirage-stack-lwt: ocaml build] Command started
+[io-page: make] Command started
+-> installed mirage-random.1.0.0
+[mirage-types: ocaml build] Command started
+-> installed mirage-stack-lwt.1.0.0
+-> installed mirage-types.3.0.0
+[io-page: make install] Command started
+-> installed io-page.1.6.1
+[mirage-block-lwt: ocaml build] Command started
+[mirage-channel-lwt: ocaml build] Command started
+[mirage-net-lwt: ocaml build] Command started
+-> installed mirage-net-lwt.1.0.0
+-> installed mirage-channel-lwt.3.0.0
+-> installed mirage-block-lwt.1.0.0
+[mirage-types-lwt: ocaml build] Command started
+-> installed mirage-types-lwt.3.0.0
+[lambda-term: ocaml setup.ml] Command started
+-> installed lambda-term.1.10.1
+Done.
+ ---> 480c4ea8db5e
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 5/24 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 9511449124c5
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 6/24 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in b7393b3d49b7
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> 1a52d474dccb
+Removing intermediate container b7393b3d49b7
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 7/24 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 0fd630658fd2
+Removing intermediate container 279176f5bfc0
+Removing intermediate container a1b180320dba
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 8/24 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 2c9e86d138b6
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> a78eb929c311
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 9/24 : RUN opam pin add github https://github.com/samoht/ocaml-github.git -n
+ ---> Running in 808eafc06762
+github is now git-pinned to https://github.com/samoht/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/samoht/ocaml-github.git updated
+[github] Installing new package description from
+https://github.com/samoht/ocaml-github.git
+
+ ---> 826cdb3cafb8
+Removing intermediate container 2c9e86d138b6
+Removing intermediate container 808eafc06762
+Error removing intermediate container f4cf568728ff: No such container: f4cf568728ff050b9cf7be6c150c2034044f0d2d084b8c6d49867b3cc97f7b67
+Step 10/24 : RUN opam depext datakit-client datakit-github &&     opam install github && opam install datakit-client --deps
+ ---> Running in 2698c0c844d6
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - perl
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers perl
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers perl
+(1/4) Installing libgmpxx (6.1.1-r0)
+(2/4) Installing gmp-dev (6.1.1-r0)
+(3/4) Installing linux-headers (4.4.6-r1)
+(4/4) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 654 MiB in 101 packages
+# OS packages installation successful
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[github: git] Command started
+[github: git] Command started
+[github: git] Command started
+[github: git] Command started
+[github] https://github.com/samoht/ocaml-github.git already up-to-date
+[2017-04-19 10:07.12] Cancelled at user's request
+[2017-04-19 10:07.12] Failed: Cancelled
