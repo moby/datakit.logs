@@ -1,0 +1,431 @@
+=== Docker build Dockerfile.github
+[2017-04-19 10:09.13] Starting...
+Cloning into '/tmp/with_clone386cde4c'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at f0ef932 Simplify the Dockerfiles
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.117 MB
+Step 1/26 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/26 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/26 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 8c71ee82f35c
+Step 4/26 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> 30a0d05e709e
+Step 5/26 : RUN opam pin add github --dev -n
+ ---> Using cache
+ ---> fed26ca00f2c
+Step 6/26 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner.0.9.8 github protocol-9p rresult prometheus-app mirage-types-lwt.2.8.0 asl win-eventlog mtime hex github-hooks hvsock
+ ---> Running in 6a3954df7972
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - libev-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev libev-dev linux-headers m4 openssl-dev pcre-dev perl
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.2-46-gdf4d97eba7 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.2-47-ga46d5990dc [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7962 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add gmp-dev libev-dev linux-headers m4 openssl-dev pcre-dev perl
+(1/15) Installing libgmpxx (6.1.1-r0)
+(2/15) Installing gmp-dev (6.1.1-r0)
+(3/15) Installing libev (4.22-r0)
+(4/15) Installing libev-dev (4.22-r0)
+(5/15) Installing linux-headers (4.4.6-r1)
+(6/15) Installing m4 (1.4.17-r1)
+(7/15) Installing zlib-dev (1.2.8-r2)
+(8/15) Installing libcrypto1.0 (1.0.2k-r0)
+(9/15) Installing libssl1.0 (1.0.2k-r0)
+(10/15) Installing openssl-dev (1.0.2k-r0)
+(11/15) Installing libpcre16 (8.39-r0)
+(12/15) Installing libpcre32 (8.39-r0)
+(13/15) Installing libpcrecpp (8.39-r0)
+(14/15) Installing pcre-dev (8.39-r0)
+(15/15) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 644 MiB in 104 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[protocol-9p.0.8.0] no changes from git+https://github.com/talex5/ocaml-9p.git#ping
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/protocol-9p/opam from 1.2 to 2.0~beta
+[0m[github.2.3.0] no changes from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install conf-gmp         1                                  [required by zarith]
+  - install mirage-no-xen    1                                  [required by nocrypto]
+  - install conf-m4          1                                  [required by ocamlfind]
+  - install cmdliner         0.9.8
+  - install mirage-no-solo5  1                                  [required by nocrypto]
+  - install conf-perl        1                                  [required by zarith]
+  - install conf-libev       4-11
+  - install conf-which       1                                  [required by biniou]
+  - install result           1.2                                [required by rresult, lwt, alcotest, etc.]
+  - install ocamlfind        1.7.1                              [required by rresult, prometheus-app, mirage-types-lwt, etc.]
+  - install zarith           1.4.1                              [required by nocrypto]
+  - install topkg            0.8.1                              [required by protocol-9p, github-hooks, alcotest, etc.]
+  - install sexplib          113.33.00+4.03                     [required by protocol-9p]
+  - install react            1.2.0                              [required by lambda-term, lwt]
+  - install ppx_tools        5.0                                [required by lwt, protocol-9p]
+  - install ocamlmod         0.0.8                              [required by oasis]
+  - install ocamlify         0.0.1                              [required by oasis]
+  - install menhir           20170101                           [required by atd]
+  - install magic-mime       1.0.0                              [required by cohttp]
+  - install fieldslib        113.24.00                          [required by cohttp]
+  - install easy-format      1.2.0                              [required by biniou, atd, yojson]
+  - install base-bytes       base                               [required by inotify, hvsock, protocol-9p]
+  - install rresult          0.5.0
+  - install mtime            0.8.4
+  - install fmt              0.8.0                              [required by prometheus-app, github-hooks, alcotest, etc.]
+  - install duration         0.1.0                              [required by hvsock]
+  - install astring          0.8.3                              [required by alcotest, protocol-9p]
+  - install asetmap          0.8.1                              [required by prometheus]
+  - install ppx_core         113.33.01+4.03                     [required by ppx_fields_conv]
+  - install lwt              2.7.0
+       For module Lwt_react, please install package lwt_react
+  - install oasis            0.4.8                              [required by tls]
+  - install biniou           1.0.12                             [required by atdgen]
+  - install atd              1.2.0                              [required by atdgen]
+  - install win-error        0.2                                [required by protocol-9p]
+  - install stringext        1.4.3                              [required by github]
+  - install re               1.7.1                              [required by cohttp]
+  - install cppo             1.4.1                              [required by yojson, camomile]
+  - install base64           2.1.2                              [required by cohttp]
+  - install ocb-stubblr      0.1.1                              [required by named-pipe]
+  - install alcotest         0.7.2
+  - install ppx_optcomp      113.33.01+4.03                     [required by conduit]
+  - install prometheus       0.1                                [required by prometheus-app, protocol-9p]
+  - install logs             0.6.2                              [required by protocol-9p, github-hooks, asl, etc.]
+  - install inotify          2.3
+  - install yojson           1.3.3                              [required by github]
+  - install ppx_deriving     4.1                                [required by protocol-9p]
+  - install ocplib-endian    1.0                                [required by cstruct]
+  - install camomile         0.8.5                              [required by zed]
+  - install named-pipe       0.4.0                              [required by protocol-9p]
+  - install cpuid            0.1.0                              [required by nocrypto]
+  - install ppx_driver       113.33.02+4.03                     [required by conduit]
+  - install win-eventlog     0.1
+  - install asl              0.10
+  - install atdgen           1.10.0                             [required by github]
+  - install cstruct          2.3.2                              [required by mirage-types-lwt, hex, hvsock, protocol-9p]
+  - install zed              1.4                                [required by lambda-term]
+  - install ppx_type_conv    113.33.02+4.03                     [required by ppx_fields_conv]
+  - install io-page          1.6.1                              [required by mirage-types-lwt]
+  - install hex              1.0.0
+  - install asn1-combinators 0.1.3                              [required by x509]
+  - install lambda-term      1.10.1
+  - install ppx_sexp_conv    113.33.01+4.03                     [required by protocol-9p]
+  - install ppx_fields_conv  113.33.00+4.03                     [required by cohttp]
+  - install uri              1.9.2                              [required by github]
+  - install nocrypto         0.5.4                              [required by github-hooks]
+  - install ipaddr           2.7.2                              [required by mirage-types-lwt]
+  - install x509             0.5.3                              [required by tls]
+  - install mirage-types     2.8.0                              [required by mirage-types-lwt]
+  - install mirage-types-lwt 2.8.0
+  - install tls              0.7.1                              [required by github]
+  - install mirage-flow      1.1.0                              [required by hvsock]
+  - install channel          1.1.1                              [required by protocol-9p]
+  - install conduit          0.14.5                             [required by cohttp]
+  - install hvsock           0.11.1
+  - install protocol-9p      0.8.0*
+  - install cohttp           0.21.1                             [required by github-hooks, github, prometheus-app]
+  - install prometheus-app   0.1
+  - install github           2.3.0*
+  - install github-hooks     0.1.1
+===== 79 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[alcotest.0.7.2] downloaded from https://github.com/mirage/alcotest/releases/download/0.7.2/alcotest-0.7.2.tbz
+[astring.0.8.3] downloaded from http://erratique.ch/software/astring/releases/astring-0.8.3.tbz
+[asl.0.10] downloaded from https://github.com/mirage/ocaml-asl/archive/v0.10.tar.gz
+[atdgen.1.10.0] downloaded from https://github.com/mjambon/atdgen/archive/v1.10.0.tar.gz
+[base64.2.1.2] downloaded from https://github.com/mirage/ocaml-base64/releases/download/v2.1.2/base64-2.1.2.tbz
+[asn1-combinators.0.1.3] downloaded from https://github.com/mirleft/ocaml-asn1-combinators/releases/download/v0.1.3/asn1-combinators-0.1.3.tbz
+[atd.1.2.0] downloaded from https://github.com/mjambon/atd/archive/v1.2.0.tar.gz
+[biniou.1.0.12] downloaded from https://github.com/mjambon/biniou/archive/v1.0.12.tar.gz
+[cmdliner.0.9.8] downloaded from http://erratique.ch/software/cmdliner/releases/cmdliner-0.9.8.tbz
+[channel.1.1.1] downloaded from https://github.com/mirage/mirage-channel/releases/download/v1.1.1/channel-1.1.1.tbz
+[cohttp.0.21.1] downloaded from https://github.com/mirage/ocaml-cohttp/archive/v0.21.1.tar.gz
+[conduit.0.14.5] downloaded from https://github.com/mirage/ocaml-conduit/archive/v0.14.5.tar.gz
+[cppo.1.4.1] downloaded from https://github.com/mjambon/cppo/archive/v1.4.1.tar.gz
+[cpuid.0.1.0] downloaded from https://github.com/pqwy/cpuid/releases/download/v0.1.0/cpuid-0.1.0.tbz
+[cstruct.2.3.2] downloaded from https://github.com/mirage/ocaml-cstruct/archive/v2.3.2.tar.gz
+[duration.0.1.0] downloaded from https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz
+[easy-format.1.2.0] downloaded from https://github.com/mjambon/easy-format/archive/v1.2.0.tar.gz
+[fmt.0.8.0] downloaded from http://erratique.ch/software/fmt/releases/fmt-0.8.0.tbz
+[fieldslib.113.24.00] downloaded from https://ocaml.janestreet.com/ocaml-core/113.24/files/fieldslib-113.24.00.tar.gz
+[github-hooks.0.1.1] downloaded from https://github.com/dsheets/ocaml-github-hooks/releases/download/0.1.1/github-hooks-0.1.1.tbz
+[github.2.3.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[hex.1.0.0] downloaded from https://github.com/mirage/ocaml-hex/archive/1.0.0.tar.gz
+[hvsock.0.11.1] downloaded from https://github.com/mirage/ocaml-hvsock/archive/v0.11.1.tar.gz
+[camomile.0.8.5] downloaded from https://github.com/yoriyuki/Camomile/releases/download/rel-0.8.5/camomile-0.8.5.tar.bz2
+[io-page.1.6.1] downloaded from https://github.com/mirage/io-page/archive/v1.6.1.tar.gz
+[ipaddr.2.7.2] downloaded from https://github.com/mirage/ocaml-ipaddr/releases/download/2.7.2/ipaddr-2.7.2.tbz
+[logs.0.6.2] downloaded from http://erratique.ch/software/logs/releases/logs-0.6.2.tbz
+[lambda-term.1.10.1] downloaded from https://github.com/diml/lambda-term/archive/1.10.1.tar.gz
+[lwt.2.7.0] downloaded from https://github.com/ocsigen/lwt/archive/2.7.0.tar.gz
+[magic-mime.1.0.0] downloaded from https://github.com/mirage/ocaml-magic-mime/archive/v1.0.0.tar.gz
+[menhir.20170101] downloaded from http://gallium.inria.fr/~fpottier/menhir/menhir-20170101.tar.gz
+[inotify.2.3] downloaded from https://github.com/whitequark/ocaml-inotify/archive/v2.3.tar.gz
+[mtime.0.8.4] downloaded from http://erratique.ch/software/mtime/releases/mtime-0.8.4.tbz
+[mirage-flow.1.1.0] downloaded from https://github.com/mirage/mirage-flow/archive/v1.1.0.tar.gz
+[named-pipe.0.4.0] downloaded from https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz
+[oasis.0.4.8] downloaded from https://forge.ocamlcore.org/frs/download.php/1669/oasis-0.4.8.tar.gz
+[mirage-types.2.8.0] downloaded from https://github.com/mirage/mirage/archive/v2.8.0.tar.gz
+[ocamlfind.1.7.1] downloaded from http://download.camlcity.org/download/findlib-1.7.1.tar.gz
+[ocamlify.0.0.1] downloaded from http://forge.ocamlcore.org/frs/download.php/379/ocamlify-0.0.1.tar.gz
+[ocamlmod.0.0.8] downloaded from https://forge.ocamlcore.org/frs/download.php/1544/ocamlmod-0.0.8.tar.gz
+[ocb-stubblr.0.1.1] downloaded from https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[ppx_core.113.33.01+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_core-113.33.01+4.03.tar.gz
+[ppx_deriving.4.1] downloaded from https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz
+[ppx_driver.113.33.02+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_driver-113.33.02+4.03.tar.gz
+[ppx_fields_conv.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_fields_conv-113.33.00+4.03.tar.gz
+[nocrypto.0.5.4] downloaded from https://github.com/mirleft/ocaml-nocrypto/releases/download/v0.5.4/nocrypto-0.5.4.tbz
+[ppx_optcomp.113.33.01+4.03] downloaded from https://github.com/janestreet/ppx_optcomp/archive/113.33.01+4.03.tar.gz
+[ppx_type_conv.113.33.02+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_type_conv-113.33.02+4.03.tar.gz
+[ppx_sexp_conv.113.33.01+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/ppx_sexp_conv-113.33.01+4.03.tar.gz
+[ppx_tools.5.0] downloaded from https://github.com/alainfrisch/ppx_tools/tarball/f70ca1d07d565989a0041e312e8efc00ff2ad87e
+[prometheus.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[prometheus-app.0.1] downloaded from https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz
+[react.1.2.0] downloaded from http://erratique.ch/software/react/releases/react-1.2.0.tbz
+[result.1.2] downloaded from https://github.com/janestreet/result/archive/1.2.tar.gz
+[rresult.0.5.0] downloaded from http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz
+[re.1.7.1] downloaded from https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz
+[protocol-9p.0.8.0] synchronised from git+https://github.com/talex5/ocaml-9p.git#ping
+[stringext.1.4.3] downloaded from https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz
+[sexplib.113.33.00+4.03] downloaded from https://ocaml.janestreet.com/ocaml-core/113.33/files/sexplib-113.33.00+4.03.tar.gz
+[topkg.0.8.1] downloaded from http://erratique.ch/software/topkg/releases/topkg-0.8.1.tbz
+[tls.0.7.1] downloaded from https://github.com/mirleft/ocaml-tls/archive/0.7.1.tar.gz
+[win-error.0.2] downloaded from https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz
+[uri.1.9.2] downloaded from https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz
+[x509.0.5.3] downloaded from https://github.com/mirleft/ocaml-x509/archive/0.5.3.tar.gz
+[win-eventlog.0.1] downloaded from https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz
+[zarith.1.4.1] downloaded from https://forge.ocamlcore.org/frs/download.php/1574/zarith-1.4.1.tgz
+[yojson.1.3.3] downloaded from https://github.com/mjambon/yojson/archive/v1.3.3.tar.gz
+[zed.1.4] downloaded from https://github.com/diml/zed/archive/1.4.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed cmdliner.0.9.8
+-> installed conf-gmp.1
+-> installed conf-libev.4-11
+-> installed conf-m4.1
+-> installed conf-perl.1
+-> installed conf-which.1
+-> installed mirage-no-solo5.1
+-> installed mirage-no-xen.1
+-> installed ocamlfind.1.7.1
+-> installed base-bytes.base
+-> installed cppo.1.4.1
+-> installed camomile.0.8.5
+-> installed easy-format.1.2.0
+-> installed biniou.1.0.12
+-> installed fieldslib.113.24.00
+-> installed magic-mime.1.0.0
+-> installed menhir.20170101
+-> installed atd.1.2.0
+-> installed ocamlify.0.0.1
+-> installed ocamlmod.0.0.8
+-> installed oasis.0.4.8
+-> installed ocplib-endian.1.0
+-> installed ppx_tools.5.0
+-> installed ppx_core.113.33.01+4.03
+-> installed ppx_optcomp.113.33.01+4.03
+-> installed ppx_driver.113.33.02+4.03
+-> installed re.1.7.1
+-> installed react.1.2.0
+-> installed result.1.2
+-> installed lwt.2.7.0
+-> installed inotify.2.3
+-> installed ppx_deriving.4.1
+-> installed ppx_type_conv.113.33.02+4.03
+-> installed ppx_fields_conv.113.33.00+4.03
+-> installed sexplib.113.33.00+4.03
+-> installed cstruct.2.3.2
+-> installed hex.1.0.0
+-> installed io-page.1.6.1
+-> installed ppx_sexp_conv.113.33.01+4.03
+-> installed stringext.1.4.3
+-> installed topkg.0.8.1
+-> installed asetmap.0.8.1
+-> installed astring.0.8.3
+-> installed base64.2.1.2
+-> installed duration.0.1.0
+-> installed fmt.0.8.0
+-> installed alcotest.0.7.2
+-> installed ipaddr.2.7.2
+-> installed logs.0.6.2
+-> installed asl.0.10
+-> installed mirage-types.2.8.0
+-> installed mirage-types-lwt.2.8.0
+-> installed channel.1.1.1
+-> installed mirage-flow.1.1.0
+-> installed hvsock.0.11.1
+-> installed mtime.0.8.4
+-> installed ocb-stubblr.0.1.1
+-> installed cpuid.0.1.0
+-> installed named-pipe.0.4.0
+-> installed prometheus.0.1
+-> installed rresult.0.5.0
+-> installed uri.1.9.2
+-> installed win-error.0.2
+-> installed win-eventlog.0.1
+-> installed yojson.1.3.3
+-> installed atdgen.1.10.0
+-> installed zarith.1.4.1
+-> installed asn1-combinators.0.1.3
+-> installed nocrypto.0.5.4
+-> installed x509.0.5.3
+-> installed tls.0.7.1
+-> installed conduit.0.14.5
+-> installed cohttp.0.21.1
+-> installed prometheus-app.0.1
+-> installed zed.1.4
+-> installed lambda-term.1.10.1
+-> installed github.2.3.0
+-> installed github-hooks.0.1.1
+-> installed protocol-9p.0.8.0
+Done.
+
+=-=- lwt.2.7.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> The future Lwt 3.0.0 will make minor breaking changes near 1 April 2017. See
+     https://github.com/ocsigen/lwt/issues/308
+# Run eval `opam env` to update the current shell environment
+ ---> 475442e5563a
+Removing intermediate container 6a3954df7972
+Step 7/26 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> aee9604c43f8
+Removing intermediate container a0cad6fa1986
+Step 8/26 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Running in bb30a6cf78e2
+ ---> 999c8e6b8fc6
+Removing intermediate container bb30a6cf78e2
+Step 9/26 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 43e23e4af47d
+Removing intermediate container 50cbc16be8fa
+Step 10/26 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> e7e22ec37154
+Removing intermediate container b72a91d524fd
+Step 11/26 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 8a12466b714d
+Removing intermediate container e5dcae665f79
+Step 12/26 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> 08f8e131db78
+Removing intermediate container 98d575d9853f
+Step 13/26 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Running in 1e8600655c50
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0mdatakit-bridge-github is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> f927dcc419a5
+Removing intermediate container 1e8600655c50
+Step 14/26 : COPY . /home/opam/src/datakit
+ ---> 6e2dd654f9a1
+Removing intermediate container 2b3c50ad5022
+Step 15/26 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 8839737ea9c2
+ ---> 4017719a7fd8
+Removing intermediate container 8839737ea9c2
+Step 16/26 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in ceca2e19f9b8
+ M src/version.ml
+ ---> f88f6e5e2742
+Removing intermediate container ceca2e19f9b8
+Step 17/26 : RUN opam install datakit-bridge-github -y
+ ---> Running in c8a2c5878026
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install datakit-server        dev*                          [required by datakit-bridge-github]
+  - install datakit-client        dev*                          [required by datakit-bridge-github]
+  - install datakit-github        dev*                          [required by datakit-bridge-github]
+  - install datakit-bridge-github dev*
+===== 4 to install =====
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+-> installed datakit-github.dev
+-> installed datakit-server.dev
+-> installed datakit-bridge-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> f474ee9fdf14
+Removing intermediate container c8a2c5878026
+Step 18/26 : RUN sudo cp $(opam config exec -- which datakit-bridge-github) /usr/bin/
+ ---> Running in 1c7c0afb9d17
+ ---> 77c722114900
+Removing intermediate container 1c7c0afb9d17
+Step 19/26 : USER root
+ ---> Running in 52ab03d556c4
+ ---> 7a25da4a3ef7
+Removing intermediate container 52ab03d556c4
+Step 20/26 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:58e1a1bb75db1b5a24a462dd5e2915277ea06438c3f105138f97eb53149673c4
+Status: Image is up to date for alpine:3.5
+ ---> 4a415e366388
+Step 21/26 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> cfa1a4a81238
+Step 22/26 : EXPOSE 5640
+ ---> Using cache
+ ---> 8877e13165b7
+Step 23/26 : EXPOSE 5641
+ ---> Using cache
+ ---> 80015c1626a5
+Step 24/26 : ENTRYPOINT /usr/bin/datakit
+ ---> Using cache
+ ---> c4f2f4140201
+Step 25/26 : CMD --listen=tcp://0.0.0.0:5641 -v --datakit=tcp:127.0.0.1:5640
+ ---> Using cache
+ ---> 2ed0e4216a96
+Step 26/26 : COPY --from=0 /usr/bin/datakit-bridge-github /usr/bin/datakit-bridge-github
+ ---> c63352bcd1ce
+Removing intermediate container 1786b1a45fdc
+Successfully built c63352bcd1ce
+[2017-04-19 10:16.28] Success
