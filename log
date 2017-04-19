@@ -1,0 +1,114 @@
+=== Docker build Dockerfile.github
+[2017-04-19 11:06.27] Starting...
+Cloning into '/tmp/with_clone94f79cd'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 57e3440 Merge pull request #521 from talex5/build
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.188 MB
+Step 1/23 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/23 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/23 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 8c71ee82f35c
+Step 4/23 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> 30a0d05e709e
+Step 5/23 : RUN opam pin add github --dev -n
+ ---> Using cache
+ ---> fed26ca00f2c
+Step 6/23 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner.0.9.8 github protocol-9p rresult prometheus-app mirage-types-lwt.2.8.0 asl win-eventlog mtime hex github-hooks hvsock
+ ---> Using cache
+ ---> 475442e5563a
+Step 7/23 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> aee9604c43f8
+Step 8/23 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 999c8e6b8fc6
+Step 9/23 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 43e23e4af47d
+Step 10/23 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> e7e22ec37154
+Step 11/23 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 8a12466b714d
+Step 12/23 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 08f8e131db78
+Step 13/23 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> f927dcc419a5
+Step 14/23 : COPY . /home/opam/src/datakit
+ ---> 61036332acff
+Removing intermediate container 8ce5c73e25ee
+Step 15/23 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 1d998b054d98
+ ---> 7a4a48f5cfd5
+Removing intermediate container 1d998b054d98
+Step 16/23 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in d1e7d9d6f040
+ M src/version.ml
+ ---> daae5f000486
+Removing intermediate container d1e7d9d6f040
+Step 17/23 : RUN opam install datakit-bridge-github -y
+ ---> Running in 3eb25d71a003
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install datakit-server        dev*                          [required by datakit-bridge-github]
+  - install datakit-client        dev*                          [required by datakit-bridge-github]
+  - install datakit-github        dev*                          [required by datakit-bridge-github]
+  - install datakit-bridge-github dev*
+===== 4 to install =====
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+-> installed datakit-github.dev
+-> installed datakit-server.dev
+-> installed datakit-bridge-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> c05f6b623b78
+Removing intermediate container 3eb25d71a003
+Step 18/23 : RUN sudo cp $(opam config exec -- which datakit-bridge-github) /usr/bin/
+ ---> Running in 0eecb7e70a19
+ ---> 5a323ae40a4d
+Removing intermediate container 0eecb7e70a19
+Step 19/23 : USER root
+ ---> Running in b1da3a8a8f83
+ ---> 81e0d1c22c6c
+Removing intermediate container b1da3a8a8f83
+Step 20/23 : EXPOSE 5640
+ ---> Running in 94c22c842b64
+ ---> 6175fcd329f3
+Removing intermediate container 94c22c842b64
+Step 21/23 : EXPOSE 5641
+ ---> Running in 5e5a859a9dfc
+ ---> 6cec1bc39cf9
+Removing intermediate container 5e5a859a9dfc
+Step 22/23 : ENTRYPOINT /usr/bin/datakit-bridge-github
+ ---> Running in 49696284db11
+ ---> 999af0d5eb52
+Removing intermediate container 49696284db11
+Step 23/23 : CMD --listen=tcp://0.0.0.0:5641 -v --datakit=tcp:127.0.0.1:5640
+ ---> Running in 6e0596914a1e
+ ---> 21f05569f8fb
+Removing intermediate container 6e0596914a1e
+Successfully built 21f05569f8fb
+[2017-04-19 11:07.03] Success
