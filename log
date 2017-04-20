@@ -1,0 +1,61 @@
+=== Docker build Dockerfile
+[2017-04-20 09:55.11] Starting...
+Cloning into '/tmp/with_clone294f2202'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at ae0dffb Rename opam to datakit.opam
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.356 MB
+Step 1/22 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/22 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 8c71ee82f35c
+Step 4/22 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> 30a0d05e709e
+Step 5/22 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term asl win-eventlog camlzip irmin-watcher mtime mirage-flow conduit hvsock cohttp prometheus-app git.1.9.3 mirage-tc irmin.0.12.0 cmdliner.0.9.8 protocol-9p channel rresult win-error named-pipe
+ ---> Using cache
+ ---> b8d76533353d
+Step 6/22 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 805b9ee3df24
+Step 7/22 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 3d458c8115ff
+Step 8/22 : COPY datakit.opam /home/opam/src/datakit/
+ ---> 6353c8a30605
+Removing intermediate container 055445a505a3
+Step 9/22 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 2e0ab8900d72
+Removing intermediate container bdb1b368c4cb
+Step 10/22 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 4cedce63376c
+Removing intermediate container 30ffed1fc4ef
+Step 11/22 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn        &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn
+ ---> Running in e5610d43f132
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[91mError opening terminal: unknown.
+[ERROR] Empty file or editor error, aborting.
+[ERROR] No valid package definition found
+[0mThe command '/bin/sh -c opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn        &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn' returned a non-zero code: 66
+[2017-04-20 09:55.23] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 66
