@@ -1,0 +1,591 @@
+=== Docker build Dockerfile
+[2017-04-22 10:15.03] Starting...
+Cloning into '/tmp/with_cloneab32e70'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 82e9800 datakit: update to latest versions of Irmin/Mirage/Cdmliner
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.567 MB
+Step 1/26 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/26 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/26 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> 163eec54703b
+Step 4/26 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> a58aa63cde89
+Step 5/26 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term asl win-eventlog camlzip irmin-watcher mtime mirage-flow conduit hvsock cohttp prometheus-app git.1.9.3 mirage-tc irmin.0.12.0 cmdliner.0.9.8 protocol-9p channel rresult win-error named-pipe
+ ---> Using cache
+ ---> 81ae0a58f825
+Step 6/26 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> ec499a93fb5c
+Step 7/26 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 8d85987fee6a
+Step 8/26 : COPY datakit.opam /home/opam/src/datakit/
+ ---> 451974aa02a5
+Error removing intermediate container b386f0fa45a1: Driver aufs failed to remove root filesystem b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e: rename /var/lib/docker/aufs/mnt/e50561b09073af1d86798ff2f4ed037c49c9aab2bfbeaec951afcd22d4147479 /var/lib/docker/aufs/mnt/e50561b09073af1d86798ff2f4ed037c49c9aab2bfbeaec951afcd22d4147479-removing: device or resource busy
+Step 9/26 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 07896a78be48
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 10/26 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 752e91b83533
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 11/26 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 239e6b5785e6
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 12/26 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn        &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn
+ ---> Running in ac32fb9e39e4
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 271ad580068e
+Removing intermediate container 9613dc877e6e
+Error removing intermediate container ac32fb9e39e4: Driver aufs failed to remove root filesystem ac32fb9e39e43f6efaa462a97d413d599ea4be99c53f6c4edee28a936cc41463: rename /var/lib/docker/aufs/mnt/1c6792a277a5124b1491c823a18dc529cb017369bf2a7a00ab73d442870c1c2a /var/lib/docker/aufs/mnt/1c6792a277a5124b1491c823a18dc529cb017369bf2a7a00ab73d442870c1c2a-removing: device or resource busy
+Step 13/26 : RUN opam depext -y datakit
+ ---> Running in bdb3c447aa67
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - pkgconfig
+#  - zlib-dev
+linux-headers
+m4
+ncurses-dev
+openssl-dev
+pcre-dev
+pkgconf
+zlib-dev
+# All required OS packages found.
+ ---> 576ef1a5b9c6
+Removing intermediate container 3ecebc9a639c
+Removing intermediate container bdb3c447aa67
+Error removing intermediate container ac32fb9e39e4: No such container: ac32fb9e39e43f6efaa462a97d413d599ea4be99c53f6c4edee28a936cc41463
+Step 14/26 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in 76cfd929ddc4
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0m[datakit-server.dev] no changes from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0m
+Nothing to do.
+# Run eval `opam env` to update the current shell environment
+ ---> 6e9a02652932
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 15/26 : COPY . /home/opam/src/datakit
+ ---> b4d609b5bc6e
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 16/26 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 2a880bc626dd
+ ---> fa0691eb04c1
+Error removing intermediate container b386f0fa45a1: No such container: b386f0fa45a1e8695d57699c46be29781434461c6b24403caa0dde5acdfe312e
+Step 17/26 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in b223ba2df004
+ M src/version.ml
+ ---> 6cb202f873d5
+Error removing intermediate container ac32fb9e39e4: No such container: ac32fb9e39e43f6efaa462a97d413d599ea4be99c53f6c4edee28a936cc41463
+Step 18/26 : RUN opam install datakit -ytv
+ ---> Running in 9ec2062b2a83
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0m
+The following actions will be performed:
+  - install datakit-server dev*                                 [required by datakit]
+  - upgrade git            1.9.3 to 1.10.0                      [required by datakit]
+  - upgrade irmin          0.12.0 to 1.0.0                      [required by datakit]
+  - install datakit-client dev*                                 [required by datakit]
+  - install irmin-git      1.0.0                                [required by datakit]
+  - install datakit-github dev*                                 [required by datakit]
+  - install datakit        dev*
+===== 5 to install | 2 to upgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/7: [datakit.dev: rsync]
+Processing  2/7: [datakit.dev: rsync] [datakit-client.dev: rsync]
+Processing  3/7: [datakit.dev: rsync] [datakit-client.dev: rsync] [datakit-github.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/7: [datakit-client.dev: rsync] [datakit-github.dev: rsync]
+Processing  4/7: [datakit-client.dev: rsync] [datakit-github.dev: rsync] [datakit-server.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/7: [datakit-github.dev: rsync] [datakit-server.dev: rsync]
+Processing  5/7: [datakit-github.dev: rsync] [datakit-server.dev: rsync] [git.1.10.0: http]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+Processing  5/7: [datakit-server.dev: rsync] [git.1.10.0: http]
+Processing  6/7: [datakit-server.dev: rsync] [git.1.10.0: http] [irmin.1.0.0: http]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+Processing  6/7: [git.1.10.0: http] [irmin.1.0.0: http]
+Processing  7/7: [git.1.10.0: http] [irmin.1.0.0: http] [irmin-git.1.0.0: http]
+[irmin-git.1.0.0] downloaded from https://github.com/mirage/irmin/releases/download/1.0.0/irmin-1.0.0.tbz
+Processing  7/7: [git.1.10.0: http] [irmin.1.0.0: http]
+[irmin.1.0.0] downloaded from https://github.com/mirage/irmin/releases/download/1.0.0/irmin-1.0.0.tbz
+Processing  7/7: [git.1.10.0: http]
+[git.1.10.0] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.10.0/git-1.10.0.tbz
+Processing  7/7:
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/16: [datakit-client: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-client" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_client_9p.ml > src/datakit-client/datakit_client_9p.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_client_9p.mli > src/datakit-client/datakit_client_9p.mli.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_S.mli > src/datakit-client/datakit_S.mli.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_path.mli > src/datakit-client/datakit_path.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmi src/datakit-client/datakit_path.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_S.cmi src/datakit-client/datakit_S.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmi src/datakit-client/datakit_client_9p.mli
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_path.ml > src/datakit-client/datakit_path.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmx src/datakit-client/datakit_path.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmx src/datakit-client/datakit_client_9p.ml
+- ocamlfind ocamlopt -a -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit_path.cmx src/datakit-client/datakit_client_9p.cmx -o src/datakit-client/datakit-client.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit-client.cmxa -o src/datakit-client/datakit-client.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmo src/datakit-client/datakit_client_9p.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmo src/datakit-client/datakit_path.ml
+- ocamlfind ocamlc -a -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit_path.cmo src/datakit-client/datakit_client_9p.cmo -o src/datakit-client/datakit-client.cma
+- ocamlfind ocamldep -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/mount.ml > src/datakit-client/mount.ml.depends
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit-client -o src/version.cmo src/version.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/mount.cmo src/datakit-client/mount.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit-client -o src/version.cmx src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/mount.cmx src/datakit-client/mount.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src -I src/datakit-client src/version.cmx src/datakit-client/mount.cmx -o src/datakit-client/mount.native
+-> compiled  datakit-client.dev
+Processing  2/16: [datakit-server: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-server" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+- ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+- ocamlfind ocamlopt -shared -linkall -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmxa -o src/datakit-server/vfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+- ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+- ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+- + ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+- File "src/datakit-server/fs9p.mli", line 17, characters 19-36:
+- Error: Unbound module Mirage_flow_lwt
+- Command exited with code 2.
+- pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+-      '-build-dir' '_build' '-Is' 'src,src/datakit-server' 'CHANGES.md'
+-      'LICENSE.md' 'README.md' 'pkg/META.server' 'datakit-server.opam'
+-      'src/datakit-server/vfs.a' 'src/datakit-server/vfs.cmxs'
+-      'src/datakit-server/vfs.cmxa' 'src/datakit-server/vfs.cma'
+-      'src/datakit-server/vfs.cmx' 'src/datakit-server/vfs.cmi'
+-      'src/datakit-server/vfs.mli' 'src/datakit-server/fs9p.a'
+-      'src/datakit-server/fs9p.cmxs' 'src/datakit-server/fs9p.cmxa'
+-      'src/datakit-server/fs9p.cma' 'src/datakit-server/fs9p_error.cmx'
+-      'src/datakit-server/fs9p_error.cmi' 'src/datakit-server/fs9p_error.mli'
+-      'src/datakit-server/fs9p.cmx' 'src/datakit-server/fs9p.cmi'
+-      'src/datakit-server/fs9p.mli']: exited with 10
+[91m[ERROR] The compilation of datakit-server failed at "ocaml pkg/pkg.ml build --pinned true -n datakit-server".
+[0mProcessing  3/16: [irmin: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "false" "-n" "irmin" "--tests" "false" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin.1.0.0)
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin.ml > src/irmin.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin.mli > src/irmin.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin.cmi src/irmin.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_branch.ml > src/ir_branch.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_branch.mli > src/ir_branch.mli.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_s.mli > src/ir_s.mli.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_conf.mli > src/ir_conf.mli.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_diff.mli > src/ir_diff.mli.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_type.mli > src/ir_type.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_type.cmi src/ir_type.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_info.mli > src/ir_info.mli.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_merge.mli > src/ir_merge.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_conf.cmi src/ir_conf.mli
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_diff.cmi src/ir_diff.mli
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_info.cmi src/ir_info.mli
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_merge.cmi src/ir_merge.mli
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_s.cmi src/ir_s.mli
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_branch.cmi src/ir_branch.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_type.ml > src/ir_type.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_type.cmx src/ir_type.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_conf.ml > src/ir_conf.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_diff.ml > src/ir_diff.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_info.ml > src/ir_info.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_merge.ml > src/ir_merge.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_conf.cmx src/ir_conf.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_diff.cmx src/ir_diff.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_info.cmx src/ir_info.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_merge.cmx src/ir_merge.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_commit.ml > src/ir_commit.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_commit.mli > src/ir_commit.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_commit.cmi src/ir_commit.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_graph.ml > src/ir_graph.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_graph.mli > src/ir_graph.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_graph.cmi src/ir_graph.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_graph.cmx src/ir_graph.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_contents.ml > src/ir_contents.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_contents.mli > src/ir_contents.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_contents.cmi src/ir_contents.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_dot.ml > src/ir_dot.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_dot.mli > src/ir_dot.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_dot.cmi src/ir_dot.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_hash.ml > src/ir_hash.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_hash.mli > src/ir_hash.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_hash.cmi src/ir_hash.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_lock.ml > src/ir_lock.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_lock.mli > src/ir_lock.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_lock.cmi src/ir_lock.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_node.ml > src/ir_node.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_node.mli > src/ir_node.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_node.cmi src/ir_node.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_path.ml > src/ir_path.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_path.mli > src/ir_path.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_path.cmi src/ir_path.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_slice.ml > src/ir_slice.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_slice.mli > src/ir_slice.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_slice.cmi src/ir_slice.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_store.ml > src/ir_store.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_store.mli > src/ir_store.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_store.cmi src/ir_store.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_commit.cmx src/ir_commit.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_node.cmx src/ir_node.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_tree.ml > src/ir_tree.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_tree.mli > src/ir_tree.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_tree.cmi src/ir_tree.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_tree.cmx src/ir_tree.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_sync.ml > src/ir_sync.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_sync.mli > src/ir_sync.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync.cmi src/ir_sync.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_sync_ext.ml > src/ir_sync_ext.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_sync_ext.mli > src/ir_sync_ext.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync_ext.cmi src/ir_sync_ext.mli
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_version.ml > src/ir_version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_version.cmo src/ir_version.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_watch.ml > src/ir_watch.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/ir_watch.mli > src/ir_watch.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_watch.cmi src/ir_watch.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_branch.cmx src/ir_branch.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_contents.cmx src/ir_contents.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_dot.cmx src/ir_dot.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_hash.cmx src/ir_hash.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_lock.cmx src/ir_lock.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_path.cmx src/ir_path.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_slice.cmx src/ir_slice.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_store.cmx src/ir_store.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync.cmx src/ir_sync.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync_ext.cmx src/ir_sync_ext.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_version.cmx src/ir_version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_watch.cmx src/ir_watch.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin_mem.ml > src/irmin_mem.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin_mem.mli > src/irmin_mem.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_mem.cmi src/irmin_mem.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin.cmx src/irmin.ml
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin_fs.ml > src/irmin_fs.ml.depends
+- ocamlfind ocamldep -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -modules src/irmin_fs.mli > src/irmin_fs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_fs.cmi src/irmin_fs.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_mem.cmx src/irmin_mem.ml
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_fs.cmx src/irmin_fs.ml
+- ocamlfind ocamlopt -a -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -I src src/ir_conf.cmx src/ir_type.cmx src/ir_diff.cmx src/ir_info.cmx src/ir_merge.cmx src/ir_branch.cmx src/ir_graph.cmx src/ir_commit.cmx src/ir_contents.cmx src/ir_dot.cmx src/ir_hash.cmx src/ir_lock.cmx src/ir_node.cmx src/ir_path.cmx src/ir_slice.cmx src/ir_tree.cmx src/ir_store.cmx src/ir_sync.cmx src/ir_sync_ext.cmx src/ir_version.cmx src/ir_watch.cmx src/irmin.cmx src/irmin_mem.cmx src/irmin_fs.cmx -o src/irmin.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -I src src/irmin.cmxa -o src/irmin.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin.cmo src/irmin.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_diff.cmo src/ir_diff.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_type.cmo src/ir_type.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_graph.cmo src/ir_graph.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_hash.cmo src/ir_hash.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_slice.cmo src/ir_slice.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_conf.cmo src/ir_conf.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_lock.cmo src/ir_lock.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_commit.cmo src/ir_commit.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_branch.cmo src/ir_branch.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_contents.cmo src/ir_contents.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_node.cmo src/ir_node.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_dot.cmo src/ir_dot.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_path.cmo src/ir_path.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_watch.cmo src/ir_watch.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_merge.cmo src/ir_merge.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_tree.cmo src/ir_tree.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_info.cmo src/ir_info.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_store.cmo src/ir_store.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync.cmo src/ir_sync.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/ir_sync_ext.cmo src/ir_sync_ext.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_mem.cmo src/irmin_mem.ml
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -I src -o src/irmin_fs.cmo src/irmin_fs.ml
+- ocamlfind ocamlc -a -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -I src src/ir_conf.cmo src/ir_type.cmo src/ir_diff.cmo src/ir_info.cmo src/ir_merge.cmo src/ir_branch.cmo src/ir_graph.cmo src/ir_commit.cmo src/ir_contents.cmo src/ir_dot.cmo src/ir_hash.cmo src/ir_lock.cmo src/ir_node.cmo src/ir_path.cmo src/ir_slice.cmo src/ir_tree.cmo src/ir_store.cmo src/ir_sync.cmo src/ir_sync_ext.cmo src/ir_version.cmo src/ir_watch.cmo src/irmin.cmo src/irmin_mem.cmo src/irmin_fs.cmo -o src/irmin.cma
+-> compiled  irmin.1.0.0
+-> removed   irmin.0.12.0
+-> removed   git.1.9.3
+Processing  6/16: [git: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "false" "-n" "git" (CWD=/home/opam/.opam/default/.opam-switch/build/git.1.10.0)
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git.mli > src/git.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git.cmi src/git.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git.ml > src/git.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_blob.ml > src/git_blob.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_blob.mli > src/git_blob.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_s.ml > src/git_s.ml.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_s.cmo src/git_s.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_blob.cmi src/git_blob.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_misc.ml > src/git_misc.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_misc.mli > src/git_misc.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_misc.cmi src/git_misc.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_s.cmx src/git_s.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_misc.cmx src/git_misc.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_commit.ml > src/git_commit.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_commit.mli > src/git_commit.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_hash.mli > src/git_hash.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_user.mli > src/git_user.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_hash.cmi src/git_hash.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_user.cmi src/git_user.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_commit.cmi src/git_commit.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_hash.ml > src/git_hash.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_user.ml > src/git_user.ml.depends
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_hash.cmx src/git_hash.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_user.cmx src/git_user.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_fs.ml > src/git_fs.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_fs.mli > src/git_fs.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_index.mli > src/git_index.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_inflate.mli > src/git_inflate.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_store.ml > src/git_store.ml.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_index.cmi src/git_index.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_inflate.cmi src/git_inflate.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_pack.mli > src/git_pack.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_pack_index.mli > src/git_pack_index.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_packed_value.mli > src/git_packed_value.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack_index.cmi src/git_pack_index.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_value.mli > src/git_value.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_object_type.mli > src/git_object_type.mli.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_tag.mli > src/git_tag.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_object_type.cmi src/git_object_type.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_tree.mli > src/git_tree.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tag.cmi src/git_tag.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tree.cmi src/git_tree.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_value.cmi src/git_value.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_value.cmi src/git_packed_value.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_reference.mli > src/git_reference.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack.cmi src/git_pack.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_reference.cmi src/git_reference.mli
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_store.cmo src/git_store.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_fs.cmi src/git_fs.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_blob.cmx src/git_blob.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_commit.cmx src/git_commit.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_index.ml > src/git_index.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_inflate.ml > src/git_inflate.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_lru.ml > src/git_lru.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_lru.mli > src/git_lru.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_lru.cmi src/git_lru.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_object_type.ml > src/git_object_type.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_pack.ml > src/git_pack.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_crc32.ml > src/git_crc32.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_crc32.mli > src/git_crc32.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_crc32.cmi src/git_crc32.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_inflate.cmx src/git_inflate.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_pack_index.ml > src/git_pack_index.ml.depends
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_lru.cmx src/git_lru.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_packed_value.ml > src/git_packed_value.ml.depends
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_object_type.cmx src/git_object_type.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_value.ml > src/git_value.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_tag.ml > src/git_tag.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_tree.ml > src/git_tree.ml.depends
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tag.cmx src/git_tag.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tree.cmx src/git_tree.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack_index.cmx src/git_pack_index.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_value.cmx src/git_value.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_crc32.cmx src/git_crc32.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_value.cmx src/git_packed_value.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_packed_refs.ml > src/git_packed_refs.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_packed_refs.mli > src/git_packed_refs.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_refs.cmi src/git_packed_refs.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_reference.ml > src/git_reference.ml.depends
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_reference.cmx src/git_reference.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_index.cmx src/git_index.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack.cmx src/git_pack.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_refs.cmx src/git_packed_refs.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_store.cmx src/git_store.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_graph.ml > src/git_graph.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_graph.mli > src/git_graph.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_graph.cmi src/git_graph.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_search.ml > src/git_search.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_search.mli > src/git_search.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_search.cmi src/git_search.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_search.cmx src/git_search.ml
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_gri.ml > src/git_gri.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_gri.mli > src/git_gri.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_gri.cmi src/git_gri.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_memory.ml > src/git_memory.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_memory.mli > src/git_memory.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_memory.cmi src/git_memory.mli
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_sync.ml > src/git_sync.ml.depends
+- ocamlfind ocamldep -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src/git_sync.mli > src/git_sync.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_sync.cmi src/git_sync.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_graph.cmx src/git_graph.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_gri.cmx src/git_gri.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_fs.cmx src/git_fs.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_memory.cmx src/git_memory.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_sync.cmx src/git_sync.ml
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git.cmx src/git.ml
+- ocamlfind ocamlopt -a -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src src/git_s.cmx src/git_misc.cmx src/git_blob.cmx src/git_hash.cmx src/git_user.cmx src/git_commit.cmx src/git_crc32.cmx src/git_index.cmx src/git_inflate.cmx src/git_lru.cmx src/git_object_type.cmx src/git_pack_index.cmx src/git_tag.cmx src/git_tree.cmx src/git_value.cmx src/git_packed_value.cmx src/git_pack.cmx src/git_reference.cmx src/git_packed_refs.cmx src/git_store.cmx src/git_fs.cmx src/git_search.cmx src/git_graph.cmx src/git_gri.cmx src/git_memory.cmx src/git_sync.cmx src/git.cmx -o src/git.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src src/git.cmxa -o src/git.cmxs
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_misc.cmo src/git_misc.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_hash.cmo src/git_hash.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git.cmo src/git.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_inflate.cmo src/git_inflate.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_object_type.cmo src/git_object_type.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_blob.cmo src/git_blob.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tree.cmo src/git_tree.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_commit.cmo src/git_commit.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_tag.cmo src/git_tag.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_reference.cmo src/git_reference.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_value.cmo src/git_value.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_crc32.cmo src/git_crc32.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack.cmo src/git_pack.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_pack_index.cmo src/git_pack_index.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_value.cmo src/git_packed_value.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_packed_refs.cmo src/git_packed_refs.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_index.cmo src/git_index.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_sync.cmo src/git_sync.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_gri.cmo src/git_gri.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_search.cmo src/git_search.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_graph.cmo src/git_graph.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_user.cmo src/git_user.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_memory.cmo src/git_memory.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_fs.cmo src/git_fs.ml
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src -o src/git_lru.cmo src/git_lru.ml
+- ocamlfind ocamlc -a -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src src/git_s.cmo src/git_misc.cmo src/git_blob.cmo src/git_hash.cmo src/git_user.cmo src/git_commit.cmo src/git_index.cmo src/git_inflate.cmo src/git_lru.cmo src/git_object_type.cmo src/git_crc32.cmo src/git_pack_index.cmo src/git_tag.cmo src/git_tree.cmo src/git_value.cmo src/git_packed_value.cmo src/git_pack.cmo src/git_reference.cmo src/git_packed_refs.cmo src/git_store.cmo src/git_fs.cmo src/git_search.cmo src/git_graph.cmo src/git_gri.cmo src/git_memory.cmo src/git_sync.cmo src/git.cmo -o src/git.cma
+- ocamlfind ocamldep -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src-top/git_top.ml > src-top/git_top.ml.depends
+- ocamlfind ocamldep -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -modules src-top/git_top.mli > src-top/git_top.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmi src-top/git_top.mli
+- + ocamlfind ocamlc -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmi src-top/git_top.mli
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmx src-top/git_top.ml
+- + ocamlfind ocamlopt -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmx src-top/git_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+- File "_none_", line 1:
+- Warning 58: no cmx file was found in path for module Toploop, and its interface was not compiled with -opaque
+- ocamlfind ocamlopt -a -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git_top.cmx -o src-top/git-top.cmxa
+- + ocamlfind ocamlopt -a -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git_top.cmx -o src-top/git-top.cmxa
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git-top.cmxa -o src-top/git-top.cmxs
+- + ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git-top.cmxa -o src-top/git-top.cmxs
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmo src-top/git_top.ml
+- + ocamlfind ocamlc -c -g -safe-string -short-paths -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -I src-top -I src -o src-top/git_top.cmo src-top/git_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+- ocamlfind ocamlc -a -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git_top.cmo -o src-top/git-top.cma
+- + ocamlfind ocamlc -a -package compiler-libs.toplevel -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -I src-top src-top/git_top.cmo -o src-top/git-top.cma
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /usr/lib/ocaml, /usr/lib/ocaml/compiler-libs
+-> compiled  git.1.10.0
+-> installed datakit-client.dev
+Processing  8/16: [datakit-github: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-github" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-github.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -modules src/datakit-github/datakit_github.ml > src/datakit-github/datakit_github.ml.depends
+- ocamlfind ocamldep -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -modules src/datakit-github/datakit_github.mli > src/datakit-github/datakit_github.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github.cmi src/datakit-github/datakit_github.mli
+- ocamlfind ocamldep -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -modules src/datakit-github/datakit_github_conv.ml > src/datakit-github/datakit_github_conv.ml.depends
+- ocamlfind ocamldep -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -modules src/datakit-github/datakit_github_conv.mli > src/datakit-github/datakit_github_conv.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github_conv.cmi src/datakit-github/datakit_github_conv.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github.cmx src/datakit-github/datakit_github.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github_conv.cmx src/datakit-github/datakit_github_conv.ml
+- ocamlfind ocamlopt -a -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -I src/datakit-github src/datakit-github/datakit_github.cmx src/datakit-github/datakit_github_conv.cmx -o src/datakit-github/datakit-github.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -I src/datakit-github src/datakit-github/datakit-github.cmxa -o src/datakit-github/datakit-github.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github.cmo src/datakit-github/datakit_github.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -package datakit-client -I src/datakit-github -I src/datakit -o src/datakit-github/datakit_github_conv.cmo src/datakit-github/datakit_github_conv.ml
+- ocamlfind ocamlc -a -package 'asetmap uri datakit-client result' -package 'bytes lwt astring logs result cstruct fmt rresult' -package datakit-client -I src/datakit-github src/datakit-github/datakit_github.cmo src/datakit-github/datakit_github_conv.cmo -o src/datakit-github/datakit-github.cma
+-> compiled  datakit-github.dev
+-> installed datakit-github.dev
+-> installed git.1.10.0
+-> installed irmin.1.0.0
+Processing 13/16: [irmin-git: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "false" "-n" "irmin-git" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-git.1.0.0)
+- ocamlfind ocamldep -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -modules src-git/irmin_git.ml > src-git/irmin_git.ml.depends
+- ocamlfind ocamldep -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -modules src-git/irmin_git.mli > src-git/irmin_git.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmi src-git/irmin_git.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmx src-git/irmin_git.ml
+- ocamlfind ocamlopt -a -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin_git.cmx -o src-git/irmin-git.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin-git.cmxa -o src-git/irmin-git.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmo src-git/irmin_git.ml
+- ocamlfind ocamlc -a -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin_git.cmo -o src-git/irmin-git.cma
+-> compiled  irmin-git.1.0.0
+-> installed irmin-git.1.0.0
+[91m
+#=== ERROR while compiling datakit-server.dev =================================#
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-server
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-server.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-server-7-d6d332.env
+# output-file          /home/opam/.opam/log/datakit-server-7-d6d332.out
+### output ###
+# ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+# ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+# ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+# ocamlfind ocamlopt -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+# ocamlfind ocamlopt -shared -linkall -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmxa -o src/datakit-server/vfs.cmxs
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+# ocamlfind ocamlc -a -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+# ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+# ocamlfind ocamldep -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+# + ocamlfind ocamlc -c -g -bin-annot -safe-string -package protocol-9p.unix -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+# File "src/datakit-server/fs9p.mli", line 17, characters 19-36:
+# Error: Unbound module Mirage_flow_lwt
+# Command exited with code 2.
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+#      '-build-dir' '_build' '-Is' 'src,src/datakit-server' 'CHANGES.md'
+#      'LICENSE.md' 'README.md' 'pkg/META.server' 'datakit-server.opam'
+#      'src/datakit-server/vfs.a' 'src/datakit-server/vfs.cmxs'
+#      'src/datakit-server/vfs.cmxa' 'src/datakit-server/vfs.cma'
+#      'src/datakit-server/vfs.cmx' 'src/datakit-server/vfs.cmi'
+#      'src/datakit-server/vfs.mli' 'src/datakit-server/fs9p.a'
+#      'src/datakit-server/fs9p.cmxs' 'src/datakit-server/fs9p.cmxa'
+#      'src/datakit-server/fs9p.cma' 'src/datakit-server/fs9p_error.cmx'
+#      'src/datakit-server/fs9p_error.cmi' 'src/datakit-server/fs9p_error.mli'
+#      'src/datakit-server/fs9p.cmx' 'src/datakit-server/fs9p.cmi'
+#      'src/datakit-server/fs9p.mli']: exited with 10
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions were aborted
+| - install datakit dev
++- 
++- The following actions failed
+| - build datakit-server dev
++- 
++- The following changes have been performed
+| - upgrade git            1.9.3 to 1.10.0
+| - upgrade irmin          0.12.0 to 1.0.0
+| - install datakit-client dev
+| - install datakit-github dev
+| - install irmin-git      1.0.0
++- 
+# Run eval `opam env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170422101545.export"
+'opam install datakit -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit -ytv' returned a non-zero code: 4
+[2017-04-22 10:16.15] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 4
