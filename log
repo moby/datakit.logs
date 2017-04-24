@@ -1,0 +1,71 @@
+=== Docker build Dockerfile.ci
+[2017-04-24 17:18.10] Starting...
+Cloning into '/tmp/with_clone31007463'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 52e5ede TMP: use upstream version of ocaml-9p to work with MirageOS 3
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.697 MB
+Step 1/11 : FROM ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615: Pulling from ocaml/opam-dev
+Digest: sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+Status: Image is up to date for ocaml/opam-dev@sha256:573b5d71e94104590a8282a9ae67b63a6144b15bafdacb9980391c84ca730615
+ ---> 1db57234caaa
+Step 2/11 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cc9fd0f47aac
+Step 3/11 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 8c71ee82f35c
+Step 4/11 : RUN opam pin add -yn protocol-9p.0.8.0 'https://github.com/talex5/ocaml-9p.git#ping'
+ ---> Using cache
+ ---> 30a0d05e709e
+Step 5/11 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow datakit-server hvsock git mirage-tc irmin irmin-unix lwt protocol-9p.0.8.0 tyxml redis multipart-form-data pbkdf tls prometheus-app github git session irmin.0.12.0 irmin-unix.0.12.0 cmdliner.0.9.8 webmachine
+ ---> Using cache
+ ---> b619ec43dec4
+Step 6/11 : ADD . /home/opam/datakit
+ ---> d0ca0734f11d
+Removing intermediate container bfc6ade0c8fe
+Step 7/11 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 3f5f31e6e4d8
+ ---> 579d9f3dc29f
+Removing intermediate container 3f5f31e6e4d8
+Step 8/11 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in 7dfc3919312c
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> beff84c47def
+Error removing intermediate container 7dfc3919312c: Driver aufs failed to remove root filesystem 7dfc3919312c2262c737247279f58439f1823dfcd3fc5c5db5ea7e42a09eba1e: rename /var/lib/docker/aufs/mnt/5fa2ff4c3f3357cc9edee872767a088c7fb6288e288b7cefd83d7836707c1e6d /var/lib/docker/aufs/mnt/5fa2ff4c3f3357cc9edee872767a088c7fb6288e288b7cefd83d7836707c1e6d-removing: device or resource busy
+Step 9/11 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -y
+ ---> Running in f75894f0d113
+[91m[NOTE] Will pin to 'master' using git
+[0m[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0mThe following dependencies couldn't be met:
+  - datakit-github -> lwt = 2.7.1
+    no matching version
+
+The command '/bin/sh -c opam pin add -k git datakit-github.dev /home/opam/datakit -y' returned a non-zero code: 3
+[2017-04-24 17:18.42] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 3
