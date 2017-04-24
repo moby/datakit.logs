@@ -1,0 +1,216 @@
+=== Docker build Dockerfile
+[2017-04-24 17:36.04] Starting...
+Cloning into '/tmp/with_clone242277dd'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at e6f9e33 datakit-server needs mirage-flow-lwt
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 4.725 MB
+Step 1/28 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/28 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/28 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> fff031e34a88
+Step 4/28 : RUN opam pin add hvsock --dev -n
+ ---> Using cache
+ ---> 6b56274b379d
+Step 5/28 : RUN opam pin add irmin.1.1.0 --dev -n
+ ---> Using cache
+ ---> 3d9e2899d7bb
+Step 6/28 : RUN opam pin add irmin-git.1.1.0 --dev -n
+ ---> Using cache
+ ---> 8a873d61b710
+Step 7/28 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term asl win-eventlog camlzip irmin-watcher mtime mirage-flow conduit hvsock cohttp prometheus-app git irmin cmdliner protocol-9p channel rresult win-error named-pipe
+ ---> Using cache
+ ---> 7f57381a2fa3
+Step 8/28 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 40e89421f8a5
+Step 9/28 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 332fd6ed2a80
+Step 10/28 : COPY datakit.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> a1b02acbb561
+Step 11/28 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 5398246f3e44
+Step 12/28 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> c7434cbf79ee
+Step 13/28 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 0133caeb3c8d
+Step 14/28 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn        &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> f931f50dea2b
+Step 15/28 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> e35ec16a44cf
+Step 16/28 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Using cache
+ ---> 2944dc33a71d
+Step 17/28 : COPY . /home/opam/src/datakit
+ ---> f33e5b293d5c
+Removing intermediate container 586303423e8b
+Step 18/28 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 75c31c2bb0db
+ ---> fefc9374bff3
+Removing intermediate container 75c31c2bb0db
+Step 19/28 : RUN cd /home/opam/src/datakit &&     git diff && git status --porcelain &&     git checkout . && scripts/watermark.sh &&     git status --porcelain
+ ---> Running in be66a061ea7c
+ M src/version.ml
+ ---> fdfc1b642129
+Error removing intermediate container be66a061ea7c: Driver aufs failed to remove root filesystem be66a061ea7c260bf7e25a7d89fdaa574128851313ce160e3592705a3a93c84b: rename /var/lib/docker/aufs/mnt/1e09e014448d7d8de6b701cac839e39865f38f3203454d7fa4de2bc3fed121b2 /var/lib/docker/aufs/mnt/1e09e014448d7d8de6b701cac839e39865f38f3203454d7fa4de2bc3fed121b2-removing: device or resource busy
+Step 20/28 : RUN opam install datakit -ytv
+ ---> Running in c2fb4538081c
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install irmin-git      1.1.0*                               [required by datakit]
+  - install datakit-server dev*                                 [required by datakit]
+  - install datakit        dev*
+===== 3 to install =====
+Processing  1/3: [datakit.dev: rsync]
+Processing  2/3: [datakit.dev: rsync] [datakit-server.dev: rsync]
+Processing  3/3: [datakit.dev: rsync] [datakit-server.dev: rsync] [irmin-git.1.1.0: git]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/3: [datakit-server.dev: rsync] [irmin-git.1.1.0: git]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/3: [irmin-git.1.1.0: git]
+[irmin-git.1.1.0] synchronised from git+https://github.com/mirage/irmin.git
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/6: [datakit-server: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-server" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server.dev)
+[91m[ERROR] The compilation of datakit-server failed at "ocaml pkg/pkg.ml build --pinned true -n datakit-server".
+[0m- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+- ocamlfind ocamlopt -a -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmxa -o src/datakit-server/vfs.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+- ocamlfind ocamlc -a -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.ml > src/datakit-server/fs9p_error.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.mli > src/datakit-server/fs9p_error.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmi src/datakit-server/fs9p_error.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p_error.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+- File "src/datakit-server/fs9p.ml", line 364, characters 37-41:
+- Error: Signature mismatch:
+-        ...
+-        The value `error_message' is required but not provided
+-        File "types/V1.mli", line 123, characters 2-36: Expected declaration
+- Command exited with code 2.
+- pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+-      '-build-dir' '_build' '-Is' 'src,src/datakit-server' 'CHANGES.md'
+-      'LICENSE.md' 'README.md' 'pkg/META.server' 'datakit-server.opam'
+-      'src/datakit-server/vfs.a' 'src/datakit-server/vfs.cmxs'
+-      'src/datakit-server/vfs.cmxa' 'src/datakit-server/vfs.cma'
+-      'src/datakit-server/vfs.cmx' 'src/datakit-server/vfs.cmi'
+-      'src/datakit-server/vfs.mli' 'src/datakit-server/fs9p.a'
+-      'src/datakit-server/fs9p.cmxs' 'src/datakit-server/fs9p.cmxa'
+-      'src/datakit-server/fs9p.cma' 'src/datakit-server/fs9p_error.cmx'
+-      'src/datakit-server/fs9p_error.cmi' 'src/datakit-server/fs9p_error.mli'
+-      'src/datakit-server/fs9p.cmx' 'src/datakit-server/fs9p.cmi'
+-      'src/datakit-server/fs9p.mli']: exited with 10
+Processing  2/6: [irmin-git: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "irmin-git" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-git.1.1.0)
+- pkg.ml: [WARNING] Watermarks: opam fields of irmin-git.opam: topkg: no such command. Did you install topkg-care ?
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "maintainer" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "authors" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "homepage" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "bug-reports" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "doc" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "license" undefined or unsupported
+- pkg.ml: [WARNING] file irmin-git.opam: opam field "dev-repo" undefined or unsupported
+- ocamlfind ocamldep -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -modules src-git/irmin_git.ml > src-git/irmin_git.ml.depends
+- ocamlfind ocamldep -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -modules src-git/irmin_git.mli > src-git/irmin_git.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmi src-git/irmin_git.mli
+- ocamlfind ocamlopt -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmx src-git/irmin_git.ml
+- ocamlfind ocamlopt -a -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin_git.cmx -o src-git/irmin-git.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin-git.cmxa -o src-git/irmin-git.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -short-paths -strict-sequence -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -warn-error +1..49+60 -w A-4-41-44-7 -package irmin -I src-git -o src-git/irmin_git.cmo src-git/irmin_git.ml
+- ocamlfind ocamlc -a -package 'git irmin' -package 'cstruct fmt hex logs lwt ocamlgraph re astring uri jsonm' -package irmin -I src-git src-git/irmin_git.cmo -o src-git/irmin-git.cma
+- pkg.ml: [WARNING] Package description has 8 warning(s), see log above.
+-> compiled  irmin-git.1.1.0
+-> installed irmin-git.1.1.0
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions were aborted
+| - install datakit dev
++- 
++- The following actions failed
+| - build datakit-server dev
++- 
++- The following changes have been performed
+| - install irmin-git 1.1.0
++- 
+[91m
+#=== ERROR while compiling datakit-server.dev =================================#
+# command              ocaml pkg/pkg.ml build --pinned true -n datakit-server
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-server.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-server-7-a71bb4.env
+# output-file          /home/opam/.opam/log/datakit-server-7-a71bb4.out
+### output ###
+# ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.ml > src/datakit-server/vfs.ml.depends
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/vfs.mli > src/datakit-server/vfs.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmi src/datakit-server/vfs.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmx src/datakit-server/vfs.ml
+# ocamlfind ocamlopt -a -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmx -o src/datakit-server/vfs.cmxa
+# ocamlfind ocamlopt -shared -linkall -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmxa -o src/datakit-server/vfs.cmxs
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/vfs.cmo src/datakit-server/vfs.ml
+# ocamlfind ocamlc -a -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-server src/datakit-server/vfs.cmo -o src/datakit-server/vfs.cma
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.ml > src/datakit-server/fs9p.ml.depends
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p.mli > src/datakit-server/fs9p.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmi src/datakit-server/fs9p.mli
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.ml > src/datakit-server/fs9p_error.ml.depends
+# ocamlfind ocamldep -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-server/fs9p_error.mli > src/datakit-server/fs9p_error.mli.depends
+# ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmi src/datakit-server/fs9p_error.mli
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p_error.cmx src/datakit-server/fs9p_error.ml
+# ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+# + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p.unix mirage-flow-lwt' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-server -I src -o src/datakit-server/fs9p.cmx src/datakit-server/fs9p.ml
+# File "src/datakit-server/fs9p.ml", line 364, characters 37-41:
+# Error: Signature mismatch:
+#        ...
+#        The value `error_message' is required but not provided
+#        File "types/V1.mli", line 123, characters 2-36: Expected declaration
+# Command exited with code 2.
+# pkg.ml: [ERROR] cmd ['ocamlbuild' '-use-ocamlfind' '-classic-display' '-tag' 'debug'
+#      '-build-dir' '_build' '-Is' 'src,src/datakit-server' 'CHANGES.md'
+#      'LICENSE.md' 'README.md' 'pkg/META.server' 'datakit-server.opam'
+#      'src/datakit-server/vfs.a' 'src/datakit-server/vfs.cmxs'
+#      'src/datakit-server/vfs.cmxa' 'src/datakit-server/vfs.cma'
+#      'src/datakit-server/vfs.cmx' 'src/datakit-server/vfs.cmi'
+#      'src/datakit-server/vfs.mli' 'src/datakit-server/fs9p.a'
+#      'src/datakit-server/fs9p.cmxs' 'src/datakit-server/fs9p.cmxa'
+#      'src/datakit-server/fs9p.cma' 'src/datakit-server/fs9p_error.cmx'
+#      'src/datakit-server/fs9p_error.cmi' 'src/datakit-server/fs9p_error.mli'
+#      'src/datakit-server/fs9p.cmx' 'src/datakit-server/fs9p.cmi'
+#      'src/datakit-server/fs9p.mli']: exited with 10
+
+[0m# Run eval `opam env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170424173615.export"
+'opam install datakit -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit -ytv' returned a non-zero code: 4
+[2017-04-24 17:36.29] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 4
