@@ -1,0 +1,139 @@
+=== Docker build Dockerfile.client
+[2017-04-25 22:50.33] Starting...
+Cloning into '/tmp/with_clone12527032'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at afda918 Use jbuilder
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.081 MB
+Step 1/15 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:8f656a87109cbaca7fd86e405a66b87f10b23df731f08df42742150ef9a8c6dc
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 2ad2f3609e7e
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 8be0bb29d608
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 62c3e7be53ab
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 1a321fe1eb6c
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 41b121ee9c62
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> b1634cfeb6da
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> 69b93ca145a0
+Step 8/15 : COPY . /home/opam/src/datakit
+ ---> 7347ea6b27a2
+Removing intermediate container bc94b4322369
+Step 9/15 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 8c21f835060d
+ ---> daaa9e7413df
+Error removing intermediate container 8c21f835060d: Driver aufs failed to remove root filesystem 8c21f835060dfa158419052d27fab22fdf14863bdf348321a62e453f8a430d3f: rename /var/lib/docker/aufs/mnt/8c0f14e0e14e03996090584095b8276cdda2141aac0c6ea86f1e491cff356b98 /var/lib/docker/aufs/mnt/8c0f14e0e14e03996090584095b8276cdda2141aac0c6ea86f1e491cff356b98-removing: device or resource busy
+Step 10/15 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in a151cc540bf1
+ M src/version.ml
+ ---> fa455cdd068b
+Error removing intermediate container 8c21f835060d: No such container: 8c21f835060dfa158419052d27fab22fdf14863bdf348321a62e453f8a430d3f
+Step 11/15 : RUN opam update datakit-client
+ ---> Running in 17e7a468a445
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> bb48b4861e45
+Error removing intermediate container 8c21f835060d: No such container: 8c21f835060dfa158419052d27fab22fdf14863bdf348321a62e453f8a430d3f
+Step 12/15 : RUN opam info datakit-client --raw
+ ---> Running in 7ad79facfd85
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["ocaml" "pkg/pkg.ml" "build" "--pinned" "%{pinned}%" "-n" name]
+depends: [
+  "ocamlfind" {build}
+  "ocamlbuild" {build}
+  "topkg" {build}
+  "base-bytes"
+  "astring"
+  "logs"
+  "uri"
+  "rresult"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+  "protocol-9p" {>= "0.7.4"}
+  "cmdliner"
+]
+ ---> 82d07c130b53
+Error removing intermediate container 8c21f835060d: No such container: 8c21f835060dfa158419052d27fab22fdf14863bdf348321a62e453f8a430d3f
+Step 13/15 : RUN opam install datakit-client.dev -vv
+ ---> Running in 2209573e4af7
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,096 bytes  received 43 bytes  16,278.00 bytes/sec
+- total size is 1,298,118  speedup is 159.49
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,096 bytes  received 43 bytes  16,278.00 bytes/sec
+- total size is 1,298,118  speedup is 159.49
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-client" (CWD=/home/opam/.opam/4.04.1/build/datakit-client.dev)
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/CHANGES.md" "/home/opam/.opam/4.04.1/doc/datakit-client/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/LICENSE.md" "/home/opam/.opam/4.04.1/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/README.md" "/home/opam/.opam/4.04.1/doc/datakit-client/README.md"
+-> installed datakit-client.dev
+Done.
+ ---> d218ae943cc6
+Removing intermediate container a151cc540bf1
+Removing intermediate container 17e7a468a445
+Removing intermediate container 7ad79facfd85
+Removing intermediate container 2209573e4af7
+Error removing intermediate container 8c21f835060d: No such container: 8c21f835060dfa158419052d27fab22fdf14863bdf348321a62e453f8a430d3f
+Step 14/15 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in e13bcd3fb437
+[91mBusyBox v1.25.1 (2016-10-26 16:15:20 GMT) multi-call binary.
+
+Usage: cp [OPTIONS] SOURCE... DEST
+
+Copy SOURCE(s) to DEST
+
+	-a	Same as -dpR
+	-R,-r	Recurse
+	-d,-P	Preserve symlinks (default if -R)
+	-L	Follow all symlinks
+	-H	Follow symlinks on command line
+	-p	Preserve file attributes if possible
+	-f	Overwrite
+	-i	Prompt before overwrite
+	-l,-s	Create (sym)links
+	-u	Copy only newer files
+[0mThe command '/bin/sh -c sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount' returned a non-zero code: 1
+[2017-04-25 22:51.15] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 1
