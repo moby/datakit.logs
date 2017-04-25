@@ -1,0 +1,111 @@
+=== Docker build Dockerfile.bridge-local-git
+[2017-04-25 09:24.31] Starting...
+Cloning into '/tmp/with_cloneacd6593'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 29771c4 TMP: use upstream version of ocaml-9p to work with MirageOS 3
+[2017-04-25 09:24.31] Rewrite Dockerfile's first line to:
+FROM sha256:636e096710ba940e0ed66b919861b007f4bd6ab684dc4ddb4e81c98eead5ff16
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon  4.89 MB
+Step 1/18 : FROM sha256:636e096710ba940e0ed66b919861b007f4bd6ab684dc4ddb4e81c98eead5ff16
+ ---> 636e096710ba
+Step 2/18 : RUN opam pin add github --dev -n
+ ---> Running in 28435b450ef5
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+ ---> ffcbd5b45835
+Removing intermediate container 28435b450ef5
+Step 3/18 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 6970f5e8eb76
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> e3f78267a98f
+Removing intermediate container 6970f5e8eb76
+Step 4/18 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in c6ca1bd4fea7
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install asetmap 0.8.1
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+-> installed asetmap.0.8.1
+Done.
+ ---> 54312d380a24
+Removing intermediate container c6ca1bd4fea7
+Step 5/18 : COPY datakit-bridge-local-git.opam /home/opam/src/datakit/datakit-bridge-local-git.opam
+ ---> 31b66c960c89
+Removing intermediate container 4f4d31a099f1
+Step 6/18 : RUN opam pin add datakit-bridge-local-git.dev /home/opam/src/datakit -n
+ ---> Running in f4bb2fff0cd2
+datakit-bridge-local-git is now path-pinned to /home/opam/src/datakit
+
+[datakit-bridge-local-git: local]
+[datakit-bridge-local-git] /home/opam/src/datakit/ synchronized
+[datakit-bridge-local-git] Installing new package description from
+/home/opam/src/datakit
+
+ ---> 5703f70accb7
+Removing intermediate container f4bb2fff0cd2
+Step 7/18 : RUN opam depext datakit-bridge-local-git && opam install datakit-bridge-local-git --deps
+ ---> Running in e111508d0f3f
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+ERROR: Failed to create usr/share/perl5/core_perl/pod/perldata.pod: No space left on device
+ERROR: perl-5.24.0-r0: No space left on device
+1 errors; 610 MiB in 100 packages
+[91mOS package installation failed
+[0mThe command '/bin/sh -c opam depext datakit-bridge-local-git && opam install datakit-bridge-local-git --deps' returned a non-zero code: 1
+[2017-04-25 09:25.10] Failed: Command "docker" "build" "-f" "Dockerfile.bridge-local-git" "." exited with status 1
