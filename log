@@ -1,0 +1,54 @@
+=== Docker build Dockerfile.self-ci
+[2017-04-26 16:16.26] Starting...
+Cloning into '/tmp/with_clone5c075c4'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at ae2cd65 Use jbuilder
+[2017-04-26 16:16.26] Rewrite Dockerfile's first line to:
+FROM sha256:d336d7af2ba8942b6ca3f634213936a18f7b0ec1ff9624fd75ad74db6ac2bfa4 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:d336d7af2ba8942b6ca3f634213936a18f7b0ec1ff9624fd75ad74db6ac2bfa4 AS build-env
+ ---> d336d7af2ba8
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in e928ed5c3cc3
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 1ad52b8df5cc
+Removing intermediate container e928ed5c3cc3
+Step 3/12 : ADD . /home/opam/build
+ ---> 3274ff8e153f
+Removing intermediate container 8f4db1c7ea36
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 61ef09cc7a9d
+Removing intermediate container 58e22ca5d3d1
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in b2caa006ce9f
+ ---> 5901996ac13f
+Removing intermediate container b2caa006ce9f
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in c0ce28212393
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+File "_none_", line 1:
+Error: No implementations provided for the following modules:
+         Fmt_cli referenced from /home/opam/.opam/default/lib/datakit-ci/datakit_ci.cmxa(CI_log_reporter)
+         Fmt_tty referenced from /home/opam/.opam/default/lib/datakit-ci/datakit_ci.cmxa(CI_log_reporter)
+Command exited with code 2.
+[91mmake: *** [Makefile:6: selfCI] Error 10
+[0mThe command '/bin/sh -c opam config exec make selfCI' returned a non-zero code: 2
+[2017-04-26 16:16.39] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 2
