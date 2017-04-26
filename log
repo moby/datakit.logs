@@ -1,0 +1,410 @@
+=== Docker build Dockerfile.client
+[2017-04-26 15:00.39] Starting...
+Cloning into '/tmp/with_clone2dc1b44f'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 454caa9 Use jbuilder
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.316 MB
+Step 1/15 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:db9c7808cabc6283ab75414895257cf2de9080c062a1e16d29251a094431be8d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> ccc98a9f8684
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 53d924380f1c
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0c4a57fdf23e
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> b952671129cb
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 66f5f9d8de3c
+Removing intermediate container 21e5cc51dfd7
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 0ad57ac0d256
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> 91fde1fa8a7f
+Error removing intermediate container 0ad57ac0d256: Driver aufs failed to remove root filesystem 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39: rename /var/lib/docker/aufs/mnt/b72ddc8abc7ba7219ee0804e732b7de17ee12860be01bbe0513d8dc18fe41abd /var/lib/docker/aufs/mnt/b72ddc8abc7ba7219ee0804e732b7de17ee12860be01bbe0513d8dc18fe41abd-removing: device or resource busy
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Running in 2e11ae4533a5
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install   stringext               1.4.3         
+  - install   jbuilder                1.0+beta8     
+  - install   ocb-stubblr             0.1.1         
+  - downgrade lwt                     3.0.0 to 2.7.1
+  - install   rresult                 0.5.0         
+  - install   ppx_deriving            4.1           
+  - install   ocplib-endian           1.0           
+  - install   re                      1.7.1         
+  - install   mirage-flow             1.2.0         
+  - install   win-error               0.2           
+  - install   mirage-device           1.0.0         
+  - install   sexplib                 v0.9.1        
+  - install   ppx_traverse_builtins   v0.9.0        
+  - install   ocaml-migrate-parsetree 1.0           
+  - install   ocaml-compiler-libs     v0.9.0        
+  - install   named-pipe              0.4.0         
+  - install   logs                    0.6.2         
+  - install   mirage-channel          3.0.0         
+  - install   mirage-kv               1.0.0         
+  - install   mirage-clock            1.2.0         
+  - install   base                    v0.9.2        
+  - install   ppx_tools_versioned     5.0beta1      
+  - install   ppx_ast                 v0.9.1        
+  - install   stdio                   v0.9.0        
+  - install   cstruct                 2.4.0         
+  - install   ppx_core                v0.9.0        
+  - install   mirage-kv-lwt           1.0.0         
+  - install   mirage-flow-lwt         1.2.0         
+  - install   io-page                 1.6.1         
+  - install   ppx_optcomp             v0.9.0        
+  - install   mirage-channel-lwt      3.0.0         
+  - install   ppx_driver              v0.9.1        
+  - install   ppx_metaquot            v0.9.0        
+  - install   ppx_type_conv           v0.9.0        
+  - install   ppx_sexp_conv           v0.9.0        
+  - install   uri                     1.9.2         
+  - install   protocol-9p             0.9.0         
+===== 36 to install | 1 to downgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[base: http] Command started
+[cstruct: http] Command started
+[io-page: http] Command started
+[cstruct: http] Command started
+[cstruct.2.4.0] https://github.com/mirage/ocaml-cstruct/archive/v2.4.0.tar.gz downloaded
+[jbuilder: http] Command started
+[base: http] Command started
+[base.v0.9.2] https://github.com/janestreet/base/archive/v0.9.2.tar.gz downloaded
+[logs: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[lwt: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[mirage-channel: http] Command started
+[lwt: http] Command started
+[lwt.2.7.1] https://github.com/ocsigen/lwt/archive/2.7.1.tar.gz downloaded
+[mirage-channel-lwt: http] Command started
+[mirage-channel: http] Command started
+[mirage-channel.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-3.0.0.tbz downloaded
+[mirage-clock: http] Command started
+[jbuilder: http] Command started
+[jbuilder.1.0+beta8] https://github.com/janestreet/jbuilder/archive/1.0+beta8.tar.gz downloaded
+[mirage-device: http] Command started
+[mirage-clock: http] Command started
+[mirage-clock.1.2.0] https://github.com/mirage/mirage-clock/releases/download/1.2.0/mirage-clock-1.2.0.tbz downloaded
+[mirage-flow: http] Command started
+[mirage-channel-lwt: http] Command started
+[mirage-channel-lwt.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-lwt-3.0.0.tbz downloaded
+[mirage-flow-lwt: http] Command started
+[mirage-device: http] Command started
+[mirage-device.1.0.0] https://github.com/mirage/mirage-device/releases/download/1.0.0/mirage-device-1.0.0.tbz downloaded
+[mirage-kv: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-1.2.0.tbz downloaded
+[mirage-kv-lwt: http] Command started
+[mirage-flow-lwt: http] Command started
+[mirage-flow-lwt.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-lwt-1.2.0.tbz downloaded
+[named-pipe: http] Command started
+[mirage-kv: http] Command started
+[mirage-kv.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-1.0.0.tbz downloaded
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ocaml-compiler-libs-v0.9.0.tar.gz downloaded
+[ocaml-migrate-parsetree: http] Command started
+[mirage-kv-lwt: http] Command started
+[mirage-kv-lwt.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-lwt-1.0.0.tbz downloaded
+[ocb-stubblr: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[ocplib-endian: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.1] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz downloaded
+[ppx_ast: http] Command started
+[ocaml-migrate-parsetree: http] Command started
+[ocaml-migrate-parsetree.1.0] https://github.com/let-def/ocaml-migrate-parsetree/archive/v1.0.tar.gz downloaded
+[ppx_core: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_core-v0.9.0.tar.gz downloaded
+[ppx_driver: http] Command started
+[ppx_ast: http] Command started
+[ppx_ast.v0.9.1] https://github.com/janestreet/ppx_ast/archive/v0.9.1.tar.gz downloaded
+[ppx_metaquot: http] Command started
+[ppx_metaquot: http] Command started
+[ppx_metaquot.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_metaquot-v0.9.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.v0.9.1] https://github.com/janestreet/ppx_driver/archive/v0.9.1.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_optcomp-v0.9.0.tar.gz downloaded
+[ppx_tools_versioned: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_sexp_conv-v0.9.0.tar.gz downloaded
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_traverse_builtins-v0.9.0.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_tools_versioned: http] Command started
+[ppx_tools_versioned.5.0beta1] https://github.com/let-def/ppx_tools_versioned/archive/5.0beta1.tar.gz downloaded
+[protocol-9p: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_type_conv-v0.9.0.tar.gz downloaded
+[re: http] Command started
+[protocol-9p: http] Command started
+[protocol-9p.0.9.0] https://github.com/mirage/ocaml-9p/archive/v0.9.0.tar.gz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[sexplib: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[stdio: http] Command started
+[stdio: http] Command started
+[stdio.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/stdio-v0.9.0.tar.gz downloaded
+[stringext: http] Command started
+[sexplib: http] Command started
+[sexplib.v0.9.1] https://github.com/janestreet/sexplib/archive/v0.9.1.tar.gz downloaded
+[uri: http] Command started
+[stringext: http] Command started
+[stringext.1.4.3] https://github.com/rgrinberg/stringext/archive/v1.4.3.tar.gz downloaded
+[win-error: http] Command started
+[uri: http] Command started
+[uri.1.9.2] https://github.com/mirage/ocaml-uri/archive/v1.9.2.tar.gz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[lwt: ocamlfind remove] Command started
+[jbuilder: ocaml bootstrap.ml] Command started
+[mirage-device: ocaml build] Command started
+[mirage-flow: ocaml build] Command started
+-> removed   lwt.3.0.0
+[lwt: make setup] Command started
+-> installed mirage-device.1.0.0
+[mirage-clock: ocaml build] Command started
+-> installed mirage-flow.1.2.0
+[mirage-channel: ocaml build] Command started
+-> installed mirage-channel.3.0.0
+[mirage-kv: ocaml build] Command started
+-> installed mirage-clock.1.2.0
+[ocb-stubblr: ocaml build] Command started
+[lwt: ocaml setup.ml] Command started
+-> installed mirage-kv.1.0.0
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed ocb-stubblr.0.1.1
+[ppx_deriving: ocaml] Command started
+[jbuilder: ./boot.exe 4] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[lwt: make build] Command started
+-> installed jbuilder.1.0+beta8
+[ocaml-compiler-libs: jbuilder build] Command started
+-> installed ocplib-endian.1.0
+[ocaml-migrate-parsetree: jbuilder build] Command started
+-> installed ocaml-compiler-libs.v0.9.0
+[ppx_traverse_builtins: jbuilder build] Command started
+-> installed ppx_traverse_builtins.v0.9.0
+[re: ocaml setup.ml] Command started
+-> installed ppx_deriving.4.1
+[rresult: ocaml build] Command started
+[re: ocaml setup.ml] Command started
+-> installed rresult.0.5.0
+[sexplib: jbuilder build] Command started
+-> installed ocaml-migrate-parsetree.1.0
+[ppx_ast: jbuilder build] Command started
+-> installed sexplib.v0.9.1
+[base: jbuilder build] Command started
+[re: ocaml setup.ml] Command started
+-> installed ppx_ast.v0.9.1
+[ppx_tools_versioned: make all] Command started
+-> installed re.1.7.1
+[stringext: ocaml setup.ml] Command started
+[stringext: ocaml setup.ml] Command started
+[lwt: make install] Command started
+-> installed lwt.2.7.1
+[logs: ocaml build] Command started
+[stringext: ocaml setup.ml] Command started
+-> installed base.v0.9.2
+[named-pipe: ocaml build] Command started
+-> installed logs.0.6.2
+[stdio: jbuilder build] Command started
+-> installed stringext.1.4.3
+[win-error: make] Command started
+-> installed stdio.v0.9.0
+[ppx_core: jbuilder build] Command started
+[ppx_tools_versioned: make install] Command started
+-> installed ppx_tools_versioned.5.0beta1
+[cstruct: ./configure] Command started
+-> installed named-pipe.0.4.0
+[cstruct: make] Command started
+[win-error: make install] Command started
+-> installed win-error.0.2
+-> installed ppx_core.v0.9.0
+[ppx_optcomp: jbuilder build] Command started
+[cstruct: make install] Command started
+-> installed ppx_optcomp.v0.9.0
+[ppx_driver: jbuilder build] Command started
+[cstruct: make js-install] Command started
+-> installed cstruct.2.4.0
+[io-page: ./configure] Command started
+[mirage-flow-lwt: ocaml build] Command started
+[mirage-kv-lwt: ocaml build] Command started
+-> installed mirage-kv-lwt.1.0.0
+-> installed mirage-flow-lwt.1.2.0
+-> installed ppx_driver.v0.9.1
+[ppx_metaquot: jbuilder build] Command started
+[io-page: make] Command started
+-> installed ppx_metaquot.v0.9.0
+[ppx_type_conv: jbuilder build] Command started
+[io-page: make install] Command started
+-> installed io-page.1.6.1
+[mirage-channel-lwt: ocaml build] Command started
+-> installed ppx_type_conv.v0.9.0
+[ppx_sexp_conv: jbuilder build] Command started
+-> installed mirage-channel-lwt.3.0.0
+-> installed ppx_sexp_conv.v0.9.0
+[protocol-9p: ocaml build] Command started
+[uri: ocaml setup.ml] Command started
+[uri: ocaml setup.ml] Command started
+[uri: ocaml setup.ml] Command started
+-> installed uri.1.9.2
+-> installed protocol-9p.0.9.0
+Done.
+ ---> 85488c55459c
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 8/15 : COPY . /home/opam/src/datakit
+ ---> c21fa777dd3e
+Removing intermediate container 2e11ae4533a5
+Removing intermediate container 821fbf722c21
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 9/15 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in af779415412c
+ ---> c1cad27fabe5
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 10/15 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 70fe40a0100f
+ M src/version.ml
+ ---> a2ca47ae04e2
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 11/15 : RUN opam update datakit-client
+ ---> Running in 5f0c0b8883e7
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> 4364c7b5d74e
+Removing intermediate container 70fe40a0100f
+Removing intermediate container 5f0c0b8883e7
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 12/15 : RUN opam info datakit-client --raw
+ ---> Running in e2ee02422855
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["jbuilder" "build" "-p" name "-j" jobs]
+depends: [
+  "jbuilder" {build}
+  "base-bytes"
+  "astring"
+  "logs"
+  "uri"
+  "rresult"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+  "protocol-9p" {>= "0.7.4"}
+  "cmdliner"
+]
+ ---> dc6c93975d17
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 13/15 : RUN opam install datakit-client.dev -vv
+ ---> Running in 0e89cf288769
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,153 bytes  received 46 bytes  16,398.00 bytes/sec
+- total size is 1,289,234  speedup is 157.24
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,153 bytes  received 46 bytes  16,398.00 bytes/sec
+- total size is 1,289,234  speedup is 157.24
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.04.1/build/datakit-client.dev)
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/install/default/lib/datakit-client/META" "/home/opam/.opam/4.04.1/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/install/default/lib/datakit-client/opam" "/home/opam/.opam/4.04.1/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/install/default/doc/datakit-client/README.md" "/home/opam/.opam/4.04.1/doc/datakit-client/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/install/default/doc/datakit-client/LICENSE.md" "/home/opam/.opam/4.04.1/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/install/default/doc/datakit-client/CHANGES.md" "/home/opam/.opam/4.04.1/doc/datakit-client/CHANGES.md"
+-> installed datakit-client.dev
+Done.
+ ---> f39440a4cb20
+Error removing intermediate container 0ad57ac0d256: No such container: 0ad57ac0d256a91ef3c0609b0728080da9f1f8eb7ba89e0107d648bd74008f39
+Step 14/15 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 75579f170ead
+[91mBusyBox v1.25.1 (2016-10-26 16:15:20 GMT) multi-call binary.
+
+Usage: cp [OPTIONS] SOURCE... DEST
+
+Copy SOURCE(s) to DEST
+
+	-a	Same as -dpR
+	-R,-r	Recurse
+	-d,-P	Preserve symlinks (default if -R)
+	-L	Follow all symlinks
+	-H	Follow symlinks on command line
+	-p	Preserve file attributes if possible
+	-f	Overwrite
+	-i	Prompt before overwrite
+	-l,-s	Create (sym)links
+	-u	Copy only newer files
+[0mThe command '/bin/sh -c sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount' returned a non-zero code: 1
+[2017-04-26 15:03.00] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 1
