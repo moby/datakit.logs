@@ -1,0 +1,102 @@
+=== Docker build Dockerfile.bridge-local-git
+[2017-04-26 09:10.27] Starting...
+Cloning into '/tmp/with_clone9d3ef27'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at f348d54 ci: also move to cmdliner.1.0 and Irmin.1.0
+[2017-04-26 09:10.27] Rewrite Dockerfile's first line to:
+FROM sha256:418d389f776eddf8c0e491866317300792b64f6f8550dc64a8041a076770781a
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.132 MB
+Step 1/18 : FROM sha256:418d389f776eddf8c0e491866317300792b64f6f8550dc64a8041a076770781a
+ ---> 418d389f776e
+Step 2/18 : RUN opam pin add github --dev -n
+ ---> Running in 431c30d066fd
+github is now git-pinned to https://github.com/mirage/ocaml-github.git
+
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github: git]
+[github] https://github.com/mirage/ocaml-github.git updated
+
+ ---> 49db01d1d232
+Removing intermediate container 431c30d066fd
+Step 3/18 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in d837d491c51d
+datakit-github is now path-pinned to /home/opam/src/datakit
+
+[datakit-github: local]
+[datakit-github] /home/opam/src/datakit/ synchronized
+[datakit-github] Installing new package description from /home/opam/src/datakit
+
+ ---> 706e4da8d2a2
+Removing intermediate container d837d491c51d
+Step 4/18 : RUN opam depext datakit-github && opam install datakit-github --deps
+ ---> Running in a11035704076
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-github: local] Command started
+[datakit-github] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install asetmap 0.8.1
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+-> installed asetmap.0.8.1
+Done.
+ ---> 4ecc99c7b2e4
+Removing intermediate container a11035704076
+Step 5/18 : COPY datakit-bridge-local-git.opam /home/opam/src/datakit/datakit-bridge-local-git.opam
+ ---> 4b5c4835ccbb
+Removing intermediate container 9f07de1edb10
+Step 6/18 : RUN opam pin add datakit-bridge-local-git.dev /home/opam/src/datakit -n
+ ---> Running in 4a2822a3e388
+datakit-bridge-local-git is now path-pinned to /home/opam/src/datakit
+
+[datakit-bridge-local-git: local]
+[datakit-bridge-local-git] /home/opam/src/datakit/ synchronized
+[datakit-bridge-local-git] Installing new package description from
+/home/opam/src/datakit
+
+ ---> f924a1a9a18c
+Removing intermediate container 4a2822a3e388
+Step 7/18 : RUN opam depext datakit-bridge-local-git && opam install datakit-bridge-local-git --deps
+ ---> Running in 20df6f643c99
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git: local] Command started
+[datakit-bridge-local-git] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-bridge-local-git -> irmin-unix >= 1.1.0
+Your request can't be satisfied:
+  - No package matches irmin-unix>=1.1.0.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-bridge-local-git && opam install datakit-bridge-local-git --deps' returned a non-zero code: 3
+[2017-04-26 09:11.09] Failed: Command "docker" "build" "-f" "Dockerfile.bridge-local-git" "." exited with status 3
