@@ -1,0 +1,129 @@
+=== Docker build Dockerfile.ci
+[2017-04-26 15:00.39] Starting...
+Cloning into '/tmp/with_clone3c810496'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 454caa9 Use jbuilder
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.316 MB
+Step 1/18 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/18 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/18 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 1a4e4ce8b7ee
+Step 4/18 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> afaec49f149c
+Step 5/18 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> e276a27b48b0
+Step 6/18 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> ba98ccd23980
+Step 7/18 : RUN opam pin add irmin-unix.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 297aa4eca0a1
+Step 8/18 : RUN opam pin add -yn protocol-9p.0.9.0 'https://github.com/talex5/ocaml-9p.git#ping-mirage-3'
+ ---> Using cache
+ ---> a722a29b281f
+Step 9/18 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow hvsock git irmin irmin-unix lwt protocol-9p tyxml redis multipart-form-data pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner webmachine
+ ---> Using cache
+ ---> 854efda22547
+Step 10/18 : ADD . /home/opam/datakit
+ ---> f0361f96317a
+Removing intermediate container 7c9b355e00a4
+Step 11/18 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 07ff0344d1db
+ ---> b0750e19761b
+Removing intermediate container 07ff0344d1db
+Step 12/18 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in 92f091898322
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 2f6d9568396d
+Removing intermediate container 92f091898322
+Step 13/18 : RUN opam pin add -k git datakit-server.dev /home/opam/datakit -y
+ ---> Running in 0db6cfc2a072
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server dev*
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 35e1a37241cb
+Error removing intermediate container 0db6cfc2a072: Driver aufs failed to remove root filesystem 0db6cfc2a0727c5c4a61476db400276c017f589cb7901143a903affc11fa8518: rename /var/lib/docker/aufs/mnt/94d2a40e1b66ccf30a63a5a324ee2dbc10cd9a02e01eb279b4c9b8a65d704bb2 /var/lib/docker/aufs/mnt/94d2a40e1b66ccf30a63a5a324ee2dbc10cd9a02e01eb279b4c9b8a65d704bb2-removing: device or resource busy
+Step 14/18 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -y
+ ---> Running in c98f3ad0822b
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-github dev*
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[ERROR] The compilation of datakit-github failed at "jbuilder build -p datakit-github -j 1".
+
+#=== ERROR while compiling datakit-github.dev =================================#
+# command              jbuilder build -p datakit-github -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-github.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-github-7-a00279.env
+# output-file          /home/opam/.opam/log/datakit-github-7-a00279.out
+### output ###
+#     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+#     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+#       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+#       ocamlc src/datakit-github/datakit_github.{cmo,cmt}
+#     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+#       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti} (exit 2)
+# (cd _build/default && /usr/bin/ocamlc.opt -w -40 -g -bin-annot -I /home/opam/.opam/default/lib/asetmap -I /home/opam/.opam/default/lib/astring -I /home/opam/.opam/default/lib/bytes -I /home/opam/.opam/default/lib/datakit-client -I /home/opam/.opam/default/lib/fmt -I /home/opam/.opam/default/lib/logs -I /home/opam/.opam/default/lib/lwt -I /home/opam/.opam/default/lib/re -I /home/opam/.opam/default/lib/result -I /home/opam/.opam/default/lib/sexplib -I /home/opam/.opam/default/lib/sexplib/0 -I /home/opam/.opam/default/lib/stringext -I /home/opam/.opam/default/lib/uchar -I /home/opam/.opam/default/lib/uri -I /usr/lib/ocaml -no-alias-deps -I src/datakit-github -o src/datakit-github/datakit_github_conv.cmi -c -intf src/datakit-github/datakit_github_conv.mli)
+# File "src/datakit-github/datakit_github_conv.mli", line 7, characters 17-33:
+# Error: Unbound module Datakit_S
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-github dev
++- 
+- No changes have been performed
+[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0m# Run eval `opam env` to update the current shell environment
+The command '/bin/sh -c opam pin add -k git datakit-github.dev /home/opam/datakit -y' returned a non-zero code: 4
+[2017-04-26 15:01.45] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 4
