@@ -1,0 +1,170 @@
+=== Docker build Dockerfile.client
+[2017-04-26 10:14.24] Starting...
+Cloning into '/tmp/with_clone38f43f50'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 64ecc70 Merge pull request #531 from samoht/new-irmin-bis
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.232 MB
+Step 1/15 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:db9c7808cabc6283ab75414895257cf2de9080c062a1e16d29251a094431be8d
+Status: Image is up to date for ocaml/opam:alpine
+ ---> ccc98a9f8684
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 53d924380f1c
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 0c4a57fdf23e
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> b952671129cb
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 0dc8a730be36
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 23d1cc390d13
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> ab034799324f
+Step 8/15 : COPY . /home/opam/src/datakit
+ ---> 1272b6b3dd02
+Error removing intermediate container 0495ae5ad85c: Driver aufs failed to remove root filesystem 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64: rename /var/lib/docker/aufs/mnt/239cbb0a24ecef2f61e40950c64f5988844fbd346b5b8eb7ac2f78d8d2da6210 /var/lib/docker/aufs/mnt/239cbb0a24ecef2f61e40950c64f5988844fbd346b5b8eb7ac2f78d8d2da6210-removing: device or resource busy
+Step 9/15 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 8f067877171f
+ ---> 84e06f27332c
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 10/15 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 2041b6e3d211
+ M src/version.ml
+ ---> b94be3a1d2ad
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 11/15 : RUN opam update datakit-client
+ ---> Running in a8b60f1a2376
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> 3b8a275a0bb5
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 12/15 : RUN opam info datakit-client --raw
+ ---> Running in 1d304a0ef3c6
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["ocaml" "pkg/pkg.ml" "build" "--pinned" "%{pinned}%" "-n" name]
+depends: [
+  "ocamlfind" {build}
+  "ocamlbuild" {build}
+  "topkg" {build}
+  "base-bytes"
+  "astring"
+  "logs"
+  "uri"
+  "rresult"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+  "protocol-9p" {>= "0.7.4"}
+  "cmdliner"
+]
+ ---> 9bc28a5c8028
+Removing intermediate container 8f067877171f
+Removing intermediate container 2041b6e3d211
+Removing intermediate container a8b60f1a2376
+Removing intermediate container 1d304a0ef3c6
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 13/15 : RUN opam install datakit-client.dev -vv
+ ---> Running in d6a529f39f76
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,189 bytes  received 39 bytes  16,456.00 bytes/sec
+- total size is 1,304,670  speedup is 158.56
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.04.1/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,189 bytes  received 39 bytes  16,456.00 bytes/sec
+- total size is 1,304,670  speedup is 158.56
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--pinned" "true" "-n" "datakit-client" (CWD=/home/opam/.opam/4.04.1/build/datakit-client.dev)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/4.04.1/lib/ocamlbuild /home/opam/.opam/4.04.1/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/4.04.1/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_client_9p.ml > src/datakit-client/datakit_client_9p.ml.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_client_9p.mli > src/datakit-client/datakit_client_9p.mli.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_S.mli > src/datakit-client/datakit_S.mli.depends
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_path.mli > src/datakit-client/datakit_path.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmi src/datakit-client/datakit_path.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_S.cmi src/datakit-client/datakit_S.mli
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmi src/datakit-client/datakit_client_9p.mli
+- ocamlfind ocamldep -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/datakit_path.ml > src/datakit-client/datakit_path.ml.depends
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmx src/datakit-client/datakit_path.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmx src/datakit-client/datakit_client_9p.ml
+- ocamlfind ocamlopt -a -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit_path.cmx src/datakit-client/datakit_client_9p.cmx -o src/datakit-client/datakit-client.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit-client.cmxa -o src/datakit-client/datakit-client.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_client_9p.cmo src/datakit-client/datakit_client_9p.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/datakit_path.cmo src/datakit-client/datakit_path.ml
+- ocamlfind ocamlc -a -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src/datakit-client src/datakit-client/datakit_path.cmo src/datakit-client/datakit_client_9p.cmo -o src/datakit-client/datakit-client.cma
+- ocamlfind ocamldep -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/datakit-client/mount.ml > src/datakit-client/mount.ml.depends
+- ocamlfind ocamldep -package 'bytes lwt astring logs result cstruct fmt rresult' -modules src/version.ml > src/version.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit-client -o src/version.cmo src/version.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/mount.cmo src/datakit-client/mount.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src -I src/datakit-client -o src/version.cmx src/version.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -warn-error +1..49-3 -w A-4-41-44 -I src/datakit-client -I src -o src/datakit-client/mount.cmx src/datakit-client/mount.ml
+- ocamlfind ocamlopt -linkpkg -g -package 'cmdliner fmt.cli fmt.tty logs.fmt' -package 'protocol-9p uri' -package 'bytes lwt astring logs result cstruct fmt rresult' -I src -I src/datakit-client src/version.cmx src/datakit-client/mount.cmx -o src/datakit-client/mount.native
++ install "-m" "0755" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/mount.native" "/home/opam/.opam/4.04.1/bin/datakit-mount"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/datakit-client.opam" "/home/opam/.opam/4.04.1/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/pkg/META.client" "/home/opam/.opam/4.04.1/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit-client.a" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit-client.a"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit-client.cma" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit-client.cma"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit-client.cmxa" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit-client.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit-client.cmxs" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit-client.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_S.cmi" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_S.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_S.mli" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_S.mli"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_client_9p.cmi" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_client_9p.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_client_9p.cmti" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_client_9p.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_client_9p.cmx" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_client_9p.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_client_9p.mli" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_client_9p.mli"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_path.cmi" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_path.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_path.cmti" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_path.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_path.cmx" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_path.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/src/datakit-client/datakit_path.mli" "/home/opam/.opam/4.04.1/lib/datakit-client/datakit_path.mli"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/CHANGES.md" "/home/opam/.opam/4.04.1/doc/datakit-client/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/LICENSE.md" "/home/opam/.opam/4.04.1/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.04.1/build/datakit-client.dev/_build/README.md" "/home/opam/.opam/4.04.1/doc/datakit-client/README.md"
+-> installed datakit-client.dev
+Done.
+ ---> 4a722d1595f7
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 14/15 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in f5c5a019d57d
+ ---> 790592be4192
+Removing intermediate container f5c5a019d57d
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Step 15/15 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in d236d28287b7
+ ---> 1554fceca732
+Error removing intermediate container 0495ae5ad85c: No such container: 0495ae5ad85cc43a8cdb7bf5fd70357fb51e115762055a370f7b5f5a1f590c64
+Successfully built 1554fceca732
+[2017-04-26 10:15.16] Success
