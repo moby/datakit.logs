@@ -1,0 +1,156 @@
+=== Docker build Dockerfile.ci
+[2017-04-27 14:40.57] Starting...
+Cloning into '/tmp/with_cloneed0e740'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8966b3f Fix jbuilder warnings
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.382 MB
+Step 1/18 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/18 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/18 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 1a4e4ce8b7ee
+Step 4/18 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> afaec49f149c
+Step 5/18 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> e276a27b48b0
+Step 6/18 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> ba98ccd23980
+Step 7/18 : RUN opam pin add irmin-unix.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 297aa4eca0a1
+Step 8/18 : RUN opam pin add -yn protocol-9p.0.9.0 'https://github.com/talex5/ocaml-9p.git#ping-mirage-3'
+ ---> Using cache
+ ---> a722a29b281f
+Step 9/18 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow hvsock git irmin irmin-unix lwt protocol-9p tyxml redis multipart-form-data pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner webmachine
+ ---> Using cache
+ ---> 854efda22547
+Step 10/18 : RUN opam install irmin-unix alcotest
+ ---> Using cache
+ ---> 8bf9b0cda8f2
+Step 11/18 : ADD . /home/opam/datakit
+ ---> 1254a780ad2e
+Error removing intermediate container 99ebbe0a326e: Driver aufs failed to remove root filesystem 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261: rename /var/lib/docker/aufs/mnt/ca8b2c114f494e339c55f3065f1e5e493e60d45213128f1dbe5c92c7cc3acf52 /var/lib/docker/aufs/mnt/ca8b2c114f494e339c55f3065f1e5e493e60d45213128f1dbe5c92c7cc3acf52-removing: device or resource busy
+Step 12/18 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in dda6e6c9bf2a
+ ---> ccbfbdf665db
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 13/18 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in efd62837ac6a
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> f7b7c4983840
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 14/18 : RUN opam pin add -k git datakit-server.dev /home/opam/datakit -y
+ ---> Running in 8b8979a074a0
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server dev*
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 9a9577891852
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 15/18 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -y
+ ---> Running in 93749b7ee5a2
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-github dev*
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> bbe30f449917
+Removing intermediate container 93749b7ee5a2
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 16/18 : RUN opam pin add -k git datakit.dev /home/opam/datakit -y
+ ---> Running in 5c0928c88123
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit dev*
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 889901204610
+Removing intermediate container 8b8979a074a0
+Removing intermediate container 5c0928c88123
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 17/18 : RUN opam pin add -k git datakit-ci.dev /home/opam/datakit -yt
+ ---> Running in 40d58b16f333
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-ci dev*
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-ci.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> a6aff1270dc1
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Step 18/18 : VOLUME /secrets
+ ---> Running in 0172888b663c
+ ---> 83c25432bb4c
+Error removing intermediate container 99ebbe0a326e: No such container: 99ebbe0a326ea246e0271f9f60ffc0693139094a27eb1457def97dd4dd25d261
+Successfully built 83c25432bb4c
+[2017-04-27 14:42.41] Success
