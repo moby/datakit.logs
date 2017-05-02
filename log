@@ -1,0 +1,94 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-02 09:02.41] Starting...
+Cloning into '/tmp/with_clone2ead4cd8'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 82a4b2c self-ci: test the client library on 4.03
+[2017-05-02 09:02.41] Rewrite Dockerfile's first line to:
+FROM sha256:f02647ad5948f99b80ddd1ed7e5412bf942abc8e16da53552db9b4701d7508c5 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:f02647ad5948f99b80ddd1ed7e5412bf942abc8e16da53552db9b4701d7508c5 AS build-env
+ ---> f02647ad5948
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 7eb0912dcc72
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 06e86caddec6
+Removing intermediate container 7eb0912dcc72
+Step 3/12 : ADD . /home/opam/build
+ ---> 563a581ad334
+Error removing intermediate container e34337bbf5f7: Driver aufs failed to remove root filesystem e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e: rename /var/lib/docker/aufs/mnt/1448ef67ccfafda646120010b925bede442ed447f9b4ab516cb2e7cf42d5532b /var/lib/docker/aufs/mnt/1448ef67ccfafda646120010b925bede442ed447f9b4ab516cb2e7cf42d5532b-removing: device or resource busy
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 1f805570ab16
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in b353867d3436
+ ---> d61d4f0fc5b3
+Error removing intermediate container b353867d3436: Driver aufs failed to remove root filesystem b353867d3436c45d03e05848c176b22dc5ba18ae36b41357d879a93b4cc2975f: rename /var/lib/docker/aufs/mnt/dca916c878468ec9cb93aa91a2699d98c48daad47535f430246d6b6e1a94f217 /var/lib/docker/aufs/mnt/dca916c878468ec9cb93aa91a2699d98c48daad47535f430246d6b6e1a94f217-removing: device or resource busy
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 8c931bb87355
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> e6ef3f84463a
+Error removing intermediate container b353867d3436: No such container: b353867d3436c45d03e05848c176b22dc5ba18ae36b41357d879a93b4cc2975f
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in e219ab81f8d9
+ ---> 8bdfb7e00bed
+Removing intermediate container 8c931bb87355
+Removing intermediate container e219ab81f8d9
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 8/12 : FROM alpine:3.5
+ ---> 4a415e366388
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Running in 4c74e3c9a101
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/16) Installing ca-certificates (20161130-r1)
+(2/16) Installing libmnl (1.0.4-r0)
+(3/16) Installing libnftnl-libs (1.0.7-r0)
+(4/16) Installing iptables (1.6.0-r0)
+(5/16) Installing libssh2 (1.7.0-r2)
+(6/16) Installing libcurl (7.52.1-r3)
+(7/16) Installing expat (2.2.0-r0)
+(8/16) Installing pcre (8.39-r0)
+(9/16) Installing git (2.11.1-r0)
+(10/16) Installing xz-libs (5.2.2-r1)
+(11/16) Installing xz (5.2.2-r1)
+(12/16) Installing libseccomp (2.3.1-r0)
+(13/16) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(14/16) Installing gmp (6.1.1-r0)
+(15/16) Installing libev (4.22-r0)
+(16/16) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+Executing ca-certificates-20161130-r1.trigger
+OK: 122 MiB in 27 packages
+ ---> 406951a62df2
+Removing intermediate container 4c74e3c9a101
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 10/12 : USER root
+ ---> Running in b003b6cd4fbd
+ ---> 7d2511101f00
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Running in 74914df489a2
+ ---> 85a12293f919
+Error removing intermediate container e34337bbf5f7: No such container: e34337bbf5f78c3f066e8f5ef0fce64a151b4b83c55d5e504a7f747531f9be7e
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+stat /var/lib/docker/aufs/mnt/5efbe75b050d64df537dad4cdde4e8d1910f1820bef98785d6ab9c687a5ba0a6/usr/local/bin/ci: no such file or directory
+[2017-05-02 09:03.12] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
