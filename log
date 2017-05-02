@@ -1,0 +1,75 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-02 07:47.17] Starting...
+Cloning into '/tmp/with_clone31bc73a'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8e4ac85 Fix version of protocol-9p to use
+[2017-05-02 07:47.17] Rewrite Dockerfile's first line to:
+FROM sha256:bb6fadbd37c29de80e718b75a585aa757ae0647f7eca6464594c5ad255dd6293 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:bb6fadbd37c29de80e718b75a585aa757ae0647f7eca6464594c5ad255dd6293 AS build-env
+ ---> bb6fadbd37c2
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 0548e4705637
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 51480188eff7
+Removing intermediate container 0548e4705637
+Step 3/12 : ADD . /home/opam/build
+ ---> bf436dcf1375
+Removing intermediate container 5475ad19fff7
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 442b74da8acb
+Error removing intermediate container 131a6b32516d: Driver aufs failed to remove root filesystem 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178: rename /var/lib/docker/aufs/mnt/dcca0e9e4ec06189a0a1099a6627f99beb41398bb1612aee697d6f5b775172e1 /var/lib/docker/aufs/mnt/dcca0e9e4ec06189a0a1099a6627f99beb41398bb1612aee697d6f5b775172e1-removing: device or resource busy
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in 5502d54dd104
+ ---> 1db584dc9ba8
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 04230fe6f78f
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 5c292f7b0518
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in f9fc39b07911
+ ---> f18d10745af2
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 8/12 : FROM alpine:3.5
+ ---> 4a415e366388
+Removing intermediate container 04230fe6f78f
+Removing intermediate container f9fc39b07911
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> d944d2f3869f
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 3b50738fdfb2
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 2008218bef64
+Removing intermediate container 5502d54dd104
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 1fa09292cd54
+Error removing intermediate container 131a6b32516d: No such container: 131a6b32516d8a791f667b8900691e6a43a0ee35528ff7367c40ba1bb1a67178
+Successfully built 1fa09292cd54
+[2017-05-02 07:47.32] Success
