@@ -1,0 +1,46 @@
+=== Docker build Dockerfile.client
+[2017-05-02 08:56.58] Starting...
+Cloning into '/tmp/with_clone3de81198'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 79f9bb3 github: fix version bounds
+[2017-05-02 08:57.06] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.02.3
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.494 MB
+Step 1/15 : FROM ocaml/opam:alpine_ocaml-4.02.3
+ ---> e6f621420c2b
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> f919f8ebc9b8
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> efe4c21b1520
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 31ecba0373ca
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 455ab1e70491
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 5b68ca065c58
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Running in 26dbfe63647f
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+m4
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-client -> protocol-9p = 0.9.0
+Your request can't be satisfied:
+  - protocol-9p.0.9.0 is not available because your system doesn't comply with ocaml-version >= "4.03.0".
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-client &&     opam install datakit-client --deps' returned a non-zero code: 3
+[2017-05-02 08:57.37] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 3
