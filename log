@@ -1,0 +1,76 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-02 08:58.41] Starting...
+Cloning into '/tmp/with_clone171540b3'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 79f9bb3 github: fix version bounds
+[2017-05-02 08:58.41] Rewrite Dockerfile's first line to:
+FROM sha256:2e375cdf45eedf37cc31c3400243830efc12e89ee1a41bf6c85cdbe9277255f3 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:2e375cdf45eedf37cc31c3400243830efc12e89ee1a41bf6c85cdbe9277255f3 AS build-env
+ ---> 2e375cdf45ee
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 6ee0b3e02ee1
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> fa514f2a6eb1
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 3/12 : ADD . /home/opam/build
+ ---> 9b36678b1123
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 4/12 : WORKDIR /home/opam/build
+ ---> d0c34f30e41b
+Removing intermediate container 33abba9c8b00
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in b9201f2f218b
+ ---> fdfe292f03ec
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in b5032a26b944
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 00a889543a92
+Removing intermediate container b9201f2f218b
+Removing intermediate container b5032a26b944
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in f37491a0f3ff
+ ---> 065b06dd51de
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 8/12 : FROM alpine:3.5
+ ---> 4a415e366388
+Removing intermediate container f37491a0f3ff
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> d944d2f3869f
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 3b50738fdfb2
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 2008218bef64
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 6e518f1fdcd0
+Error removing intermediate container 6ee0b3e02ee1: No such container: 6ee0b3e02ee18806e146c8a248cb192a7d8f08ca7f97683613e986bc39e65921
+Successfully built 6e518f1fdcd0
+[2017-05-02 08:58.57] Success
