@@ -1,0 +1,293 @@
+=== Docker build Dockerfile.ci
+[2017-05-02 09:01.57] Starting...
+Cloning into '/tmp/with_clone14fd14eb'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 5e84726 Merge pull request #545 from samoht/cli
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.503 MB
+Step 1/18 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/18 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/18 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 1a4e4ce8b7ee
+Step 4/18 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> afaec49f149c
+Step 5/18 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> e276a27b48b0
+Step 6/18 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> ba98ccd23980
+Step 7/18 : RUN opam pin add irmin-unix.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 297aa4eca0a1
+Step 8/18 : RUN opam pin add -yn protocol-9p.0.9.0 'https://github.com/talex5/ocaml-9p.git#ping-mirage-3'
+ ---> Using cache
+ ---> a722a29b281f
+Step 9/18 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow hvsock git irmin irmin-unix lwt protocol-9p tyxml redis multipart-form-data pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner webmachine
+ ---> Using cache
+ ---> 854efda22547
+Step 10/18 : RUN opam install irmin-unix alcotest
+ ---> Using cache
+ ---> 8bf9b0cda8f2
+Step 11/18 : ADD . /home/opam/datakit
+ ---> ce9d378b84c5
+Removing intermediate container 461ab48eb018
+Step 12/18 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 64f4e12a1d15
+ ---> 8cef06521ab1
+Error removing intermediate container 64f4e12a1d15: Driver aufs failed to remove root filesystem 64f4e12a1d155d58278129d5f61aba1260959432b7585e5902d915546750d44e: rename /var/lib/docker/aufs/mnt/2f4cc9e740ec0a2f57047100dc8dc53595fc1d864cb535126cfa603d7a8ca8c4 /var/lib/docker/aufs/mnt/2f4cc9e740ec0a2f57047100dc8dc53595fc1d864cb535126cfa603d7a8ca8c4-removing: device or resource busy
+Step 13/18 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in cbdde606dab5
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 6e38c0a264c5
+Error removing intermediate container 64f4e12a1d15: No such container: 64f4e12a1d155d58278129d5f61aba1260959432b7585e5902d915546750d44e
+Step 14/18 : RUN opam pin add -k git datakit-server.dev /home/opam/datakit -y
+ ---> Running in f10f346c707d
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server dev*
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 2c0e7bc399b2
+Error removing intermediate container 64f4e12a1d15: No such container: 64f4e12a1d155d58278129d5f61aba1260959432b7585e5902d915546750d44e
+Step 15/18 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -y
+ ---> Running in 91178a93d399
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-github dev*
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> ff9718948647
+Removing intermediate container 91178a93d399
+Error removing intermediate container 64f4e12a1d15: No such container: 64f4e12a1d155d58278129d5f61aba1260959432b7585e5902d915546750d44e
+Step 16/18 : RUN opam pin add -k git datakit.dev /home/opam/datakit -y
+ ---> Running in 6cc4d5b622d2
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit dev*
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 56bcf31223ed
+Removing intermediate container 6cc4d5b622d2
+Error removing intermediate container 64f4e12a1d15: No such container: 64f4e12a1d155d58278129d5f61aba1260959432b7585e5902d915546750d44e
+Step 17/18 : RUN opam pin add -k git datakit-ci.dev /home/opam/datakit -yt
+ ---> Running in fed2f37a632a
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-ci dev*
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-ci dev
++- 
+- No changes have been performed
+[91m[ERROR] The compilation of datakit-ci failed at "jbuilder runtest ci/tests".
+
+#=== ERROR while compiling datakit-ci.dev =====================================#
+# command              jbuilder runtest ci/tests
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-ci.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-ci-7-d0f245.env
+# output-file          /home/opam/.opam/log/datakit-ci-7-d0f245.out
+### output ###
+#     ocamldep ci/tests/test_ci.depends.ocamldep-output
+#     ocamldep ci/tests/test_ci.dependsi.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+#     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+#     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+#     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+#     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+#     ocamldep src/datakit/datakit.depends.ocamldep-output
+#       ocamlc api/ocaml/datakit_path.{cmi,cmti}
+#     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+#       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+#       ocamlc src/datakit-server/vfs.{cmi,cmti}
+#       ocamlc api/ocaml/datakit_S.{cmi,cmo,cmt}
+#       ocamlc src/datakit-server/fs9p.{cmi,cmti}
+#       ocamlc src/datakit-server/fs9p_error.{cmi,cmti}
+#     ocamlopt api/ocaml/datakit_path.{cmx,o}
+#       ocamlc api/ocaml/datakit_client_9p.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_blob.{cmi,cmti}
+#       ocamlc src/datakit/autopush.{cmi,cmo,cmt}
+#     ocamlopt api/ocaml/datakit_S.{cmx,o}
+#     ocamlopt src/datakit-server/vfs.{cmx,o}
+#       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+#     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+#       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+#     ocamlopt src/datakit-server/fs9p_error.{cmx,o}
+#       ocamlc ci/src/cI_ACL.{cmi,cmti}
+#     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+#       ocamlc ci/src/cI_live_log.{cmi,cmti}
+#       ocamlc ci/src/cI_result.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_tree.{cmi,cmti}
+#       ocamlc ci/src/cI_target.{cmi,cmti}
+#       ocamlc ci/src/cI_utils.{cmi,cmti}
+#       ocamlc ci/src/cI_char_stream.{cmi,cmti}
+#       ocamlc ci/src/cI_log_reporter.{cmi,cmti}
+#       ocamlc ci/src/cI_secrets.{cmi,cmti}
+#       ocamlc ci/src/cI_static.{cmi,cmti}
+#       ocamlc ci/src/cI_form.{cmi,cmti}
+#       ocamlc ci/src/datakit_ci.{cmi,cmti}
+#       ocamlc ci/src/cI_process.{cmi,cmti}
+#       ocamlc ci/src/cI_output.{cmi,cmti}
+#       ocamlc src/datakit/ivfs.{cmi,cmti}
+#     ocamlopt api/ocaml/datakit_client_9p.{cmx,o}
+#       ocamlc src/datakit/ivfs_merge.{cmi,cmti}
+#     ocamlopt src/datakit-server/fs9p.{cmx,o}
+#       ocamlc ci/src/cI_escape_parser.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_remote.{cmi,cmti}
+#       ocamlc ci/src/cI_history.{cmi,cmti}
+#       ocamlc ci/src/cI_s.{cmi,cmo,cmt}
+#     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+#       ocamlc src/datakit/ivfs_rw.{cmi,cmti}
+#     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+#       ocamlc ci/src/cI_monitored_pool.{cmi,cmti}
+#       ocamlc ci/src/cI_eval.{cmi,cmti}
+#     ocamlopt src/datakit/autopush.{cmx,o}
+#       ocamlc ci/src/cI_term.{cmi,cmti}
+#     ocamlopt src/datakit/ivfs_blob.{cmx,o}
+#       ocamlc ci/src/cI_git.{cmi,cmti}
+#       ocamlc ci/src/cI_cache.{cmi,cmti}
+#       ocamlc ci/src/cI_docker.{cmi,cmti}
+#       ocamlc ci/src/cI_engine.{cmi,cmti}
+#       ocamlc ci/src/cI_web_templates.{cmi,cmti}
+#       ocamlc ci/src/cI_config.{cmi,cmti}
+#       ocamlc ci/src/cI_main.{cmi,cmti}
+#     ocamlopt src/datakit/ivfs_tree.{cmx,o}
+#     ocamlopt src/datakit/ivfs_remote.{cmx,o}
+#     ocamlopt src/datakit/ivfs_merge.{cmx,o}
+#       ocamlc ci/src/cI_web_utils.{cmi,cmti}
+#       ocamlc ci/src/cI_web.{cmi,cmti}
+#       ocamlc ci/tests/test_ci.{cmi,cmti}
+#     ocamlopt src/datakit/ivfs_rw.{cmx,o}
+#     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+#       ocamlc ci/tests/test_utils.{cmi,cmo,cmt}
+#     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+#     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+#     ocamlopt ci/src/cI_char_stream.{cmx,o}
+#     ocamlopt ci/src/cI_ACL.{cmx,o}
+#     ocamlopt src/datakit/ivfs.{cmx,o}
+#     ocamlopt ci/src/cI_log_reporter.{cmx,o}
+#     ocamlopt ci/src/cI_utils.{cmx,o}
+#     ocamlopt src/datakit/datakit.{a,cmxa}
+#     ocamlopt ci/src/cI_escape_parser.{cmx,o}
+#     ocamlopt ci/src/cI_result.{cmx,o}
+#     ocamlopt ci/src/cI_live_log.{cmx,o}
+#     ocamlopt ci/src/cI_static.{cmx,o}
+#     ocamlopt ci/src/cI_target.{cmx,o}
+#     ocamlopt ci/src/cI_secrets.{cmx,o}
+#     ocamlopt ci/src/cI_form.{cmx,o}
+#     ocamlopt ci/src/cI_output.{cmx,o}
+#     ocamlopt ci/src/cI_process.{cmx,o}
+#     ocamlopt ci/src/cI_s.{cmx,o}
+#     ocamlopt ci/src/cI_monitored_pool.{cmx,o}
+#     ocamlopt ci/src/cI_eval.{cmx,o}
+#     ocamlopt ci/src/cI_history.{cmx,o}
+#     ocamlopt ci/src/cI_term.{cmx,o}
+#     ocamlopt ci/src/cI_cache.{cmx,o}
+#     ocamlopt ci/src/cI_engine.{cmx,o}
+#     ocamlopt ci/src/cI_git.{cmx,o}
+#     ocamlopt ci/src/cI_docker.{cmx,o}
+#     ocamlopt ci/src/cI_web_templates.{cmx,o}
+#     ocamlopt ci/src/cI_config.{cmx,o}
+#     ocamlopt ci/src/cI_web_utils.{cmx,o}
+#     ocamlopt ci/src/cI_web.{cmx,o}
+#     ocamlopt ci/src/cI_main.{cmx,o}
+#     ocamlopt ci/src/datakit_ci.{cmx,o}
+#     ocamlopt ci/src/datakit_ci.{a,cmxa}
+#     ocamlopt ci/tests/test_utils.{cmx,o}
+#     ocamlopt ci/tests/test_ci.{cmx,o}
+#     ocamlopt ci/tests/test_ci.exe
+#      test_ci alias ci/tests/runtest (exit 2)
+# (cd _build/default/ci/tests && ./test_ci.exe -q)
+# /bin/sh: tput: not found
+# stty: standard input: Not a tty
+# Testing datakit-ci.
+#  ...                ci          0   Simple.[OK]                ci          0   Simple.
+#  ...                ci          1   Branch.[OK]                ci          1   Branch.
+#  ...                ci          2   Circle rebuild.[OK]                ci          2   Circle rebuild.
+#  ...                ci          3   Logs.[OK]                ci          3   Logs.
+#  ...                ci          4   Cancel.[OK]                ci          4   Cancel.
+#  ...                ci          5   Cache (disk).[OK]                ci          5   Cache (disk).
+#  ...                ci          6   Cache (memory).[OK]                ci          6   Cache (memory).
+#  ...                ci          7   Test pending.[OK]                ci          7   Test pending.
+#  ...                ci          8   Git.[OK]                ci          8   Git.
+#  ...                ci          9   Git (clone).[OK]                ci          9   Git (clone).
+#  ...                ci         10   Git tag.[OK]                ci         10   Git tag.
+#  ...                ci         11   Cross-project.
+
+[0m[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0m# Run eval `opam env` to update the current shell environment
+The command '/bin/sh -c opam pin add -k git datakit-ci.dev /home/opam/datakit -yt' returned a non-zero code: 4
+[2017-05-02 09:03.48] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 4
