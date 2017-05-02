@@ -1,0 +1,54 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-02 08:36.23] Starting...
+Cloning into '/tmp/with_clone14c841ef'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at ed918bd Merge pull request #543 from samoht/release
+[2017-05-02 08:36.23] Rewrite Dockerfile's first line to:
+FROM sha256:8cc460abefc1f005289e1132a068380c7b34994aed1ae575f57d39c45c0b5df2 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:8cc460abefc1f005289e1132a068380c7b34994aed1ae575f57d39c45c0b5df2 AS build-env
+ ---> 8cc460abefc1
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Using cache
+ ---> 0753447e6e86
+Step 3/12 : ADD . /home/opam/build
+ ---> Using cache
+ ---> c91c7f66d5d3
+Step 4/12 : WORKDIR /home/opam/build
+ ---> Using cache
+ ---> 0cb41883a585
+Step 5/12 : RUN sudo chown opam .
+ ---> Using cache
+ ---> f545b1c91f52
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 1362fb525525
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> bac03b326517
+Removing intermediate container 1362fb525525
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in 1a0f2b69158c
+ ---> 082c251bc00d
+Removing intermediate container 1a0f2b69158c
+Step 8/12 : FROM alpine:3.5
+ ---> 4a415e366388
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> d944d2f3869f
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 3b50738fdfb2
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 2008218bef64
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 6e518f1fdcd0
+Successfully built 6e518f1fdcd0
+[2017-05-02 08:36.29] Success
