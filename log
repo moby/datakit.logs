@@ -1,0 +1,58 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-04 16:26.09] Starting...
+Cloning into '/tmp/with_clone302466d9'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 3de717c dockerfile: use updated custom branch for protocol-9p
+[2017-05-04 16:26.10] Rewrite Dockerfile's first line to:
+FROM sha256:e2c2ab85f540d9c8adda4dc06cd5bc239420df22c8da83fcc2c406131b05b471 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:e2c2ab85f540d9c8adda4dc06cd5bc239420df22c8da83fcc2c406131b05b471 AS build-env
+ ---> e2c2ab85f540
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 3c39d27749a7
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 944b7f5fa869
+Removing intermediate container 3c39d27749a7
+Step 3/12 : ADD . /home/opam/build
+ ---> f37a4b3119c8
+Removing intermediate container da5230cc7978
+Step 4/12 : WORKDIR /home/opam/build
+ ---> b6a67f723208
+Removing intermediate container 9bb5b0986d4b
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in 6f052ed674ea
+ ---> 9520bf6e60b5
+Removing intermediate container 6f052ed674ea
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in cdab70ef4325
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+/home/opam/.opam/default/lib/io-page/io_page.a(io_page.o): In function `camlIo_page__get_1481':
+/home/opam/.opam/default/.opam-switch/build/io-page.1.6.1/_build/lib/io_page.ml:37: undefined reference to `caml_alloc_pages'
+/home/opam/.opam/default/.opam-switch/build/io-page.1.6.1/_build/lib/io_page.ml:35: undefined reference to `caml_alloc_pages'
+/home/opam/.opam/default/lib/io-page/io_page.a(io_page.o): In function `camlIo_page__18':
+:(.data+0x308): undefined reference to `caml_alloc_pages'
+collect2: error: ld returned 1 exit status
+File "caml_startup", line 1:
+Error: Error during linking
+Command exited with code 2.
+[91mmake: *** [Makefile:6: selfCI] Error 10
+[0mThe command '/bin/sh -c opam config exec make selfCI' returned a non-zero code: 2
+[2017-05-04 16:26.21] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 2
