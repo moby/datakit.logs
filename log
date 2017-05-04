@@ -1,0 +1,72 @@
+=== Docker build Dockerfile
+[2017-05-04 14:49.24] Starting...
+Cloning into '/tmp/with_clone125e9b8a'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 9be5d56 ci: try to `opam upgrade --fixup` in case the cache has some issues
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.655 MB
+Step 1/30 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/30 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/30 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> f5c385980f13
+Step 4/30 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> e0dca0fee8a2
+Step 5/30 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 9b956640b9fe
+Step 6/30 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> d42e6fe6ddfb
+Step 7/30 : RUN opam pin add -yn protocol-9p 'https://github.com/talex5/ocaml-9p.git#ping-mirage-3'
+ ---> Using cache
+ ---> 971c2510021b
+Step 8/30 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term asl win-eventlog camlzip irmin-watcher mtime mirage-flow conduit hvsock cohttp prometheus-app git irmin cmdliner protocol-9p channel rresult win-error named-pipe
+ ---> Using cache
+ ---> 5cfaa87896db
+Step 9/30 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> b382d940f01c
+Step 10/30 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> ebb615e1b8a4
+Step 11/30 : COPY datakit.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> 9b6b0231a2ce
+Step 12/30 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 9c543dce5a82
+Step 13/30 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 5b4c11262dd2
+Step 14/30 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 7f7130720cb7
+Step 15/30 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn        &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> de43e975e0b8
+Step 16/30 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> a10ffce5eb39
+Step 17/30 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in 4e53a021a7e5
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit-server -> protocol-9p = 0.10.0
+    no matching version
+
+No solution found, exiting
+The command '/bin/sh -c opam install -y --deps-only datakit-client datakit-server' returned a non-zero code: 3
+[2017-05-04 14:49.44] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 3
