@@ -1,0 +1,112 @@
+=== Docker build Dockerfile.github
+[2017-05-04 14:25.51] Starting...
+Cloning into '/tmp/with_clone274150ff'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 849678e Update to lwt 3.0.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.643 MB
+Step 1/31 : FROM ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a: Pulling from ocaml/opam-dev
+Digest: sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+Status: Image is up to date for ocaml/opam-dev@sha256:337fd0f78b182a12da3f66d9d5ca075dbb79df414fc01d6a0aee99ffeb35552a
+ ---> 9107a2254d1d
+Step 2/31 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 90b67f82c489
+Step 3/31 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 1a4e4ce8b7ee
+Step 4/31 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> afaec49f149c
+Step 5/31 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> e276a27b48b0
+Step 6/31 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> ba98ccd23980
+Step 7/31 : RUN opam pin add -yn protocol-9p.0.9.0 'https://github.com/talex5/ocaml-9p.git#ping-mirage-3'
+ ---> Using cache
+ ---> 4e1e4eeea715
+Step 8/31 : RUN opam pin add github --dev -n
+ ---> Using cache
+ ---> 22140a5e2ca1
+Step 9/31 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner github protocol-9p rresult prometheus-app asl win-eventlog mtime hex github-hooks hvsock camlzip irmin-watcher git irmin
+ ---> Using cache
+ ---> 73a2aad730be
+Step 10/31 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 5a52f7d7f052
+Step 11/31 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 289972072f5d
+Step 12/31 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> 1bd76d882e60
+Error removing intermediate container 895a08b18a98: Driver aufs failed to remove root filesystem 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55: rename /var/lib/docker/aufs/mnt/159520bb025e40348b7cb4b92320314a3c0b64ce563550e1c0c14ec540f96a3f /var/lib/docker/aufs/mnt/159520bb025e40348b7cb4b92320314a3c0b64ce563550e1c0c14ec540f96a3f-removing: device or resource busy
+Step 13/31 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 8e8924131047
+Removing intermediate container 4d5724194b5c
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 14/31 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 5deb5bba9165
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 15/31 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> 9f70c58f388e
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 16/31 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> 6645bef43254
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 17/31 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Running in 1dc50dab05ec
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-github/datakit-bridge-github.opam from 1.2 to 2.0~beta
+[0mdatakit-bridge-github is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> ed6af8e8292a
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 18/31 : COPY . /home/opam/src/datakit
+ ---> 1e5dfa81d0cf
+Removing intermediate container 1dc50dab05ec
+Removing intermediate container 55c49b998eb4
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 19/31 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 636ba18bb1e1
+ ---> ed56fcf7069c
+Removing intermediate container a54bb3b1afe3
+Removing intermediate container 636ba18bb1e1
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 20/31 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 2361f1884034
+ M src/version.ml
+ ---> c3fd1e3e97a7
+Error removing intermediate container 895a08b18a98: No such container: 895a08b18a9863114ce58f76aa0fa2132911e261c52c19399becc1bb44ab0b55
+Step 21/31 : RUN opam install datakit
+ ---> Running in 6845a7d9f270
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit -> lwt = 3.0.0
+    no matching version
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit' returned a non-zero code: 3
+[2017-05-04 14:26.19] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 3
