@@ -1,0 +1,72 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-05 12:57.01] Starting...
+Cloning into '/tmp/with_clone1b6a1a62'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at ca84cf6 Add some weekly development reports
+[2017-05-05 12:57.02] Rewrite Dockerfile's first line to:
+FROM sha256:fec91b1a7034dbedcacd491ff811dac3aab4e785b098acf2c08fcbedc26a4db7 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:fec91b1a7034dbedcacd491ff811dac3aab4e785b098acf2c08fcbedc26a4db7 AS build-env
+ ---> fec91b1a7034
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 6ddb27758035
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> e79a70db0a4b
+Removing intermediate container 6ddb27758035
+Step 3/12 : ADD . /home/opam/build
+ ---> ca616a143f66
+Removing intermediate container 7242f9195906
+Step 4/12 : WORKDIR /home/opam/build
+ ---> bfd03380e4e8
+Removing intermediate container 0fbafb443813
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in a0e246ad1169
+ ---> 38fe3a67e06c
+Removing intermediate container a0e246ad1169
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in cf973a849976
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 07537554bb80
+Removing intermediate container cf973a849976
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in b9627bf6bcfa
+ ---> bff9d7a030f1
+Error removing intermediate container b9627bf6bcfa: Driver aufs failed to remove root filesystem b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136: rename /var/lib/docker/aufs/diff/ae9b94db10264700a1174ac5f4dc4317f6810363ffef0e46145a6fc447ed42c2 /var/lib/docker/aufs/diff/ae9b94db10264700a1174ac5f4dc4317f6810363ffef0e46145a6fc447ed42c2-removing: device or resource busy
+Step 8/12 : FROM alpine:3.5
+ ---> 4a415e366388
+Error removing intermediate container b9627bf6bcfa: No such container: b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 406951a62df2
+Error removing intermediate container b9627bf6bcfa: No such container: b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 7d2511101f00
+Error removing intermediate container b9627bf6bcfa: No such container: b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 85a12293f919
+Error removing intermediate container b9627bf6bcfa: No such container: b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 9f2ab8337c3a
+Error removing intermediate container b9627bf6bcfa: No such container: b9627bf6bcfa756a4ea8fd7147601c05dd92b8c4bbea1d2a3243a852009a5136
+Successfully built 9f2ab8337c3a
+[2017-05-05 12:57.17] Success
