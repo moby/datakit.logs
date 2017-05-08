@@ -1,0 +1,54 @@
+=== Docker build Dockerfile.client
+[2017-05-08 14:51.04] Starting...
+Cloning into '/tmp/with_clone18df473d'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 5753e5a port to protocol-9p >= 0.11.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.797 MB
+Step 1/15 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:08d1e426dd3a4261ee370557479695942b049d32ccc6dd6e1d8de71f5e7c1c6f
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 766dbb0d4ff5
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> dc470d727222
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 08a615d526ea
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> b4e46ff6f255
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 273cd5e039b7
+Error removing intermediate container dcc54112ffbe: Driver aufs failed to remove root filesystem dcc54112ffbe7f3c21ef8e455ad60838e8af7af13f27b279f1b5499bc21aa960: rename /var/lib/docker/aufs/diff/d0b6002ff4aac30b7aa36fa887b0cd1542748a857fef2e001042195c8bdc515c /var/lib/docker/aufs/diff/d0b6002ff4aac30b7aa36fa887b0cd1542748a857fef2e001042195c8bdc515c-removing: device or resource busy
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in b94ae6776fe9
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> d4f328b404c6
+Error removing intermediate container b94ae6776fe9: Driver aufs failed to remove root filesystem b94ae6776fe9da29fc87a04e430e986f6da0cda19fb4b72be2fecc894653b222: rename /var/lib/docker/aufs/mnt/b7b8d2b658e6cd1ce7fc75eb92524f31d13f895b40ab06908463fe5cc876e8a1 /var/lib/docker/aufs/mnt/b7b8d2b658e6cd1ce7fc75eb92524f31d13f895b40ab06908463fe5cc876e8a1-removing: device or resource busy
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Running in 911fc8ead787
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+m4
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-client -> protocol-9p-unix >= 0.11.0
+Your request can't be satisfied:
+  - No package matches protocol-9p-unix>=0.11.0.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-client &&     opam install datakit-client --deps' returned a non-zero code: 3
+[2017-05-08 14:51.32] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 3
