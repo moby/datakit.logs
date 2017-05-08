@@ -1,0 +1,47 @@
+=== Docker build Dockerfile.client
+[2017-05-08 19:13.31] Starting...
+Cloning into '/tmp/with_clone27fe31b2'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 2bcb182 tests: Port tests to the protocol-9p >= 0.11.0 interface
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.809 MB
+Step 1/15 : FROM ocaml/opam:alpine
+alpine: Pulling from ocaml/opam
+Digest: sha256:08d1e426dd3a4261ee370557479695942b049d32ccc6dd6e1d8de71f5e7c1c6f
+Status: Image is up to date for ocaml/opam:alpine
+ ---> 766dbb0d4ff5
+Step 2/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> dc470d727222
+Step 3/15 : RUN cd /home/opam/opam-repository && git pull && opam update -y
+ ---> Using cache
+ ---> 08a615d526ea
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> b4e46ff6f255
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 273cd5e039b7
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> d4f328b404c6
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Running in cfde9a66335f
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - m4
+m4
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following dependencies couldn't be met:
+  - datakit-client -> protocol-9p-unix >= 0.11.0
+Your request can't be satisfied:
+  - No package matches protocol-9p-unix>=0.11.0.
+
+No solution found, exiting
+The command '/bin/sh -c opam depext datakit-client &&     opam install datakit-client --deps' returned a non-zero code: 3
+[2017-05-08 19:13.54] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 3
