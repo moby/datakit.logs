@@ -1,0 +1,89 @@
+=== Docker build Dockerfile.github
+[2017-05-09 13:06.11] Starting...
+Cloning into '/tmp/with_clone3dfb89d3'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 019fa1f Fix build scripts
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.142 MB
+Step 1/32 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/32 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/32 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c9c160bcf357
+Step 4/32 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> d7f99e2dde67
+Step 5/32 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 0a767c1dcced
+Step 6/32 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> d407611488be
+Step 7/32 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> c120a89ffcbc
+Step 8/32 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 46d4dd821e68
+Step 9/32 : RUN opam pin add github --dev -n
+ ---> Using cache
+ ---> 136c28a82f4c
+Step 10/32 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner github protocol-9p rresult prometheus-app asl win-eventlog mtime hex github-hooks hvsock camlzip irmin-watcher git irmin
+ ---> Using cache
+ ---> 67e733390729
+Step 11/32 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 2d1763007aee
+Step 12/32 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 4265a0c1a7fe
+Step 13/32 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> 23d9de4aae75
+Step 14/32 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 693da2905460
+Step 15/32 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> a97e1febc1d8
+Step 16/32 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 408673871c8d
+Step 17/32 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 6415af1c028e
+Step 18/32 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 2f27d056c97e
+Step 19/32 : COPY . /home/opam/src/datakit
+ ---> 75a078bb75b2
+Removing intermediate container 70016b30fdfc
+Step 20/32 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 5edcf1d2e5bc
+ ---> b792ad5b72e3
+Removing intermediate container 5edcf1d2e5bc
+Step 21/32 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in bf71bfa5b5fa
+ M src/version.ml
+ ---> dd9e1547670f
+Removing intermediate container bf71bfa5b5fa
+Step 22/32 : RUN opam install datakit
+ ---> Running in b8a615f7467d
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit -> datakit-server-9p
+    unknown package
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit' returned a non-zero code: 3
+[2017-05-09 13:06.40] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 3
