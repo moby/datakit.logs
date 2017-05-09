@@ -1,0 +1,127 @@
+=== Docker build Dockerfile.ci
+[2017-05-09 12:16.30] Starting...
+Cloning into '/tmp/with_clone2002d29f'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 467b437 Fix packaging
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.102 MBSending build context to Docker daemon 6.102 MB
+Step 1/19 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/19 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c9c160bcf357
+Step 4/19 : RUN opam pin add hvsock.0.14.0 -n https://github.com/mirage/ocaml-hvsock.git#88397c37a910c61507a9655ed8413c1692294da0
+ ---> Using cache
+ ---> d7f99e2dde67
+Step 5/19 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 0a767c1dcced
+Step 6/19 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> d407611488be
+Step 7/19 : RUN opam pin add irmin-unix.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 2effcead53b8
+Step 8/19 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 7be5a0bfd8d4
+Step 9/19 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 80bc48413276
+Step 10/19 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow hvsock git irmin irmin-unix lwt protocol-9p tyxml redis multipart-form-data pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner webmachine
+ ---> Using cache
+ ---> f6a40b77cc48
+Step 11/19 : RUN opam install irmin-unix alcotest
+ ---> Using cache
+ ---> 4a233c1b330b
+Step 12/19 : ADD . /home/opam/datakit
+ ---> bfa124e4719e
+Removing intermediate container acc71aa5c81b
+Step 13/19 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in 95406115fa09
+ ---> cf5642c36de7
+Removing intermediate container 95406115fa09
+Step 14/19 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in 370205d350b1
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 859e2adacb23
+Error removing intermediate container 370205d350b1: Driver aufs failed to remove root filesystem 370205d350b140566eec08a6994e6477472214ced7ee920b365a5520e73db826: rename /var/lib/docker/aufs/mnt/83ead6f7f0e600487c87c4c50c312222217f25a3378dc509572efd10baf01a53 /var/lib/docker/aufs/mnt/83ead6f7f0e600487c87c4c50c312222217f25a3378dc509572efd10baf01a53-removing: device or resource busy
+Step 15/19 : RUN opam pin add -k git datakit-server.dev /home/opam/datakit -y
+ ---> Running in 3e6e3f2a078d
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server dev*
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 0931ece07777
+Error removing intermediate container 370205d350b1: No such container: 370205d350b140566eec08a6994e6477472214ced7ee920b365a5520e73db826
+Step 16/19 : RUN opam pin add -k git datakit-github.dev /home/opam/datakit -y
+ ---> Running in ab5f064e549d
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-github dev*
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 8de653b2a4d0
+Error removing intermediate container 370205d350b1: No such container: 370205d350b140566eec08a6994e6477472214ced7ee920b365a5520e73db826
+Step 17/19 : RUN opam pin add -k git datakit.dev /home/opam/datakit -y
+ ---> Running in 0a1b2939afaa
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following dependencies couldn't be met:
+  - datakit -> datakit-server-9p
+    unknown package
+
+[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0mThe command '/bin/sh -c opam pin add -k git datakit.dev /home/opam/datakit -y' returned a non-zero code: 3
+[2017-05-09 12:17.38] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 3
