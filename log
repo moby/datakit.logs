@@ -1,0 +1,411 @@
+=== Docker build Dockerfile.client
+[2017-05-09 18:06.17] Starting...
+Cloning into '/tmp/with_clone9b40ab'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 22e5ae1 ci: add a global exception handler
+[2017-05-09 18:06.19] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.255 MB
+Step 1/19 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/19 : RUN git -C /home/opam/opam-repository pull origin master && opam update
+ ---> Using cache
+ ---> dd028dbbb6ae
+Step 3/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 1050e9dec071
+Step 4/19 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> d78b6b010405
+Step 5/19 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 2628bc68b8aa
+Step 6/19 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 80c6dc99248f
+Step 7/19 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 65591274d8a1
+Step 8/19 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 1a57ddcd8132
+Step 9/19 : RUN opam depext datakit-client datakit-client-9p &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> aa4dac3633de
+Step 10/19 : COPY . /home/opam/src/datakit
+ ---> 6a8e39f6921e
+Removing intermediate container bae2fbc48953
+Step 11/19 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 29b45fdc3312
+ ---> 8ec18af287f2
+Error removing intermediate container 29b45fdc3312: Driver aufs failed to remove root filesystem 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79: rename /var/lib/docker/aufs/mnt/184098be426d1f29c30911f5df8ba42127eb0799bfb9c0d4abe35c23f976ebd3 /var/lib/docker/aufs/mnt/184098be426d1f29c30911f5df8ba42127eb0799bfb9c0d4abe35c23f976ebd3-removing: device or resource busy
+Step 12/19 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 69931d55d007
+ M Dockerfile.client
+ M src/version.ml
+ ---> 3f6f72ec56d1
+Error removing intermediate container 29b45fdc3312: No such container: 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79
+Step 13/19 : RUN opam update datakit-client datakit-client-9p
+ ---> Running in 5f3177398344
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> b38151ae1d6d
+Error removing intermediate container 5f3177398344: Driver aufs failed to remove root filesystem 5f3177398344122eef9256486ebed14676a7693ee7eda02a544bc87b84f4f60b: rename /var/lib/docker/aufs/mnt/76f1c0565290bb8be3a5751b6165e0bbc8157561f9536807e550c8d4d3310bf2 /var/lib/docker/aufs/mnt/76f1c0565290bb8be3a5751b6165e0bbc8157561f9536807e550c8d4d3310bf2-removing: device or resource busy
+Step 14/19 : RUN opam info datakit-client --raw
+ ---> Running in f21e8863a853
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["jbuilder" "build" "-p" name "-j" jobs]
+depends: [
+  "jbuilder" {build}
+  "astring"
+  "result"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+]
+ ---> 05c31020873a
+Removing intermediate container 69931d55d007
+Error removing intermediate container 5f3177398344: No such container: 5f3177398344122eef9256486ebed14676a7693ee7eda02a544bc87b84f4f60b
+Step 15/19 : RUN opam install datakit-client.dev -vv
+ ---> Running in 1f31c00aaea2
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,445 bytes  received 50 bytes  16,990.00 bytes/sec
+- total size is 1,276,442  speedup is 150.26
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,445 bytes  received 50 bytes  16,990.00 bytes/sec
+- total size is 1,276,442  speedup is 150.26
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_path.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_path.{cmo,cmt}
+-       ocamlc api/ocaml/datakit_S.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/datakit_path.{cmx,o}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-     ocamlopt api/ocaml/datakit_S.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/datakit_client.cmxs
+-     ocamlopt api/ocaml/9p/mount/mount.exe
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/bin/datakit-mount" "/home/opam/.opam/4.03.0/bin/datakit-mount"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/META" "/home/opam/.opam/4.03.0/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/opam" "/home/opam/.opam/4.03.0/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.ml" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.ml"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.mli" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cma" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.a" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client/CHANGES.md"
+-> installed datakit-client.dev
+Done.
+ ---> a1d47165b6de
+Error removing intermediate container 29b45fdc3312: No such container: 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79
+Step 16/19 : RUN opam install datakit-client-9p --deps
+ ---> Running in 7f42ead0fbc7
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
+[datakit-client-9p] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install asetmap               0.8.1 
+  - install ocb-stubblr           0.1.1 
+  - install rresult               0.5.0 
+  - install ocaml-compiler-libs   v0.9.0
+  - install base                  v0.9.2
+  - install logs                  0.6.2 
+  - install ppx_deriving          4.1   
+  - install mirage-flow           1.2.0 
+  - install ppx_traverse_builtins v0.9.0
+  - install win-error             0.2   
+  - install io-page               1.6.1 
+  - install mirage-device         1.0.0 
+  - install prometheus            0.1   
+  - install named-pipe            0.4.0 
+  - install ppx_ast               v0.9.1
+  - install stdio                 v0.9.0
+  - install mirage-channel        3.0.0 
+  - install mirage-kv             1.0.0 
+  - install mirage-clock          1.2.0 
+  - install ppx_core              v0.9.0
+  - install mirage-kv-lwt         1.0.0 
+  - install mirage-flow-lwt       1.2.0 
+  - install ppx_optcomp           v0.9.0
+  - install mirage-channel-lwt    3.0.0 
+  - install ppx_driver            v0.9.1
+  - install ppx_metaquot          v0.9.0
+  - install ppx_type_conv         v0.9.0
+  - install ppx_sexp_conv         v0.9.0
+  - install protocol-9p           0.11.0
+  - install protocol-9p-unix      0.11.0
+===== 30 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: http] Command started
+[base: http] Command started
+[io-page: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[logs: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[mirage-channel: http] Command started
+[io-page: http] Command started
+[io-page.1.6.1] https://github.com/mirage/io-page/archive/v1.6.1.tar.gz downloaded
+[mirage-channel-lwt: http] Command started
+[mirage-channel: http] Command started
+[mirage-channel.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-3.0.0.tbz downloaded
+[mirage-clock: http] Command started
+[base: http] Command started
+[base.v0.9.2] https://github.com/janestreet/base/archive/v0.9.2.tar.gz downloaded
+[mirage-device: http] Command started
+[mirage-clock: http] Command started
+[mirage-clock.1.2.0] https://github.com/mirage/mirage-clock/releases/download/1.2.0/mirage-clock-1.2.0.tbz downloaded
+[mirage-flow: http] Command started
+[mirage-channel-lwt: http] Command started
+[mirage-channel-lwt.3.0.0] https://github.com/mirage/mirage-channel/releases/download/v3.0.0/mirage-channel-lwt-3.0.0.tbz downloaded
+[mirage-flow-lwt: http] Command started
+[mirage-device: http] Command started
+[mirage-device.1.0.0] https://github.com/mirage/mirage-device/releases/download/1.0.0/mirage-device-1.0.0.tbz downloaded
+[mirage-kv: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-1.2.0.tbz downloaded
+[mirage-kv-lwt: http] Command started
+[mirage-kv: http] Command started
+[mirage-kv.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-1.0.0.tbz downloaded
+[named-pipe: http] Command started
+[mirage-flow-lwt: http] Command started
+[mirage-flow-lwt.1.2.0] https://github.com/mirage/mirage-flow/releases/download/1.2.0/mirage-flow-lwt-1.2.0.tbz downloaded
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ocaml-compiler-libs-v0.9.0.tar.gz downloaded
+[ocb-stubblr: http] Command started
+[mirage-kv-lwt: http] Command started
+[mirage-kv-lwt.1.0.0] https://github.com/mirage/mirage-kv/releases/download/1.0.0/mirage-kv-lwt-1.0.0.tbz downloaded
+[ppx_ast: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[ppx_core: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.1] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_core-v0.9.0.tar.gz downloaded
+[ppx_driver: http] Command started
+[ppx_ast: http] Command started
+[ppx_ast.v0.9.1] https://github.com/janestreet/ppx_ast/archive/v0.9.1.tar.gz downloaded
+[ppx_metaquot: http] Command started
+[ppx_metaquot: http] Command started
+[ppx_metaquot.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_metaquot-v0.9.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.v0.9.1] https://github.com/janestreet/ppx_driver/archive/v0.9.1.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.1] https://github.com/whitequark/ppx_deriving/archive/v4.1.tar.gz downloaded
+[ppx_traverse_builtins: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_optcomp-v0.9.0.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_traverse_builtins-v0.9.0.tar.gz downloaded
+[prometheus: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_sexp_conv-v0.9.0.tar.gz downloaded
+[protocol-9p: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_type_conv-v0.9.0.tar.gz downloaded
+[protocol-9p-unix: http] Command started
+[prometheus: http] Command started
+[prometheus.0.1] https://github.com/mirage/prometheus/releases/download/v0.1/prometheus-0.1.tbz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[stdio: http] Command started
+[protocol-9p: http] Command started
+[protocol-9p.0.11.0] https://github.com/mirage/ocaml-9p/archive/v0.11.0.tar.gz downloaded
+[win-error: http] Command started
+[protocol-9p-unix: http] Command started
+[protocol-9p-unix.0.11.0] https://github.com/mirage/ocaml-9p/archive/v0.11.0.tar.gz downloaded
+[stdio: http] Command started
+[stdio.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/stdio-v0.9.0.tar.gz downloaded
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[asetmap: ocaml build] Command started
+[base: jbuilder build] Command started
+[io-page: ./configure] Command started
+[logs: ocaml build] Command started
+-> installed asetmap.0.8.1
+[mirage-device: ocaml build] Command started
+-> installed mirage-device.1.0.0
+[mirage-clock: ocaml build] Command started
+-> installed logs.0.6.2
+[mirage-flow: ocaml build] Command started
+-> installed mirage-clock.1.2.0
+[mirage-kv: ocaml build] Command started
+[io-page: make] Command started
+-> installed mirage-flow.1.2.0
+[mirage-channel: ocaml build] Command started
+-> installed mirage-kv.1.0.0
+[mirage-flow-lwt: ocaml build] Command started
+-> installed mirage-channel.3.0.0
+[mirage-kv-lwt: ocaml build] Command started
+-> installed mirage-kv-lwt.1.0.0
+[ocaml-compiler-libs: jbuilder build] Command started
+-> installed mirage-flow-lwt.1.2.0
+[ocb-stubblr: ocaml build] Command started
+-> installed ocaml-compiler-libs.v0.9.0
+[ppx_ast: jbuilder build] Command started
+-> installed ocb-stubblr.0.1.1
+[named-pipe: ocaml build] Command started
+[io-page: make install] Command started
+-> installed io-page.1.6.1
+[mirage-channel-lwt: ocaml build] Command started
+-> installed named-pipe.0.4.0
+[ppx_deriving: ocaml] Command started
+-> installed mirage-channel-lwt.3.0.0
+[ppx_traverse_builtins: jbuilder build] Command started
+-> installed ppx_traverse_builtins.v0.9.0
+[prometheus: ocaml build] Command started
+-> installed prometheus.0.1
+[rresult: ocaml build] Command started
+-> installed base.v0.9.2
+[stdio: jbuilder build] Command started
+-> installed ppx_ast.v0.9.1
+[win-error: make] Command started
+-> installed rresult.0.5.0
+-> installed stdio.v0.9.0
+[ppx_core: jbuilder build] Command started
+-> installed ppx_deriving.4.1
+[win-error: make install] Command started
+-> installed win-error.0.2
+-> installed ppx_core.v0.9.0
+[ppx_optcomp: jbuilder build] Command started
+-> installed ppx_optcomp.v0.9.0
+[ppx_driver: jbuilder build] Command started
+-> installed ppx_driver.v0.9.1
+[ppx_metaquot: jbuilder build] Command started
+-> installed ppx_metaquot.v0.9.0
+[ppx_type_conv: jbuilder build] Command started
+-> installed ppx_type_conv.v0.9.0
+[ppx_sexp_conv: jbuilder build] Command started
+-> installed ppx_sexp_conv.v0.9.0
+[protocol-9p: jbuilder build] Command started
+-> installed protocol-9p.0.11.0
+[protocol-9p-unix: jbuilder build] Command started
+-> installed protocol-9p-unix.0.11.0
+Done.
+ ---> 0b4ea08d028c
+Removing intermediate container 1f31c00aaea2
+Error removing intermediate container 5f3177398344: No such container: 5f3177398344122eef9256486ebed14676a7693ee7eda02a544bc87b84f4f60b
+Step 17/19 : RUN opam install datakit-client-9p -vv
+ ---> Running in 590acd21bac5
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-9p"
+- sending incremental file list
+- 
+- sent 8,445 bytes  received 50 bytes  5,663.33 bytes/sec
+- total size is 1,276,442  speedup is 150.26
+[datakit-client-9p] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client-9p dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-9p"
+- sending incremental file list
+- 
+- sent 8,445 bytes  received 50 bytes  16,990.00 bytes/sec
+- total size is 1,276,442  speedup is 150.26
+[datakit-client-9p.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client-9p" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client-9p.dev)
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.cma
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.cmxs
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/META" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/opam" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.mli" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cma" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.a" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/CHANGES.md"
+-> installed datakit-client-9p.dev
+Done.
+ ---> 599f5c909505
+Removing intermediate container 7f42ead0fbc7
+Error removing intermediate container 29b45fdc3312: No such container: 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79
+Step 18/19 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in ac8ab04bfbec
+ ---> 3e6593cebd7a
+Error removing intermediate container 29b45fdc3312: No such container: 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79
+Step 19/19 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in 0227f3edc293
+ ---> e3816c117533
+Error removing intermediate container 29b45fdc3312: No such container: 29b45fdc33124b6f50279007b573a85e5a3db47ed54c466c68a84b9ac7721e79
+Successfully built e3816c117533
+[2017-05-09 18:07.57] Success
