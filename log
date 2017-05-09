@@ -1,0 +1,47 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-09 18:01.52] Starting...
+Cloning into '/tmp/with_clone2868e41a'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 3df60ea ci: add a global exception handler
+[2017-05-09 18:01.52] Rewrite Dockerfile's first line to:
+FROM sha256:e272a2b8626531e8a19b695fdaa609e27adc6fd830494427626985708f7ebba3 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:e272a2b8626531e8a19b695fdaa609e27adc6fd830494427626985708f7ebba3 AS build-env
+ ---> e272a2b86265
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in c6da114ff56f
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> f73b9649bd39
+Removing intermediate container c6da114ff56f
+Step 3/12 : ADD . /home/opam/build
+ ---> c861401a7a0f
+Removing intermediate container edd15eeb155a
+Step 4/12 : WORKDIR /home/opam/build
+ ---> d15cc51b4a88
+Removing intermediate container cd7e941936a3
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in b8caf3e8b16a
+ ---> 5584b77a3cf3
+Removing intermediate container b8caf3e8b16a
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 545cecba1f02
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
++ ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind: Package `datakit-ci' not found
+Command exited with code 2.
+[91mmake: *** [Makefile:6: selfCI] Error 10
+[0mThe command '/bin/sh -c opam config exec make selfCI' returned a non-zero code: 2
+[2017-05-09 18:02.03] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 2
