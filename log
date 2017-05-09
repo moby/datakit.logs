@@ -1,0 +1,154 @@
+=== Docker build Dockerfile.client
+[2017-05-09 10:40.15] Starting...
+Cloning into '/tmp/with_clone3af60525'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 5ff5aca client/server: split the libraires between core API and 9p transport
+[2017-05-09 10:40.18] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.079 MB
+Step 1/15 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/15 : RUN git -C /home/opam/opam-repository pull origin master && opam update
+ ---> Using cache
+ ---> dd028dbbb6ae
+Step 3/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 1050e9dec071
+Step 4/15 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> d78b6b010405
+Step 5/15 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 2628bc68b8aa
+Step 6/15 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 80c6dc99248f
+Step 7/15 : RUN opam depext datakit-client &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> 2c0c0ac38092
+Step 8/15 : COPY . /home/opam/src/datakit
+ ---> de815db4128f
+Removing intermediate container 05b986f60f39
+Step 9/15 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 36a38a4b65ea
+ ---> 4ab79cd45805
+Error removing intermediate container 36a38a4b65ea: Driver aufs failed to remove root filesystem 36a38a4b65ea6d4d2a8d1df06641bd4f828bde858464fb5488b70b19678df60a: rename /var/lib/docker/aufs/mnt/9c48f08a0463139125cdea6193e4971a0c0c5821ce16a9caba1e62e5711b30e4 /var/lib/docker/aufs/mnt/9c48f08a0463139125cdea6193e4971a0c0c5821ce16a9caba1e62e5711b30e4-removing: device or resource busy
+Step 10/15 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 9ac6254b06a2
+ M Dockerfile.client
+ M src/version.ml
+ ---> 396b3352aa14
+Error removing intermediate container 36a38a4b65ea: No such container: 36a38a4b65ea6d4d2a8d1df06641bd4f828bde858464fb5488b70b19678df60a
+Step 11/15 : RUN opam update datakit-client
+ ---> Running in ae96d02e8533
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+ ---> f3c1780881a0
+Error removing intermediate container 36a38a4b65ea: No such container: 36a38a4b65ea6d4d2a8d1df06641bd4f828bde858464fb5488b70b19678df60a
+Step 12/15 : RUN opam info datakit-client --raw
+ ---> Running in e625f2e2bc43
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["jbuilder" "build" "-p" name "-j" jobs]
+depends: [
+  "jbuilder" {build}
+  "astring"
+  "result"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+]
+ ---> 9bbc166f7155
+Removing intermediate container 9ac6254b06a2
+Removing intermediate container ae96d02e8533
+Error removing intermediate container e625f2e2bc43: Driver aufs failed to remove root filesystem e625f2e2bc43656fbb4220902c405c101572b28bce84d857533c23428cf4c17d: rename /var/lib/docker/aufs/mnt/37793f6f2bdbad3a684ae8b201f8235e1787dd3ae615e2f75c246d208c1afa1f /var/lib/docker/aufs/mnt/37793f6f2bdbad3a684ae8b201f8235e1787dd3ae615e2f75c246d208c1afa1f-removing: device or resource busy
+Step 13/15 : RUN opam install datakit-client.dev -vv
+ ---> Running in 263617897d47
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,453 bytes  received 50 bytes  17,006.00 bytes/sec
+- total size is 1,276,355  speedup is 150.11
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,453 bytes  received 50 bytes  17,006.00 bytes/sec
+- total size is 1,276,355  speedup is 150.11
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_path.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_path.{cmo,cmt}
+-       ocamlc api/ocaml/datakit_S.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/datakit_path.{cmx,o}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-     ocamlopt api/ocaml/datakit_S.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/datakit_client.cmxs
+-     ocamlopt api/ocaml/9p/mount/mount.exe
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/bin/datakit-mount" "/home/opam/.opam/4.03.0/bin/datakit-mount"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/META" "/home/opam/.opam/4.03.0/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/opam" "/home/opam/.opam/4.03.0/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_S.ml" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_S.ml"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_path.mli" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_path.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cma" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.a" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client/CHANGES.md"
+-> installed datakit-client.dev
+Done.
+ ---> 94c0f7eaa482
+Error removing intermediate container 36a38a4b65ea: No such container: 36a38a4b65ea6d4d2a8d1df06641bd4f828bde858464fb5488b70b19678df60a
+Step 14/15 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 2395510bf679
+ ---> 64b1939a4524
+Error removing intermediate container 36a38a4b65ea: No such container: 36a38a4b65ea6d4d2a8d1df06641bd4f828bde858464fb5488b70b19678df60a
+Step 15/15 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in 08635ca29d58
+ ---> 10f56883a22f
+Removing intermediate container 263617897d47
+Removing intermediate container 2395510bf679
+Error removing intermediate container e625f2e2bc43: No such container: e625f2e2bc43656fbb4220902c405c101572b28bce84d857533c23428cf4c17d
+Successfully built 10f56883a22f
+[2017-05-09 10:41.05] Success
