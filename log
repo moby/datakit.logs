@@ -1,0 +1,73 @@
+=== Docker build Dockerfile.self-ci
+[2017-05-15 21:51.48] Starting...
+Cloning into '/tmp/with_clone256f46eb'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at fcd0520 Merge pull request #555 from avsm/week-19-report
+[2017-05-15 21:51.48] Rewrite Dockerfile's first line to:
+FROM sha256:359b6418705aa9255a8ac2b4653ed6e378ef0e46014ac4ec81e9840a54e37291 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:359b6418705aa9255a8ac2b4653ed6e378ef0e46014ac4ec81e9840a54e37291 AS build-env
+ ---> 359b6418705a
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 17b2f0f2acf0
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 23912d3f6e3b
+Removing intermediate container 17b2f0f2acf0
+Step 3/12 : ADD . /home/opam/build
+ ---> cd2630e83067
+Error removing intermediate container c9e2552bf5fc: Driver aufs failed to remove root filesystem c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d: rename /var/lib/docker/aufs/mnt/cfcb2caae1e244628945cf0bb8961e463e7df81b8dd20548652eda7df7bb5190 /var/lib/docker/aufs/mnt/cfcb2caae1e244628945cf0bb8961e463e7df81b8dd20548652eda7df7bb5190-removing: device or resource busy
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 32d209a5c405
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in 959358726ed2
+ ---> 1dffa1eaa3a2
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 8297f077b4e6
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> b03799ee4ea9
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in 01b51bfe880e
+ ---> a845c237efeb
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 8/12 : FROM alpine:3.5
+ ---> 02674b9cb179
+Removing intermediate container 01b51bfe880e
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 5e2e82152df2
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 2099e700ab5b
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 728db55880eb
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 6d7c24192844
+Error removing intermediate container c9e2552bf5fc: No such container: c9e2552bf5fcfe741e115cb715ccc4367389c8b7e41569710de147b26cac375d
+Successfully built 6d7c24192844
+[2017-05-15 21:52.00] Success
