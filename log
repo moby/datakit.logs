@@ -1,0 +1,131 @@
+=== Docker build Dockerfile.github
+[2017-05-15 21:48.29] Starting...
+Cloning into '/tmp/with_clone1924e150'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at a41aced Fix appveyor scripts
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.303 MB
+Step 1/32 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/32 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/32 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c9c160bcf357
+Step 4/32 : RUN opam pin add irmin.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 1a542704b306
+Step 5/32 : RUN opam pin add irmin-git.1.1.0 -n https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+ ---> Using cache
+ ---> 799f83f1e93a
+Step 6/32 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> c09008201605
+Step 7/32 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 192d781bd185
+Step 8/32 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner     github protocol-9p rresult prometheus-app asl win-eventlog mtime hex     github-hooks hvsock camlzip irmin-watcher git irmin
+ ---> Using cache
+ ---> 8d0e0536e9b2
+Step 9/32 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> dfab38e1a1b5
+Step 10/32 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> a515096257e8
+Step 11/32 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> 708588dbdfbc
+Step 12/32 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> b3cc5afcce4f
+Step 13/32 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 3476cc3d942a
+Step 14/32 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 88ff6402c9ae
+Step 15/32 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> 9cf953a51b3b
+Step 16/32 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> e0e189c1a390
+Step 17/32 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 7e9f5eee34f2
+Step 18/32 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 40d96e751a71
+Step 19/32 : COPY . /home/opam/src/datakit
+ ---> 871c2acf4976
+Removing intermediate container 56876e092525
+Step 20/32 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 765d2d27c0e7
+ ---> 07ebc35d1863
+Error removing intermediate container 765d2d27c0e7: Driver aufs failed to remove root filesystem 765d2d27c0e71d50ea95f6381c27a4437a51ee61bda5a652d92e3dcb16438f7e: rename /var/lib/docker/aufs/mnt/ccaa9721126b140e8b171eb293eac26c672705dc364649f0a9d1d0c33ad35b3e /var/lib/docker/aufs/mnt/ccaa9721126b140e8b171eb293eac26c672705dc364649f0a9d1d0c33ad35b3e-removing: device or resource busy
+Step 21/32 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in a55a64f89787
+ M src/version.ml
+ ---> 14ed5017cfd0
+Error removing intermediate container 765d2d27c0e7: No such container: 765d2d27c0e71d50ea95f6381c27a4437a51ee61bda5a652d92e3dcb16438f7e
+Step 22/32 : RUN opam install datakit
+ ---> Running in e19ad4438aaf
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install irmin-git         1.1.0*                            [required by datakit]
+  - install protocol-9p-unix  0.11.0*                           [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 5 to install =====
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[protocol-9p-unix.0.11.0] synchronised from git+https://github.com/mirage/ocaml-9p.git#v0.11.0
+[irmin-git.1.1.0] synchronised from git+https://github.com/mirage/irmin.git#89196ad17c53b02f333022a87ecc264ec8c06af0
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.1.0
+-> installed protocol-9p-unix.0.11.0
+[91m[ERROR] The compilation of datakit failed at "jbuilder build -p datakit -j 1".
+
+#=== ERROR while compiling datakit.dev ========================================#
+# command              jbuilder build -p datakit -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-7-2f17b7.env
+# output-file          /home/opam/.opam/log/datakit-7-2f17b7.out
+### output ###
+# Error: Findlib package "irmin-mem" not found.
+# -> required by "src/datakit/jbuild (context default)"
+# Hint: try: jbuilder external-lib-deps --missing -p datakit -j 1
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit dev
++- 
++- The following changes have been performed
+| - install datakit-server    dev
+| - install datakit-server-9p dev
+| - install irmin-git         1.1.0
+| - install protocol-9p-unix  0.11.0
++- 
+# Run eval `opam env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170515214849.export"
+[0mThe command '/bin/sh -c opam install datakit' returned a non-zero code: 4
+[2017-05-15 21:49.09] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 4
