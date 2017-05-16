@@ -1,0 +1,100 @@
+=== Docker build Dockerfile.ci
+[2017-05-16 00:33.20] Starting...
+Cloning into '/tmp/with_clonea5f46e1'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8338b32 client: create a Datakit_client namespace
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.475 MB
+Step 1/22 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/22 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c9c160bcf357
+Step 4/22 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 922f5a22efbf
+Step 5/22 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> d68c5b048d8e
+Step 6/22 : RUN opam pin add irmin-fs.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 4eb1bb7e533c
+Step 7/22 : RUN opam pin add irmin-http.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 764e2580f7f8
+Step 8/22 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 2b279efa5e15
+Step 9/22 : RUN opam pin add irmin-unix.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 8ac0bba2d9be
+Step 10/22 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> d657d0739bc1
+Step 11/22 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 2c65d88a4ec4
+Step 12/22 : RUN opam depext -i asl win-eventlog camlzip alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Using cache
+ ---> c78221a01d99
+Step 13/22 : ADD . /home/opam/datakit
+ ---> cc38ef62b97f
+Removing intermediate container 7d64a2b1d0f0
+Step 14/22 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in f7e2c7982ecb
+ ---> 710c066af032
+Removing intermediate container f7e2c7982ecb
+Step 15/22 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in a74503b13414
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-client dev
++- 
+- No changes have been performed
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p datakit-client -j 1".
+
+#=== ERROR while compiling datakit-client.dev =================================#
+# command              jbuilder build -p datakit-client -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-client.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-client-7-a00279.env
+# output-file          /home/opam/.opam/log/datakit-client-7-a00279.out
+### output ###
+# Warning: Module Datakit_client in api/ocaml doesn't have a corresponding .ml file.
+# Modules without an implementation are not recommended, see this discussion:
+# 
+#   https://github.com/janestreet/jbuilder/issues/9
+# 
+# In the meantime I'm setting up a rule for copying datakit_client.mli to datakit_client.ml.
+#     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output (exit 2)
+# (cd _build/default && /usr/bin/ocamldep.opt -modules api/ocaml/datakit_client.ml) > _build/default/api/ocaml/datakit_client.depends.ocamldep-output
+# File "api/ocaml/datakit_client.ml", line 87, characters 0-6:
+# Error: Syntax error
+
+[0m# Run eval `opam env` to update the current shell environment
+[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0mThe command '/bin/sh -c opam pin add -k git datakit-client.dev /home/opam/datakit -y' returned a non-zero code: 4
+[2017-05-16 00:33.48] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 4
