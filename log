@@ -1,0 +1,182 @@
+=== Docker build Dockerfile
+[2017-05-16 19:30.35] Starting...
+Cloning into '/tmp/with_clone23674a24'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 5c3124e Use mtime 1.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.551 MB
+Step 1/33 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/33 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> f112729d161c
+Step 4/33 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 8c5c2a71afb8
+Step 5/33 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> a259d109bc72
+Step 6/33 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> a3da10ac28ea
+Step 7/33 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> e87f1d32fe6a
+Step 8/33 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 5d8f46121e7f
+Step 9/33 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog camlzip     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> ce4ae02ea83a
+Step 10/33 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 89d7deff2493
+Step 11/33 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> dd113db8e15a
+Step 12/33 : COPY datakit.opam /home/opam/src/datakit/
+ ---> 0488803d83a1
+Removing intermediate container 6961722f7d94
+Step 13/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 6e2cd6353f54
+Error removing intermediate container 47a8cf1d44c6: Driver aufs failed to remove root filesystem 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62: rename /var/lib/docker/aufs/mnt/f815fb2905dc7ab4b8c769b525dc05375e048c244e8e3557e2d3d9cf1e0d36fb /var/lib/docker/aufs/mnt/f815fb2905dc7ab4b8c769b525dc05375e048c244e8e3557e2d3d9cf1e0d36fb-removing: device or resource busy
+Step 14/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 792d28191586
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 15/33 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 8f9f2addfe22
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 16/33 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> a3a85e1b5e71
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 17/33 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Running in 9dedebe9df68
+[datakit-server.dev: rsync]
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0m[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+datakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-server-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-server-9p.dev: rsync]
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server-9p/datakit-server-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-server-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> cfd734adcb77
+Removing intermediate container 0c9444a6a831
+Error removing intermediate container 9dedebe9df68: Driver aufs failed to remove root filesystem 9dedebe9df68eb04c1d40824255bd16205fb9a14aa8bb06996ef1831e2471110: rename /var/lib/docker/aufs/mnt/76d66798479c57a9d0b0e4e27dd849dc7ab954facb17c135e31c64dbc46ab2b3 /var/lib/docker/aufs/mnt/76d66798479c57a9d0b0e4e27dd849dc7ab954facb17c135e31c64dbc46ab2b3-removing: device or resource busy
+Step 18/33 : RUN opam depext -y datakit
+ ---> Running in 32d229a4ac8e
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+gmp-dev
+linux-headers
+m4
+ncurses-dev
+openssl-dev
+pcre-dev
+perl
+pkgconf
+zlib-dev
+# All required OS packages found.
+ ---> 9f1e5ed4e979
+Error removing intermediate container 9dedebe9df68: No such container: 9dedebe9df68eb04c1d40824255bd16205fb9a14aa8bb06996ef1831e2471110
+Step 19/33 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in 4adde31a792c
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+
+Nothing to do.
+# Run eval `opam env` to update the current shell environment
+ ---> 0de76af1b34e
+Removing intermediate container 2b0d9c3fbdd6
+Removing intermediate container c334d8be7405
+Removing intermediate container 32d229a4ac8e
+Error removing intermediate container 9dedebe9df68: No such container: 9dedebe9df68eb04c1d40824255bd16205fb9a14aa8bb06996ef1831e2471110
+Step 20/33 : RUN opam install alcotest
+ ---> Running in 424188e91fff
+[91m[NOTE] Package alcotest is already installed (current version is 0.7.2).
+[0m ---> 229d9aad2db7
+Removing intermediate container 424188e91fff
+Error removing intermediate container 9dedebe9df68: No such container: 9dedebe9df68eb04c1d40824255bd16205fb9a14aa8bb06996ef1831e2471110
+Step 21/33 : COPY . /home/opam/src/datakit
+ ---> b37d2dcbaec0
+Error removing intermediate container 9dedebe9df68: No such container: 9dedebe9df68eb04c1d40824255bd16205fb9a14aa8bb06996ef1831e2471110
+Step 22/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 16e5b0d25fe8
+ ---> dc9dcdeadbdb
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 23/33 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 5303900fb184
+ M src/version.ml
+ ---> 1b04dfce2221
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 24/33 : RUN opam install datakit-client-9p
+ ---> Running in 62fc2f6d1f7e
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install protocol-9p-unix  0.11.0*                           [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 3 to install =====
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[protocol-9p-unix.0.11.0] synchronised from git+https://github.com/mirage/ocaml-9p.git#v0.11.0
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit-client-9p.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 0ca52d8a10b5
+Removing intermediate container 4adde31a792c
+Removing intermediate container 62fc2f6d1f7e
+Error removing intermediate container 47a8cf1d44c6: No such container: 47a8cf1d44c6e41bdf9f984308ffca31e457e972161f18434e9a59cadf6fdd62
+Step 25/33 : RUN opam install datakit -ytv
+ ---> Running in dfff1fbd532c
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit -> mtime = 1.0.0
+    no matching version
+
+No solution found, exiting
+[91m'opam install datakit -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit -ytv' returned a non-zero code: 3
+[2017-05-16 19:31.49] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 3
