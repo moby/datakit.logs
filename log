@@ -1,0 +1,190 @@
+=== Docker build Dockerfile.github
+[2017-05-16 00:33.20] Starting...
+Cloning into '/tmp/with_clone2673f2'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8338b32 client: create a Datakit_client namespace
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.475 MB
+Step 1/33 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 20061f41087f
+Step 3/33 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c9c160bcf357
+Step 4/33 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 922f5a22efbf
+Step 5/33 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> d68c5b048d8e
+Step 6/33 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+ ---> Using cache
+ ---> 5bfec0ac3124
+Step 7/33 : RUN opam pin add -yn protocol-9p.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 74201626d98f
+Step 8/33 : RUN opam pin add -yn protocol-9p-unix.0.11.0 'https://github.com/mirage/ocaml-9p.git#v0.11.0'
+ ---> Using cache
+ ---> 9e56e32642fe
+Step 9/33 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner     github protocol-9p rresult prometheus-app asl win-eventlog mtime hex     github-hooks hvsock camlzip irmin-watcher git irmin
+ ---> Using cache
+ ---> 60486e960892
+Step 10/33 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> db28e52e9093
+Step 11/33 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> b4a94af05842
+Step 12/33 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> 38cd439ef9b5
+Step 13/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> ad702c03e28d
+Step 14/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 0eb25c3e18fe
+Step 15/33 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 54d9a27a83cd
+Step 16/33 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> ff8eefadb7ad
+Step 17/33 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> b6c23e9a1527
+Step 18/33 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> d3d17ddb47e0
+Step 19/33 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 812a2f637651
+Step 20/33 : COPY . /home/opam/src/datakit
+ ---> 4717cc1738c2
+Error removing intermediate container e01c9f08f7ad: Driver aufs failed to remove root filesystem e01c9f08f7ad0f552f71d1213cd49f0d3d4838498b715b1adcd6d5b69d08af5e: rename /var/lib/docker/aufs/mnt/4463a770a2171bf385af5874dd489a75a8bdfe9b41fef1c3bcef883e13558ffc /var/lib/docker/aufs/mnt/4463a770a2171bf385af5874dd489a75a8bdfe9b41fef1c3bcef883e13558ffc-removing: device or resource busy
+Step 21/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 06399eb97aa6
+ ---> b9bcd00fc573
+Error removing intermediate container e01c9f08f7ad: No such container: e01c9f08f7ad0f552f71d1213cd49f0d3d4838498b715b1adcd6d5b69d08af5e
+Step 22/33 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 4452d29690b7
+ M src/version.ml
+ ---> b4f6aa169a3a
+Error removing intermediate container e01c9f08f7ad: No such container: e01c9f08f7ad0f552f71d1213cd49f0d3d4838498b715b1adcd6d5b69d08af5e
+Step 23/33 : RUN opam install datakit
+ ---> Running in d9049190cfa7
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install protocol-9p-unix  0.11.0*                           [required by datakit]
+  - install irmin-git         1.2.0*                            [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install irmin-mem         1.2.0*                            [required by datakit]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 6 to install =====
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[protocol-9p-unix.0.11.0] synchronised from git+https://github.com/mirage/ocaml-9p.git#v0.11.0
+[irmin-mem.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+[irmin-git.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#ca886ac8e1a0b36879617d7c973852d6d04bfede
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.2.0
+-> installed irmin-mem.1.2.0
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> e7899ea0e88f
+Removing intermediate container 06399eb97aa6
+Removing intermediate container 4452d29690b7
+Removing intermediate container d9049190cfa7
+Error removing intermediate container e01c9f08f7ad: No such container: e01c9f08f7ad0f552f71d1213cd49f0d3d4838498b715b1adcd6d5b69d08af5e
+Step 24/33 : RUN opam install datakit-bridge-github -ytv
+ ---> Running in 39d6706ab623
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client        dev*                          [required by datakit-bridge-github]
+  - install datakit-github        dev*                          [required by datakit-bridge-github]
+  - install datakit-client-9p     dev*                          [required by datakit-bridge-github]
+  - install datakit-bridge-github dev*
+===== 4 to install =====
+Processing  1/4: [datakit-bridge-github.dev: rsync]
+Processing  2/4: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync]
+Processing  3/4: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/4: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+Processing  4/4: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync] [datakit-github.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/4: [datakit-client-9p.dev: rsync] [datakit-github.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/4: [datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/8: [datakit-client: jbuilder build]
++ jbuilder "build" "-p" "datakit-client" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client.dev)
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p datakit-client -j 1".
+
+#=== ERROR while compiling datakit-client.dev =================================#
+# command              jbuilder build -p datakit-client -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-client.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-client-7-d2d111.env
+# output-file          /home/opam/.opam/log/datakit-client-7-d2d111.out
+### output ###
+# Warning: Module Datakit_client in api/ocaml doesn't have a corresponding .ml file.
+# Modules without an implementation are not recommended, see this discussion:
+# 
+#   https://github.com/janestreet/jbuilder/issues/9
+# 
+# In the meantime I'm setting up a rule for copying datakit_client.mli to datakit_client.ml.
+#     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output (exit 2)
+# (cd _build/default && /usr/bin/ocamldep.opt -modules api/ocaml/datakit_client.ml) > _build/default/api/ocaml/datakit_client.depends.ocamldep-output
+# File "api/ocaml/datakit_client.ml", line 87, characters 0-6:
+# Error: Syntax error
+
+[0m- Warning: Module Datakit_client in api/ocaml doesn't have a corresponding .ml file.
+- Modules without an implementation are not recommended, see this discussion:
+- 
+-   https://github.com/janestreet/jbuilder/issues/9
+- 
+- In the meantime I'm setting up a rule for copying datakit_client.mli to datakit_client.ml.
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output (exit 2)
+- (cd _build/default && /usr/bin/ocamldep.opt -modules api/ocaml/datakit_client.ml) > _build/default/api/ocaml/datakit_client.depends.ocamldep-output
+- File "api/ocaml/datakit_client.ml", line 87, characters 0-6:
+- Error: Syntax error
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions were aborted
+| - install datakit-bridge-github dev
+| - install datakit-client-9p     dev
+| - install datakit-github        dev
++- 
++- The following actions failed
+| - build datakit-client dev
++- 
+- No changes have been performed
+# Run eval `opam env` to update the current shell environment
+[91m'opam install datakit-bridge-github -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit-bridge-github -ytv' returned a non-zero code: 4
+[2017-05-16 00:34.15] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 4
