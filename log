@@ -1,0 +1,156 @@
+=== Docker build Dockerfile.client
+[2017-05-16 00:57.18] Starting...
+Cloning into '/tmp/with_clonea6b1444'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at e7ecb42 client: add client bindings using Git directly (without server)
+[2017-05-16 00:57.20] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.543 MB
+Step 1/19 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/19 : RUN git -C /home/opam/opam-repository pull origin master && opam update
+ ---> Using cache
+ ---> dd028dbbb6ae
+Step 3/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 1050e9dec071
+Step 4/19 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> d78b6b010405
+Step 5/19 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 2628bc68b8aa
+Step 6/19 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 80c6dc99248f
+Step 7/19 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 65591274d8a1
+Step 8/19 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 1a57ddcd8132
+Step 9/19 : RUN opam depext datakit-client datakit-client-9p &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> aa4dac3633de
+Step 10/19 : COPY . /home/opam/src/datakit
+ ---> fce7267d4e9b
+Error removing intermediate container 4714c22f9983: Driver aufs failed to remove root filesystem 4714c22f9983f51fa744187b9095dc770ad00f041ea32053f4d107bd15854904: rename /var/lib/docker/aufs/mnt/d3f942fe5f31acd7da5a6dcdd3795a52b2bbf4abf8e49f1c0f48c985b83b7966 /var/lib/docker/aufs/mnt/d3f942fe5f31acd7da5a6dcdd3795a52b2bbf4abf8e49f1c0f48c985b83b7966-removing: device or resource busy
+Step 11/19 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in a8b9c2ad463d
+ ---> 97aaeda61de4
+Removing intermediate container a8b9c2ad463d
+Error removing intermediate container 4714c22f9983: No such container: 4714c22f9983f51fa744187b9095dc770ad00f041ea32053f4d107bd15854904
+Step 12/19 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 015ea2c3fb59
+ M Dockerfile.client
+ M src/version.ml
+ ---> f8c8ac3b4b04
+Error removing intermediate container 4714c22f9983: No such container: 4714c22f9983f51fa744187b9095dc770ad00f041ea32053f4d107bd15854904
+Step 13/19 : RUN opam update datakit-client datakit-client-9p
+ ---> Running in dfe77fcde9fd
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+ ---> 6977de45f435
+Error removing intermediate container 4714c22f9983: No such container: 4714c22f9983f51fa744187b9095dc770ad00f041ea32053f4d107bd15854904
+Step 14/19 : RUN opam info datakit-client --raw
+ ---> Running in 023b0accbda4
+opam-version: "1.2"
+name: "datakit-client"
+version: "dev"
+maintainer: "thomas@gazagnaire.org"
+authors: [
+  "Thomas Leonard" "Magnus Skjegstad" "David Scott" "Thomas Gazagnaire"
+]
+homepage: "https://github.com/moby/datakit"
+bug-reports: "https://github.com/moby/datakit/issues"
+license: "Apache"
+doc: "https://docker.github.io/datakit/"
+dev-repo: "https://github.com/moby/datakit.git"
+build: ["jbuilder" "build" "-p" name "-j" jobs]
+depends: [
+  "jbuilder" {build}
+  "astring"
+  "result"
+  "fmt"
+  "cstruct" {> "2.2.0"}
+]
+ ---> 7e196a658d47
+Error removing intermediate container 4714c22f9983: No such container: 4714c22f9983f51fa744187b9095dc770ad00f041ea32053f4d107bd15854904
+Step 15/19 : RUN opam install datakit-client.dev -vv
+ ---> Running in 48dad43f5da0
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,690 bytes  received 52 bytes  17,484.00 bytes/sec
+- total size is 1,296,952  speedup is 148.36
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,690 bytes  received 52 bytes  17,484.00 bytes/sec
+- total size is 1,296,952  speedup is 148.36
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+- Warning: Module Datakit_client in api/ocaml doesn't have a corresponding .ml file.
+- Modules without an implementation are not recommended, see this discussion:
+- 
+-   https://github.com/janestreet/jbuilder/issues/9
+- 
+- In the meantime I'm setting up a rule for copying datakit_client.mli to datakit_client.ml.
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output (exit 2)
+- (cd _build/default && /home/opam/.opam/4.03.0/bin/ocamldep.opt -modules api/ocaml/datakit_client.ml) > _build/default/api/ocaml/datakit_client.depends.ocamldep-output
+- File "api/ocaml/datakit_client.ml", line 87, characters 0-6:
+- Error: Syntax error
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p
+        datakit-client -j 4".
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-client dev
+No changes have been performed
+[91m
+#=== ERROR while installing datakit-client.dev ================================#
+# opam-version         1.2.2
+# os                   linux
+# command              jbuilder build -p datakit-client -j 4
+# path                 /home/opam/.opam/4.03.0/build/datakit-client.dev
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-11-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-11-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-11-ffb3fd.err
+### stderr ###
+# [...]
+# Modules without an implementation are not recommended, see this discussion:
+# 
+#   https://github.com/janestreet/jbuilder/issues/9
+# 
+# In the meantime I'm setting up a rule for copying datakit_client.mli to datakit_client.ml.
+#     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output (exit 2)
+# (cd _build/default && /home/opam/.opam/4.03.0/bin/ocamldep.opt -modules api/ocaml/datakit_client.ml) > _build/default/api/ocaml/datakit_client.depends.ocamldep-output
+# File "api/ocaml/datakit_client.ml", line 87, characters 0-6:
+# Error: Syntax error
+
+[0m[91m'opam install datakit-client.dev -vv' failed.
+[0mThe command '/bin/sh -c opam install datakit-client.dev -vv' returned a non-zero code: 4
+[2017-05-16 00:58.07] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 4
