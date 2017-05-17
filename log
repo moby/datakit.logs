@@ -1,0 +1,849 @@
+=== Docker build Dockerfile.github
+[2017-05-17 22:59.21] Starting...
+Cloning into '/tmp/with_clone71f52ed'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 955d4c7 fix CircleCI random failure
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 6.845 MB
+Step 1/33 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/33 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 52e71e2e863a
+Step 3/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cfabc32e9e4f
+Step 4/33 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 51ed7ede4caa
+Step 5/33 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 09561fa35521
+Step 6/33 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 485a47ca5e4a
+Step 7/33 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 9e239780f0d5
+Step 8/33 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> eec55b5d316b
+Step 9/33 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner     github protocol-9p rresult prometheus-app asl win-eventlog mtime hex     github-hooks hvsock camlzip irmin-watcher git irmin
+ ---> Using cache
+ ---> 220ccc2d4169
+Step 10/33 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 01d6284b0925
+Step 11/33 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 71a29728661e
+Step 12/33 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> adedf263315e
+Step 13/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> ea002deb2efa
+Step 14/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 5458fa53f2aa
+Step 15/33 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> dcd5859a568c
+Step 16/33 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> 7611e5a12fd1
+Step 17/33 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> e4ba72470c53
+Step 18/33 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 18387b5f6e70
+Step 19/33 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 36196d066eec
+Step 20/33 : COPY . /home/opam/src/datakit
+ ---> 627a47e6ff85
+Removing intermediate container 411def25284a
+Step 21/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 72d2e2700346
+ ---> dd3f544be2e3
+Removing intermediate container 72d2e2700346
+Step 22/33 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in c40a02768d8a
+ M src/version.ml
+ ---> 190ec1da1c94
+Error removing intermediate container c40a02768d8a: Driver aufs failed to remove root filesystem c40a02768d8a925edfb96f2cb7ce7650c7ca901bd58dcb03d4e6be73fb646337: rename /var/lib/docker/aufs/mnt/8597ba1b66e50d42bf9a94950baa521b80052b1e084e37a92871332bdd6877c8 /var/lib/docker/aufs/mnt/8597ba1b66e50d42bf9a94950baa521b80052b1e084e37a92871332bdd6877c8-removing: device or resource busy
+Step 23/33 : RUN opam install datakit
+ ---> Running in 0570bee3249e
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install protocol-9p-unix  0.11.0                            [required by datakit]
+  - install irmin-git         1.2.0*                            [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install irmin-mem         1.2.0*                            [required by datakit]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 6 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[protocol-9p-unix.0.11.0] found in cache
+[irmin-git.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+[irmin-mem.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.2.0
+-> installed irmin-mem.1.2.0
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> a98ca6c52df3
+Error removing intermediate container c40a02768d8a: No such container: c40a02768d8a925edfb96f2cb7ce7650c7ca901bd58dcb03d4e6be73fb646337
+Step 24/33 : RUN opam install datakit-bridge-github -ytv
+ ---> Running in 904a6d08057e
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client        dev*                          [required by datakit-bridge-github]
+  - install datakit-github        dev*                          [required by datakit-bridge-github]
+  - install datakit-client-9p     dev*                          [required by datakit-bridge-github]
+  - install datakit-bridge-github dev*
+===== 4 to install =====
+Processing  1/4: [datakit-bridge-github.dev: rsync]
+Processing  2/4: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync]
+Processing  3/4: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/4: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+Processing  4/4: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync] [datakit-github.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/4: [datakit-client-9p.dev: rsync] [datakit-github.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/4: [datakit-github.dev: rsync]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/8: [datakit-client: jbuilder build]
++ jbuilder "build" "-p" "datakit-client" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/datakit_client.{cmo,cmt}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/9p/mount/mount.exe
+-     ocamlopt api/ocaml/datakit_client.cmxs
+-> compiled  datakit-client.dev
+-> installed datakit-client.dev
+Processing  3/8: [datakit-client-9p: jbuilder build]
++ jbuilder "build" "-p" "datakit-client-9p" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client-9p.dev)
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmo,cmt}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.cma
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.cmxs
+-> compiled  datakit-client-9p.dev
+Processing  4/8: [datakit-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-github.dev)
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github.cma
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt src/datakit-github/datakit_github.cmxs
+-> compiled  datakit-github.dev
+-> installed datakit-client-9p.dev
+-> installed datakit-github.dev
+Processing  7/8: [datakit-bridge-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-bridge-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep bridge/github/main.depends.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.depends.ocamldep-output
+-     ocamldep bridge/github/main.dependsi.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.depends.ocamldep-output
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-       ocamlc src/datakit-log/datakit_log.{cmi,cmti}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-       ocamlc bridge/github/version.{cmi,cmo,cmt}
+-       ocamlc bridge/github/main.{cmi,cmti}
+-     ocamlopt src/datakit-log/datakit_log.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{a,cmxa}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt bridge/github/version.{cmx,o}
+-     ocamlopt bridge/github/main.{cmx,o}
+-     ocamlopt bridge/github/main.exe
+Processing  7/8: [datakit-bridge-github: jbuilder runtest]
++ jbuilder "runtest" "tests/datakit-bridge-github" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep tests/datakit-bridge-github/test.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc src/datakit/ivfs_blob.{cmi,cmti}
+-       ocamlc src/datakit/autopush.{cmi,cmo,cmt}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_tree.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt src/datakit/ivfs_blob.{cmx,o}
+-     ocamlopt src/datakit/autopush.{cmx,o}
+-       ocamlc src/datakit/ivfs.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_merge.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_remote.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-       ocamlc src/datakit/ivfs_rw.{cmi,cmti}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit/ivfs_tree.{cmx,o}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-     ocamlopt src/datakit/ivfs_remote.{cmx,o}
+-     ocamlopt src/datakit/ivfs_merge.{cmx,o}
+-     ocamlopt src/datakit/ivfs_rw.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-       ocamlc tests/datakit-bridge-github/test.{cmi,cmo,cmt}
+-     ocamlopt src/datakit/ivfs.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt tests/datakit-bridge-github/test.{cmx,o}
+-     ocamlopt tests/datakit-bridge-github/test.exe
+-         test alias tests/datakit-bridge-github/runtest (exit 1)
+- (cd _build/default/tests/datakit-bridge-github && ./test.exe -q --color=always)
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-github.
+- [33m ...[m                [36mgithub-9p[m          0   Transaction.[32m[OK][m                [36mgithub-9p[m          0   Transaction.
+- [33m ...[m                [36mgithub-9p[m          1   Watch.[32m[OK][m                [36mgithub-9p[m          1   Watch.
+- [33m ...[m                [36mgithub-9p[m          2   Make dirs.[32m[OK][m                [36mgithub-9p[m          2   Make dirs.
+- [33m ...[m                [36mgithub-9p[m          3   Rename branch.[32m[OK][m                [36mgithub-9p[m          3   Rename branch.
+- [33m ...[m                [36mgithub-9p[m          4   Rename dir.[32m[OK][m                [36mgithub-9p[m          4   Rename dir.
+- [33m ...[m                [36mgithub-9p[m          5   Rename file.[32m[OK][m                [36mgithub-9p[m          5   Rename file.
+- [33m ...[m                [36mgithub-9p[m          6   Truncate.[32m[OK][m                [36mgithub-9p[m          6   Truncate.
+- [33m ...[m                [36mgithub-9p[m          7   Parents.[31m[ERROR][m             [36mgithub-9p[m          7   Parents.
+- [33m ...[m                [36mgithub-9p[m          8   Merge.[32m[OK][m                [36mgithub-9p[m          8   Merge.
+- [33m ...[m                [36mgithub-9p[m          9   Diff.[32m[OK][m                [36mgithub-9p[m          9   Diff.
+- [33m ...[m                [36mgithub-9p[m         10   Merge_metadata.[32m[OK][m                [36mgithub-9p[m         10   Merge_metadata.
+- [33m ...[m                [36mgithub-9p[m         11   Merge empty.[32m[OK][m                [36mgithub-9p[m         11   Merge empty.
+- [33m ...[m                [36mgithub-9p[m         12   Conflicts.[32m[OK][m                [36mgithub-9p[m         12   Conflicts.
+- [33m ...[m                [36mgithub-9p[m         13   Large write.[32m[OK][m                [36mgithub-9p[m         13   Large write.
+- [33m ...[m                [36mgithub-9p[m         14   Remove.[32m[OK][m                [36mgithub-9p[m         14   Remove.
+- [33m ...[m                [36mgithub-9p[m         15   Remotes.[33m[SKIP][m              [36mgithub-9p[m         15   Remotes.
+- [33m ...[m                [36mgithub-9p[m         16   Create_or_replace.[33m[SKIP][m              [36mgithub-9p[m         16   Create_or_replace.
+- -- github-9p.007 Failed --
+- Parents.
+- _build/_tests/github-9p.007.output:
+- +41997us [35mirmin.git [m [[32mDEBUG[m] remove master
+- +42025us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=Some
+-                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+- +42048us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=Some
+-                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+- +42064us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=Some
+-                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+- +42099us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +42112us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=["Makefile","src"]
+- +42133us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+- +42151us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +42162us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=["doc"]
+- +42179us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+- +42196us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +42207us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=[]
+- +42224us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+- +42238us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+- +42255us [35mivfs-remote[m [[32mDEBUG[m] create
+- +42267us [35mfs9p      [m [[34mINFO[m] accepted a new connection on test
+- +42294us [35mfs9p      [m [[34mINFO[m] Using protocol TwoThousandU msize 8215
+- +42331us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "dev"]
+- +42401us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master"]
+- +42470us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+- +42519us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- [33m--------------------------------------------------------------------------------[m
+- ASSERT master empty
+- [33m--------------------------------------------------------------------------------[m
+- +42592us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master";
+-                                             "transactions";
+-                                             "5782492355672146107"]
+- +42645us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +42689us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "master";
+-                                              "transactions";
+-                                              "5782492355672146107"; "rw";
+-                                              "file"]
+- +42747us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +42764us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +42796us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +42811us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +42822us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +42855us [35mdatakit.client[m [[32mDEBUG[m] write "commit1" to ["branch"; "master";
+-                                                     "transactions";
+-                                                     "5782492355672146107";
+-                                                     "msg"]
+- +42934us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "master";
+-                                                    "transactions";
+-                                                    "5782492355672146107";
+-                                                    "ctl"]
+- +43358us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 5421190833e254f1483799793aed9306b29fcdf7
+- +43420us [35mirmin     [m [[32mDEBUG[m] merge_head
+- +43436us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +43448us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+- +43459us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/master
+- +43471us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=None)
+- +43485us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=None)
+- +43505us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=None)
+- +43535us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43553us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=["Makefile","src"]
+- +43582us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+- +43602us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43614us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=["doc"]
+- +43639us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+- +43654us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43666us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=[]
+- +43685us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+- +43696us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 5421190833e254f1483799793aed9306b29fcdf7
+- +43731us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+- +43771us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43821us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/d38bf92694c450efa2889a6203fb8328857d3376/parents
+- +43872us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43888us [35mirmin     [m [[32mDEBUG[m] history
+- +43899us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +43910us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+- +43962us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "d38bf92694c450efa2889a6203fb8328857d3376" 0
+- [33m--------------------------------------------------------------------------------[m
+- ASSERT master no parent
+- [33m--------------------------------------------------------------------------------[m
+- +44030us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+- +44067us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +44130us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master";
+-                                             "transactions";
+-                                             "5870624233654992629"]
+- +44183us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +44228us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "master";
+-                                              "transactions";
+-                                              "5870624233654992629"; "rw";
+-                                              "file"]
+- +44282us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +44300us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +44331us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +44345us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +44355us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +44385us [35mdatakit.client[m [[32mDEBUG[m] write "commit2" to ["branch"; "master";
+-                                                     "transactions";
+-                                                     "5870624233654992629";
+-                                                     "msg"]
+- +44455us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "master";
+-                                                    "transactions";
+-                                                    "5870624233654992629";
+-                                                    "ctl"]
+- +46628us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 73ee5ea4ab11ecf5957ae986597f1a26351f4733
+- +46690us [35mirmin     [m [[32mDEBUG[m] merge_head
+- +46715us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+- +46767us [35mirmin.merge[m [[32mDEBUG[m] some Some
+-                                     "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" | 
+-                              Some "d38bf92694c450efa2889a6203fb8328857d3376"
+- +46801us [35mirmin.merge[m [[32mDEBUG[m] default Some
+-                                        "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" | 
+-                              Some "d38bf92694c450efa2889a6203fb8328857d3376"
+- +46825us [35mirmin.merge[m [[32mDEBUG[m] default old=Some
+-                                            "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d"
+- +46847us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+- +46862us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/master
+- +46880us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=Some
+-                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+- +46901us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=Some
+-                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+- +46921us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=Some
+-                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+- +46965us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +46988us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=["Makefile","src"]
+- +47065us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+- +47104us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47119us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=["doc"]
+- +47154us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+- +47178us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47194us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=[]
+- +47229us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+- +47243us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 73ee5ea4ab11ecf5957ae986597f1a26351f4733
+- +47297us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+- +47355us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47455us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d/parents
+- +47543us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47565us [35mirmin     [m [[32mDEBUG[m] history
+- +47581us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47597us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+- +47664us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" 0
+- +47767us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47788us [35mirmin     [m [[32mDEBUG[m] history
+- +47802us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +47816us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+- +47883us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" 0
+- [33m--------------------------------------------------------------------------------[m
+- ASSERT master second commit
+- [33m--------------------------------------------------------------------------------[m
+- +48002us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+- +48057us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+- +48156us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "dev"; "transactions";
+-                                             "5965916499183628554"]
+- +48233us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +48292us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "dev"; "transactions";
+-                                              "5965916499183628554"; "rw";
+-                                              "file"]
+- +48366us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +48386us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +48425us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +48444us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+- +48458us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+- +48507us [35mdatakit.client[m [[32mDEBUG[m] replace_file ["branch"; "dev";
+-                                               "transactions";
+-                                               "5965916499183628554";
+-                                               "parents"] -> "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d\n"
+- +48794us [35mdatakit.client[m [[32mDEBUG[m] write "commit3" to ["branch"; "dev";
+-                                                     "transactions";
+-                                                     "5965916499183628554";
+-                                                     "msg"]
+- +48896us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "dev";
+-                                                    "transactions";
+-                                                    "5965916499183628554";
+-                                                    "ctl"]
+- +49013us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 47b656cab06ddf985f557372ea774f22762bcb49
+- +49066us [35mirmin     [m [[32mDEBUG[m] merge_head
+- +49096us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+- +49111us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+- +49127us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/dev
+- +49145us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=None)
+- +49160us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=None)
+- +49174us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=None)
+- +49225us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/dev/head
+- +49280us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+- +49351us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/e6bb24bfd3315f5f892dad558141039334fbc77c/parents
+- +49419us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+- +49437us [35mirmin     [m [[32mDEBUG[m] history
+- +49451us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+- +49466us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+- +49523us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "e6bb24bfd3315f5f892dad558141039334fbc77c" 0
+- +49615us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+- +49633us [35mirmin     [m [[32mDEBUG[m] history
+- +49648us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+- +49661us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+- +49711us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "e6bb24bfd3315f5f892dad558141039334fbc77c" 0
+- [33m--------------------------------------------------------------------------------[m
+- ASSERT dev from master
+- [33m--------------------------------------------------------------------------------[m
+- +49822us [35mdatakit.client[m [[32mDEBUG[m] read_all commits/hello
+- [33m--------------------------------------------------------------------------------[m
+- ASSERT client: 9p error: invalid-hash "hello": (Failure hello)
+- [33m--------------------------------------------------------------------------------[m
+- Test error: Error client: 9p error: invalid-hash "hello": (Failure hello).
+- Raised at file "src/core/lwt.ml", line 805, characters 16-23
+- Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+- Called from file "src/alcotest.ml", line 268, characters 8-12
+- 
+- 
+- Test error: Error client: 9p error: invalid-hash "hello": (Failure hello).
+- Raised at file "src/core/lwt.ml", line 805, characters 16-23
+- Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+- Called from file "src/alcotest.ml", line 268, characters 8-12
+- 
+- 
+- The full test results are available in `_build/_tests`.
+- [31m1 error![m in 0.264s. 15 tests run.
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-bridge-github dev
++- 
++- The following changes have been performed
+| - install datakit-client    dev
+| - install datakit-client-9p dev
+| - install datakit-github    dev
++- 
+# Run eval `opam env` to update the current shell environment
+[91m[ERROR] The compilation of datakit-bridge-github failed at "jbuilder runtest tests/datakit-bridge-github".
+
+#=== ERROR while compiling datakit-bridge-github.dev ==========================#
+# command              jbuilder runtest tests/datakit-bridge-github
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-bridge-github-7-9e78df.env
+# output-file          /home/opam/.opam/log/datakit-bridge-github-7-9e78df.out
+### output ###
+#     ocamldep tests/datakit-bridge-github/test.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+#     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+#     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+#     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+#     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+#     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+#     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+#     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+#     ocamldep tests/common/test.depends.ocamldep-output
+#     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+#     ocamldep src/datakit/datakit.depends.ocamldep-output
+#     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+#     ocamldep tests/common/test.dependsi.ocamldep-output
+#       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+#       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+#       ocamlc src/datakit-server/vfs.{cmi,cmti}
+#       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+#       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+#       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+#       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+#     ocamlopt api/ocaml/datakit_client.{cmx,o}
+#       ocamlc src/datakit/ivfs_blob.{cmi,cmti}
+#       ocamlc src/datakit/autopush.{cmi,cmo,cmt}
+#       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+#     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+#     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+#     ocamlopt src/datakit-server/vfs.{cmx,o}
+#       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+#       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+#       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_tree.{cmi,cmti}
+#     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+#     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+#     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+#     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+#     ocamlopt src/datakit/ivfs_blob.{cmx,o}
+#     ocamlopt src/datakit/autopush.{cmx,o}
+#       ocamlc src/datakit/ivfs.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_merge.{cmi,cmti}
+#       ocamlc src/datakit/ivfs_remote.{cmi,cmti}
+#     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+#       ocamlc src/datakit/ivfs_rw.{cmi,cmti}
+#     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+#       ocamlc tests/common/test_client.{cmi,cmti}
+#     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+#     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+#     ocamlopt src/datakit/ivfs_tree.{cmx,o}
+#       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+#     ocamlopt src/datakit/ivfs_remote.{cmx,o}
+#     ocamlopt src/datakit/ivfs_merge.{cmx,o}
+#     ocamlopt src/datakit/ivfs_rw.{cmx,o}
+#     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+#     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+#     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+#     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+#       ocamlc tests/datakit-bridge-github/test.{cmi,cmo,cmt}
+#     ocamlopt src/datakit/ivfs.{cmx,o}
+#     ocamlopt src/datakit/datakit.{a,cmxa}
+#     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+#     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+#     ocamlopt tests/common/test_utils.{cmx,o}
+#     ocamlopt tests/common/test_client.{cmx,o}
+#     ocamlopt tests/common/test.{a,cmxa}
+#     ocamlopt tests/datakit-bridge-github/test.{cmx,o}
+#     ocamlopt tests/datakit-bridge-github/test.exe
+#         test alias tests/datakit-bridge-github/runtest (exit 1)
+# (cd _build/default/tests/datakit-bridge-github && ./test.exe -q --color=always)
+# /bin/sh: tput: not found
+# stty: standard input: Not a tty
+# Testing datakit-github.
+# [33m ...[m                [36mgithub-9p[m          0   Transaction.[32m[OK][m                [36mgithub-9p[m          0   Transaction.
+# [33m ...[m                [36mgithub-9p[m          1   Watch.[32m[OK][m                [36mgithub-9p[m          1   Watch.
+# [33m ...[m                [36mgithub-9p[m          2   Make dirs.[32m[OK][m                [36mgithub-9p[m          2   Make dirs.
+# [33m ...[m                [36mgithub-9p[m          3   Rename branch.[32m[OK][m                [36mgithub-9p[m          3   Rename branch.
+# [33m ...[m                [36mgithub-9p[m          4   Rename dir.[32m[OK][m                [36mgithub-9p[m          4   Rename dir.
+# [33m ...[m                [36mgithub-9p[m          5   Rename file.[32m[OK][m                [36mgithub-9p[m          5   Rename file.
+# [33m ...[m                [36mgithub-9p[m          6   Truncate.[32m[OK][m                [36mgithub-9p[m          6   Truncate.
+# [33m ...[m                [36mgithub-9p[m          7   Parents.[31m[ERROR][m             [36mgithub-9p[m          7   Parents.
+# [33m ...[m                [36mgithub-9p[m          8   Merge.[32m[OK][m                [36mgithub-9p[m          8   Merge.
+# [33m ...[m                [36mgithub-9p[m          9   Diff.[32m[OK][m                [36mgithub-9p[m          9   Diff.
+# [33m ...[m                [36mgithub-9p[m         10   Merge_metadata.[32m[OK][m                [36mgithub-9p[m         10   Merge_metadata.
+# [33m ...[m                [36mgithub-9p[m         11   Merge empty.[32m[OK][m                [36mgithub-9p[m         11   Merge empty.
+# [33m ...[m                [36mgithub-9p[m         12   Conflicts.[32m[OK][m                [36mgithub-9p[m         12   Conflicts.
+# [33m ...[m                [36mgithub-9p[m         13   Large write.[32m[OK][m                [36mgithub-9p[m         13   Large write.
+# [33m ...[m                [36mgithub-9p[m         14   Remove.[32m[OK][m                [36mgithub-9p[m         14   Remove.
+# [33m ...[m                [36mgithub-9p[m         15   Remotes.[33m[SKIP][m              [36mgithub-9p[m         15   Remotes.
+# [33m ...[m                [36mgithub-9p[m         16   Create_or_replace.[33m[SKIP][m              [36mgithub-9p[m         16   Create_or_replace.
+# -- github-9p.007 Failed --
+# Parents.
+# _build/_tests/github-9p.007.output:
+# +41997us [35mirmin.git [m [[32mDEBUG[m] remove master
+# +42025us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=Some
+#                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+# +42048us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=Some
+#                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+# +42064us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=Some
+#                                                            "0554ea79d48f79c13780a72ad01b32c0d6940a8a")
+# +42099us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +42112us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=["Makefile","src"]
+# +42133us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+# +42151us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +42162us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=["doc"]
+# +42179us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+# +42196us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +42207us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["4b825dc642cb6eb9a060e54bf8d69288fbee4904",[]]}} path=[]
+# +42224us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+# +42238us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 4b825dc642cb6eb9a060e54bf8d69288fbee4904
+# +42255us [35mivfs-remote[m [[32mDEBUG[m] create
+# +42267us [35mfs9p      [m [[34mINFO[m] accepted a new connection on test
+# +42294us [35mfs9p      [m [[34mINFO[m] Using protocol TwoThousandU msize 8215
+# +42331us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "dev"]
+# +42401us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master"]
+# +42470us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+# +42519us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# [33m--------------------------------------------------------------------------------[m
+# ASSERT master empty
+# [33m--------------------------------------------------------------------------------[m
+# +42592us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master";
+#                                             "transactions";
+#                                             "5782492355672146107"]
+# +42645us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +42689us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "master";
+#                                              "transactions";
+#                                              "5782492355672146107"; "rw";
+#                                              "file"]
+# +42747us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +42764us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +42796us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +42811us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +42822us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +42855us [35mdatakit.client[m [[32mDEBUG[m] write "commit1" to ["branch"; "master";
+#                                                     "transactions";
+#                                                     "5782492355672146107";
+#                                                     "msg"]
+# +42934us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "master";
+#                                                    "transactions";
+#                                                    "5782492355672146107";
+#                                                    "ctl"]
+# +43358us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 5421190833e254f1483799793aed9306b29fcdf7
+# +43420us [35mirmin     [m [[32mDEBUG[m] merge_head
+# +43436us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +43448us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+# +43459us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/master
+# +43471us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=None)
+# +43485us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=None)
+# +43505us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=None)
+# +43535us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43553us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=["Makefile","src"]
+# +43582us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+# +43602us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43614us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=["doc"]
+# +43639us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+# +43654us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43666us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["5421190833e254f1483799793aed9306b29fcdf7",[["file",{"Contents":[{"Key":"6320cd248dd8aeaab759d5871f8781b5c0505172"},"normal"]}]]]}} path=[]
+# +43685us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+# +43696us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 5421190833e254f1483799793aed9306b29fcdf7
+# +43731us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+# +43771us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43821us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/d38bf92694c450efa2889a6203fb8328857d3376/parents
+# +43872us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43888us [35mirmin     [m [[32mDEBUG[m] history
+# +43899us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +43910us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+# +43962us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "d38bf92694c450efa2889a6203fb8328857d3376" 0
+# [33m--------------------------------------------------------------------------------[m
+# ASSERT master no parent
+# [33m--------------------------------------------------------------------------------[m
+# +44030us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+# +44067us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +44130us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "master";
+#                                             "transactions";
+#                                             "5870624233654992629"]
+# +44183us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +44228us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "master";
+#                                              "transactions";
+#                                              "5870624233654992629"; "rw";
+#                                              "file"]
+# +44282us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +44300us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +44331us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +44345us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +44355us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +44385us [35mdatakit.client[m [[32mDEBUG[m] write "commit2" to ["branch"; "master";
+#                                                     "transactions";
+#                                                     "5870624233654992629";
+#                                                     "msg"]
+# +44455us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "master";
+#                                                    "transactions";
+#                                                    "5870624233654992629";
+#                                                    "ctl"]
+# +46628us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 73ee5ea4ab11ecf5957ae986597f1a26351f4733
+# +46690us [35mirmin     [m [[32mDEBUG[m] merge_head
+# +46715us [35mirmin     [m [[32mDEBUG[m] Head.find -> d38bf92694c450efa2889a6203fb8328857d3376
+# +46767us [35mirmin.merge[m [[32mDEBUG[m] some Some
+#                                     "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" | 
+#                              Some "d38bf92694c450efa2889a6203fb8328857d3376"
+# +46801us [35mirmin.merge[m [[32mDEBUG[m] default Some
+#                                        "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" | 
+#                              Some "d38bf92694c450efa2889a6203fb8328857d3376"
+# +46825us [35mirmin.merge[m [[32mDEBUG[m] default old=Some
+#                                            "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d"
+# +46847us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+# +46862us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/master
+# +46880us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=Some
+#                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+# +46901us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=Some
+#                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+# +46921us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=Some
+#                                                            "d38bf92694c450efa2889a6203fb8328857d3376")
+# +46965us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +46988us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=["Makefile","src"]
+# +47065us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree src/Makefile
+# +47104us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47119us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=["doc"]
+# +47154us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree doc
+# +47178us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47194us [35mDataKit   [m [[32mDEBUG[m] hash_line snapshot={"node":{"Both":["73ee5ea4ab11ecf5957ae986597f1a26351f4733",[["file",{"Contents":[{"Key":"fee93d14fc11d09aeffc1494c3d8cb5b3635b9f0"},"normal"]}]]]}} path=[]
+# +47229us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree 
+# +47243us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 73ee5ea4ab11ecf5957ae986597f1a26351f4733
+# +47297us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+# +47355us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47455us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d/parents
+# +47543us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47565us [35mirmin     [m [[32mDEBUG[m] history
+# +47581us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47597us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+# +47664us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" 0
+# +47767us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47788us [35mirmin     [m [[32mDEBUG[m] history
+# +47802us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +47816us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+# +47883us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d" 0
+# [33m--------------------------------------------------------------------------------[m
+# ASSERT master second commit
+# [33m--------------------------------------------------------------------------------[m
+# +48002us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/master/head
+# +48057us [35mirmin     [m [[32mDEBUG[m] Head.find -> 1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d
+# +48156us [35mdatakit.client[m [[32mDEBUG[m] create_dir ["branch"; "dev"; "transactions";
+#                                             "5965916499183628554"]
+# +48233us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +48292us [35mdatakit.client[m [[32mDEBUG[m] create_file ["branch"; "dev"; "transactions";
+#                                              "5965916499183628554"; "rw";
+#                                              "file"]
+# +48366us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +48386us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +48425us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +48444us [35mirmin.tree[m [[32mDEBUG[m] Tree.find_tree file
+# +48458us [35mirmin.tree[m [[32mDEBUG[m] Tree.add file
+# +48507us [35mdatakit.client[m [[32mDEBUG[m] replace_file ["branch"; "dev";
+#                                               "transactions";
+#                                               "5965916499183628554";
+#                                               "parents"] -> "1cf7b0c7776fe9ece2d42834de5b7cad07f0b15d\n"
+# +48794us [35mdatakit.client[m [[32mDEBUG[m] write "commit3" to ["branch"; "dev";
+#                                                     "transactions";
+#                                                     "5965916499183628554";
+#                                                     "msg"]
+# +48896us [35mdatakit.client[m [[32mDEBUG[m] write "commit" to ["branch"; "dev";
+#                                                    "transactions";
+#                                                    "5965916499183628554";
+#                                                    "ctl"]
+# +49013us [35mirmin.tree[m [[32mDEBUG[m] Tree.export -> 47b656cab06ddf985f557372ea774f22762bcb49
+# +49066us [35mirmin     [m [[32mDEBUG[m] merge_head
+# +49096us [35mirmin     [m [[32mDEBUG[m] Head.find -> 
+# +49111us [35mirmin.git [m [[32mDEBUG[m] test_and_set
+# +49127us [35mgit.memory[m [[34mINFO[m] Test and set: refs/heads/dev
+# +49145us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.0]: firing! (v=None)
+# +49160us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.1]: firing! (v=None)
+# +49174us [35mirmin.watch[m [[32mDEBUG[m] notify-all[1.2]: firing! (v=None)
+# +49225us [35mdatakit.client[m [[32mDEBUG[m] read_all branch/dev/head
+# +49280us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+# +49351us [35mdatakit.client[m [[32mDEBUG[m] read_all snapshots/e6bb24bfd3315f5f892dad558141039334fbc77c/parents
+# +49419us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+# +49437us [35mirmin     [m [[32mDEBUG[m] history
+# +49451us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+# +49466us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+# +49523us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "e6bb24bfd3315f5f892dad558141039334fbc77c" 0
+# +49615us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+# +49633us [35mirmin     [m [[32mDEBUG[m] history
+# +49648us [35mirmin     [m [[32mDEBUG[m] Head.find -> e6bb24bfd3315f5f892dad558141039334fbc77c
+# +49661us [35mirmin.graph[m [[32mDEBUG[m] closure depth=1 (1 elements)
+# +49711us [35mirmin.graph[m [[32mDEBUG[m] ADD commit "e6bb24bfd3315f5f892dad558141039334fbc77c" 0
+# [33m--------------------------------------------------------------------------------[m
+# ASSERT dev from master
+# [33m--------------------------------------------------------------------------------[m
+# +49822us [35mdatakit.client[m [[32mDEBUG[m] read_all commits/hello
+# [33m--------------------------------------------------------------------------------[m
+# ASSERT client: 9p error: invalid-hash "hello": (Failure hello)
+# [33m--------------------------------------------------------------------------------[m
+# Test error: Error client: 9p error: invalid-hash "hello": (Failure hello).
+# Raised at file "src/core/lwt.ml", line 805, characters 16-23
+# Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+# Called from file "src/alcotest.ml", line 268, characters 8-12
+# 
+# 
+# Test error: Error client: 9p error: invalid-hash "hello": (Failure hello).
+# Raised at file "src/core/lwt.ml", line 805, characters 16-23
+# Called from file "src/unix/lwt_main.ml", line 34, characters 8-18
+# Called from file "src/alcotest.ml", line 268, characters 8-12
+# 
+# 
+# The full test results are available in `_build/_tests`.
+# [31m1 error![m in 0.264s. 15 tests run.
+
+[0m[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170517230007.export"
+'opam install datakit-bridge-github -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit-bridge-github -ytv' returned a non-zero code: 4
+[2017-05-17 23:00.27] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.github" "." exited with status 4
