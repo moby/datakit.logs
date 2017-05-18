@@ -1,0 +1,264 @@
+=== Docker build Dockerfile.client
+[2017-05-18 16:53.07] Starting...
+Cloning into '/tmp/with_clone27e0ad9'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at a0bacea datakit-client-git: more Dockerfile surgery
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon  7.06 MB
+Step 1/34 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/34 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 52e71e2e863a
+Step 3/34 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cfabc32e9e4f
+Step 4/34 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> b69551aaf5a8
+Step 5/34 : RUN opam pin add git.dev --dev -n
+ ---> Running in 29cf76c65973
+[git.dev: git]
+[git.dev: git]
+[git.dev: git]
+[git.dev: git]
+[git.dev] synchronised from git+https://github.com/mirage/ocaml-git.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/git/git.opam from 1.2 to 2.0~beta
+[0mgit is now pinned to git+https://github.com/mirage/ocaml-git.git (version dev)
+ ---> 39d769530749
+Removing intermediate container 29cf76c65973
+Step 6/34 : RUN opam pin add git-http.dev --dev -n
+ ---> Running in 9a0872e3abdc
+[git-http.dev: git]
+[git-http.dev: git]
+[git-http.dev: git]
+[git-http.dev: git]
+[git-http.dev] synchronised from git+https://github.com/mirage/ocaml-git.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/git-http/git-http.opam from 1.2 to 2.0~beta
+[0mgit-http is now pinned to git+https://github.com/mirage/ocaml-git.git (version dev)
+ ---> c2bb3d8b98c3
+Removing intermediate container 9a0872e3abdc
+Step 7/34 : RUN opam pin add git-mirage.dev --dev -n
+ ---> Running in 029d5680865f
+[git-mirage.dev: git]
+[git-mirage.dev: git]
+[git-mirage.dev: git]
+[git-mirage.dev: git]
+[git-mirage.dev] synchronised from git+https://github.com/mirage/ocaml-git.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/git-mirage/git-mirage.opam from 1.2 to 2.0~beta
+[0mgit-mirage is now pinned to git+https://github.com/mirage/ocaml-git.git (version dev)
+ ---> fd36a5423c88
+Removing intermediate container 029d5680865f
+Step 8/34 : RUN opam pin add git-unix.dev --dev -n
+ ---> Running in 0d39785a00f9
+[git-unix.dev: git]
+[git-unix.dev: git]
+[git-unix.dev: git]
+[git-unix.dev: git]
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/git-unix/git-unix.opam from 1.2 to 2.0~beta
+[0m[git-unix.dev] synchronised from git+https://github.com/mirage/ocaml-git.git
+git-unix is now pinned to git+https://github.com/mirage/ocaml-git.git (version dev)
+ ---> c7713f5b3065
+Removing intermediate container 0d39785a00f9
+Step 9/34 : RUN opam pin add irmin.dev --dev -n
+ ---> Running in 3ef68ee5f70c
+[irmin.dev: git]
+[irmin.dev: git]
+[irmin.dev: git]
+[irmin.dev: git]
+[irmin.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin/irmin.opam from 1.2 to 2.0~beta
+[0mirmin is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 4f306c1ffbf8
+Removing intermediate container 3ef68ee5f70c
+Step 10/34 : RUN opam pin add irmin-fs.dev https://github.com/mirage/irmin.git -n
+ ---> Running in d13fb2b83376
+Package irmin-fs does not exist, create as a NEW package ? [Y/n] y
+[irmin-fs.dev: git]
+[irmin-fs.dev: git]
+[irmin-fs.dev: git]
+[irmin-fs.dev: git]
+[irmin-fs.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-fs/irmin-fs.opam from 1.2 to 2.0~beta
+[0mirmin-fs is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 83bf15d810b8
+Error removing intermediate container d13fb2b83376: Driver aufs failed to remove root filesystem d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807: rename /var/lib/docker/aufs/mnt/0974b5d4c9d48fab0f6f2f907673aadfbad65b58e0f59af1f066c9d486700990 /var/lib/docker/aufs/mnt/0974b5d4c9d48fab0f6f2f907673aadfbad65b58e0f59af1f066c9d486700990-removing: device or resource busy
+Step 11/34 : RUN opam pin add irmin-mem.dev https://github.com/mirage/irmin.git -n
+ ---> Running in d151cdf5eb31
+Package irmin-mem does not exist, create as a NEW package ? [Y/n] y
+[irmin-mem.dev: git]
+[irmin-mem.dev: git]
+[irmin-mem.dev: git]
+[irmin-mem.dev: git]
+[irmin-mem.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-mem/irmin-mem.opam from 1.2 to 2.0~beta
+[0mirmin-mem is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 9613ad941b43
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 12/34 : RUN opam pin add irmin-git.dev --dev -n
+ ---> Running in 82b3c964c1d9
+[irmin-git.dev: git]
+[irmin-git.dev: git]
+[irmin-git.dev: git]
+[irmin-git.dev: git]
+[irmin-git.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-git/irmin-git.opam from 1.2 to 2.0~beta
+[0mirmin-git is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 582c4870d241
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 13/34 : RUN opam pin add irmin-http.dev --dev -n
+ ---> Running in 359089f70c06
+[irmin-http.dev: git]
+[irmin-http.dev: git]
+[irmin-http.dev: git]
+[irmin-http.dev: git]
+[irmin-http.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-http/irmin-http.opam from 1.2 to 2.0~beta
+[0mirmin-http is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 0f0dd8ea951f
+Removing intermediate container 359089f70c06
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 14/34 : RUN opam pin add irmin-mirage.dev --dev -n
+ ---> Running in 2a842125abb6
+[irmin-mirage.dev: git]
+[irmin-mirage.dev: git]
+[irmin-mirage.dev: git]
+[irmin-mirage.dev: git]
+[irmin-mirage.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-mirage/irmin-mirage.opam from 1.2 to 2.0~beta
+[0mirmin-mirage is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> e525a859b1f8
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 15/34 : RUN opam pin add irmin-unix.dev --dev -n
+ ---> Running in 8a9d3532429f
+[irmin-unix.dev: git]
+[irmin-unix.dev: git]
+[irmin-unix.dev: git]
+[irmin-unix.dev: git]
+[irmin-unix.dev] synchronised from git+https://github.com/mirage/irmin.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/irmin-unix/irmin-unix.opam from 1.2 to 2.0~beta
+[0mirmin-unix is now pinned to git+https://github.com/mirage/irmin.git (version dev)
+ ---> 3658e2a5d03f
+Removing intermediate container 82b3c964c1d9
+Removing intermediate container 2a842125abb6
+Removing intermediate container 8a9d3532429f
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 16/34 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> e1540b9077bb
+Removing intermediate container 6895c86646a3
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 17/34 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in b2114dd384bf
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> ba31ace97241
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 18/34 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 116533e15236
+Removing intermediate container d151cdf5eb31
+Removing intermediate container b2114dd384bf
+Removing intermediate container 30750c34e6ae
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 19/34 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Running in 5b89cb66248f
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> a17bbfeb8da0
+Removing intermediate container 5b89cb66248f
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 20/34 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> 89dccd4c8d31
+Removing intermediate container 5a48027a6b72
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 21/34 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Running in d8ca29f476e7
+Package datakit-client-git does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-git.dev: rsync]
+[datakit-client-git.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-git/datakit-client-git.opam from 1.2 to 2.0~beta
+[0mdatakit-client-git is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 70b8bd01d080
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 22/34 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Running in 5a8fda8f0cf0
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.8-r2)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 640 MiB in 103 packages
+# OS packages installation successful
+ ---> 9462a787d661
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 23/34 : RUN opam install datakit-client --deps
+ ---> Running in 07a505a21358
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install jbuilder                1.0+beta8
+  - install base-bytes              base
+  - install sexplib                 v0.9.1
+  - install ocaml-migrate-parsetree 1.0
+  - install ocplib-endian           1.0
+  - install ppx_tools_versioned     5.0.1
+  - install cstruct                 2.4.1
+===== 7 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[ocaml-migrate-parsetree.1.0] downloaded from https://github.com/let-def/ocaml-migrate-parsetree/archive/v1.0.tar.gz
+[jbuilder.1.0+beta8] downloaded from https://github.com/janestreet/jbuilder/archive/1.0+beta8.tar.gz
+[cstruct.2.4.1] downloaded from https://github.com/mirage/ocaml-cstruct/archive/v2.4.1.tar.gz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[ppx_tools_versioned.5.0.1] downloaded from https://github.com/let-def/ppx_tools_versioned/archive/5.0.1.tar.gz
+[sexplib.v0.9.1] downloaded from https://github.com/janestreet/sexplib/archive/v0.9.1.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed base-bytes.base
+-> installed jbuilder.1.0+beta8
+-> installed ocaml-migrate-parsetree.1.0
+-> installed ocplib-endian.1.0
+-> installed ppx_tools_versioned.5.0.1
+-> installed sexplib.v0.9.1
+-> installed cstruct.2.4.1
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 8e5f51ee3e2d
+Error removing intermediate container d13fb2b83376: No such container: d13fb2b8337647652db863b80578973bd1a967897135ba7b3bef0d117fd72807
+Step 24/34 : RUN opam install irmin-git irmin-watch git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner
+ ---> Running in 3d5eafe08c00
+[91m[ERROR] No package named irmin-watch found.
+[0mThe command '/bin/sh -c opam install irmin-git irmin-watch git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner' returned a non-zero code: 66
+[2017-05-18 16:55.03] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 66
