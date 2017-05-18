@@ -1,0 +1,400 @@
+=== Docker build Dockerfile
+[2017-05-18 06:38.54] Starting...
+Cloning into '/tmp/with_clone197ff50'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 03777e1 git client: run the tests in the CI
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.037 MB
+Step 1/33 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/33 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 52e71e2e863a
+Step 3/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cfabc32e9e4f
+Step 4/33 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> 0a948bbad3bf
+Step 5/33 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 28d53d6e53eb
+Step 6/33 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 93e8fe2d0078
+Step 7/33 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> f6074c1b7072
+Step 8/33 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 67faa8f28d4f
+Step 9/33 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog camlzip     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> ed702190e9f7
+Step 10/33 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> ee601ebdfac1
+Step 11/33 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 3dfd16375c0c
+Step 12/33 : COPY datakit.opam /home/opam/src/datakit/
+ ---> 2829bd88437d
+Removing intermediate container fda61e808c0d
+Step 13/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 7179e0f0029c
+Removing intermediate container fb008e8d44df
+Step 14/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 759ea33779a8
+Error removing intermediate container 28f3b8fcc60b: Driver aufs failed to remove root filesystem 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b: rename /var/lib/docker/aufs/diff/23353e81ce013c3151a07d1157eca5d99d2773fd2c72d5f68c950a74a101fa7e /var/lib/docker/aufs/diff/23353e81ce013c3151a07d1157eca5d99d2773fd2c72d5f68c950a74a101fa7e-removing: device or resource busy
+Step 15/33 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 7d4ccf1fe434
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 16/33 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> 5f4fdd139c4a
+Error removing intermediate container 1a85eaf56fda: Driver aufs failed to remove root filesystem 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069: rename /var/lib/docker/aufs/mnt/9e570bcbe95b7249d8be8637a1c1f6fca6eaf2e7d94e1e3307707db5fd9e1d34 /var/lib/docker/aufs/mnt/9e570bcbe95b7249d8be8637a1c1f6fca6eaf2e7d94e1e3307707db5fd9e1d34-removing: device or resource busy
+Step 17/33 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Running in 9defade7e5d0
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-server-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-server-9p.dev: rsync]
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server-9p/datakit-server-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-server-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> c0ca8723bccd
+Error removing intermediate container 9defade7e5d0: Driver aufs failed to remove root filesystem 9defade7e5d0ea62a0238fea16522f672df567d6569a1b193c0e94d5e4e0b518: rename /var/lib/docker/aufs/mnt/1584a4e4082ae33485c078e7962818d3d602b327dbd4504b33c2670e8e3f6e5c /var/lib/docker/aufs/mnt/1584a4e4082ae33485c078e7962818d3d602b327dbd4504b33c2670e8e3f6e5c-removing: device or resource busy
+Step 18/33 : RUN opam depext -y datakit
+ ---> Running in 3eccd9edf66a
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+gmp-dev
+linux-headers
+m4
+ncurses-dev
+openssl-dev
+pcre-dev
+perl
+pkgconf
+zlib-dev
+# All required OS packages found.
+ ---> ae37953c3352
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 19/33 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in e6578a557643
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+
+Nothing to do.
+# Run eval `opam env` to update the current shell environment
+ ---> 91584850610c
+Error removing intermediate container 1a85eaf56fda: No such container: 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069
+Step 20/33 : RUN opam install alcotest
+ ---> Running in a8c83039b07f
+[91m[NOTE] Package alcotest is already installed (current version is 0.7.2).
+[0m ---> e4f50e11267f
+Error removing intermediate container 1a85eaf56fda: No such container: 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069
+Step 21/33 : COPY . /home/opam/src/datakit
+ ---> 42fb81133cc5
+Removing intermediate container 3eccd9edf66a
+Removing intermediate container e6578a557643
+Removing intermediate container a8c83039b07f
+Removing intermediate container 529f5ead50f6
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 22/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 86b8311797d9
+ ---> cc605bc7dffa
+Removing intermediate container 86b8311797d9
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 23/33 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in b732dbbfe00a
+ M src/version.ml
+ ---> 9bf45f5a5093
+Removing intermediate container b732dbbfe00a
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 24/33 : RUN opam install datakit-client-9p
+ ---> Running in e0473c1eab4d
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install protocol-9p-unix  0.11.0                            [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 3 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[protocol-9p-unix.0.11.0] found in cache
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit-client-9p.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 71dca871f539
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 25/33 : RUN opam install datakit -ytv
+ ---> Running in d19bb06ee6ba
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install irmin-git         1.2.0*                            [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install irmin-mem         1.2.0*                            [required by datakit]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 5 to install =====
+Processing  1/5: [datakit.dev: rsync]
+Processing  2/5: [datakit.dev: rsync] [datakit-server.dev: rsync]
+Processing  3/5: [datakit.dev: rsync] [datakit-server.dev: rsync] [datakit-server-9p.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/5: [datakit.dev: rsync] [datakit-server-9p.dev: rsync]
+Processing  4/5: [datakit.dev: rsync] [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/5: [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git]
+Processing  5/5: [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git] [irmin-mem.1.2.0: git]
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+Processing  5/5: [irmin-git.1.2.0: git] [irmin-mem.1.2.0: git]
+[irmin-git.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+Processing  5/5: [irmin-mem.1.2.0: git]
+[irmin-mem.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/10: [datakit-server: jbuilder build]
++ jbuilder "build" "-p" "datakit-server" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server.dev)
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmo,cmt}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc src/datakit-server/datakit_server.cma
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit-server/datakit_server.cmxs
+-> compiled  datakit-server.dev
+Processing  2/10: [irmin-git: jbuilder build]
++ jbuilder "build" "-p" "irmin-git" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-git.1.2.0)
+-     ocamldep src/irmin-git/irmin_git.depends.ocamldep-output
+-     ocamldep src/irmin-git/irmin_git.dependsi.ocamldep-output
+-       ocamlc src/irmin-git/irmin_git.{cmi,cmti}
+-       ocamlc src/irmin-git/irmin_git.{cmo,cmt}
+-     ocamlopt src/irmin-git/irmin_git.{cmx,o}
+-       ocamlc src/irmin-git/irmin_git.cma
+-     ocamlopt src/irmin-git/irmin_git.{a,cmxa}
+-     ocamlopt src/irmin-git/irmin_git.cmxs
+-> compiled  irmin-git.1.2.0
+Processing  3/10: [irmin-mem: jbuilder build]
++ jbuilder "build" "-p" "irmin-mem" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-mem.1.2.0)
+-     ocamldep src/irmin-mem/irmin_mem.depends.ocamldep-output
+-     ocamldep src/irmin-mem/irmin_mem.dependsi.ocamldep-output
+-       ocamlc src/irmin-mem/irmin_mem.{cmi,cmti}
+-       ocamlc src/irmin-mem/irmin_mem.{cmo,cmt}
+-     ocamlopt src/irmin-mem/irmin_mem.{cmx,o}
+-       ocamlc src/irmin-mem/irmin_mem.cma
+-     ocamlopt src/irmin-mem/irmin_mem.{a,cmxa}
+-     ocamlopt src/irmin-mem/irmin_mem.cmxs
+-> compiled  irmin-mem.1.2.0
+-> installed datakit-server.dev
+Processing  5/10: [datakit-server-9p: jbuilder build]
++ jbuilder "build" "-p" "datakit-server-9p" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server-9p.dev)
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-       ocamlc src/datakit-server-9p/fs9p.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-       ocamlc src/datakit-server-9p/datakit_server_9p.cma
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.cmxs
+-> compiled  datakit-server-9p.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.2.0
+-> installed irmin-mem.1.2.0
+Processing  9/10: [datakit: jbuilder build]
++ jbuilder "build" "-p" "datakit" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+-     ocamldep src/datakit/bin/main.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-     ocamldep src/datakit-conduit/datakit_conduit.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.depends.ocamldep-output
+-     ocamldep src/datakit-conduit/datakit_conduit.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.dependsi.ocamldep-output
+-       ocamlc src/datakit-conduit/datakit_conduit.{cmi,cmti}
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc src/datakit-log/datakit_log.{cmi,cmti}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{cmx,o}
+-       ocamlc src/datakit/autopush.{cmi,cmo,cmt}
+-       ocamlc src/datakit/ivfs_blob.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{cmx,o}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{a,cmxa}
+-       ocamlc src/datakit/ivfs_blob.{cmo,cmt}
+-       ocamlc src/datakit/ivfs_tree.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-     ocamlopt src/datakit/autopush.{cmx,o}
+-     ocamlopt src/datakit/ivfs_blob.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{a,cmxa}
+-       ocamlc src/datakit/ivfs_tree.{cmo,cmt}
+-       ocamlc src/datakit/ivfs.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_merge.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_remote.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_rw.{cmi,cmti}
+-     ocamlopt src/datakit/ivfs_tree.{cmx,o}
+-       ocamlc src/datakit/ivfs_merge.{cmo,cmt}
+-       ocamlc src/datakit/ivfs_remote.{cmo,cmt}
+-       ocamlc src/datakit/ivfs_rw.{cmo,cmt}
+-       ocamlc src/datakit/bin/version.{cmi,cmo,cmt}
+-       ocamlc src/datakit/ivfs.{cmo,cmt}
+-     ocamlopt src/datakit/ivfs_merge.{cmx,o}
+-     ocamlopt src/datakit/ivfs_remote.{cmx,o}
+-     ocamlopt src/datakit/ivfs_rw.{cmx,o}
+-       ocamlc src/datakit/bin/main.{cmi,cmo,cmt}
+-       ocamlc src/datakit/datakit.cma
+-     ocamlopt src/datakit/ivfs.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt src/datakit/bin/version.{cmx,o}
+-     ocamlopt src/datakit/datakit.cmxs
+-     ocamlopt src/datakit/bin/main.{cmx,o}
+-     ocamlopt src/datakit/bin/main.exe
+Processing  9/10: [datakit: jbuilder runtest]
++ jbuilder "runtest" "tests/datakit" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+-     ocamldep tests/datakit/test.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_blob.{cmi,cmti}
+-       ocamlc src/datakit-conduit/datakit_conduit.{cmi,cmti}
+-       ocamlc src/datakit/autopush.{cmi,cmo,cmt}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-       ocamlc src/datakit/ivfs_tree.{cmi,cmti}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc src/datakit/ivfs_remote.{cmi,cmti}
+-       ocamlc src/datakit/ivfs.{cmi,cmti}
+-       ocamlc src/datakit/ivfs_rw.{cmi,cmti}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-       ocamlc src/datakit/ivfs_merge.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-     ocamlopt src/datakit/autopush.{cmx,o}
+-     ocamlopt src/datakit/ivfs_blob.{cmx,o}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit/ivfs_tree.{cmx,o}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{cmx,o}
+-     ocamlopt src/datakit/ivfs_rw.{cmx,o}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{a,cmxa}
+-     ocamlopt src/datakit/ivfs_merge.{cmx,o}
+-     ocamlopt src/datakit/ivfs_remote.{cmx,o}
+-       ocamlc tests/datakit/test.{cmi,cmo,cmt}
+-     ocamlopt src/datakit/ivfs.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt tests/datakit/test.{cmx,o}
+-     ocamlopt tests/datakit/test.exe
+-         test alias tests/datakit/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit.
+- [33m ...[m                [36mserver[m           0   Writes.[32m[OK][m                [36mserver[m           0   Writes.
+- [33m ...[m                [36mserver[m           1   RW.[32m[OK][m                [36mserver[m           1   RW.
+- [33m ...[m                [36mserver[m           2   Blobs fast.[32m[OK][m                [36mserver[m           2   Blobs fast.
+- [33m ...[m                [36mserver[m           3   Blobs random.[32m[OK][m                [36mserver[m           3   Blobs random.
+- [33m ...[m                [36mserver[m           4   Streams.[32m[OK][m                [36mserver[m           4   Streams.
+- [33m ...[m                [36mconduit[m          0   basic.[32m[OK][m                [36mconduit[m          0   basic.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.004s. 6 tests run.
+-> compiled  datakit.dev
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 106565c37067
+Error removing intermediate container 1a85eaf56fda: No such container: 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069
+Step 26/33 : RUN sudo cp $(opam config exec -- which datakit) /usr/bin/datakit &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 5dffeb57a9c6
+ ---> 2360b8c2daec
+Removing intermediate container d19bb06ee6ba
+Removing intermediate container 5dffeb57a9c6
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 27/33 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:c0537ff6a5218ef531ece93d4984efc99bbf3f7497c0a7726c88e2bb7584dc96
+Status: Image is up to date for alpine:3.5
+ ---> 02674b9cb179
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 28/33 : RUN apk add --no-cache libev gmp tzdata ca-certificates git openssh-client bash
+ ---> Using cache
+ ---> a0d61c48c29d
+Removing intermediate container 3471df3c9514
+Error removing intermediate container 1a85eaf56fda: No such container: 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069
+Step 29/33 : EXPOSE 5640
+ ---> Using cache
+ ---> c1f6ca7eeb3c
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 30/33 : ENTRYPOINT /usr/bin/datakit
+ ---> Using cache
+ ---> 5db5370252f1
+Error removing intermediate container 1a85eaf56fda: No such container: 1a85eaf56fda695f13139af14c8db86b5064343450d13a45dd9f46afff0e2069
+Step 31/33 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Using cache
+ ---> 72cc90866489
+Error removing intermediate container 9defade7e5d0: No such container: 9defade7e5d0ea62a0238fea16522f672df567d6569a1b193c0e94d5e4e0b518
+Step 32/33 : COPY --from=0 /usr/bin/datakit /usr/bin/datakit
+ ---> c98c7138ae41
+Error removing intermediate container 28f3b8fcc60b: No such container: 28f3b8fcc60b9b382e1b2e2bd0a9554347f0abbe493b443cc31ddc58bf04eb4b
+Step 33/33 : COPY --from=0 /usr/bin/datakit-mount /usr/bin/datakit-mount
+ ---> 1da60bcb384b
+Error removing intermediate container 9defade7e5d0: No such container: 9defade7e5d0ea62a0238fea16522f672df567d6569a1b193c0e94d5e4e0b518
+Successfully built 1da60bcb384b
+[2017-05-18 06:40.25] Success
