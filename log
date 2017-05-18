@@ -1,0 +1,51 @@
+=== Docker build Dockerfile.ci
+[2017-05-18 18:06.59] Starting...
+Cloning into '/tmp/with_clone3a0caa11'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8f221ef ci: use the dev version of protocol-9p-unix to avoid End_of_file async exceptions
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.134 MB
+Step 1/24 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/24 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 52e71e2e863a
+Step 3/24 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cfabc32e9e4f
+Step 4/24 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 51ed7ede4caa
+Step 5/24 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 09561fa35521
+Step 6/24 : RUN opam pin add git-unix.dev --dev -n
+ ---> Using cache
+ ---> ca2717bed195
+Step 7/24 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> cc441b126226
+Step 8/24 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 38e441d69d39
+Step 9/24 : RUN opam pin add irmin-fs.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> fcb396508511
+Step 10/24 : RUN opam pin add irmin-http.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> a2a562dcf0ea
+Step 11/24 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 15909fa820d7
+Step 12/24 : RUN opam pin add irmin-unix.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> aaac172ada2d
+Step 13/24 : RUN opam pin add procotol-9p-unix.dev --dev
+ ---> Running in ef252a95f387
+[91m[ERROR] No package named "procotol-9p-unix" found
+[0mThe command '/bin/sh -c opam pin add procotol-9p-unix.dev --dev' returned a non-zero code: 66
+[2017-05-18 18:07.16] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 66
