@@ -1,0 +1,1439 @@
+=== Docker build Dockerfile.client
+[2017-05-18 21:45.43] Starting...
+Cloning into '/tmp/with_clone83b3cfa'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 46324ff git client: try to fix Dockerfile.client
+[2017-05-18 21:45.47] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.388 MB
+Step 1/32 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/32 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> d24382836abe
+Step 3/32 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> d651fe40ddf1
+Step 4/32 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> c62267fcfe6e
+Step 5/32 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> f1b6beaae914
+Step 6/32 : RUN opam pin add git-http.dev --dev -n
+ ---> Using cache
+ ---> 75c7650682ab
+Step 7/32 : RUN opam pin add git-mirage.dev --dev -n
+ ---> Using cache
+ ---> 8f83ce305333
+Step 8/32 : RUN opam pin add git-unix.dev --dev -n
+ ---> Using cache
+ ---> 41c12c711ab5
+Step 9/32 : RUN opam pin add irmin.dev --dev -n
+ ---> Using cache
+ ---> 3dcf814a1d3e
+Step 10/32 : RUN opam pin add irmin-fs.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> 5a55f5a085ce
+Step 11/32 : RUN opam pin add irmin-mem.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> 131936eacd07
+Step 12/32 : RUN opam pin add irmin-git.dev --dev -n
+ ---> Using cache
+ ---> c7de471bfd65
+Step 13/32 : RUN opam pin add irmin-http.dev --dev -n
+ ---> Using cache
+ ---> 52927afe46cb
+Step 14/32 : RUN opam pin add irmin-mirage.dev --dev -n
+ ---> Using cache
+ ---> 6caf8ea251b0
+Step 15/32 : RUN opam pin add irmin-unix.dev --dev -n
+ ---> Using cache
+ ---> 992fb4562e7a
+Step 16/32 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 1d94d3658571
+Step 17/32 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 1b02ca27cc38
+Step 18/32 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 206d4ee59985
+Step 19/32 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 26323a8a0f44
+Step 20/32 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> d32165dafa49
+Step 21/32 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 4ea989713f72
+Step 22/32 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Using cache
+ ---> 69d9e683d822
+Step 23/32 : RUN opam install datakit-client --deps
+ ---> Using cache
+ ---> f61e75e4ba47
+Step 24/32 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Using cache
+ ---> 277cabde98cd
+Step 25/32 : COPY . /home/opam/src/datakit
+ ---> 4b8463214285
+Removing intermediate container 3f690aa5432a
+Step 26/32 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 3d75116e300e
+ ---> 9818e8943c4e
+Removing intermediate container 3d75116e300e
+Step 27/32 : RUN opam update datakit-client datakit-client-9p datakit-client-git
+ ---> Running in 966c146eba30
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-git: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+[datakit-client-git] /home/opam/src/datakit/ synchronized
+ ---> d9c82a2fde19
+Error removing intermediate container 966c146eba30: Driver aufs failed to remove root filesystem 966c146eba30215f15e998351ad4597c17c23cc444fe7f57623e718ae1c1b907: rename /var/lib/docker/aufs/mnt/9125ccd627100410653a7179fa20f0418500629f9966472aa0ab21c2bb41021f /var/lib/docker/aufs/mnt/9125ccd627100410653a7179fa20f0418500629f9966472aa0ab21c2bb41021f-removing: device or resource busy
+Step 28/32 : RUN opam install datakit-client.dev -vv -t
+ ---> Running in 4d236d8f98e5
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,847 bytes  received 52 bytes  17,798.00 bytes/sec
+- total size is 1,306,417  speedup is 146.80
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install ounit          2.0.0  
+  - install camlzip        1.07   
+  - install fpath          0.7.2  
+  - install conf-which     1      
+  - install datakit-client dev*   
+  - install qcheck         0.5.3.1
+  - install fileutils      0.5.1  
+  - install bos            0.1.6  
+  - install qtest          2.6    
+===== 9 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[default] /home/opam/opam-repository/archives/bos.0.1.6+opam.tar.gz unavailable
+[bos: from default] Repo archive not found
+[bos: http] Command started
+[default] /home/opam/opam-repository/archives/camlzip.1.07+opam.tar.gz unavailable
+[camlzip: from default] Repo archive not found
+[camlzip: http] Command started
+[default] /home/opam/opam-repository/archives/conf-which.1+opam.tar.gz unavailable
+[conf-which: from default] Repo archive not found
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,847 bytes  received 52 bytes  17,798.00 bytes/sec
+- total size is 1,306,417  speedup is 146.80
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+[default] /home/opam/opam-repository/archives/fileutils.0.5.1+opam.tar.gz unavailable
+[fileutils: from default] Repo archive not found
+[fileutils: http] Command started
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "http://erratique.ch/software/bos/releases/bos-0.1.6.tbz" (CWD=/tmp/opam-7-5f1023)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 39822  100 39822    0     0  1555k      0 --:--:-- --:--:-- --:--:-- 1620k
+[bos: http] Command started
+[bos.0.1.6] http://erratique.ch/software/bos/releases/bos-0.1.6.tbz downloaded
+[default] /home/opam/opam-repository/archives/fpath.0.7.2+opam.tar.gz unavailable
+[fpath: from default] Repo archive not found
+[fpath: http] Command started
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "http://erratique.ch/software/fpath/releases/fpath-0.7.2.tbz" (CWD=/tmp/opam-7-e7966f)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 24142  100 24142    0     0   894k      0 --:--:-- --:--:-- --:--:--  943k
+[fpath: http] Command started
+[fpath.0.7.2] http://erratique.ch/software/fpath/releases/fpath-0.7.2.tbz downloaded
+[default] /home/opam/opam-repository/archives/ounit.2.0.0+opam.tar.gz unavailable
+[ounit: from default] Repo archive not found
+[ounit: http] Command started
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "https://forge.ocamlcore.org/frs/download.php/1651/ocaml-fileutils-0.5.1.tar.gz" (CWD=/tmp/opam-7-d2c37b)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  126k  100  126k    0     0   396k      0 --:--:-- --:--:-- --:--:--  398k
+[fileutils: http] Command started
+[fileutils.0.5.1] https://forge.ocamlcore.org/frs/download.php/1651/ocaml-fileutils-0.5.1.tar.gz downloaded
+[default] /home/opam/opam-repository/archives/qcheck.0.5.3.1+opam.tar.gz unavailable
+[qcheck: from default] Repo archive not found
+[qcheck: http] Command started
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "http://forge.ocamlcore.org/frs/download.php/1258/ounit-2.0.0.tar.gz" (CWD=/tmp/opam-7-d2d111)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  101k  100  101k    0     0   367k      0 --:--:-- --:--:-- --:--:--  368k
+[ounit: http] Command started
+[ounit.2.0.0] http://forge.ocamlcore.org/frs/download.php/1258/ounit-2.0.0.tar.gz downloaded
+[default] /home/opam/opam-repository/archives/qtest.2.6+opam.tar.gz unavailable
+[qtest: from default] Repo archive not found
+[qtest: http] Command started
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "https://github.com/xavierleroy/camlzip/archive/rel107.zip" (CWD=/tmp/opam-7-ffb3fd)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   124    0   124    0     0    333      0 --:--:-- --:--:-- --:--:--   334
+-   0 32924    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 32924  100 32924    0     0  37859      0 --:--:-- --:--:-- --:--:--  392k
+[camlzip: http] Command started
+[camlzip.1.07] https://github.com/xavierleroy/camlzip/archive/rel107.zip downloaded
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "https://github.com/vincent-hugot/iteml/archive/v2.6.tar.gz" (CWD=/tmp/opam-7-a00279)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   125    0   125    0     0    333      0 --:--:-- --:--:-- --:--:--   334
+- 100 34822    0 34822    0     0  41130      0 --:--:-- --:--:-- --:--:-- 41130
+[qtest: http] Command started
+[qtest.2.6] https://github.com/vincent-hugot/iteml/archive/v2.6.tar.gz downloaded
++ curl "--write-out" "%{http_code}\\n" "--insecure" "--retry" "3" "--retry-delay" "2" "-OL" "https://github.com/c-cube/qcheck/archive/0.5.3.1.tar.gz" (CWD=/tmp/opam-7-d8a4ae)
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   122    0   122    0     0    318      0 --:--:-- --:--:-- --:--:--   318
+- 100  207k    0  207k    0     0   183k      0 --:--:--  0:00:01 --:--:--  183k
+[qcheck: http] Command started
+[qcheck.0.5.3.1] https://github.com/c-cube/qcheck/archive/0.5.3.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++ unzip "/home/opam/.opam/packages.dev/camlzip.1.07/rel107.zip" "-d" "/tmp/opam-7-6cc03f"
+- Archive:  /home/opam/.opam/packages.dev/camlzip.1.07/rel107.zip
+- 8f5d519238f117e8022bbbeb09948e67df31be18
+-    creating: /tmp/opam-7-6cc03f/camlzip-rel107/
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/.depend  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/Changes  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/LICENSE  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/META-camlzip  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/META-zip  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/Makefile  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/README  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/gzip.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/gzip.mli  
+-    creating: /tmp/opam-7-6cc03f/camlzip-rel107/test/
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/test/Makefile  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/test/minigzip.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/test/minizip.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/test/testzlib.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/zip.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/zip.mli  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/zlib.ml  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/zlib.mli  
+-   inflating: /tmp/opam-7-6cc03f/camlzip-rel107/zlibstubs.c  
++ mv "/tmp/opam-7-6cc03f/camlzip-rel107" "/home/opam/.opam/4.03.0/build/camlzip.1.07"
+[camlzip: make all] Command started
+[conf-which: which which] Command started
+[datakit-client: jbuilder build] Command started
++ tar "xfj" "/home/opam/.opam/packages.dev/fpath.0.7.2/fpath-0.7.2.tbz" "-C" "/tmp/opam-7-ad6566"
++ mv "/tmp/opam-7-ad6566/fpath-0.7.2" "/home/opam/.opam/4.03.0/build/fpath.0.7.2"
+[fpath: ocaml build] Command started
++ make "all" (CWD=/home/opam/.opam/4.03.0/build/camlzip.1.07)
+- ocamlc -g -safe-string -c -ccopt -g   zlibstubs.c
+- zlibstubs.c:19:18: fatal error: zlib.h: No such file or directory
+-  #include <zlib.h>
+-                   ^
+- compilation terminated.
+- make: *** [Makefile:67: zlibstubs.o] Error 2
+[91m[ERROR] The compilation of camlzip failed at "make all".
+[0m[camlzip: ocamlfind remove] Command started
++ which "which" (CWD=/home/opam/.opam/4.03.0/build/conf-which.1)
+- /usr/bin/which
+-> installed conf-which.1
++ tar "xfz" "/home/opam/.opam/packages.dev/ounit.2.0.0/ounit-2.0.0.tar.gz" "-C" "/tmp/opam-7-48c407"
++ mv "/tmp/opam-7-48c407/ounit-2.0.0" "/home/opam/.opam/4.03.0/build/ounit.2.0.0"
+[ounit: make build] Command started
++ ocamlfind "remove" "zip" (CWD=/home/opam/.opam/4.03.0/build/camlzip.1.07)
+- ocamlfind: [WARNING] No such directory: /home/opam/.opam/4.03.0/lib/zip
+[camlzip: ocamlfind remove] Command started
++ ocamlfind "remove" "camlzip" (CWD=/home/opam/.opam/4.03.0/build/camlzip.1.07)
+- ocamlfind: [WARNING] No such directory: /home/opam/.opam/4.03.0/lib/camlzip
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.{cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/datakit_client.cmxs
+-     ocamlopt api/ocaml/9p/mount/mount.exe
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/bin/datakit-mount" "/home/opam/.opam/4.03.0/bin/datakit-mount"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/META" "/home/opam/.opam/4.03.0/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/opam" "/home/opam/.opam/4.03.0/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.mli" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cma" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.a" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client/CHANGES.md"
+-> installed datakit-client.dev
++ ocaml "pkg/pkg.ml" "build" "--dev-pkg" "false" (CWD=/home/opam/.opam/4.03.0/build/fpath.0.7.2)
+- ocamlfind ocamldep -package bytes -package astring -package result -modules src/fpath.ml > src/fpath.ml.depends
+- ocamlfind ocamldep -package bytes -package astring -package result -modules src/fpath.mli > src/fpath.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package astring -package result -I src -I test -o src/fpath.cmi src/fpath.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package astring -package result -I src -I test -o src/fpath.cmx src/fpath.ml
+- ocamlfind ocamlopt -a -package bytes -package astring -package result -I src src/fpath.cmx -o src/fpath.cmxa
+- ocamlfind ocamlopt -shared -linkall -package bytes -package astring -package result -I src src/fpath.cmxa -o src/fpath.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package astring -package result -I src -I test -o src/fpath.cmo src/fpath.ml
+- ocamlfind ocamlc -a -package bytes -package astring -package result -I src src/fpath.cmo -o src/fpath.cma
+- ocamlfind ocamldep -package compiler-libs.toplevel -package bytes -package astring -package result -modules src/fpath_top.ml > src/fpath_top.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package astring -package result -I src -I test -o src/fpath_top.cmo src/fpath_top.ml
+- + ocamlfind ocamlc -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package astring -package result -I src -I test -o src/fpath_top.cmo src/fpath_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package astring -package result -I src -I test -o src/fpath_top.cmx src/fpath_top.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package astring -package result -I src -I test -o src/fpath_top.cmx src/fpath_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- File "_none_", line 1:
+- Warning 58: no cmx file was found in path for module Toploop, and its interface was not compiled with -opaque
+- ocamlfind ocamlopt -a -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmx -o src/fpath_top.cmxa
+- + ocamlfind ocamlopt -a -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmx -o src/fpath_top.cmxa
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmxa -o src/fpath_top.cmxs
+- + ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmxa -o src/fpath_top.cmxs
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlc -a -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmo -o src/fpath_top.cma
+- + ocamlfind ocamlc -a -package compiler-libs.toplevel -package bytes -package astring -package result -I src src/fpath_top.cmo -o src/fpath_top.cma
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/opam" "/home/opam/.opam/4.03.0/lib/fpath/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/pkg/META" "/home/opam/.opam/4.03.0/lib/fpath/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.a" "/home/opam/.opam/4.03.0/lib/fpath/fpath.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cma" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cmi" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cmti" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cmx" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cmxa" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.cmxs" "/home/opam/.opam/4.03.0/lib/fpath/fpath.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath.mli" "/home/opam/.opam/4.03.0/lib/fpath/fpath.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top.a" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top.cma" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top.cmx" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top.cmxa" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top.cmxs" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/src/fpath_top_init.ml" "/home/opam/.opam/4.03.0/lib/fpath/fpath_top_init.ml"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/fpath/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/fpath/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/fpath.0.7.2/_build/README.md" "/home/opam/.opam/4.03.0/doc/fpath/README.md"
+-> installed fpath.0.7.2
++ tar "xfj" "/home/opam/.opam/packages.dev/bos.0.1.6/bos-0.1.6.tbz" "-C" "/tmp/opam-7-126656"
++ mv "/tmp/opam-7-126656/bos-0.1.6" "/home/opam/.opam/4.03.0/build/bos.0.1.6"
+[bos: ocaml build] Command started
++ ocaml "pkg/pkg.ml" "build" "--dev-pkg" "false" (CWD=/home/opam/.opam/4.03.0/build/bos.0.1.6)
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_base.ml > src/bos_base.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_base.cmo src/bos_base.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_pat.ml > src/bos_pat.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_pat.cmo src/bos_pat.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_log.ml > src/bos_log.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_log.cmo src/bos_log.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_cmd.ml > src/bos_cmd.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_cmd.cmo src/bos_cmd.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_u.ml > src/bos_os_u.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_u.cmo src/bos_os_u.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_tmp.ml > src/bos_os_tmp.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_tmp.cmo src/bos_os_tmp.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_path.ml > src/bos_os_path.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_path.cmo src/bos_os_path.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_base.cmx src/bos_base.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_log.cmx src/bos_log.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_pat.cmx src/bos_pat.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_file.ml > src/bos_os_file.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_file.cmo src/bos_os_file.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_path.cmx src/bos_os_path.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_tmp.cmx src/bos_os_tmp.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_dir.ml > src/bos_os_dir.ml.depends
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_env.ml > src/bos_os_env.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_env.cmo src/bos_os_env.ml
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_dir.cmo src/bos_os_dir.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_cmd.cmx src/bos_cmd.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_env.cmx src/bos_os_env.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_cmd.ml > src/bos_os_cmd.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_cmd.cmo src/bos_os_cmd.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_file.cmx src/bos_os_file.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_os_arg.ml > src/bos_os_arg.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_arg.cmo src/bos_os_arg.ml
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos.ml > src/bos.ml.depends
+- ocamlfind ocamldep -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos.mli > src/bos.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos.cmi src/bos.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_arg.cmx src/bos_os_arg.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_cmd.cmx src/bos_os_cmd.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_dir.cmx src/bos_os_dir.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_os_u.cmx src/bos_os_u.ml
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos.cmx src/bos.ml
+- ocamlfind ocamlopt -a -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_base.cmx src/bos_pat.cmx src/bos_log.cmx src/bos_cmd.cmx src/bos_os_u.cmx src/bos_os_tmp.cmx src/bos_os_path.cmx src/bos_os_file.cmx src/bos_os_env.cmx src/bos_os_dir.cmx src/bos_os_cmd.cmx src/bos_os_arg.cmx src/bos.cmx -o src/bos.cmxa
+- ocamlfind ocamlopt -shared -linkall -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos.cmxa -o src/bos.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos.cmo src/bos.ml
+- ocamlfind ocamlc -a -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_base.cmo src/bos_pat.cmo src/bos_log.cmo src/bos_cmd.cmo src/bos_os_u.cmo src/bos_os_tmp.cmo src/bos_os_path.cmo src/bos_os_file.cmo src/bos_os_env.cmo src/bos_os_dir.cmo src/bos_os_cmd.cmo src/bos_os_arg.cmo src/bos.cmo -o src/bos.cma
+- ocamlfind ocamldep -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_setup.ml > src/bos_setup.ml.depends
+- ocamlfind ocamldep -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_setup.mli > src/bos_setup.mli.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_setup.cmi src/bos_setup.mli
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_setup.cmx src/bos_setup.ml
+- ocamlfind ocamlopt -a -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_setup.cmx -o src/bos_setup.cmxa
+- ocamlfind ocamlopt -shared -linkall -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_setup.cmxa -o src/bos_setup.cmxs
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_setup.cmo src/bos_setup.ml
+- ocamlfind ocamlc -a -package fmt.tty -package logs.fmt -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_setup.cmo -o src/bos_setup.cma
+- ocamlfind ocamldep -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -modules src/bos_top.ml > src/bos_top.ml.depends
+- ocamlfind ocamlc -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_top.cmo src/bos_top.ml
+- + ocamlfind ocamlc -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_top.cmo src/bos_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_top.cmx src/bos_top.ml
+- + ocamlfind ocamlopt -c -g -bin-annot -safe-string -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src -I test -o src/bos_top.cmx src/bos_top.ml
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- File "_none_", line 1:
+- Warning 58: no cmx file was found in path for module Toploop, and its interface was not compiled with -opaque
+- ocamlfind ocamlopt -a -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmx -o src/bos_top.cmxa
+- + ocamlfind ocamlopt -a -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmx -o src/bos_top.cmxa
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmxa -o src/bos_top.cmxs
+- + ocamlfind ocamlopt -shared -linkall -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmxa -o src/bos_top.cmxs
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
+- ocamlfind ocamlc -a -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmo -o src/bos_top.cma
+- + ocamlfind ocamlc -a -package compiler-libs.toplevel -package bytes -package rresult -package astring -package fpath -package fmt -package logs -package unix -I src src/bos_top.cmo -o src/bos_top.cma
+- findlib: [WARNING] Interface topdirs.cmi occurs in several directories: /home/opam/.opam/4.03.0/lib/ocaml, /home/opam/.opam/4.03.0/lib/ocaml/compiler-libs
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/opam" "/home/opam/.opam/4.03.0/lib/bos/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/pkg/META" "/home/opam/.opam/4.03.0/lib/bos/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.a" "/home/opam/.opam/4.03.0/lib/bos/bos.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cma" "/home/opam/.opam/4.03.0/lib/bos/bos.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cmi" "/home/opam/.opam/4.03.0/lib/bos/bos.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cmti" "/home/opam/.opam/4.03.0/lib/bos/bos.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cmxa" "/home/opam/.opam/4.03.0/lib/bos/bos.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.cmxs" "/home/opam/.opam/4.03.0/lib/bos/bos.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos.mli" "/home/opam/.opam/4.03.0/lib/bos/bos.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_base.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_base.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_cmd.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_cmd.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_log.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_log.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_arg.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_arg.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_cmd.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_cmd.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_dir.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_dir.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_env.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_env.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_file.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_file.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_path.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_path.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_tmp.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_tmp.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_os_u.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_os_u.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_pat.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_pat.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.a" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cma" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cmi" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cmti" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cmxa" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.cmxs" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_setup.mli" "/home/opam/.opam/4.03.0/lib/bos/bos_setup.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top.a" "/home/opam/.opam/4.03.0/lib/bos/bos_top.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top.cma" "/home/opam/.opam/4.03.0/lib/bos/bos_top.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top.cmx" "/home/opam/.opam/4.03.0/lib/bos/bos_top.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top.cmxa" "/home/opam/.opam/4.03.0/lib/bos/bos_top.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top.cmxs" "/home/opam/.opam/4.03.0/lib/bos/bos_top.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/src/bos_top_init.ml" "/home/opam/.opam/4.03.0/lib/bos/bos_top_init.ml"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/CHANGES.md" "/home/opam/.opam/4.03.0/doc/bos/CHANGES.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/LICENSE.md" "/home/opam/.opam/4.03.0/doc/bos/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/bos.0.1.6/_build/README.md" "/home/opam/.opam/4.03.0/doc/bos/README.md"
+-> installed bos.0.1.6
++ make "build" (CWD=/home/opam/.opam/4.03.0/build/ounit.2.0.0)
+- ocaml setup.ml -configure 
+- 
+- Configuration: 
+- ocamlfind: ........................................... /home/opam/.opam/4.03.0/bin/ocamlfind
+- ocamlc: .............................................. /home/opam/.opam/4.03.0/bin/ocamlc.opt
+- ocamlopt: ............................................ /home/opam/.opam/4.03.0/bin/ocamlopt.opt
+- ocamlbuild: .......................................... /home/opam/.opam/4.03.0/bin/ocamlbuild
+- Package name: ........................................ ounit
+- Package version: ..................................... 2.0.0
+- os_type: ............................................. Unix
+- system: .............................................. linux
+- architecture: ........................................ amd64
+- ccomp_type: .......................................... cc
+- ocaml_version: ....................................... 4.03.0
+- standard_library_default: ............................ /home/opam/.opam/4.03.0/lib/ocaml
+- standard_library: .................................... /home/opam/.opam/4.03.0/lib/ocaml
+- standard_runtime: .................................... /home/opam/.opam/4.03.0/bin/ocamlrun
+- bytecomp_c_compiler: ................................. gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -fPIC
+- native_c_compiler: ................................... gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+- model: ............................................... default
+- ext_obj: ............................................. .o
+- ext_asm: ............................................. .s
+- ext_lib: ............................................. .a
+- ext_dll: ............................................. .so
+- default_executable_name: ............................. a.out
+- systhread_supported: ................................. true
+- Install architecture-independent files dir: .......... /usr/local
+- Install architecture-dependent files in dir: ......... $prefix
+- User executables: .................................... $exec_prefix/bin
+- System admin executables: ............................ $exec_prefix/sbin
+- Program executables: ................................. $exec_prefix/libexec
+- Read-only single-machine data: ....................... $prefix/etc
+- Modifiable architecture-independent data: ............ $prefix/com
+- Modifiable single-machine data: ...................... $prefix/var
+- Object code libraries: ............................... $exec_prefix/lib
+- Read-only arch-independent data root: ................ $prefix/share
+- Read-only architecture-independent data: ............. $datarootdir
+- Info documentation: .................................. $datarootdir/info
+- Locale-dependent data: ............................... $datarootdir/locale
+- Man documentation: ................................... $datarootdir/man
+- Documentation root: .................................. $datarootdir/doc/$pkg_name
+- HTML documentation: .................................. $docdir
+- DVI documentation: ................................... $docdir
+- PDF documentation: ................................... $docdir
+- PS documentation: .................................... $docdir
+- findlib_version: ..................................... 1.7.1
+- is_native: ........................................... true
+- suffix_program: ...................................... 
+- Remove a file.: ...................................... rm -f
+- Remove a directory.: ................................. rm -rf
+- Turn ocaml debug flag on: ............................ true
+- Turn ocaml profile flag on: .......................... false
+- Compiler support generation of .cmxs.: ............... true
+- OCamlbuild additional flags: ......................... 
+- Create documentations: ............................... true
+- Compile tests executable and library and run them: ... false
+- pkg_unix: ............................................ /home/opam/.opam/4.03.0/lib/ocaml
+- pkg_threads: ......................................... /home/opam/.opam/4.03.0/lib/ocaml
+- ocamldoc: ............................................ /home/opam/.opam/4.03.0/bin/ocamldoc
+- 
+- ocaml setup.ml -build 
+- /home/opam/.opam/4.03.0/bin/ocamlopt.opt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitUtils.ml > src/oUnitUtils.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitPropList.ml > src/oUnitPropList.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitPlugin.ml > src/oUnitPlugin.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitConf.ml > src/oUnitConf.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitPropList.cmo src/oUnitPropList.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitUtils.cmo src/oUnitUtils.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitConf.cmo src/oUnitConf.ml
+- + ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitConf.cmo src/oUnitConf.ml
+- File "src/oUnitConf.ml", line 77, characters 16-35:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- File "src/oUnitConf.ml", line 331, characters 31-47:
+- Warning 3: deprecated: String.uppercase
+- Use String.uppercase_ascii instead.
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitChooser.ml > src/oUnitChooser.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitCache.ml > src/oUnitCache.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitTest.ml > src/oUnitTest.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitLogger.ml > src/oUnitLogger.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitShared.ml > src/oUnitShared.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLogger.cmo src/oUnitLogger.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitShared.cmo src/oUnitShared.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitTest.cmo src/oUnitTest.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitPlugin.cmo src/oUnitPlugin.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitResultSummary.ml > src/oUnitResultSummary.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCache.cmo src/oUnitCache.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitResultSummary.cmo src/oUnitResultSummary.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitLoggerStd.ml > src/oUnitLoggerStd.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitLoggerHTML.ml > src/oUnitLoggerHTML.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitLoggerHTMLData.ml > src/oUnitLoggerHTMLData.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerHTMLData.cmo src/oUnitLoggerHTMLData.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitLoggerJUnit.ml > src/oUnitLoggerJUnit.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerHTML.cmo src/oUnitLoggerHTML.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerStd.cmo src/oUnitLoggerStd.ml
+- + ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerStd.cmo src/oUnitLoggerStd.ml
+- File "src/oUnitLoggerStd.ml", line 161, characters 21-22:
+- Warning 28: wildcard pattern given as argument to a constant constructor
+- File "src/oUnitLoggerStd.ml", line 161, characters 30-31:
+- Warning 28: wildcard pattern given as argument to a constant constructor
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitAssert.ml > src/oUnitAssert.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitBracket.ml > src/oUnitBracket.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitBracket.cmo src/oUnitBracket.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitState.ml > src/oUnitState.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitChooser.cmo src/oUnitChooser.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitRunner.ml > src/oUnitRunner.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitCheckEnv.ml > src/oUnitCheckEnv.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitAssert.cmo src/oUnitAssert.ml
+- + ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitAssert.cmo src/oUnitAssert.ml
+- File "src/oUnitAssert.ml", line 243, characters 20-33:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitDiff.mli > src/oUnitDiff.mli.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitDiff.cmi src/oUnitDiff.mli
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitState.cmo src/oUnitState.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCheckEnv.cmo src/oUnitCheckEnv.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitRunnerProcesses.ml > src/oUnitRunnerProcesses.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunner.cmo src/oUnitRunner.ml
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitCore.ml > src/oUnitCore.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerJUnit.cmo src/oUnitLoggerJUnit.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerProcesses.cmo src/oUnitRunnerProcesses.ml
+- + ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerProcesses.cmo src/oUnitRunnerProcesses.ml
+- File "src/oUnitRunnerProcesses.ml", line 80, characters 19-32:
+- Warning 3: deprecated: String.create
+- Use Bytes.create instead.
+- File "src/oUnitRunnerProcesses.ml", line 90, characters 42-55:
+- Warning 3: deprecated: String.create
+- Use Bytes.create instead.
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitTestData.ml > src/oUnitTestData.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitDiff.ml > src/oUnitDiff.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCore.cmo src/oUnitCore.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitTestData.cmo src/oUnitTestData.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitDiff.cmo src/oUnitDiff.ml
+- ocamlfind ocamlc -a -I src src/oUnitUtils.cmo src/oUnitPropList.cmo src/oUnitConf.cmo src/oUnitPlugin.cmo src/oUnitLogger.cmo src/oUnitShared.cmo src/oUnitTest.cmo src/oUnitCache.cmo src/oUnitResultSummary.cmo src/oUnitChooser.cmo src/oUnitLoggerStd.cmo src/oUnitLoggerHTMLData.cmo src/oUnitLoggerHTML.cmo src/oUnitLoggerJUnit.cmo src/oUnitBracket.cmo src/oUnitAssert.cmo src/oUnitState.cmo src/oUnitDiff.cmo src/oUnitCheckEnv.cmo src/oUnitRunner.cmo src/oUnitRunnerProcesses.cmo src/oUnitCore.cmo src/oUnitTestData.cmo -o src/oUnitAdvanced.cma
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitPropList.cmx src/oUnitPropList.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitUtils.cmx src/oUnitUtils.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitConf.cmx src/oUnitConf.ml
+- + ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitConf.cmx src/oUnitConf.ml
+- File "src/oUnitConf.ml", line 77, characters 16-35:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- File "src/oUnitConf.ml", line 331, characters 31-47:
+- Warning 3: deprecated: String.uppercase
+- Use String.uppercase_ascii instead.
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLogger.cmx src/oUnitLogger.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitShared.cmx src/oUnitShared.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitTest.cmx src/oUnitTest.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitPlugin.cmx src/oUnitPlugin.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCache.cmx src/oUnitCache.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitResultSummary.cmx src/oUnitResultSummary.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerHTMLData.cmx src/oUnitLoggerHTMLData.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerHTML.cmx src/oUnitLoggerHTML.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerStd.cmx src/oUnitLoggerStd.ml
+- + ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerStd.cmx src/oUnitLoggerStd.ml
+- File "src/oUnitLoggerStd.ml", line 161, characters 21-22:
+- Warning 28: wildcard pattern given as argument to a constant constructor
+- File "src/oUnitLoggerStd.ml", line 161, characters 30-31:
+- Warning 28: wildcard pattern given as argument to a constant constructor
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitBracket.cmx src/oUnitBracket.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitChooser.cmx src/oUnitChooser.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitAssert.cmx src/oUnitAssert.ml
+- + ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitAssert.cmx src/oUnitAssert.ml
+- File "src/oUnitAssert.ml", line 243, characters 20-33:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitDiff.cmx src/oUnitDiff.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitState.cmx src/oUnitState.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCheckEnv.cmx src/oUnitCheckEnv.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunner.cmx src/oUnitRunner.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitLoggerJUnit.cmx src/oUnitLoggerJUnit.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerProcesses.cmx src/oUnitRunnerProcesses.ml
+- + ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerProcesses.cmx src/oUnitRunnerProcesses.ml
+- File "src/oUnitRunnerProcesses.ml", line 80, characters 19-32:
+- Warning 3: deprecated: String.create
+- Use Bytes.create instead.
+- File "src/oUnitRunnerProcesses.ml", line 90, characters 42-55:
+- Warning 3: deprecated: String.create
+- Use Bytes.create instead.
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitCore.cmx src/oUnitCore.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitTestData.cmx src/oUnitTestData.ml
+- ocamlfind ocamlopt -a -I src src/oUnitUtils.cmx src/oUnitPropList.cmx src/oUnitConf.cmx src/oUnitPlugin.cmx src/oUnitLogger.cmx src/oUnitShared.cmx src/oUnitTest.cmx src/oUnitCache.cmx src/oUnitResultSummary.cmx src/oUnitChooser.cmx src/oUnitLoggerStd.cmx src/oUnitLoggerHTMLData.cmx src/oUnitLoggerHTML.cmx src/oUnitLoggerJUnit.cmx src/oUnitBracket.cmx src/oUnitAssert.cmx src/oUnitState.cmx src/oUnitDiff.cmx src/oUnitCheckEnv.cmx src/oUnitRunner.cmx src/oUnitRunnerProcesses.cmx src/oUnitCore.cmx src/oUnitTestData.cmx -o src/oUnitAdvanced.cmxa
+- ocamlfind ocamlopt -shared -linkall -I src src/oUnitAdvanced.cmxa -o src/oUnitAdvanced.cmxs
+- File "/home/gildor/programmation/oasis/src/oasis/OASISString.ml", line 118, characters 8-26:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 20-36:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 42-58:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 14-30:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 38-54:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 57, characters 25-41:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 87, characters 10-26:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/PropList.ml", line 99, characters 13-29:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 94, characters 16-33:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 99, characters 16-35:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISFindlib.ml", line 256, characters 6-24:
+- Warning 3: deprecated: Lazy.lazy_from_fun
+- Use Lazy.from_fun instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 220, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 221, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 222, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 223, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 288, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 289, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 290, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 291, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISString.ml", line 118, characters 8-26:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 20-36:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 42-58:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 14-30:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 38-54:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 57, characters 25-41:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 87, characters 10-26:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/PropList.ml", line 99, characters 13-29:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 94, characters 16-33:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 99, characters 16-35:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISFindlib.ml", line 256, characters 6-24:
+- Warning 3: deprecated: Lazy.lazy_from_fun
+- Use Lazy.from_fun instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 220, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 221, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 222, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 223, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 288, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 289, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 290, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 291, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- W: Cannot find source file matching module 'OUnitLoggerHTMLData' in library oUnitAdvanced
+- W: Cannot find source file matching module 'OUnitLoggerHTMLData' in library oUnitAdvanced
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnit.mli > src/oUnit.mli.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnit2.mli > src/oUnit2.mli.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit2.cmi src/oUnit2.mli
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit.cmi src/oUnit.mli
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnit.ml > src/oUnit.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnit2.ml > src/oUnit2.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit.cmo src/oUnit.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit2.cmo src/oUnit2.ml
+- ocamlfind ocamlc -a -I src src/oUnit2.cmo src/oUnit.cmo -o src/oUnit.cma
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit2.cmx src/oUnit2.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnit.cmx src/oUnit.ml
+- ocamlfind ocamlopt -a -I src src/oUnit2.cmx src/oUnit.cmx -o src/oUnit.cmxa
+- ocamlfind ocamlopt -shared -linkall -I src src/oUnit.cmxa -o src/oUnit.cmxs
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitThreads.ml > src/oUnitThreads.ml.depends
+- ocamlfind ocamldep -package threads -package unix -modules src/oUnitRunnerThreads.ml > src/oUnitRunnerThreads.ml.depends
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerThreads.cmo src/oUnitRunnerThreads.ml
+- ocamlfind ocamlc -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitThreads.cmo src/oUnitThreads.ml
+- ocamlfind ocamlc -a -I src src/oUnitRunnerThreads.cmo src/oUnitThreads.cmo -o src/oUnitThreads.cma
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitRunnerThreads.cmx src/oUnitRunnerThreads.ml
+- ocamlfind ocamlopt -c -g -I src -I src -package threads -package unix -thread -I src -o src/oUnitThreads.cmx src/oUnitThreads.ml
+- ocamlfind ocamlopt -a -I src src/oUnitRunnerThreads.cmx src/oUnitThreads.cmx -o src/oUnitThreads.cmxa
+- ocamlfind ocamlopt -shared -linkall -I src src/oUnitThreads.cmxa -o src/oUnitThreads.cmxs
+[ounit: make install] Command started
++ make "install" (CWD=/home/opam/.opam/4.03.0/build/ounit.2.0.0)
+- ocaml setup.ml -install 
+- File "/home/gildor/programmation/oasis/src/oasis/OASISString.ml", line 118, characters 8-26:
+- Warning 3: deprecated: String.set
+- Use Bytes.set instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 20-36:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 46, characters 42-58:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 14-30:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 54, characters 38-54:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 57, characters 25-41:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUtils.ml", line 87, characters 10-26:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/PropList.ml", line 99, characters 13-29:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 94, characters 16-33:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISUnixPath.ml", line 99, characters 16-35:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/oasis/OASISFindlib.ml", line 256, characters 6-24:
+- Warning 3: deprecated: Lazy.lazy_from_fun
+- Use Lazy.from_fun instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 220, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 221, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 222, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 223, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 288, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 289, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 290, characters 31-50:
+- Warning 3: deprecated: String.uncapitalize
+- Use String.uncapitalize_ascii instead.
+- File "/home/gildor/programmation/oasis/src/plugins/internal/InternalInstallPlugin.ml", line 291, characters 31-48:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- W: Cannot find source header for module OUnitLoggerHTMLData in library oUnitAdvanced
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.mli
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit2.mli
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.cma
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.a
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit2.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnit2.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.cma
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.a
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitThreads.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunnerThreads.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitUtils.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPropList.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPlugin.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitChooser.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitResultSummary.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerStd.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerHTML.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerJUnit.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAssert.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitBracket.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTest.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitState.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunner.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunnerProcesses.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCore.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLogger.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitConf.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitShared.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCache.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTestData.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCheckEnv.ml
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitDiff.mli
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAdvanced.cma
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAdvanced.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAdvanced.a
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAdvanced.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitUtils.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPropList.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPlugin.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitChooser.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitResultSummary.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerStd.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerHTML.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerHTMLData.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerJUnit.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAssert.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitBracket.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTest.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitState.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunner.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunnerProcesses.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCore.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLogger.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitConf.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitShared.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCache.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTestData.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCheckEnv.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitDiff.cmi
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitUtils.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPropList.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitPlugin.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitChooser.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitResultSummary.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerStd.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerHTML.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerHTMLData.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLoggerJUnit.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitAssert.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitBracket.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTest.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitState.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunner.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitRunnerProcesses.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCore.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitLogger.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitConf.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitShared.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCache.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitTestData.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitCheckEnv.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/oUnitDiff.cmx
+- Installed /home/opam/.opam/4.03.0/lib/oUnit/META
+-> installed ounit.2.0.0
++ tar "xfz" "/home/opam/.opam/packages.dev/fileutils.0.5.1/ocaml-fileutils-0.5.1.tar.gz" "-C" "/tmp/opam-7-876af6"
++ mv "/tmp/opam-7-876af6/ocaml-fileutils-0.5.1" "/home/opam/.opam/4.03.0/build/fileutils.0.5.1"
+[fileutils: ocaml setup.ml] Command started
++ tar "xfz" "/home/opam/.opam/packages.dev/qcheck.0.5.3.1/0.5.3.1.tar.gz" "-C" "/tmp/opam-7-2e72e2"
++ mv "/tmp/opam-7-2e72e2/qcheck-0.5.3.1" "/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1"
+[qcheck: ocaml setup.ml] Command started
++ ocaml "setup.ml" "-configure" "--prefix" "/home/opam/.opam/4.03.0" (CWD=/home/opam/.opam/4.03.0/build/fileutils.0.5.1)
+- 
+- Configuration:
+- ocamlfind: ........................................... /home/opam/.opam/4.03.0/bin/ocamlfind
+- ocamlc: .............................................. /home/opam/.opam/4.03.0/bin/ocamlc.opt
+- ocamlopt: ............................................ /home/opam/.opam/4.03.0/bin/ocamlopt.opt
+- ocamlbuild: .......................................... /home/opam/.opam/4.03.0/bin/ocamlbuild
+- Package name: ........................................ ocaml-fileutils
+- Package version: ..................................... 0.5.1
+- os_type: ............................................. Unix
+- system: .............................................. linux
+- architecture: ........................................ amd64
+- ccomp_type: .......................................... cc
+- ocaml_version: ....................................... 4.03.0
+- standard_library_default: ............................ /home/opam/.opam/4.03.0/lib/ocaml
+- standard_library: .................................... /home/opam/.opam/4.03.0/lib/ocaml
+- standard_runtime: .................................... /home/opam/.opam/4.03.0/bin/ocamlrun
+- bytecomp_c_compiler: ................................. gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -fPIC
+- native_c_compiler: ................................... gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+- model: ............................................... default
+- ext_obj: ............................................. .o
+- ext_asm: ............................................. .s
+- ext_lib: ............................................. .a
+- ext_dll: ............................................. .so
+- default_executable_name: ............................. a.out
+- systhread_supported: ................................. true
+- Install architecture-independent files dir: .......... /home/opam/.opam/4.03.0
+- Install architecture-dependent files in dir: ......... $prefix
+- User executables: .................................... $exec_prefix/bin
+- System admin executables: ............................ $exec_prefix/sbin
+- Program executables: ................................. $exec_prefix/libexec
+- Read-only single-machine data: ....................... $prefix/etc
+- Modifiable architecture-independent data: ............ $prefix/com
+- Modifiable single-machine data: ...................... $prefix/var
+- Object code libraries: ............................... $exec_prefix/lib
+- Read-only arch-independent data root: ................ $prefix/share
+- Read-only architecture-independent data: ............. $datarootdir
+- Info documentation: .................................. $datarootdir/info
+- Locale-dependent data: ............................... $datarootdir/locale
+- Man documentation: ................................... $datarootdir/man
+- Documentation root: .................................. $datarootdir/doc/$pkg_name
+- HTML documentation: .................................. $docdir
+- DVI documentation: ................................... $docdir
+- PDF documentation: ................................... $docdir
+- PS documentation: .................................... $docdir
+- findlib_version: ..................................... 1.7.1
+- is_native: ........................................... true
+- suffix_program: ......................................
+- Remove a file.: ...................................... rm -f
+- Remove a directory.: ................................. rm -rf
+- Turn ocaml debug flag on: ............................ true
+- Turn ocaml profile flag on: .......................... false
+- Compiler support generation of .cmxs.: ............... true
+- OCamlbuild additional flags: .........................
+- Create documentations: ............................... true
+- Compile tests executable and library and run them: ... false
+- pkg_unix: ............................................ /home/opam/.opam/4.03.0/lib/ocaml
+- pkg_str: ............................................. /home/opam/.opam/4.03.0/lib/ocaml
+- ocamldoc: ............................................ /home/opam/.opam/4.03.0/bin/ocamldoc
+- 
+[fileutils: ocaml setup.ml] Command started
++ ocaml "setup.ml" "-configure" "--prefix" "/home/opam/.opam/4.03.0" (CWD=/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1)
+- 
+- Configuration:
+- ocamlfind: ........................................... /home/opam/.opam/4.03.0/bin/ocamlfind
+- ocamlc: .............................................. /home/opam/.opam/4.03.0/bin/ocamlc.opt
+- ocamlopt: ............................................ /home/opam/.opam/4.03.0/bin/ocamlopt.opt
+- ocamlbuild: .......................................... /home/opam/.opam/4.03.0/bin/ocamlbuild
+- Package name: ........................................ qcheck
+- Package version: ..................................... 0.5.3.1
+- os_type: ............................................. Unix
+- system: .............................................. linux
+- architecture: ........................................ amd64
+- ccomp_type: .......................................... cc
+- ocaml_version: ....................................... 4.03.0
+- standard_library_default: ............................ /home/opam/.opam/4.03.0/lib/ocaml
+- standard_library: .................................... /home/opam/.opam/4.03.0/lib/ocaml
+- standard_runtime: .................................... /home/opam/.opam/4.03.0/bin/ocamlrun
+- bytecomp_c_compiler: ................................. gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -fPIC
+- native_c_compiler: ................................... gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+- model: ............................................... default
+- ext_obj: ............................................. .o
+- ext_asm: ............................................. .s
+- ext_lib: ............................................. .a
+- ext_dll: ............................................. .so
+- default_executable_name: ............................. a.out
+- systhread_supported: ................................. true
+- Install architecture-independent files dir: .......... /home/opam/.opam/4.03.0
+- Install architecture-dependent files in dir: ......... $prefix
+- User executables: .................................... $exec_prefix/bin
+- System admin executables: ............................ $exec_prefix/sbin
+- Program executables: ................................. $exec_prefix/libexec
+- Read-only single-machine data: ....................... $prefix/etc
+- Modifiable architecture-independent data: ............ $prefix/com
+- Modifiable single-machine data: ...................... $prefix/var
+- Object code libraries: ............................... $exec_prefix/lib
+- Read-only arch-independent data root: ................ $prefix/share
+- Read-only architecture-independent data: ............. $datarootdir
+- Info documentation: .................................. $datarootdir/info
+- Locale-dependent data: ............................... $datarootdir/locale
+- Man documentation: ................................... $datarootdir/man
+- Documentation root: .................................. $datarootdir/doc/$pkg_name
+- HTML documentation: .................................. $docdir
+- DVI documentation: ................................... $docdir
+- PDF documentation: ................................... $docdir
+- PS documentation: .................................... $docdir
+- findlib_version: ..................................... 1.7.1
+- is_native: ........................................... true
+- suffix_program: ......................................
+- Remove a file.: ...................................... rm -f
+- Remove a directory.: ................................. rm -rf
+- Turn ocaml debug flag on: ............................ true
+- Turn ocaml profile flag on: .......................... false
+- Compiler support generation of .cmxs.: ............... true
+- OCamlbuild additional flags: .........................
+- Create documentations: ............................... true
+- Compile tests executable and library and run them: ... false
+- pkg_unix: ............................................ /home/opam/.opam/4.03.0/lib/ocaml
+- pkg_bytes: ........................................... /home/opam/.opam/4.03.0/lib/bytes
+- pkg_ounit: ........................................... /home/opam/.opam/4.03.0/lib/oUnit
+- ocamldoc: ............................................ /home/opam/.opam/4.03.0/bin/ocamldoc
+- 
+[qcheck: make build] Command started
++ make "build" (CWD=/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1)
+- ocaml setup.ml -build 
+- /home/opam/.opam/4.03.0/bin/ocamlopt.opt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules src/QCheck.mli > src/QCheck.mli.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck.cmi src/QCheck.mli
+- + /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck.cmi src/QCheck.mli
+- [1mFile "[1msrc/QCheck.mli", line 344, characters 18-40[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 345, characters 20-42[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 346, characters 22-58[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 347, characters 20-44[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 348, characters 24-45[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 352, characters 2-58[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 354, characters 2-70[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- [1mFile "[1msrc/QCheck.mli", line 359, characters 2-66[0m[0m:
+- [1;35mWarning[0m 50: ambiguous documentation comment
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules src/QCheck.ml > src/QCheck.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules src/QCheck_runner.mli > src/QCheck_runner.mli.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck_runner.cmi src/QCheck_runner.mli
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules src/QCheck_runner.ml > src/QCheck_runner.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck.cmo src/QCheck.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck_runner.cmo src/QCheck_runner.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -a -I src src/QCheck.cmo src/QCheck_runner.cmo -o src/qcheck.cma
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck.cmx src/QCheck.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -safe-string -package bytes -package oUnit -package unix -color always -w +a-4-44 -I src -o src/QCheck_runner.cmx src/QCheck_runner.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -a -I src src/QCheck.cmx src/QCheck_runner.cmx -o src/qcheck.cmxa
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -shared -I src src/qcheck.cmxa src/QCheck.cmx src/QCheck_runner.cmx -o src/qcheck.cmxs
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules example/QCheck_ounit_test.ml > example/QCheck_ounit_test.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -I src -package bytes -package oUnit -package unix -color always -w +a-4-44 -I example -I src -o example/QCheck_ounit_test.cmo example/QCheck_ounit_test.ml
+- + /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -I src -package bytes -package oUnit -package unix -color always -w +a-4-44 -I example -I src -o example/QCheck_ounit_test.cmo example/QCheck_ounit_test.ml
+- [1mFile "[1mexample/QCheck_ounit_test.ml", line 26, characters 14-42[0m[0m:
+- [1;35mWarning[0m 48: implicit elimination of optional argument ?rand
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -g -linkpkg -package bytes -package oUnit -package unix -I src -I example src/qcheck.cma example/QCheck_ounit_test.cmo -o example/QCheck_ounit_test.byte
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules example/QCheck_runner_test.ml > example/QCheck_runner_test.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -I src -package bytes -package oUnit -package unix -color always -w +a-4-44 -I example -I src -o example/QCheck_runner_test.cmo example/QCheck_runner_test.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -g -linkpkg -package bytes -package oUnit -package unix -I src -I example src/qcheck.cma example/QCheck_runner_test.cmo -o example/QCheck_runner_test.byte
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package bytes -package oUnit -package unix -modules example/QCheck_test.ml > example/QCheck_test.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -safe-string -I src -package bytes -package oUnit -package unix -color always -w +a-4-44 -I example -I src -o example/QCheck_test.cmo example/QCheck_test.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -g -linkpkg -package bytes -package oUnit -package unix -I src -I example src/qcheck.cma example/QCheck_test.cmo -o example/QCheck_test.byte
+[qcheck: ./configure] Command started
++ ocaml "setup.ml" "-build" (CWD=/home/opam/.opam/4.03.0/build/fileutils.0.5.1)
+- /home/opam/.opam/4.03.0/bin/ocamlopt.opt unix.cmxa -I /home/opam/.opam/4.03.0/lib/ocamlbuild /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuildlib.cmxa myocamlbuild.ml /home/opam/.opam/4.03.0/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtil.mli > src/FileUtil.mli.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FilePath.mli > src/FilePath.mli.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilMode.ml > src/FileUtilMode.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FilePath.cmi src/FilePath.mli
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMode.cmo src/FileUtilMode.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtil.cmi src/FileUtil.mli
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtil.ml > src/FileUtil.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilCHMOD.ml > src/FileUtilCHMOD.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilLS.ml > src/FileUtilLS.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilMisc.ml > src/FileUtilMisc.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilTypes.ml > src/FileUtilTypes.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTypes.cmo src/FileUtilTypes.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMisc.cmo src/FileUtilMisc.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilPermission.ml > src/FileUtilPermission.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilSTAT.ml > src/FileUtilSTAT.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilPermission.cmo src/FileUtilPermission.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilUMASK.ml > src/FileUtilUMASK.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilLS.cmo src/FileUtilLS.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilSTAT.cmo src/FileUtilSTAT.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilUMASK.cmo src/FileUtilUMASK.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilCMP.ml > src/FileUtilCMP.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilTEST.ml > src/FileUtilTEST.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilSize.ml > src/FileUtilSize.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilSize.cmo src/FileUtilSize.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTEST.cmo src/FileUtilTEST.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilCP.ml > src/FileUtilCP.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCHMOD.cmo src/FileUtilCHMOD.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilMKDIR.ml > src/FileUtilMKDIR.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilRM.ml > src/FileUtilRM.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilTOUCH.ml > src/FileUtilTOUCH.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMKDIR.cmo src/FileUtilMKDIR.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilRM.cmo src/FileUtilRM.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTOUCH.cmo src/FileUtilTOUCH.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilDU.ml > src/FileUtilDU.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilFIND.ml > src/FileUtilFIND.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilREADLINK.ml > src/FileUtilREADLINK.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilPWD.ml > src/FileUtilPWD.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilPWD.cmo src/FileUtilPWD.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilREADLINK.cmo src/FileUtilREADLINK.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilFIND.cmo src/FileUtilFIND.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilMV.ml > src/FileUtilMV.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCP.cmo src/FileUtilCP.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilWHICH.ml > src/FileUtilWHICH.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCMP.cmo src/FileUtilCMP.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilDU.cmo src/FileUtilDU.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMV.cmo src/FileUtilMV.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilWHICH.cmo src/FileUtilWHICH.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FilePath.ml > src/FilePath.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/CommonPath.ml > src/CommonPath.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileStringExt.ml > src/FileStringExt.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileStringExt.cmo src/FileStringExt.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/ExtensionPath.ml > src/ExtensionPath.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FilePath_type.ml > src/FilePath_type.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/MacOSPath.ml > src/MacOSPath.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/CommonPath.cmo src/CommonPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FilePath_type.cmo src/FilePath_type.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/UnixPath.ml > src/UnixPath.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/Win32Path.ml > src/Win32Path.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/ExtensionPath.cmo src/ExtensionPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/MacOSPath.cmo src/MacOSPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/UnixPath.cmo src/UnixPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/Win32Path.cmo src/Win32Path.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtil.cmo src/FileUtil.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FilePath.cmo src/FilePath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -a -I src src/FileStringExt.cmo src/CommonPath.cmo src/ExtensionPath.cmo src/FilePath_type.cmo src/MacOSPath.cmo src/UnixPath.cmo src/Win32Path.cmo src/FilePath.cmo src/FileUtilTypes.cmo src/FileUtilMisc.cmo src/FileUtilLS.cmo src/FileUtilMode.cmo src/FileUtilPermission.cmo src/FileUtilSTAT.cmo src/FileUtilUMASK.cmo src/FileUtilCHMOD.cmo src/FileUtilSize.cmo src/FileUtilTEST.cmo src/FileUtilCMP.cmo src/FileUtilMKDIR.cmo src/FileUtilRM.cmo src/FileUtilTOUCH.cmo src/FileUtilCP.cmo src/FileUtilPWD.cmo src/FileUtilREADLINK.cmo src/FileUtilFIND.cmo src/FileUtilDU.cmo src/FileUtilMV.cmo src/FileUtilWHICH.cmo src/FileUtil.cmo -o src/fileutils.cma
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileStringExt.cmx src/FileStringExt.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/CommonPath.cmx src/CommonPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FilePath_type.cmx src/FilePath_type.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/ExtensionPath.cmx src/ExtensionPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/MacOSPath.cmx src/MacOSPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/UnixPath.cmx src/UnixPath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/Win32Path.cmx src/Win32Path.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FilePath.cmx src/FilePath.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTypes.cmx src/FileUtilTypes.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMisc.cmx src/FileUtilMisc.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilPermission.cmx src/FileUtilPermission.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMode.cmx src/FileUtilMode.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilLS.cmx src/FileUtilLS.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilSTAT.cmx src/FileUtilSTAT.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilUMASK.cmx src/FileUtilUMASK.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilSize.cmx src/FileUtilSize.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTEST.cmx src/FileUtilTEST.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCHMOD.cmx src/FileUtilCHMOD.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMKDIR.cmx src/FileUtilMKDIR.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilRM.cmx src/FileUtilRM.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilTOUCH.cmx src/FileUtilTOUCH.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilPWD.cmx src/FileUtilPWD.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilREADLINK.cmx src/FileUtilREADLINK.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilFIND.cmx src/FileUtilFIND.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCP.cmx src/FileUtilCP.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilCMP.cmx src/FileUtilCMP.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilDU.cmx src/FileUtilDU.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilMV.cmx src/FileUtilMV.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilWHICH.cmx src/FileUtilWHICH.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtil.cmx src/FileUtil.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -a -I src src/FileStringExt.cmx src/CommonPath.cmx src/ExtensionPath.cmx src/FilePath_type.cmx src/MacOSPath.cmx src/UnixPath.cmx src/Win32Path.cmx src/FilePath.cmx src/FileUtilTypes.cmx src/FileUtilMisc.cmx src/FileUtilLS.cmx src/FileUtilMode.cmx src/FileUtilPermission.cmx src/FileUtilSTAT.cmx src/FileUtilUMASK.cmx src/FileUtilCHMOD.cmx src/FileUtilSize.cmx src/FileUtilTEST.cmx src/FileUtilCMP.cmx src/FileUtilMKDIR.cmx src/FileUtilRM.cmx src/FileUtilTOUCH.cmx src/FileUtilCP.cmx src/FileUtilPWD.cmx src/FileUtilREADLINK.cmx src/FileUtilFIND.cmx src/FileUtilDU.cmx src/FileUtilMV.cmx src/FileUtilWHICH.cmx src/FileUtil.cmx -o src/fileutils.cmxa
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -shared -I src src/fileutils.cmxa src/FileStringExt.cmx src/CommonPath.cmx src/ExtensionPath.cmx src/FilePath_type.cmx src/MacOSPath.cmx src/UnixPath.cmx src/Win32Path.cmx src/FilePath.cmx src/FileUtilTypes.cmx src/FileUtilMisc.cmx src/FileUtilLS.cmx src/FileUtilMode.cmx src/FileUtilPermission.cmx src/FileUtilSTAT.cmx src/FileUtilUMASK.cmx src/FileUtilCHMOD.cmx src/FileUtilSize.cmx src/FileUtilTEST.cmx src/FileUtilCMP.cmx src/FileUtilMKDIR.cmx src/FileUtilRM.cmx src/FileUtilTOUCH.cmx src/FileUtilCP.cmx src/FileUtilPWD.cmx src/FileUtilREADLINK.cmx src/FileUtilFIND.cmx src/FileUtilDU.cmx src/FileUtilMV.cmx src/FileUtilWHICH.cmx src/FileUtil.cmx -o src/fileutils.cmxs
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamldep -package str -package unix -modules src/FileUtilStr.ml > src/FileUtilStr.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilStr.cmo src/FileUtilStr.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlc -a -I src src/FileUtilStr.cmo -o src/fileutils-str.cma
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -I src -package str -package unix -I src -o src/FileUtilStr.cmx src/FileUtilStr.ml
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -a -I src src/FileUtilStr.cmx -o src/fileutils-str.cmxa
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -shared -I src src/fileutils-str.cmxa src/FileUtilStr.cmx -o src/fileutils-str.cmxs
+[fileutils: ocaml setup.ml] Command started
++ ./configure "--enable-tests" (CWD=/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1)
+- 
+- Configuration:
+- ocamlfind: ........................................... /home/opam/.opam/4.03.0/bin/ocamlfind
+- ocamlc: .............................................. /home/opam/.opam/4.03.0/bin/ocamlc.opt
+- ocamlopt: ............................................ /home/opam/.opam/4.03.0/bin/ocamlopt.opt
+- ocamlbuild: .......................................... /home/opam/.opam/4.03.0/bin/ocamlbuild
+- Package name: ........................................ qcheck
+- Package version: ..................................... 0.5.3.1
+- os_type: ............................................. Unix
+- system: .............................................. linux
+- architecture: ........................................ amd64
+- ccomp_type: .......................................... cc
+- ocaml_version: ....................................... 4.03.0
+- standard_library_default: ............................ /home/opam/.opam/4.03.0/lib/ocaml
+- standard_library: .................................... /home/opam/.opam/4.03.0/lib/ocaml
+- standard_runtime: .................................... /home/opam/.opam/4.03.0/bin/ocamlrun
+- bytecomp_c_compiler: ................................. gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT -fPIC
+- native_c_compiler: ................................... gcc -std=gnu99 -O2 -fno-strict-aliasing -fwrapv -Wall -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+- model: ............................................... default
+- ext_obj: ............................................. .o
+- ext_asm: ............................................. .s
+- ext_lib: ............................................. .a
+- ext_dll: ............................................. .so
+- default_executable_name: ............................. a.out
+- systhread_supported: ................................. true
+- Install architecture-independent files dir: .......... /home/opam/.opam/4.03.0
+- Install architecture-dependent files in dir: ......... $prefix
+- User executables: .................................... $exec_prefix/bin
+- System admin executables: ............................ $exec_prefix/sbin
+- Program executables: ................................. $exec_prefix/libexec
+- Read-only single-machine data: ....................... $prefix/etc
+- Modifiable architecture-independent data: ............ $prefix/com
+- Modifiable single-machine data: ...................... $prefix/var
+- Object code libraries: ............................... $exec_prefix/lib
+- Read-only arch-independent data root: ................ $prefix/share
+- Read-only architecture-independent data: ............. $datarootdir
+- Info documentation: .................................. $datarootdir/info
+- Locale-dependent data: ............................... $datarootdir/locale
+- Man documentation: ................................... $datarootdir/man
+- Documentation root: .................................. $datarootdir/doc/$pkg_name
+- HTML documentation: .................................. $docdir
+- DVI documentation: ................................... $docdir
+- PDF documentation: ................................... $docdir
+- PS documentation: .................................... $docdir
+- findlib_version: ..................................... 1.7.1
+- is_native: ........................................... true
+- suffix_program: ......................................
+- Remove a file.: ...................................... rm -f
+- Remove a directory.: ................................. rm -rf
+- Turn ocaml debug flag on: ............................ true
+- Turn ocaml profile flag on: .......................... false
+- Compiler support generation of .cmxs.: ............... true
+- OCamlbuild additional flags: .........................
+- Create documentations: ............................... true
+- Compile tests executable and library and run them: ... true
+- Filename of executable 'qcheck_ounit_example': ....... /home/opam/.opam/4.03.0/build/qcheck.0.5.3.1/_build/example/QCheck_ounit_test.byte
+- Filename of executable 'qcheck_runner_example': ...... /home/opam/.opam/4.03.0/build/qcheck.0.5.3.1/_build/example/QCheck_runner_test.byte
+- Filename of executable 'qcheck_example': ............. /home/opam/.opam/4.03.0/build/qcheck.0.5.3.1/_build/example/QCheck_test.byte
+- pkg_unix: ............................................ /home/opam/.opam/4.03.0/lib/ocaml
+- pkg_bytes: ........................................... /home/opam/.opam/4.03.0/lib/bytes
+- pkg_ounit: ........................................... /home/opam/.opam/4.03.0/lib/oUnit
+- ocamldoc: ............................................ /home/opam/.opam/4.03.0/bin/ocamldoc
+- 
+[qcheck: make test] Command started
++ ocaml "setup.ml" "-install" (CWD=/home/opam/.opam/4.03.0/build/fileutils.0.5.1)
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.mli
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.mli
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils.cma
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils.a
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.cmi
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.cmti
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.cmt
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.annot
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.cmi
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.cmti
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.cmt
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.annot
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilDU.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilCMP.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilMV.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilCP.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilRM.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilFIND.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilTOUCH.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilMKDIR.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilWHICH.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilREADLINK.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilPWD.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilTEST.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilCHMOD.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilLS.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilUMASK.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilSTAT.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilMisc.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilSize.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilPermission.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilTypes.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilMode.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/Win32Path.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/UnixPath.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/MacOSPath.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileStringExt.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath_type.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/ExtensionPath.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/CommonPath.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FilePath.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtil.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilStr.ml
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils-str.cma
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils-str.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils-str.a
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/fileutils-str.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilStr.cmi
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilStr.cmt
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilStr.annot
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/FileUtilStr.cmx
+- Installed /home/opam/.opam/4.03.0/lib/fileutils/META
+-> installed fileutils.0.5.1
++ make "test" (CWD=/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1)
+- ocaml setup.ml -build 
+- /home/opam/.opam/4.03.0/bin/ocamlfind ocamlopt -shared -I src src/qcheck.cmxa src/QCheck.cmx src/QCheck_runner.cmx -o src/qcheck.cmxs
+- ocaml setup.ml -test 
+[qcheck: make install] Command started
++ make "install" (CWD=/home/opam/.opam/4.03.0/build/qcheck.0.5.3.1)
+- ocaml setup.ml -install 
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.mli
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.mli
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/qcheck.cma
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/qcheck.cmxa
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/qcheck.a
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/qcheck.cmxs
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.cmi
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.cmti
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.cmt
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.annot
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.cmi
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.cmti
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.cmt
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.annot
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck_runner.cmx
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/QCheck.cmx
+- Installed /home/opam/.opam/4.03.0/lib/qcheck/META
+-> installed qcheck.0.5.3.1
++ tar "xfz" "/home/opam/.opam/packages.dev/qtest.2.6/v2.6.tar.gz" "-C" "/tmp/opam-7-8de6af"
++ mv "/tmp/opam-7-8de6af/iTeML-2.6" "/home/opam/.opam/4.03.0/build/qtest.2.6"
+Copying ~/.opam/repo/default/packages/qtest/qtest.2.6/files/qtest.install to ~/.opam/4.03.0/build/qtest.2.6/
+[qtest: make build] Command started
++ make "build" (CWD=/home/opam/.opam/4.03.0/build/qtest.2.6)
+- ocamlbuild -use-ocamlfind all.otarget
+- /home/opam/.opam/4.03.0/bin/ocamllex.opt -q src/qtest.mll
+- + /home/opam/.opam/4.03.0/bin/ocamllex.opt -q src/qtest.mll
+- ocamllex warning:
+- File "src/qtest.mll", line 239, character 19: unescaped newline in string.
+- ocamllex warning:
+- File "src/qtest.mll", line 240, character 60: unescaped newline in string.
+- ocamllex warning:
+- File "src/qtest.mll", line 241, character 50: unescaped newline in string.
+- ocamlfind ocamldep -package bytes -modules src/qtest.ml > src/qtest.ml.depends
+- ocamlfind ocamldep -package bytes -modules src/core.ml > src/core.ml.depends
+- /home/opam/.opam/4.03.0/bin/ocamllex.opt -q src/misclex.mll
+- ocamlfind ocamldep -package bytes -modules src/misclex.ml > src/misclex.ml.depends
+- ocamlfind ocamlc -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/misclex.cmo src/misclex.ml
+- /home/opam/.opam/4.03.0/bin/ocamlyacc src/qparse.mly
+- ocamlfind ocamldep -package bytes -modules src/qparse.mli > src/qparse.mli.depends
+- ocamlfind ocamlc -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/core.cmo src/core.ml
+- ocamlfind ocamlc -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/qparse.cmi src/qparse.mli
+- ocamlfind ocamlc -c -w A -package bytes -w -29 -w -4 -w -44 -w -50 -I src -I tests -o src/qtest.cmo src/qtest.ml
+- + ocamlfind ocamlc -c -w A -package bytes -w -29 -w -4 -w -44 -w -50 -I src -I tests -o src/qtest.cmo src/qtest.ml
+- File "src/qtest.mll", line 221, characters 4-21:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- ocamlfind ocamlopt -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/misclex.cmx src/misclex.ml
+- ocamlfind ocamldep -package bytes -modules src/qparse.ml > src/qparse.ml.depends
+- ocamlfind ocamlopt -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/core.cmx src/core.ml
+- ocamlfind ocamlopt -c -w A -package bytes -w -4 -w -44 -w -50 -I src -I tests -o src/qparse.cmx src/qparse.ml
+- ocamlfind ocamlopt -c -w A -package bytes -w -29 -w -4 -w -44 -w -50 -I src -I tests -o src/qtest.cmx src/qtest.ml
+- + ocamlfind ocamlopt -c -w A -package bytes -w -29 -w -4 -w -44 -w -50 -I src -I tests -o src/qtest.cmx src/qtest.ml
+- File "src/qtest.mll", line 221, characters 4-21:
+- Warning 3: deprecated: String.capitalize
+- Use String.capitalize_ascii instead.
+- ocamlfind ocamlopt -linkpkg -I src src/misclex.cmx src/core.cmx src/qparse.cmx src/qtest.cmx -o src/qtest.native
+- ln -sf /home/opam/.opam/4.03.0/build/qtest.2.6/_build/src/qtest.native /home/opam/.opam/4.03.0/build/qtest.2.6
+[qtest: make install] Command started
++ make "BIN=/home/opam/.opam/4.03.0/bin" "install" (CWD=/home/opam/.opam/4.03.0/build/qtest.2.6)
+- cp qtest.native /home/opam/.opam/4.03.0/bin/qtest
+-> installed qtest.2.6
+[91m
+#=== ERROR while installing camlzip.1.07 ======================================#
+# opam-version         1.2.2
+# os                   linux
+# command              make all
+# path                 /home/opam/.opam/4.03.0/build/camlzip.1.07
+# compiler             4.03.0
+# exit-code            2
+# env-file             /home/opam/.opam/4.03.0/build/camlzip.1.07/camlzip-7-335865.env
+# stdout-file          /home/opam/.opam/4.03.0/build/camlzip.1.07/camlzip-7-335865.out
+# stderr-file          /home/opam/.opam/4.03.0/build/camlzip.1.07/camlzip-7-335865.err
+### stdout ###
+# ocamlc -g -safe-string -c -ccopt -g   zlibstubs.c
+### stderr ###
+# zlibstubs.c:19:18: fatal error: zlib.h: No such file or directory
+#  #include <zlib.h>
+#                   ^
+# compilation terminated.
+# make: *** [Makefile:67: zlibstubs.o] Error 2
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install camlzip 1.07
+The following changes have been performed
+  - install bos            0.1.6  
+  - install conf-which     1      
+  - install datakit-client dev    
+  - install fileutils      0.5.1  
+  - install fpath          0.7.2  
+  - install ounit          2.0.0  
+  - install qcheck         0.5.3.1
+  - install qtest          2.6    
+
+=-=- camlzip.1.07 troobleshooting -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> This package relies on external (system) dependencies that may be missing.
+   `opam depext camlzip.1.07' may help you find the correct installation for
+   your system.
+[91m
+The former state can be restored with:
+    opam switch import "~/.opam/4.03.0/backup/state-20170418214618.export"
+'opam install datakit-client.dev -vv -t' failed.
+[0mThe command '/bin/sh -c opam install datakit-client.dev -vv -t' returned a non-zero code: 4
+[2017-05-18 21:46.43] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 4
