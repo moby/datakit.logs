@@ -1,0 +1,72 @@
+=== Docker build Dockerfile.client
+[2017-05-18 18:41.13] Starting...
+Cloning into '/tmp/with_clone130703d3'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8d02a66 stop using camlzip
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon  7.25 MB
+Step 1/19 : FROM ocaml/opam@sha256:5a6371c3a9f43dcac9b700e9dffa81ade05a792d853772cdd6c92a15e3939820
+sha256:5a6371c3a9f43dcac9b700e9dffa81ade05a792d853772cdd6c92a15e3939820: Pulling from ocaml/opam
+Digest: sha256:5a6371c3a9f43dcac9b700e9dffa81ade05a792d853772cdd6c92a15e3939820
+Status: Image is up to date for ocaml/opam@sha256:5a6371c3a9f43dcac9b700e9dffa81ade05a792d853772cdd6c92a15e3939820
+ ---> d69406d7ecdf
+Step 2/19 : RUN git -C /home/opam/opam-repository pull origin master && opam update
+ ---> Using cache
+ ---> 914cd1f594e0
+Step 3/19 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> ff1843c009cf
+Step 4/19 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 8d3ad9ec3a8d
+Step 5/19 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 71e6c58174c0
+Step 6/19 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 9281d01e5d56
+Step 7/19 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 58a15fe4918e
+Step 8/19 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 050a1d6ee9d6
+Step 9/19 : RUN opam depext datakit-client datakit-client-9p &&     opam install datakit-client --deps
+ ---> Using cache
+ ---> 1ba40ec1347c
+Step 10/19 : COPY . /home/opam/src/datakit
+ ---> 106e2f493728
+Removing intermediate container 4d8d313fd85e
+Step 11/19 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 10d078c0e1cd
+ ---> 9ad21dfe54e0
+Removing intermediate container 10d078c0e1cd
+Step 12/19 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 199dc1a66417
+ M src/version.ml
+ ---> 39c9b9a15a7f
+Removing intermediate container 199dc1a66417
+Step 13/19 : RUN opam update datakit-client datakit-client-9p
+ ---> Running in c06d3ff20766
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+# opam-version         1.2.2
+# os                   linux
+# command              aspcud /home/opam/.opam/log/solver-in-7-7afd23 /home/opam/.opam/log/solver-out-7-5f1023 -count(down),-count(removed),-notuptodate(solution),-sum(solution,version-lag),-count(new)
+# path                 /home/opam
+# exit-code            1
+# env-file             /home/opam/.opam/log/log-7-58c514.env
+# stdout-file          /home/opam/.opam/log/log-7-58c514.out
+# stderr-file          /home/opam/.opam/log/log-7-58c514.err
+
+[91m[WARNING] External solver failed:
+[ERROR] External solver failure, please fix your installation and check
+        /home/opam/.opam/config and variable $OPAMEXTERNALSOLVER.
+        You may also retry with option --use-internal-solver
+[0mThe command '/bin/sh -c opam update datakit-client datakit-client-9p' returned a non-zero code: 66
+[2017-05-18 18:42.21] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 66
