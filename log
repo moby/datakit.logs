@@ -1,0 +1,327 @@
+=== Docker build Dockerfile.client
+[2017-05-26 13:28.16] Starting...
+Cloning into '/tmp/with_clone3b738478'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 1007954 Debugging: Run opam update with debugging on
+[2017-05-26 13:28.20] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.561 MB
+Step 1/33 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/33 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 72af6e91820d
+Step 3/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 500cfd7250ad
+Step 4/33 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 6b9a049ceff0
+Step 5/33 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> ea33a6d99ca4
+Step 6/33 : RUN opam pin add git-http.dev --dev -n
+ ---> Using cache
+ ---> 7fd30b24802b
+Step 7/33 : RUN opam pin add git-mirage.dev --dev -n
+ ---> Using cache
+ ---> 4645b9411d05
+Step 8/33 : RUN opam pin add git-unix.dev --dev -n
+ ---> Using cache
+ ---> 5621d8fd90ac
+Step 9/33 : RUN opam pin add irmin.dev --dev -n
+ ---> Using cache
+ ---> 03f1cadfbe6d
+Step 10/33 : RUN opam pin add irmin-fs.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> beebfb7434b6
+Step 11/33 : RUN opam pin add irmin-mem.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> 141467236df6
+Step 12/33 : RUN opam pin add irmin-git.dev --dev -n
+ ---> Using cache
+ ---> e49f92f7c17e
+Step 13/33 : RUN opam pin add irmin-http.dev --dev -n
+ ---> Using cache
+ ---> 8dd1cad2be14
+Step 14/33 : RUN opam pin add irmin-mirage.dev --dev -n
+ ---> Using cache
+ ---> 273a6ede8dfb
+Step 15/33 : RUN opam pin add irmin-unix.dev --dev -n
+ ---> Using cache
+ ---> 936a8338976a
+Step 16/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> c44c5f77df85
+Step 17/33 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> a8ad697e9eed
+Step 18/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> b32b92c9bd20
+Step 19/33 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 5c5b1303d708
+Step 20/33 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> 12365057d82a
+Step 21/33 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 89344077ac7d
+Step 22/33 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Using cache
+ ---> 620f56a159c4
+Step 23/33 : RUN opam install datakit-client --deps
+ ---> Using cache
+ ---> bdec26fdc2a6
+Step 24/33 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Using cache
+ ---> 5c7536d1ea00
+Step 25/33 : RUN opam depext camlzip && opam install ounit camlzip fpath conf-which qcheck     fileutils bos qtest
+ ---> Using cache
+ ---> 9aa6febcfa9e
+Step 26/33 : COPY . /home/opam/src/datakit
+ ---> 458cb5ee8ac2
+Error removing intermediate container bc63e6082d85: Driver aufs failed to remove root filesystem bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b: rename /var/lib/docker/aufs/mnt/2713df67ad973ddd396649cfe98ca126d156eaad584afd63261f0242e6d9d549 /var/lib/docker/aufs/mnt/2713df67ad973ddd396649cfe98ca126d156eaad584afd63261f0242e6d9d549-removing: device or resource busy
+Step 27/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 8a0a76970999
+ ---> d8dc76990053
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Step 28/33 : RUN opam update datakit-client datakit-client-9p datakit-client-git
+ ---> Running in 25aff6c0ba82
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-git: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client-git] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+ ---> 45fa54004acf
+Error removing intermediate container 25aff6c0ba82: Driver aufs failed to remove root filesystem 25aff6c0ba82d24aeefd06f464794928f6fdd9aac9d1980a20d7545cb8595c09: rename /var/lib/docker/aufs/diff/c49a48462a531ffdc3a4fa4cdc4f2969037b076427d3fa35474aecbf68eaae43 /var/lib/docker/aufs/diff/c49a48462a531ffdc3a4fa4cdc4f2969037b076427d3fa35474aecbf68eaae43-removing: device or resource busy
+Step 29/33 : RUN opam install datakit-client.dev -vv -t
+ ---> Running in e7d86360aff3
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  5,900.67 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  17,702.00 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmo,cmt}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/datakit_client.cmxs
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/META" "/home/opam/.opam/4.03.0/lib/datakit-client/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/opam" "/home/opam/.opam/4.03.0/lib/datakit-client/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.mli" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cma" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.a" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/lib/datakit-client/datakit_client.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client/datakit_client.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client.dev/_build/install/default/doc/datakit-client/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client/CHANGES.md"
+-> installed datakit-client.dev
+Done.
+ ---> 99021d0b75b5
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Step 30/33 : RUN opam install datakit-client-9p -vv -t
+ ---> Running in e5ba634f09fb
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-9p"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  17,702.00 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client-9p] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client-9p dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-9p"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  5,900.67 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client-9p.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client-9p" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client-9p.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.cma
+-     ocamlopt api/ocaml/9p/mount/mount.exe
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.cmxs
++ install "-m" "0755" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/bin/datakit-mount" "/home/opam/.opam/4.03.0/bin/datakit-mount"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/META" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/opam" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.mli" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cma" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.a" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/lib/datakit-client-9p/datakit_client_9p.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client-9p/datakit_client_9p.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-9p.dev/_build/install/default/doc/datakit-client-9p/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client-9p/CHANGES.md"
+-> installed datakit-client-9p.dev
+Done.
+ ---> 9f14376e4f89
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Step 31/33 : RUN opam install datakit-client-git.dev -vv -t
+ ---> Running in 5467ebbdffe1
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-git: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-git"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  17,702.00 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client-git] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client-git dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-git: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client-git"
+- sending incremental file list
+- 
+- sent 8,799 bytes  received 52 bytes  17,702.00 bytes/sec
+- total size is 1,306,082  speedup is 147.56
+[datakit-client-git.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-git: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client-git" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client-git.dev)
+-     ocamldep api/ocaml/git/datakit_client_git.dependsi.ocamldep-output
+-     ocamldep api/ocaml/git/datakit_client_git.depends.ocamldep-output
+-       ocamlc api/ocaml/git/datakit_client_git.{cmi,cmti}
+-       ocamlc api/ocaml/git/datakit_client_git.{cmo,cmt}
+-       ocamlc api/ocaml/git/datakit_client_git.cma
+-     ocamlopt api/ocaml/git/datakit_client_git.{cmx,o}
+-     ocamlopt api/ocaml/git/datakit_client_git.{a,cmxa}
+-     ocamlopt api/ocaml/git/datakit_client_git.cmxs
+[datakit-client-git: jbuilder runtest] Command started
++ jbuilder "runtest" "tests/datakit-git" (CWD=/home/opam/.opam/4.03.0/build/datakit-client-git.dev)
+-     ocamldep tests/datakit-git/test.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep tests/datakit-git/test.dependsi.ocamldep-output
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc api/ocaml/git/datakit_client_git.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-       ocamlc tests/datakit-git/test.{cmi,cmti}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt api/ocaml/git/datakit_client_git.{cmx,o}
+-     ocamlopt api/ocaml/git/datakit_client_git.{a,cmxa}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt tests/datakit-git/test.{cmx,o}
+-     ocamlopt tests/datakit-git/test.exe
+-         test alias tests/datakit-git/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-git.
+- [33m ...[m                [36mclient[m          0   Transaction.[32m[OK][m                [36mclient[m          0   Transaction.
+- [33m ...[m                [36mclient[m          1   Watch.[32m[OK][m                [36mclient[m          1   Watch.
+- [33m ...[m                [36mclient[m          2   Make dirs.[32m[OK][m                [36mclient[m          2   Make dirs.
+- [33m ...[m                [36mclient[m          3   Truncate.[32m[OK][m                [36mclient[m          3   Truncate.
+- [33m ...[m                [36mclient[m          4   Parents.[32m[OK][m                [36mclient[m          4   Parents.
+- [33m ...[m                [36mclient[m          5   Merge.[32m[OK][m                [36mclient[m          5   Merge.
+- [33m ...[m                [36mclient[m          6   Diff.[32m[OK][m                [36mclient[m          6   Diff.
+- [33m ...[m                [36mclient[m          7   Merge_metadata.[32m[OK][m                [36mclient[m          7   Merge_metadata.
+- [33m ...[m                [36mclient[m          8   Merge empty.[32m[OK][m                [36mclient[m          8   Merge empty.
+- [33m ...[m                [36mclient[m          9   Conflicts.[32m[OK][m                [36mclient[m          9   Conflicts.
+- [33m ...[m                [36mclient[m         10   Large write.[32m[OK][m                [36mclient[m         10   Large write.
+- [33m ...[m                [36mclient[m         11   Remove.[32m[OK][m                [36mclient[m         11   Remove.
+- [33m ...[m                [36mclient[m         12   Remotes.[33m[SKIP][m              [36mclient[m         12   Remotes.
+- [33m ...[m                [36mclient[m         13   Create_or_replace.[33m[SKIP][m              [36mclient[m         13   Create_or_replace.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.484s. 12 tests run.
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/META" "/home/opam/.opam/4.03.0/lib/datakit-client-git/META"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/opam" "/home/opam/.opam/4.03.0/lib/datakit-client-git/opam"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmi" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmi"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmx" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmx"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmt" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmt"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmti" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmti"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.mli" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.mli"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cma" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cma"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmxa" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmxa"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.a" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.a"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/lib/datakit-client-git/datakit_client_git.cmxs" "/home/opam/.opam/4.03.0/lib/datakit-client-git/datakit_client_git.cmxs"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/doc/datakit-client-git/README.md" "/home/opam/.opam/4.03.0/doc/datakit-client-git/README.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/doc/datakit-client-git/LICENSE.md" "/home/opam/.opam/4.03.0/doc/datakit-client-git/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/4.03.0/build/datakit-client-git.dev/_build/install/default/doc/datakit-client-git/CHANGES.md" "/home/opam/.opam/4.03.0/doc/datakit-client-git/CHANGES.md"
+-> installed datakit-client-git.dev
+Done.
+ ---> 9fce7b4b5a66
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Step 32/33 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in b4a6aca5486f
+ ---> 69107619700a
+Removing intermediate container 5467ebbdffe1
+Removing intermediate container b4a6aca5486f
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Step 33/33 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in 06d88f58ec21
+ ---> e8aa1238c653
+Removing intermediate container e5ba634f09fb
+Removing intermediate container 06d88f58ec21
+Error removing intermediate container bc63e6082d85: No such container: bc63e6082d855b42a2ca496c6996557133f5da64eb1e875cb42ee60634a85e6b
+Successfully built e8aa1238c653
+[2017-05-26 13:29.43] Success
