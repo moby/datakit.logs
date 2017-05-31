@@ -1,0 +1,404 @@
+=== Docker build Dockerfile
+[2017-05-31 16:16.46] Starting...
+Cloning into '/tmp/with_clone53aaf38'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 725fa0f datakit: refactor the lib to wrap everything under the Datakit namespace
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.684 MB
+Step 1/33 : FROM ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe: Pulling from ocaml/opam-dev
+Digest: sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+Status: Image is up to date for ocaml/opam-dev@sha256:64dc0522876ebbd27b186e3ba955ae5ab864ace580add5b0d1abb8715bdf1bbe
+ ---> 477ad7d223ad
+Step 2/33 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset origin/master --hard &&     opam update -u
+ ---> Using cache
+ ---> 204be50d0453
+Step 3/33 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 407d7d032bfe
+Step 4/33 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> 8f79f9cbdef2
+Step 5/33 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 42ed6d0e26f4
+Step 6/33 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> af67eea90ac3
+Step 7/33 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> f0e4881ccc39
+Step 8/33 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> fd4ef9ef8784
+Step 9/33 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> b024c56d75a8
+Step 10/33 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> a0d1d752eb82
+Step 11/33 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 5fd11f805d2d
+Step 12/33 : COPY datakit.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> e3c94ebde64a
+Step 13/33 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 6becaf65398b
+Step 14/33 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 0e4f66974e6c
+Step 15/33 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 21326792249e
+Step 16/33 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> bbe06cc82920
+Step 17/33 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> e1458dc6dad4
+Step 18/33 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> a1be7f41eebc
+Step 19/33 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Using cache
+ ---> 8e9cb822ac9f
+Step 20/33 : RUN opam install alcotest
+ ---> Using cache
+ ---> f63147b1d4e0
+Step 21/33 : COPY . /home/opam/src/datakit
+ ---> 826a2554e1ad
+Removing intermediate container be7782333208
+Step 22/33 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 28868805979c
+ ---> bd193b3c4291
+Error removing intermediate container 28868805979c: Driver aufs failed to remove root filesystem 28868805979caa02bc31fdec455242349148ab77e581034da7ae5c1eabd56b79: rename /var/lib/docker/aufs/diff/4fd9eee08bf2c18ccc812bfcafcd79e2ef6c290122a645a94378d9c467301376 /var/lib/docker/aufs/diff/4fd9eee08bf2c18ccc812bfcafcd79e2ef6c290122a645a94378d9c467301376-removing: device or resource busy
+Step 23/33 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 0bdd874ca5f0
+ M src/version.ml
+ ---> 427200db0f99
+Error removing intermediate container 28868805979c: No such container: 28868805979caa02bc31fdec455242349148ab77e581034da7ae5c1eabd56b79
+Step 24/33 : RUN opam install datakit-client-9p
+ ---> Running in 49ecae860965
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install protocol-9p-unix  0.11.0                            [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 3 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[protocol-9p-unix.0.11.0] found in cache
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit-client-9p.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> cb48bf8901f1
+Error removing intermediate container 28868805979c: No such container: 28868805979caa02bc31fdec455242349148ab77e581034da7ae5c1eabd56b79
+Step 25/33 : RUN opam install datakit -ytv
+ ---> Running in df9280cb969e
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install irmin-git         1.2.0*                            [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install irmin-mem         1.2.0*                            [required by datakit]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 5 to install =====
+Processing  1/5: [datakit.dev: rsync]
+Processing  2/5: [datakit.dev: rsync] [datakit-server.dev: rsync]
+Processing  3/5: [datakit.dev: rsync] [datakit-server.dev: rsync] [datakit-server-9p.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/5: [datakit.dev: rsync] [datakit-server-9p.dev: rsync]
+Processing  4/5: [datakit.dev: rsync] [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/5: [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git]
+Processing  5/5: [datakit-server-9p.dev: rsync] [irmin-git.1.2.0: git] [irmin-mem.1.2.0: git]
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+Processing  5/5: [irmin-git.1.2.0: git] [irmin-mem.1.2.0: git]
+[irmin-git.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+Processing  5/5: [irmin-mem.1.2.0: git]
+[irmin-mem.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/10: [datakit-server: jbuilder build]
++ jbuilder "build" "-p" "datakit-server" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server.dev)
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmo,cmt}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc src/datakit-server/datakit_server.cma
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit-server/datakit_server.cmxs
+-> compiled  datakit-server.dev
+Processing  2/10: [irmin-git: jbuilder build]
++ jbuilder "build" "-p" "irmin-git" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-git.1.2.0)
+- File "test/irmin-fs/jbuild", line 11, characters 13-21:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-git/jbuild", line 11, characters 13-22:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-http/jbuild", line 11, characters 13-24:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-mem/jbuild", line 11, characters 13-22:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-unix/jbuild", line 11, characters 13-23:
+- Warning: This field is useless without a (public_name ...) field.
+-     ocamldep src/irmin-git/irmin_git.depends.ocamldep-output
+-     ocamldep src/irmin-git/irmin_git.dependsi.ocamldep-output
+-       ocamlc src/irmin-git/irmin_git.{cmi,cmti}
+-       ocamlc src/irmin-git/irmin_git.{cmo,cmt}
+-     ocamlopt src/irmin-git/irmin_git.{cmx,o}
+-       ocamlc src/irmin-git/irmin_git.cma
+-     ocamlopt src/irmin-git/irmin_git.{a,cmxa}
+-     ocamlopt src/irmin-git/irmin_git.cmxs
+-> compiled  irmin-git.1.2.0
+Processing  3/10: [irmin-mem: jbuilder build]
++ jbuilder "build" "-p" "irmin-mem" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-mem.1.2.0)
+- File "test/irmin-fs/jbuild", line 11, characters 13-21:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-git/jbuild", line 11, characters 13-22:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-http/jbuild", line 11, characters 13-24:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-mem/jbuild", line 11, characters 13-22:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/irmin-unix/jbuild", line 11, characters 13-23:
+- Warning: This field is useless without a (public_name ...) field.
+-     ocamldep src/irmin-mem/irmin_mem.depends.ocamldep-output
+-     ocamldep src/irmin-mem/irmin_mem.dependsi.ocamldep-output
+-       ocamlc src/irmin-mem/irmin_mem.{cmi,cmti}
+-       ocamlc src/irmin-mem/irmin_mem.{cmo,cmt}
+-     ocamlopt src/irmin-mem/irmin_mem.{cmx,o}
+-       ocamlc src/irmin-mem/irmin_mem.cma
+-     ocamlopt src/irmin-mem/irmin_mem.{a,cmxa}
+-     ocamlopt src/irmin-mem/irmin_mem.cmxs
+-> compiled  irmin-mem.1.2.0
+-> installed datakit-server.dev
+Processing  5/10: [datakit-server-9p: jbuilder build]
++ jbuilder "build" "-p" "datakit-server-9p" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server-9p.dev)
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-       ocamlc src/datakit-server-9p/fs9p.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-       ocamlc src/datakit-server-9p/datakit_server_9p.cma
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.cmxs
+-> compiled  datakit-server-9p.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.2.0
+-> installed irmin-mem.1.2.0
+Processing  9/10: [datakit: jbuilder build]
++ jbuilder "build" "-p" "datakit" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+-     ocamldep src/datakit/bin/main.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-       ocamlc src/datakit/datakit__.{cmi,cmo,cmt}
+-     ocamldep src/datakit-conduit/datakit_conduit.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.depends.ocamldep-output
+-     ocamldep src/datakit-conduit/datakit_conduit.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.dependsi.ocamldep-output
+-     ocamlopt src/datakit/datakit__.{cmx,o}
+-       ocamlc src/datakit/datakit.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+-       ocamlc src/datakit-conduit/datakit_conduit.{cmi,cmti}
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc src/datakit-log/datakit_log.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Blob.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+-       ocamlc src/datakit/datakit__Branch.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+-       ocamlc src/datakit/datakit__Metadata.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+-       ocamlc src/datakit/datakit__Path.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Path.{cmx,o}
+-       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{cmx,o}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{cmx,o}
+-       ocamlc src/datakit/datakit__Store.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Store.{cmx,o}
+-       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Rw.{cmi,cmti}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{a,cmxa}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-     ocamlopt src/datakit-log/datakit_log.{a,cmxa}
+-       ocamlc src/datakit/datakit__Merge.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+-       ocamlc src/datakit/datakit__Remote.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+-       ocamlc src/datakit/datakit__Rw.{cmo,cmt}
+-     ocamlopt src/datakit/datakit__Rw.{cmx,o}
+-       ocamlc src/datakit/bin/autopush.{cmi,cmo,cmt}
+-       ocamlc src/datakit/bin/version.{cmi,cmo,cmt}
+-       ocamlc src/datakit/datakit.{cmo,cmt}
+-     ocamlopt src/datakit/datakit.{cmx,o}
+-       ocamlc src/datakit/bin/main.{cmi,cmo,cmt}
+-       ocamlc src/datakit/datakit.cma
+-     ocamlopt src/datakit/bin/autopush.{cmx,o}
+-     ocamlopt src/datakit/bin/version.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt src/datakit/bin/main.{cmx,o}
+-     ocamlopt src/datakit/datakit.cmxs
+-     ocamlopt src/datakit/bin/main.exe
+Processing  9/10: [datakit: jbuilder runtest]
++ jbuilder "runtest" "tests/datakit" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+-     ocamldep tests/datakit/test.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep tests/datakit/test.dependsi.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc src/datakit/datakit.{cmi,cmti}
+-       ocamlc src/datakit-conduit/datakit_conduit.{cmi,cmti}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+-     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+-       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-     ocamlopt src/datakit/datakit__Path.{cmx,o}
+-       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Rw.{cmi,cmti}
+-       ocamlc tests/datakit/test.{cmi,cmti}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Store.{cmx,o}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{cmx,o}
+-     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+-     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+-     ocamlopt src/datakit-conduit/datakit_conduit.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Rw.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt src/datakit/datakit.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt tests/datakit/test.{cmx,o} (exit 2)
+- (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I /home/opam/.opam/default/lib/alcotest -I /home/opam/.opam/default/lib/asetmap -I /home/opam/.opam/default/lib/astring -I /home/opam/.opam/default/lib/base -I /home/opam/.opam/default/lib/base/caml -I /home/opam/.opam/default/lib/base/shadow_stdlib -I /home/opam/.opam/default/lib/base64 -I /home/opam/.opam/default/lib/bos -I /home/opam/.opam/default/lib/bytes -I /home/opam/.opam/default/lib/cmdliner -I /home/opam/.opam/default/lib/cohttp -I /home/opam/.opam/default/lib/conduit -I /home/opam/.opam/default/lib/cstruct -I /home/opam/.opam/default/lib/cstruct-lwt -I /home/opam/.opam/default/lib/decompress -I /home/opam/.opam/default/lib/duration -I /home/opam/.opam/default/lib/fieldslib -I /home/opam/.opam/default/lib/fmt -I /home/opam/.opam/default/lib/fpath -I /home/opam/.opam/default/lib/git -I /home/opam/.opam/default/lib/hex -I /home/opam/.opam/default/lib/hvsock -I /home/opam/.opam/default/lib/io-page -I /home/opam/.opam/default/lib/ipaddr -I /home/opam/.opam/default/lib/irmin -I /home/opam/.opam/default/lib/irmin-git -I /home/opam/.opam/default/lib/irmin-mem -I /home/opam/.opam/default/lib/jsonm -I /home/opam/.opam/default/lib/logs -I /home/opam/.opam/default/lib/lwt -I /home/opam/.opam/default/lib/magic-mime -I /home/opam/.opam/default/lib/mirage-channel-lwt -I /home/opam/.opam/default/lib/mirage-device -I /home/opam/.opam/default/lib/mirage-flow -I /home/opam/.opam/default/lib/mirage-flow-lwt -I /home/opam/.opam/default/lib/mirage-kv -I /home/opam/.opam/default/lib/mirage-kv-lwt -I /home/opam/.opam/default/lib/mirage-time -I /home/opam/.opam/default/lib/mirage-time-lwt -I /home/opam/.opam/default/lib/mstruct -I /home/opam/.opam/default/lib/mtime -I /home/opam/.opam/default/lib/mtime/os -I /home/opam/.opam/default/lib/named-pipe -I /home/opam/.opam/default/lib/ocamlgraph -I /home/opam/.opam/default/lib/ocplib-endian -I /home/opam/.opam/default/lib/prometheus -I /home/opam/.opam/default/lib/prometheus-app -I /home/opam/.opam/default/lib/protocol-9p -I /home/opam/.opam/default/lib/protocol-9p-unix -I /home/opam/.opam/default/lib/re -I /home/opam/.opam/default/lib/result -I /home/opam/.opam/default/lib/rresult -I /home/opam/.opam/default/lib/sexplib -I /home/opam/.opam/default/lib/sexplib/0 -I /home/opam/.opam/default/lib/stringext -I /home/opam/.opam/default/lib/uchar -I /home/opam/.opam/default/lib/uri -I /home/opam/.opam/default/lib/uutf -I /usr/lib/ocaml -I /usr/lib/ocaml/threads -I api/ocaml -I src/datakit -I src/datakit-conduit -I src/datakit-io -I src/datakit-server -I src/datakit-server-9p -I tests/common -no-alias-deps -I tests/datakit -o tests/datakit/test.cmx -c -impl tests/datakit/test.ml)
+- File "tests/datakit/test.ml", line 13, characters 15-29:
+- Error: Unbound module Ivfs_tree
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit dev
++- 
++- The following changes have been performed
+| - install datakit-server    dev
+| - install datakit-server-9p dev
+| - install irmin-git         1.2.0
+| - install irmin-mem         1.2.0
++- 
+[91m[ERROR] The compilation of datakit failed at "jbuilder runtest tests/datakit".
+
+#=== ERROR while compiling datakit.dev ========================================#
+# command              jbuilder runtest tests/datakit
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-7-82479e.env
+# output-file          /home/opam/.opam/log/datakit-7-82479e.out
+### output ###
+#     ocamldep tests/datakit/test.depends.ocamldep-output
+#     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+#     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+#     ocamldep tests/common/test.dependsi.ocamldep-output
+#     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+#     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+#     ocamldep tests/datakit/test.dependsi.ocamldep-output
+#     ocamldep tests/common/test.depends.ocamldep-output
+#       ocamlc src/datakit-server/vfs.{cmi,cmti}
+#       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+#       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+#       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+#       ocamlc tests/common/test_client.{cmi,cmti}
+#     ocamlopt api/ocaml/datakit_client.{cmx,o}
+#       ocamlc src/datakit/datakit.{cmi,cmti}
+#       ocamlc src/datakit-conduit/datakit_conduit.{cmi,cmti}
+#     ocamlopt src/datakit-server/vfs.{cmx,o}
+#     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+#       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+#     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+#     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+#       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+#     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+#     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+#     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+#     ocamlopt src/datakit/datakit__Path.{cmx,o}
+#       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+#       ocamlc src/datakit/datakit__Rw.{cmi,cmti}
+#       ocamlc tests/datakit/test.{cmi,cmti}
+#     ocamlopt tests/common/test_utils.{cmx,o}
+#     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+#     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+#     ocamlopt src/datakit/datakit__Store.{cmx,o}
+#     ocamlopt src/datakit-conduit/datakit_conduit.{cmx,o}
+#     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+#     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+#     ocamlopt src/datakit-conduit/datakit_conduit.{a,cmxa}
+#     ocamlopt src/datakit/datakit__Rw.{cmx,o}
+#     ocamlopt tests/common/test_client.{cmx,o}
+#     ocamlopt tests/common/test.{a,cmxa}
+#     ocamlopt src/datakit/datakit.{cmx,o}
+#     ocamlopt src/datakit/datakit.{a,cmxa}
+#     ocamlopt tests/datakit/test.{cmx,o} (exit 2)
+# (cd _build/default && /usr/bin/ocamlopt.opt -w -40 -g -I /home/opam/.opam/default/lib/alcotest -I /home/opam/.opam/default/lib/asetmap -I /home/opam/.opam/default/lib/astring -I /home/opam/.opam/default/lib/base -I /home/opam/.opam/default/lib/base/caml -I /home/opam/.opam/default/lib/base/shadow_stdlib -I /home/opam/.opam/default/lib/base64 -I /home/opam/.opam/default/lib/bos -I /home/opam/.opam/default/lib/bytes -I /home/opam/.opam/default/lib/cmdliner -I /home/opam/.opam/default/lib/cohttp -I /home/opam/.opam/default/lib/conduit -I /home/opam/.opam/default/lib/cstruct -I /home/opam/.opam/default/lib/cstruct-lwt -I /home/opam/.opam/default/lib/decompress -I /home/opam/.opam/default/lib/duration -I /home/opam/.opam/default/lib/fieldslib -I /home/opam/.opam/default/lib/fmt -I /home/opam/.opam/default/lib/fpath -I /home/opam/.opam/default/lib/git -I /home/opam/.opam/default/lib/hex -I /home/opam/.opam/default/lib/hvsock -I /home/opam/.opam/default/lib/io-page -I /home/opam/.opam/default/lib/ipaddr -I /home/opam/.opam/default/lib/irmin -I /home/opam/.opam/default/lib/irmin-git -I /home/opam/.opam/default/lib/irmin-mem -I /home/opam/.opam/default/lib/jsonm -I /home/opam/.opam/default/lib/logs -I /home/opam/.opam/default/lib/lwt -I /home/opam/.opam/default/lib/magic-mime -I /home/opam/.opam/default/lib/mirage-channel-lwt -I /home/opam/.opam/default/lib/mirage-device -I /home/opam/.opam/default/lib/mirage-flow -I /home/opam/.opam/default/lib/mirage-flow-lwt -I /home/opam/.opam/default/lib/mirage-kv -I /home/opam/.opam/default/lib/mirage-kv-lwt -I /home/opam/.opam/default/lib/mirage-time -I /home/opam/.opam/default/lib/mirage-time-lwt -I /home/opam/.opam/default/lib/mstruct -I /home/opam/.opam/default/lib/mtime -I /home/opam/.opam/default/lib/mtime/os -I /home/opam/.opam/default/lib/named-pipe -I /home/opam/.opam/default/lib/ocamlgraph -I /home/opam/.opam/default/lib/ocplib-endian -I /home/opam/.opam/default/lib/prometheus -I /home/opam/.opam/default/lib/prometheus-app -I /home/opam/.opam/default/lib/protocol-9p -I /home/opam/.opam/default/lib/protocol-9p-unix -I /home/opam/.opam/default/lib/re -I /home/opam/.opam/default/lib/result -I /home/opam/.opam/default/lib/rresult -I /home/opam/.opam/default/lib/sexplib -I /home/opam/.opam/default/lib/sexplib/0 -I /home/opam/.opam/default/lib/stringext -I /home/opam/.opam/default/lib/uchar -I /home/opam/.opam/default/lib/uri -I /home/opam/.opam/default/lib/uutf -I /usr/lib/ocaml -I /usr/lib/ocaml/threads -I api/ocaml -I src/datakit -I src/datakit-conduit -I src/datakit-io -I src/datakit-server -I src/datakit-server-9p -I tests/common -no-alias-deps -I tests/datakit -o tests/datakit/test.cmx -c -impl tests/datakit/test.ml)
+# File "tests/datakit/test.ml", line 13, characters 15-29:
+# Error: Unbound module Ivfs_tree
+
+[0m# Run eval `opam env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170531161722.export"
+'opam install datakit -ytv' failed.
+[0mThe command '/bin/sh -c opam install datakit -ytv' returned a non-zero code: 4
+[2017-05-31 16:17.45] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 4
