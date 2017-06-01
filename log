@@ -1,0 +1,80 @@
+=== Docker build Dockerfile.client
+[2017-06-01 11:47.55] Starting...
+Cloning into '/tmp/with_clone109267bf'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 6b6f78f Merge pull request #577 from samoht/bridge-git
+[2017-06-01 11:47.59] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 7.817 MB
+Step 1/32 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 1254c1838b00
+Step 2/32 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> f7fd64f0b2dd
+Step 3/32 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> d59e8ca42154
+Step 4/32 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 154ccb55f604
+Step 5/32 : RUN opam pin add git-http.dev --dev -n
+ ---> Using cache
+ ---> c6668a847e65
+Step 6/32 : RUN opam pin add git-mirage.dev --dev -n
+ ---> Using cache
+ ---> 15e3e541a433
+Step 7/32 : RUN opam pin add git-unix.dev --dev -n
+ ---> Using cache
+ ---> 4180a74bb38a
+Step 8/32 : RUN opam pin add irmin.dev --dev -n
+ ---> Using cache
+ ---> 617f41aedcb4
+Step 9/32 : RUN opam pin add irmin-fs.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> de78449ce1c8
+Step 10/32 : RUN opam pin add irmin-mem.dev https://github.com/mirage/irmin.git -n
+ ---> Using cache
+ ---> f06262f5c546
+Step 11/32 : RUN opam pin add irmin-git.dev --dev -n
+ ---> Using cache
+ ---> ed87b8fb0f2f
+Step 12/32 : RUN opam pin add irmin-http.dev --dev -n
+ ---> Using cache
+ ---> 511e8d138e25
+Step 13/32 : RUN opam pin add irmin-mirage.dev --dev -n
+ ---> Using cache
+ ---> 4470cf6dd652
+Step 14/32 : RUN opam pin add irmin-unix.dev --dev -n
+ ---> Using cache
+ ---> 9197b2bbffc7
+Step 15/32 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 714394890368
+Step 16/32 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 2184dbcb954b
+Step 17/32 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 6c7aec84548f
+Step 18/32 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> e158ca092e75
+Step 19/32 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> f3c04c4a6f40
+Step 20/32 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> cfed72bd2b02
+Step 21/32 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Using cache
+ ---> e65b48d642c8
+Step 22/32 : RUN opam install datakit-client --deps
+ ---> Using cache
+ ---> 94139dc6757a
+Step 23/32 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Running in 92dcf8485208
+[91m[ERROR] No package named protocol-9p-unix found.
+[0mThe command '/bin/sh -c opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest' returned a non-zero code: 66
+[2017-06-01 11:48.20] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 66
