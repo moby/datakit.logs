@@ -1,0 +1,431 @@
+=== Docker build Dockerfile.github
+[2017-06-01 13:20.29] Starting...
+Cloning into '/tmp/with_clone1a70e33d'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 6c333a4 github: add a `owner` file
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon  7.89 MB
+Step 1/34 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/34 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> be24092c1ade
+Step 3/34 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> fb977fe6cf1e
+Step 4/34 : RUN opam pin add git.dev --dev -n
+ ---> Using cache
+ ---> 895d36113164
+Step 5/34 : RUN opam pin add git-unix.dev -n --dev
+ ---> Using cache
+ ---> de5d003476ae
+Step 6/34 : RUN opam pin add irmin.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 7ef0253c1bf1
+Step 7/34 : RUN opam pin add irmin-mem.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> 126128a7a664
+Step 8/34 : RUN opam pin add irmin-git.1.2.0 -n https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+ ---> Using cache
+ ---> b236b3acc030
+Step 9/34 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner     github protocol-9p rresult prometheus-app asl win-eventlog mtime hex     github-hooks hvsock irmin-watcher git irmin
+ ---> Using cache
+ ---> fa23e8436a11
+Step 10/34 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 0f73b34925f4
+Step 11/34 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> fa3cba321bd7
+Step 12/34 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> 2d94407b94b7
+Step 13/34 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 030926a3576b
+Step 14/34 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 8ad23d96d2aa
+Step 15/34 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> 817df28dc227
+Step 16/34 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 0fb34e5644b5
+Step 17/34 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> 802ddd8b3f37
+Step 18/34 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> b4be57a477f0
+Step 19/34 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 16b83d117ec6
+Step 20/34 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-git.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 365111a09e18
+Step 21/34 : COPY . /home/opam/src/datakit
+ ---> dc9cab1c54a9
+Error removing intermediate container 26bf960c6d7a: Driver aufs failed to remove root filesystem 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73: rename /var/lib/docker/aufs/mnt/b7395502cf42302d9483cf0080e31cd47573876b83c19d03dcff3833bd370ef8 /var/lib/docker/aufs/mnt/b7395502cf42302d9483cf0080e31cd47573876b83c19d03dcff3833bd370ef8-removing: device or resource busy
+Step 22/34 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in bab566638580
+ ---> bc2db8b00d63
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 23/34 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 79ac9fcab233
+ M src/version.ml
+ ---> 978ac47f0a18
+Removing intermediate container 79ac9fcab233
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 24/34 : RUN opam install datakit
+ ---> Running in 8f2b0c50e75a
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install protocol-9p-unix  0.11.0                            [required by datakit]
+  - install irmin-git         1.2.0*                            [required by datakit]
+  - install datakit-server    dev*                              [required by datakit-server-9p]
+  - install irmin-mem         1.2.0*                            [required by datakit]
+  - install datakit-server-9p dev*                              [required by datakit]
+  - install datakit           dev*
+===== 6 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[protocol-9p-unix.0.11.0] found in cache
+[irmin-mem.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+[irmin-git.1.2.0] synchronised from git+https://github.com/mirage/irmin.git#81ffa256d3aa6b73b689609f7a5ff01c298fe821
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+-> installed datakit-server-9p.dev
+-> installed irmin-git.1.2.0
+-> installed irmin-mem.1.2.0
+-> installed protocol-9p-unix.0.11.0
+-> installed datakit.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> fb38ef7fd6ec
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 25/34 : RUN opam install datakit-bridge-github -ytv
+ ---> Running in 19f50aed534f
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client        dev*                          [required by datakit-bridge-github]
+  - install git-http              1.10.0                        [required by git-unix]
+  - install datakit-github        dev*                          [required by datakit-bridge-github]
+  - install datakit-client-9p     dev*                          [required by datakit-bridge-github]
+  - install git-unix              dev*                          [required by datakit-client-git]
+  - install datakit-client-git    dev*                          [required by datakit-bridge-github]
+  - install datakit-bridge-github dev*
+===== 7 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/7: [datakit-bridge-github.dev: rsync]
+Processing  2/7: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync]
+Processing  3/7: [datakit-bridge-github.dev: rsync] [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+Processing  3/7: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync]
+Processing  4/7: [datakit-client.dev: rsync] [datakit-client-9p.dev: rsync] [datakit-client-git.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+Processing  4/7: [datakit-client-9p.dev: rsync] [datakit-client-git.dev: rsync]
+Processing  5/7: [datakit-client-9p.dev: rsync] [datakit-client-git.dev: rsync] [datakit-github.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+Processing  5/7: [datakit-client-git.dev: rsync] [datakit-github.dev: rsync]
+Processing  6/7: [datakit-client-git.dev: rsync] [datakit-github.dev: rsync] [git-http.1.10.0: http]
+[datakit-client-git.dev] synchronised from file:///home/opam/src/datakit
+Processing  6/7: [datakit-github.dev: rsync] [git-http.1.10.0: http]
+Processing  7/7: [datakit-github.dev: rsync] [git-http.1.10.0: http] [git-unix.dev: git]
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+Processing  7/7: [git-http.1.10.0: http] [git-unix.dev: git]
+[git-unix.dev] synchronised from git+https://github.com/mirage/ocaml-git.git
+Processing  7/7: [git-http.1.10.0: http]
+[git-http.1.10.0] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.10.0/git-1.10.0.tbz
+Processing  7/7:
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/14: [datakit-client: jbuilder build]
++ jbuilder "build" "-p" "datakit-client" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client.dev)
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmo,cmt}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc api/ocaml/datakit_client.cma
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt api/ocaml/datakit_client.cmxs
+-> compiled  datakit-client.dev
+Processing  2/14: [git-http: ocaml build]
++ ocaml "pkg/pkg.ml" "build" "--pinned" "false" "-n" "git-http" (CWD=/home/opam/.opam/default/.opam-switch/build/git-http.1.10.0)
+- ocamlfind ocamldep -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -package git -modules src-http/git_http.ml > src-http/git_http.ml.depends
+- ocamlfind ocamldep -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -package git -modules src-http/git_http.mli > src-http/git_http.mli.depends
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -package git -I src-http -o src-http/git_http.cmi src-http/git_http.mli
+- ocamlfind ocamlopt -c -g -safe-string -short-paths -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -package git -I src-http -o src-http/git_http.cmx src-http/git_http.ml
+- ocamlfind ocamlopt -a -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -package git -I src-http src-http/git_http.cmx -o src-http/git-http.cmxa
+- ocamlfind ocamlopt -shared -linkall -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -package git -I src-http src-http/git-http.cmxa -o src-http/git-http.cmxs
+- ocamlfind ocamlc -c -g -safe-string -short-paths -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -warn-error +1..49+60 -w A-4-41-44 -package bytes -package git -I src-http -o src-http/git_http.cmo src-http/git_http.ml
+- ocamlfind ocamlc -a -package 'cohttp.lwt uri' -package 'cstruct astring fmt hex logs lwt ocamlgraph re uri mstruct' -package bytes -package git -I src-http src-http/git_http.cmo -o src-http/git-http.cma
+-> compiled  git-http.1.10.0
+-> installed datakit-client.dev
+Processing  4/14: [datakit-client-9p: jbuilder build]
++ jbuilder "build" "-p" "datakit-client-9p" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client-9p.dev)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmo,cmt}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.cma
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-     ocamlopt api/ocaml/9p/mount/mount.exe
+-     ocamlopt api/ocaml/9p/datakit_client_9p.cmxs
+-> compiled  datakit-client-9p.dev
+Processing  5/14: [datakit-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-github.dev)
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github.cma
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt src/datakit-github/datakit_github.cmxs
+-> compiled  datakit-github.dev
+-> installed datakit-client-9p.dev
+-> installed datakit-github.dev
+-> installed git-http.1.10.0
+Processing  9/14: [git-unix: jbuilder build]
++ jbuilder "build" "-p" "git-unix" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/git-unix.dev)
+- File "test/git/jbuild", line 5, characters 13-16:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/git-mirage/jbuild", line 5, characters 13-23:
+- Warning: This field is useless without a (public_name ...) field.
+- File "test/git-unix/jbuild", line 5, characters 13-21:
+- Warning: This field is useless without a (public_name ...) field.
+-     ocamldep src/git-unix/ogit/main.depends.ocamldep-output
+-     ocamldep src/git-unix/git_unix.depends.ocamldep-output
+-     ocamldep src/git-unix/git_unix.dependsi.ocamldep-output
+-       ocamlc src/git-unix/git_unix.{cmi,cmti}
+-       ocamlc src/git-unix/git_unix.{cmo,cmt}
+-     ocamlopt src/git-unix/git_unix.{cmx,o}
+-       ocamlc src/git-unix/ogit/main.{cmi,cmo,cmt}
+-       ocamlc src/git-unix/git_unix.cma
+-     ocamlopt src/git-unix/git_unix.{a,cmxa}
+-     ocamlopt src/git-unix/ogit/main.{cmx,o}
+-     ocamlopt src/git-unix/git_unix.cmxs
+-     ocamlopt src/git-unix/ogit/main.exe
+-> compiled  git-unix.dev
+-> installed git-unix.dev
+Processing 11/14: [datakit-client-git: jbuilder build]
++ jbuilder "build" "-p" "datakit-client-git" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-client-git.dev)
+-     ocamldep api/ocaml/git/datakit_client_git.depends.ocamldep-output
+-     ocamldep api/ocaml/git/datakit_client_git.dependsi.ocamldep-output
+-       ocamlc api/ocaml/git/datakit_client_git.{cmi,cmti}
+-       ocamlc api/ocaml/git/datakit_client_git.{cmo,cmt}
+-     ocamlopt api/ocaml/git/datakit_client_git.{cmx,o}
+-       ocamlc api/ocaml/git/datakit_client_git.cma
+-     ocamlopt api/ocaml/git/datakit_client_git.{a,cmxa}
+-     ocamlopt api/ocaml/git/datakit_client_git.cmxs
+-> compiled  datakit-client-git.dev
+-> installed datakit-client-git.dev
+Processing 13/14: [datakit-bridge-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-bridge-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep bridge/github/main.depends.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.depends.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.depends.ocamldep-output
+-     ocamldep bridge/github/main.dependsi.ocamldep-output
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-       ocamlc src/datakit-log/datakit_log.{cmi,cmti}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-       ocamlc bridge/github/version.{cmi,cmo,cmt}
+-       ocamlc bridge/github/main.{cmi,cmti}
+-     ocamlopt src/datakit-log/datakit_log.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{a,cmxa}
+-     ocamlopt bridge/github/version.{cmx,o}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt bridge/github/main.{cmx,o}
+-     ocamlopt bridge/github/main.exe
+Processing 13/14: [datakit-bridge-github: jbuilder runtest]
++ jbuilder "runtest" "tests/datakit-bridge-github" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep tests/datakit-bridge-github/test.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-       ocamlc src/datakit/datakit__.{cmi,cmo,cmt}
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep tests/datakit-bridge-github/test.dependsi.ocamldep-output
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__.{cmx,o}
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-       ocamlc src/datakit/datakit.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+-     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+-     ocamlopt src/datakit/datakit__Path.{cmx,o}
+-       ocamlc src/datakit/datakit__Dir.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc tests/datakit-bridge-github/test.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Store.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt src/datakit/datakit__Dir.{cmx,o}
+-     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt src/datakit/datakit.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt tests/datakit-bridge-github/test.{cmx,o}
+-     ocamlopt tests/datakit-bridge-github/test.exe
+-         test alias tests/datakit-bridge-github/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-github.
+- [33m ...[m                [36mgithub-9p[m          0   Transaction.[32m[OK][m                [36mgithub-9p[m          0   Transaction.
+- [33m ...[m                [36mgithub-9p[m          1   Watch.[32m[OK][m                [36mgithub-9p[m          1   Watch.
+- [33m ...[m                [36mgithub-9p[m          2   Make dirs.[32m[OK][m                [36mgithub-9p[m          2   Make dirs.
+- [33m ...[m                [36mgithub-9p[m          3   Truncate.[32m[OK][m                [36mgithub-9p[m          3   Truncate.
+- [33m ...[m                [36mgithub-9p[m          4   Parents.[32m[OK][m                [36mgithub-9p[m          4   Parents.
+- [33m ...[m                [36mgithub-9p[m          5   Merge.[32m[OK][m                [36mgithub-9p[m          5   Merge.
+- [33m ...[m                [36mgithub-9p[m          6   Diff.[32m[OK][m                [36mgithub-9p[m          6   Diff.
+- [33m ...[m                [36mgithub-9p[m          7   Merge_metadata.[32m[OK][m                [36mgithub-9p[m          7   Merge_metadata.
+- [33m ...[m                [36mgithub-9p[m          8   Merge empty.[32m[OK][m                [36mgithub-9p[m          8   Merge empty.
+- [33m ...[m                [36mgithub-9p[m          9   Conflicts.[32m[OK][m                [36mgithub-9p[m          9   Conflicts.
+- [33m ...[m                [36mgithub-9p[m         10   Large write.[32m[OK][m                [36mgithub-9p[m         10   Large write.
+- [33m ...[m                [36mgithub-9p[m         11   Remove.[32m[OK][m                [36mgithub-9p[m         11   Remove.
+- [33m ...[m                [36mgithub-9p[m         12   Remotes.[33m[SKIP][m              [36mgithub-9p[m         12   Remotes.
+- [33m ...[m                [36mgithub-9p[m         13   Create_or_replace.[33m[SKIP][m              [36mgithub-9p[m         13   Create_or_replace.
+- [33m ...[m                [36mgithub[m             0   basic-snapshot.[32m[OK][m                [36mgithub[m             0   basic-snapshot.
+- [33m ...[m                [36mgithub[m             1   snapshot.[32m[OK][m                [36mgithub[m             1   snapshot.
+- [33m ...[m                [36mgithub[m             2   capabilities.[32m[OK][m                [36mgithub[m             2   capabilities.
+- [33m ...[m                [36mgithub[m             3   cleanup.[32m[OK][m                [36mgithub[m             3   cleanup.
+- [33m ...[m                [36mgithub[m             4   events.[32m[OK][m                [36mgithub[m             4   events.
+- [33m ...[m                [36mgithub[m             5   updates.[32m[OK][m                [36mgithub[m             5   updates.
+- [33m ...[m                [36mgithub[m             6   startup.[32m[OK][m                [36mgithub[m             6   startup.
+- [33m ...[m                [36mgithub[m             7   random-github.[32m[OK][m                [36mgithub[m             7   random-github.
+- [33m ...[m                [36mgithub[m             8   random-github-*.[33m[SKIP][m              [36mgithub[m             8   random-github-*.
+- [33m ...[m                [36mgithub[m             9   random-datakit.[32m[OK][m                [36mgithub[m             9   random-datakit.
+- [33m ...[m                [36mgithub[m            10   random-datakit-*.[33m[SKIP][m              [36mgithub[m            10   random-datakit-*.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 3.328s. 21 tests run.
+-> compiled  datakit-bridge-github.dev
+-> installed datakit-bridge-github.dev
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> 96376d0548b2
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 26/34 : RUN sudo cp $(opam config exec -- which datakit-bridge-github) /usr/bin/
+ ---> Running in 32568038b3b7
+ ---> f3c2aa5e8f9f
+Removing intermediate container 8f2b0c50e75a
+Removing intermediate container 19f50aed534f
+Removing intermediate container 32568038b3b7
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 27/34 : USER root
+ ---> Running in bc6d7e6566e1
+ ---> 9ea6bceba09b
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 28/34 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:f02537b30c729bb1ee0c67c8bff3a28972bed0abbee8f5520421994c5247b896
+Status: Image is up to date for alpine:3.5
+ ---> 75b63e430bd1
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 29/34 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> e2d8cbf39aa6
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 30/34 : EXPOSE 5640
+ ---> Using cache
+ ---> a0890d3a471d
+Removing intermediate container bab566638580
+Removing intermediate container bc6d7e6566e1
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 31/34 : EXPOSE 5641
+ ---> Using cache
+ ---> df16b361878d
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 32/34 : ENTRYPOINT /usr/bin/datakit-bridge-github
+ ---> Using cache
+ ---> 7472ae0af02f
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 33/34 : CMD --listen=tcp://0.0.0.0:5641 -v --datakit=tcp:127.0.0.1:5640
+ ---> Using cache
+ ---> 69136eceb779
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Step 34/34 : COPY --from=0 /usr/bin/datakit-bridge-github /usr/bin/datakit-bridge-github
+ ---> 9638b4d1b179
+Error removing intermediate container 26bf960c6d7a: No such container: 26bf960c6d7a6a3580622cf9bef1ca2095da56061669474ea7aca328444e3d73
+Successfully built 9638b4d1b179
+[2017-06-01 13:22.09] Success
