@@ -1,0 +1,76 @@
+=== Docker build Dockerfile.self-ci
+[2017-06-01 11:15.57] Starting...
+Cloning into '/tmp/with_clonec6cf446'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at b5ca286 datakit: add an helper to create a DataKit store using an Irmin backend
+[2017-06-01 11:15.57] Rewrite Dockerfile's first line to:
+FROM sha256:0052c46e94f9b580bf3b77e2dcdb5ebd92f863e9d3a17ec421e7f0afda5851b2 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:0052c46e94f9b580bf3b77e2dcdb5ebd92f863e9d3a17ec421e7f0afda5851b2 AS build-env
+ ---> 0052c46e94f9
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in f5ba1c040863
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> e431839b4099
+Removing intermediate container f5ba1c040863
+Step 3/12 : ADD . /home/opam/build
+ ---> 226f4d0e48a8
+Error removing intermediate container 859b7d7b53e9: Driver aufs failed to remove root filesystem 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014: rename /var/lib/docker/aufs/mnt/7dba804dbb4b192deb159d320f661ab632788d38a13e2468bc0faa564673db77 /var/lib/docker/aufs/mnt/7dba804dbb4b192deb159d320f661ab632788d38a13e2468bc0faa564673db77-removing: device or resource busy
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 2cac8a67c112
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in cbe3581c82bc
+ ---> fc1fee2f83d9
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 16de55e26ad0
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 5c5d07887fc7
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in 550b02d9b611
+ ---> 274f30e4242b
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 8/12 : FROM alpine:3.5
+ ---> 75b63e430bd1
+Removing intermediate container 3ad996e9af40
+Removing intermediate container cbe3581c82bc
+Removing intermediate container 16de55e26ad0
+Removing intermediate container 550b02d9b611
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 620fd114556f
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 10/12 : USER root
+ ---> Using cache
+ ---> d66233a9e545
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 8c6c21ad50a5
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> Using cache
+ ---> 86ee71bd2d60
+Error removing intermediate container 859b7d7b53e9: No such container: 859b7d7b53e94554d4caf25e60f3dc18b86f4e26605dff6efe4c20a280c0c014
+Successfully built 86ee71bd2d60
+[2017-06-01 11:16.12] Success
