@@ -1,58 +1,37 @@
 === Docker build Dockerfile.self-ci
-[2017-06-07 15:47.59] Starting...
-Cloning into '/tmp/with_clone2b9d88f'...
+[2017-06-07 15:54.51] Starting...
+Cloning into '/tmp/with_clone3cd2b8f'...
 done.
 warning: remote HEAD refers to nonexistent ref, unable to checkout.
 
 HEAD is now at 157caed Dockerfile: pin opam-repo to a more recent version
-[2017-06-07 15:47.59] Rewrite Dockerfile's first line to:
+[2017-06-07 15:54.52] Rewrite Dockerfile's first line to:
 FROM sha256:9cdfc15b3616a27a51f32eea25c91d4b2812c4e21080cd595e17732501457508 AS build-env
 Sending build context to Docker daemon 20.99 kB
 Step 1/12 : FROM sha256:9cdfc15b3616a27a51f32eea25c91d4b2812c4e21080cd595e17732501457508 AS build-env
  ---> 9cdfc15b3616
 Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
- ---> Running in 8e68d0481a07
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
-(1/6) Installing libmnl (1.0.4-r0)
-(2/6) Installing libnftnl-libs (1.0.7-r0)
-(3/6) Installing iptables (1.6.0-r0)
-(4/6) Installing libseccomp (2.3.1-r0)
-(5/6) Installing docker (1.12.6-r0)
-Executing docker-1.12.6-r0.pre-install
-(6/6) Installing libev (4.22-r0)
-Executing busybox-1.25.1-r0.trigger
-OK: 738 MiB in 108 packages
+ ---> Using cache
  ---> 3fe3f464c873
-Removing intermediate container 8e68d0481a07
 Step 3/12 : ADD . /home/opam/build
+ ---> Using cache
  ---> 0515f1ac4bef
-Removing intermediate container cc34bb805cab
 Step 4/12 : WORKDIR /home/opam/build
+ ---> Using cache
  ---> fd5c32047f36
-Removing intermediate container d2aace0e9812
 Step 5/12 : RUN sudo chown opam .
- ---> Running in b53488b76178
+ ---> Using cache
  ---> 479edd78c3c9
-Removing intermediate container b53488b76178
 Step 6/12 : RUN opam config exec make selfCI
- ---> Running in e924c3e196c3
-ocamlbuild -use-ocamlfind selfCI.native
-ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
-ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
-ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
-ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
-ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> Using cache
  ---> 0ebba607e7b3
-Removing intermediate container e924c3e196c3
 Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
- ---> Running in 15d6c3f41e02
+ ---> Using cache
  ---> 18b18ff56daa
-Removing intermediate container 15d6c3f41e02
 Step 8/12 : FROM alpine:3.5
  ---> 75b63e430bd1
 Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
- ---> Running in 1afd65fe597c
+ ---> Running in 59d339cf95c2
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
 (1/16) Installing ca-certificates (20161130-r1)
@@ -69,13 +48,24 @@ fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
 (12/16) Installing libseccomp (2.3.1-r0)
 (13/16) Installing docker (1.12.6-r0)
 Executing docker-1.12.6-r0.pre-install
-ERROR: Failed to create usr/bin/dockerd: No space left on device
-ERROR: docker-1.12.6-r0: No space left on device
 (14/16) Installing gmp (6.1.1-r0)
 (15/16) Installing libev (4.22-r0)
 (16/16) Installing tzdata (2016i-r0)
 Executing busybox-1.25.1-r0.trigger
 Executing ca-certificates-20161130-r1.trigger
-1 errors; 30 MiB in 26 packages
-The command '/bin/sh -c apk add --no-cache libev docker gmp tzdata ca-certificates' returned a non-zero code: 1
-[2017-06-07 15:48.13] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 1
+OK: 122 MiB in 27 packages
+ ---> e663cf6e84a4
+Removing intermediate container 59d339cf95c2
+Step 10/12 : USER root
+ ---> Running in 426e5d100741
+ ---> 083a38c41d47
+Removing intermediate container 426e5d100741
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Running in f668b336579b
+ ---> 48172fd1ef95
+Removing intermediate container f668b336579b
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> e9fbc8ec0e54
+Removing intermediate container 6d5940590012
+Successfully built e9fbc8ec0e54
+[2017-06-07 15:54.58] Success
