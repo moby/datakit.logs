@@ -1,0 +1,142 @@
+=== Docker build Dockerfile.client
+[2017-06-07 14:51.01] Starting...
+Cloning into '/tmp/with_clone5d2b20d'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at b5e3efd Dockerfile: remove pins for irmin and git
+[2017-06-07 14:51.03] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 7.958 MB
+Step 1/21 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 2a6e40273e97
+Step 2/21 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> e70092dc85cd
+Step 3/21 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> c1c39ec2c291
+Step 4/21 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> e26e18d82445
+Removing intermediate container 6020efd890c8
+Step 5/21 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 5df12ff79f2a
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+ ---> 0fc0745be73f
+Removing intermediate container 5df12ff79f2a
+Step 6/21 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> be1ef2f009c6
+Error removing intermediate container c9b0c39b0484: Driver aufs failed to remove root filesystem c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155: rename /var/lib/docker/aufs/mnt/f870e66e87be7ca8bccb57722ebbf76b092583b9932f99ff90c79827843e1e04 /var/lib/docker/aufs/mnt/f870e66e87be7ca8bccb57722ebbf76b092583b9932f99ff90c79827843e1e04-removing: device or resource busy
+Step 7/21 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Running in d62be7409f63
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+datakit-client-9p is now path-pinned to /home/opam/src/datakit
+
+[datakit-client-9p: local]
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] Installing new package description from
+/home/opam/src/datakit
+
+ ---> f42f4909168f
+Error removing intermediate container c9b0c39b0484: No such container: c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155
+Step 8/21 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> 0c105589414d
+Error removing intermediate container c9b0c39b0484: No such container: c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155
+Step 9/21 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Running in 5725f7510402
+Package datakit-client-git does not exist, create as a NEW package ? [Y/n] y
+datakit-client-git is now path-pinned to /home/opam/src/datakit
+
+[datakit-client-git: local]
+[datakit-client-git] /home/opam/src/datakit/ synchronized
+[datakit-client-git] Installing new package description from
+/home/opam/src/datakit
+
+ ---> 0243ef54b984
+Error removing intermediate container c9b0c39b0484: No such container: c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155
+Step 10/21 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Running in 33335066dc54
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/8) Installing libgmpxx (6.1.1-r0)
+(2/8) Installing gmp-dev (6.1.1-r0)
+(3/8) Installing linux-headers (4.4.6-r1)
+(4/8) Installing zlib-dev (1.2.11-r0)
+(5/8) Installing libcrypto1.0 (1.0.2k-r0)
+(6/8) Installing libssl1.0 (1.0.2k-r0)
+(7/8) Installing openssl-dev (1.0.2k-r0)
+(8/8) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 654 MiB in 101 packages
+# OS packages installation successful
+ ---> 5dc176b8c962
+Error removing intermediate container c9b0c39b0484: No such container: c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155
+Step 11/21 : RUN opam install datakit-client --deps
+ ---> Running in aee63f0ebfa8
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install ocplib-endian 1.0      
+  - install jbuilder      1.0+beta9
+  - install sexplib       v0.9.1   
+  - install cstruct       3.0.0    
+===== 4 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[cstruct: http] Command started
+[jbuilder: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[sexplib: http] Command started
+[jbuilder: http] Command started
+[jbuilder.1.0+beta9] https://github.com/janestreet/jbuilder/releases/download/1.0+beta9/jbuilder-1.0.beta9.tbz downloaded
+[cstruct: http] Command started
+[cstruct.3.0.0] https://github.com/mirage/ocaml-cstruct/releases/download/v3.0.0/cstruct-3.0.0.tbz downloaded
+[sexplib: http] Command started
+[sexplib.v0.9.1] https://github.com/janestreet/sexplib/archive/v0.9.1.tar.gz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[jbuilder: ocaml bootstrap.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+[jbuilder: ./boot.exe 4] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed ocplib-endian.1.0
+-> installed jbuilder.1.0+beta9
+[sexplib: jbuilder build] Command started
+-> installed sexplib.v0.9.1
+[cstruct: jbuilder build] Command started
+-> installed cstruct.3.0.0
+Done.
+ ---> 8830e94275fd
+Removing intermediate container 5725f7510402
+Removing intermediate container 33335066dc54
+Removing intermediate container aee63f0ebfa8
+Error removing intermediate container c9b0c39b0484: No such container: c9b0c39b04846e04d010b1c578f08a3ec60326380a2c23266d25eb05bde41155
+Step 12/21 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Running in 1444dfb646ee
+[91m[ERROR] No package named irmin-mem found.
+[0mThe command '/bin/sh -c opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest' returned a non-zero code: 66
+[2017-06-07 14:52.00] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 66
