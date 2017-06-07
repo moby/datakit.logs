@@ -1,0 +1,129 @@
+=== Docker build Dockerfile.client
+[2017-06-07 14:51.01] Starting...
+Cloning into '/tmp/with_clone346bc2bf'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at b5e3efd Dockerfile: remove pins for irmin and git
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 7.958 MB
+Step 1/21 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/21 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> af90a85773da
+Step 3/21 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> e60343a11bc2
+Step 4/21 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> 4d3cec0c1ad4
+Removing intermediate container efd212cd20dc
+Step 5/21 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in 654bf73eb44a
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> c6cb1c727617
+Removing intermediate container 654bf73eb44a
+Step 6/21 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 5d194b88c71e
+Removing intermediate container 96ad5ae6aadd
+Step 7/21 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Running in 3d7c14750dc1
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 6aa0e1af6188
+Removing intermediate container 3d7c14750dc1
+Step 8/21 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> 9fff2ed8b2a7
+Removing intermediate container 6466d5a4fe7e
+Step 9/21 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Running in 6646eeaf5a2e
+Package datakit-client-git does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-git.dev: rsync]
+[datakit-client-git.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-git/datakit-client-git.opam from 1.2 to 2.0~beta
+[0mdatakit-client-git is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 3c8962d4b69b
+Removing intermediate container 6646eeaf5a2e
+Step 10/21 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Running in e936a88ff289
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/9) Upgrading zlib (1.2.8-r2 -> 1.2.11-r0)
+(2/9) Installing libgmpxx (6.1.1-r0)
+(3/9) Installing gmp-dev (6.1.1-r0)
+(4/9) Installing linux-headers (4.4.6-r1)
+(5/9) Installing zlib-dev (1.2.11-r0)
+(6/9) Installing libcrypto1.0 (1.0.2k-r0)
+(7/9) Installing libssl1.0 (1.0.2k-r0)
+(8/9) Installing openssl-dev (1.0.2k-r0)
+(9/9) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 640 MiB in 103 packages
+# OS packages installation successful
+ ---> 16877af19a51
+Removing intermediate container e936a88ff289
+Step 11/21 : RUN opam install datakit-client --deps
+ ---> Running in 23a5370e5e23
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install jbuilder                1.0+beta9
+  - install base-bytes              base
+  - install sexplib                 v0.9.1
+  - install ocaml-migrate-parsetree 1.0
+  - install ocplib-endian           1.0
+  - install ppx_tools_versioned     5.0.1
+  - install cstruct                 2.4.1
+===== 7 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[ocaml-migrate-parsetree.1.0] downloaded from https://github.com/let-def/ocaml-migrate-parsetree/archive/v1.0.tar.gz
+[cstruct.2.4.1] downloaded from https://github.com/mirage/ocaml-cstruct/archive/v2.4.1.tar.gz
+[ppx_tools_versioned.5.0.1] downloaded from https://github.com/let-def/ppx_tools_versioned/archive/5.0.1.tar.gz
+[jbuilder.1.0+beta9] downloaded from https://github.com/janestreet/jbuilder/releases/download/1.0+beta9/jbuilder-1.0.beta9.tbz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[sexplib.v0.9.1] downloaded from https://github.com/janestreet/sexplib/archive/v0.9.1.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed base-bytes.base
+-> installed jbuilder.1.0+beta9
+-> installed ocaml-migrate-parsetree.1.0
+-> installed ocplib-endian.1.0
+-> installed ppx_tools_versioned.5.0.1
+-> installed sexplib.v0.9.1
+-> installed cstruct.2.4.1
+Done.
+# Run eval `opam env` to update the current shell environment
+ ---> d7e0f31b98a1
+Removing intermediate container 23a5370e5e23
+Step 12/21 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Running in 5cb0252d7cce
+[91m[ERROR] No package named irmin-mem found.
+[0mThe command '/bin/sh -c opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest' returned a non-zero code: 66
+[2017-06-07 14:52.30] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 66
