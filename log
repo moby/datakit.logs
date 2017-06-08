@@ -1,0 +1,124 @@
+=== Docker build Dockerfile.client
+[2017-06-08 17:31.42] Starting...
+Cloning into '/tmp/with_clone9791dcf'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at d60dbb1 github: make user an abstract type
+[2017-06-08 17:31.45] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.119 MB
+Step 1/22 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 2a6e40273e97
+Step 2/22 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> 6d1d67bbb244
+Step 3/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> d1d9efe975a7
+Step 4/22 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 014e35eb1aef
+Step 5/22 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> b1b305489da8
+Step 6/22 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 19c6bc484e1b
+Step 7/22 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 797ba1b35c4a
+Step 8/22 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 7e7d397fca63
+Step 9/22 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> 3743b517381f
+Step 10/22 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Using cache
+ ---> 45a9de2244d2
+Step 11/22 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Using cache
+ ---> 593d35a76408
+Step 12/22 : RUN opam install datakit-client --deps
+ ---> Using cache
+ ---> 4b6253a708f2
+Step 13/22 : RUN opam install irmin-git irmin-watcher git-unix inotify     astring logs fmt cstruct protocol-9p-unix cmdliner     irmin-mem irmin-git alcotest
+ ---> Using cache
+ ---> 23877c305036
+Step 14/22 : RUN opam depext camlzip && opam install ounit camlzip fpath conf-which qcheck     fileutils bos qtest
+ ---> Using cache
+ ---> 66f463617f94
+Step 15/22 : COPY . /home/opam/src/datakit
+ ---> 379ad8256281
+Error removing intermediate container dfa61260db0f: Driver aufs failed to remove root filesystem dfa61260db0fdc618934a0bd52b7f57f72363c00d99f0d083c3bfe362acf136c: rename /var/lib/docker/aufs/mnt/0ffaf96400f571ff20b3707c9db741f2d1913c24d0b90be29dee329af2407a1c /var/lib/docker/aufs/mnt/0ffaf96400f571ff20b3707c9db741f2d1913c24d0b90be29dee329af2407a1c-removing: device or resource busy
+Step 16/22 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in a64dca79ec06
+ ---> 7edb275bd8dd
+Error removing intermediate container dfa61260db0f: No such container: dfa61260db0fdc618934a0bd52b7f57f72363c00d99f0d083c3bfe362acf136c
+Step 17/22 : RUN opam update datakit-client datakit-client-9p datakit-client-git
+ ---> Running in 6f1b3e2f3c94
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-git: local] Command started
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+[datakit-client-git] /home/opam/src/datakit/ synchronized
+ ---> 99cd7f1e0507
+Error removing intermediate container dfa61260db0f: No such container: dfa61260db0fdc618934a0bd52b7f57f72363c00d99f0d083c3bfe362acf136c
+Step 18/22 : RUN opam install datakit-client.dev -vv -t
+ ---> Running in 5df438d0fb1f
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 9,104 bytes  received 52 bytes  18,312.00 bytes/sec
+- total size is 1,332,874  speedup is 145.57
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit-client dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
++ rsync "-rLptgoDrvc" "--exclude" ".git" "--exclude" "_darcs" "--exclude" ".hg" "--exclude" ".#*" "--delete" "/home/opam/src/datakit/" "/home/opam/.opam/4.03.0/packages.dev/datakit-client"
+- sending incremental file list
+- 
+- sent 9,104 bytes  received 52 bytes  18,312.00 bytes/sec
+- total size is 1,332,874  speedup is 145.57
+[datakit-client.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
++ jbuilder "build" "-p" "datakit-client" "-j" "4" (CWD=/home/opam/.opam/4.03.0/build/datakit-client.dev)
+- File "ci/src/jbuild", line 12, characters 15-94:
+- Error: Unknown constructor per_module
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p
+        datakit-client -j 4".
+[0m[91m
+#=== ERROR while installing datakit-client.dev ================================#
+# opam-version         1.2.2
+# os                   linux
+# command              jbuilder build -p datakit-client -j 4
+# path                 /home/opam/.opam/4.03.0/build/datakit-client.dev
+# compiler             4.03.0
+# exit-code            1
+# env-file             /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.env
+# stdout-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.out
+# stderr-file          /home/opam/.opam/4.03.0/build/datakit-client.dev/datakit-client-7-ffb3fd.err
+### stderr ###
+# File "ci/src/jbuild", line 12, characters 15-94:
+# Error: Unknown constructor per_module
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+The following actions failed
+  - install datakit-client dev
+No changes have been performed
+[91m'opam install datakit-client.dev -vv -t' failed.
+[0mThe command '/bin/sh -c opam install datakit-client.dev -vv -t' returned a non-zero code: 4
+[2017-06-08 17:32.31] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 4
