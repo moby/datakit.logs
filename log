@@ -1,0 +1,73 @@
+=== Docker build Dockerfile.ci
+[2017-06-08 17:45.04] Starting...
+Cloning into '/tmp/with_clone967ec88'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at a8265e1 github: rename PR.owner into PR.user to be consistent with Comment.user
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.246 MB
+Step 1/16 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> 834afef17701
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> c4322ca77791
+Step 4/16 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> b636b99cfd07
+Step 5/16 : RUN opam pin add protocol-9p-unix.dev --dev -n
+ ---> Using cache
+ ---> 4d4679e364ce
+Step 6/16 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Using cache
+ ---> 7b85b360a7b0
+Step 7/16 : ADD . /home/opam/datakit
+ ---> cffd3aae43ed
+Removing intermediate container 8466b9a8c051
+Step 8/16 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in fd64e78ebfee
+ ---> 2e833daa7bc1
+Error removing intermediate container fd64e78ebfee: Driver aufs failed to remove root filesystem fd64e78ebfeec445c1718b615d3b0d64fa207984dab8e81b65e18e88fb87f928: rename /var/lib/docker/aufs/mnt/475aa115779dc4091e455a0e0e28915bae61e225265e4f8549232297ef0864b1 /var/lib/docker/aufs/mnt/475aa115779dc4091e455a0e0e28915bae61e225265e4f8549232297ef0864b1-removing: device or resource busy
+Step 9/16 : RUN opam pin add -k git datakit-client.dev /home/opam/datakit -y
+ ---> Running in af5ee5fbd47c
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client dev*
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build datakit-client dev
++- 
+- No changes have been performed
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p datakit-client -j 1".
+
+#=== ERROR while compiling datakit-client.dev =================================#
+# command              jbuilder build -p datakit-client -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-client.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-client-7-a00279.env
+# output-file          /home/opam/.opam/log/datakit-client-7-a00279.out
+### output ###
+# File "ci/src/jbuild", line 12, characters 15-94:
+# Error: Unknown constructor per_module
+
+[0m# Run eval `opam env` to update the current shell environment
+[91m[NOTE] Pinning command successful, but your installed packages may be out of sync.
+[0mThe command '/bin/sh -c opam pin add -k git datakit-client.dev /home/opam/datakit -y' returned a non-zero code: 4
+[2017-06-08 17:45.41] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 4
