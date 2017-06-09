@@ -1,0 +1,67 @@
+=== Docker build Dockerfile.self-ci
+[2017-06-09 16:51.24] Starting...
+Cloning into '/tmp/with_clone2a2260c2'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at c9f0e8c github: turn Webhook.events into a promise
+[2017-06-09 16:51.24] Rewrite Dockerfile's first line to:
+FROM sha256:bc7b6668a050561c95974a7c2d81c0e79e518fa21fb1cdd9852f6ee9132ffd6d AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:bc7b6668a050561c95974a7c2d81c0e79e518fa21fb1cdd9852f6ee9132ffd6d AS build-env
+ ---> bc7b6668a050
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 8ba891823904
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/6) Installing libmnl (1.0.4-r0)
+(2/6) Installing libnftnl-libs (1.0.7-r0)
+(3/6) Installing iptables (1.6.0-r0)
+(4/6) Installing libseccomp (2.3.1-r0)
+(5/6) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(6/6) Installing libev (4.22-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 738 MiB in 108 packages
+ ---> 5a4a936576c4
+Removing intermediate container 8ba891823904
+Step 3/12 : ADD . /home/opam/build
+ ---> 2a096b4d3a6c
+Removing intermediate container a50026ec7fae
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 7dbe8aa85d26
+Removing intermediate container 58e11a9e6b58
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in 263a09aeb9a0
+ ---> a2262dc09b1e
+Removing intermediate container 263a09aeb9a0
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in edf613388be7
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ ---> 553289c99acd
+Removing intermediate container edf613388be7
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in 086c8a085228
+ ---> 9e5ad1664e8f
+Removing intermediate container 086c8a085228
+Step 8/12 : FROM alpine:3.5
+ ---> 75b63e430bd1
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> e663cf6e84a4
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 083a38c41d47
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 48172fd1ef95
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> c397aa1bbe49
+Removing intermediate container 0c7b94cc040f
+Successfully built c397aa1bbe49
+[2017-06-09 16:51.37] Success
