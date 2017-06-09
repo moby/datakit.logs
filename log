@@ -1,0 +1,44 @@
+=== Docker build Dockerfile.ci
+[2017-06-09 11:26.50] Starting...
+Cloning into '/tmp/with_clone34cfae68'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 51197eb ci: pin dev version of github
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.356 MB
+Step 1/18 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/18 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> 834afef17701
+Step 3/18 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> c4322ca77791
+Step 4/18 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> b636b99cfd07
+Step 5/18 : RUN opam pin add protocol-9p-unix.dev --dev -n
+ ---> Using cache
+ ---> 4d4679e364ce
+Step 6/18 : RUN opam pin add github --dev -n
+ ---> Running in bf0ab95f4a85
+[github.2.3.0: git]
+[github.2.3.0: git]
+[github.2.3.0: git]
+[github.2.3.0: git]
+[github.2.3.0] synchronised from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/github.opam from 1.2 to 2.0~beta
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 3.0.0)
+ ---> 528fa3bede51
+Error removing intermediate container bf0ab95f4a85: Driver aufs failed to remove root filesystem bf0ab95f4a85971737fff38f25f9d97023238da6d059b61223be5c368cf13b6c: rename /var/lib/docker/aufs/mnt/2aab3669e3168767730240e11819df6dc052b76521aa74f1ee7b4120c6fbd86b /var/lib/docker/aufs/mnt/2aab3669e3168767730240e11819df6dc052b76521aa74f1ee7b4120c6fbd86b-removing: device or resource busy
+Step 7/18 : RUN opam pin add github-unix https://github.com/mirage/ocaml-github.com -n
+ ---> Running in 98ea4858308c
+Package github-unix does not exist, create as a NEW package ? [Y/n] y
+[github-unix.~dev: http]
+[91m[ERROR] curl: code 404 while downloading https://github.com/mirage/ocaml-github.com
+[ERROR] Error getting source from https://github.com/mirage/ocaml-github.com
+[0mThe command '/bin/sh -c opam pin add github-unix https://github.com/mirage/ocaml-github.com -n' returned a non-zero code: 66
+[2017-06-09 11:27.19] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 66
