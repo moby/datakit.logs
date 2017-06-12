@@ -1,0 +1,111 @@
+=== Docker build Dockerfile
+[2017-06-12 16:17.48] Starting...
+Cloning into '/tmp/with_clone3fdf966f'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 3785d14 build: use jbuilder >= 1.0+beta10
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.573 MB
+Step 1/29 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/29 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> c01b85752f52
+Step 3/29 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> abb056b4f81f
+Step 4/29 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> d40c3b7bcc9b
+Step 5/29 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> bfe81aacdfac
+Step 6/29 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 5860dc34b61b
+Step 7/29 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> c2de2329db9d
+Step 8/29 : COPY datakit.opam /home/opam/src/datakit/
+ ---> a85921f60427
+Removing intermediate container 4bcf326c5bfd
+Step 9/29 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> ef8ad6249620
+Removing intermediate container d320331a5a75
+Step 10/29 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 6cb56f88da63
+Removing intermediate container 9ff84e91d30b
+Step 11/29 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 76df6b1e9446
+Removing intermediate container b5789813f36c
+Step 12/29 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> b7dffa19396d
+Removing intermediate container d91943a26cea
+Step 13/29 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Running in d96c9a69eb9d
+[datakit-server.dev: rsync]
+[datakit-server.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-server-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-server-9p.dev: rsync]
+[datakit-server-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server-9p/datakit-server-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-server-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[datakit.dev: rsync]
+[datakit.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 12771fcb80e1
+Removing intermediate container d96c9a69eb9d
+Step 14/29 : RUN opam depext -y datakit
+ ---> Running in 2e5880a95c80
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+gmp-dev
+linux-headers
+m4
+ncurses-dev
+openssl-dev
+pcre-dev
+perl
+pkgconf
+zlib-dev
+# All required OS packages found.
+ ---> d5fc7bbb9fb6
+Removing intermediate container 2e5880a95c80
+Step 15/29 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in 5c72b0372c46
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+[datakit-server.dev] no changes from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit-server -> jbuilder = 1.0+beta10
+    no matching version
+
+No solution found, exiting
+The command '/bin/sh -c opam install -y --deps-only datakit-client datakit-server' returned a non-zero code: 3
+[2017-06-12 16:18.36] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 3
