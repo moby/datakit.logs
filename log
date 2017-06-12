@@ -1,0 +1,119 @@
+=== Docker build Dockerfile
+[2017-06-12 13:51.53] Starting...
+Cloning into '/tmp/with_clone79a5e8b'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at fa32533 github: make PR.owner a "user" type
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.561 MB
+Step 1/29 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/29 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> c01b85752f52
+Step 3/29 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> abb056b4f81f
+Step 4/29 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> d40c3b7bcc9b
+Step 5/29 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> bfe81aacdfac
+Step 6/29 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 5860dc34b61b
+Step 7/29 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> c2de2329db9d
+Step 8/29 : COPY datakit.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> e77147b54695
+Step 9/29 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 142b5a8e908c
+Step 10/29 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> 849b7ed2376e
+Step 11/29 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> a31c2bc9d0e1
+Step 12/29 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> a8cd0cc5be6a
+Step 13/29 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 25975fc7a5c8
+Step 14/29 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> 84f897b99c1b
+Step 15/29 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Using cache
+ ---> 25960c956bd5
+Step 16/29 : RUN opam install alcotest
+ ---> Using cache
+ ---> 62428d58bb92
+Step 17/29 : COPY . /home/opam/src/datakit
+ ---> b1170d3e7f6c
+Removing intermediate container 465c35afe9e9
+Step 18/29 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 62b901ad97f5
+ ---> e4a5cb9c6d64
+Removing intermediate container 62b901ad97f5
+Step 19/29 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 8cf0b628dc6d
+ M src/version.ml
+ ---> f5dca27a9d17
+Error removing intermediate container 8cf0b628dc6d: Driver aufs failed to remove root filesystem 8cf0b628dc6d155720a99b622347445adf0670176d2b1a69c30d5811b023830b: rename /var/lib/docker/aufs/mnt/0d91b82eeb7d612f703fd002ac91077924c4033578251d51c23577d2b89fe89a /var/lib/docker/aufs/mnt/0d91b82eeb7d612f703fd002ac91077924c4033578251d51c23577d2b89fe89a-removing: device or resource busy
+Step 20/29 : RUN opam install datakit-client-9p
+ ---> Running in a233af2d06e8
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install protocol-9p-unix  0.11.0                            [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 3 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[protocol-9p-unix.0.11.0] found in cache
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[ERROR] The compilation of datakit-client failed at "jbuilder build -p datakit-client -j 1".
+[0m-> installed protocol-9p-unix.0.11.0
+[91m
+#=== ERROR while compiling datakit-client.dev =================================#
+# command              jbuilder build -p datakit-client -j 1
+# path                 /home/opam/.opam/default/.opam-switch/build/datakit-client.dev
+# exit-code            1
+# env-file             /home/opam/.opam/log/datakit-client-7-d8a4ae.env
+# output-file          /home/opam/.opam/log/datakit-client-7-d8a4ae.out
+### output ###
+# File "ci/src/jbuild", line 12, characters 15-94:
+# Error: Unknown constructor per_module
+
+[0m
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions were aborted
+| - install datakit-client-9p dev
++- 
++- The following actions failed
+| - build datakit-client dev
++- 
++- The following changes have been performed
+| - install protocol-9p-unix 0.11.0
++- 
+# Run eval `opam env` to update the current shell environment
+[91m
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/default/.opam-switch/backup/state-20170612135221.export"
+[0mThe command '/bin/sh -c opam install datakit-client-9p' returned a non-zero code: 4
+[2017-06-12 13:52.35] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 4
