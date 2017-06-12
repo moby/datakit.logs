@@ -1,0 +1,106 @@
+=== Docker build Dockerfile.client
+[2017-06-12 16:17.48] Starting...
+Cloning into '/tmp/with_clone11baeead'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 3785d14 build: use jbuilder >= 1.0+beta10
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.573 MB
+Step 1/22 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/22 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 79046b8ab --hard &&     opam update -u
+ ---> Using cache
+ ---> c01b85752f52
+Step 3/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> abb056b4f81f
+Step 4/22 : RUN opam depext -ui lwt alcotest conf-libev
+ ---> Using cache
+ ---> 4f7fe3442587
+Step 5/22 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> b70d457845ca
+Removing intermediate container dd1ce2e548de
+Step 6/22 : RUN opam pin add datakit-client.dev /home/opam/src/datakit -n
+ ---> Running in c086f87f82e8
+[datakit-client.dev: rsync]
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mdatakit-client is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 5d074a608a6c
+Removing intermediate container c086f87f82e8
+Step 7/22 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> 783bfee6264b
+Removing intermediate container ea437a6a2a30
+Step 8/22 : RUN opam pin add datakit-client-9p.dev /home/opam/src/datakit -n
+ ---> Running in d4fa57ab8c99
+Package datakit-client-9p does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-9p.dev: rsync]
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+datakit-client-9p is now pinned to file:///home/opam/src/datakit (version dev)
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0m ---> 738129651991
+Error removing intermediate container d4fa57ab8c99: Driver aufs failed to remove root filesystem d4fa57ab8c99b74c8014958a73a2115886e0d38ad6f18d3e93ad4e93d76c563d: rename /var/lib/docker/aufs/mnt/ccf4d07b743dd020268fa1a2695c1b7d87908085e7f53cfdebff9a90f297eca8 /var/lib/docker/aufs/mnt/ccf4d07b743dd020268fa1a2695c1b7d87908085e7f53cfdebff9a90f297eca8-removing: device or resource busy
+Step 9/22 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> b0fb0e123951
+Error removing intermediate container d4fa57ab8c99: No such container: d4fa57ab8c99b74c8014958a73a2115886e0d38ad6f18d3e93ad4e93d76c563d
+Step 10/22 : RUN opam pin add datakit-client-git.dev /home/opam/src/datakit -n
+ ---> Running in 3b147eea2db7
+Package datakit-client-git does not exist, create as a NEW package ? [Y/n] y
+[datakit-client-git.dev: rsync]
+[datakit-client-git.dev] synchronised from file:///home/opam/src/datakit
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-git/datakit-client-git.opam from 1.2 to 2.0~beta
+[0mdatakit-client-git is now pinned to file:///home/opam/src/datakit (version dev)
+ ---> 11bb1bccb61a
+Removing intermediate container 3b147eea2db7
+Error removing intermediate container d4fa57ab8c99: No such container: d4fa57ab8c99b74c8014958a73a2115886e0d38ad6f18d3e93ad4e93d76c563d
+Step 11/22 : RUN opam depext datakit-client datakit-client-9p datakit-client-git inotify
+ ---> Running in 8c54bd1e5539
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+m4
+ncurses-dev
+pcre-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers openssl-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers openssl-dev perl zlib-dev
+(1/9) Upgrading zlib (1.2.8-r2 -> 1.2.11-r0)
+(2/9) Installing libgmpxx (6.1.1-r0)
+(3/9) Installing gmp-dev (6.1.1-r0)
+(4/9) Installing linux-headers (4.4.6-r1)
+(5/9) Installing zlib-dev (1.2.11-r0)
+(6/9) Installing libcrypto1.0 (1.0.2k-r0)
+(7/9) Installing libssl1.0 (1.0.2k-r0)
+(8/9) Installing openssl-dev (1.0.2k-r0)
+(9/9) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 640 MiB in 103 packages
+# OS packages installation successful
+ ---> 677e52f52756
+Removing intermediate container 8c54bd1e5539
+Error removing intermediate container d4fa57ab8c99: No such container: d4fa57ab8c99b74c8014958a73a2115886e0d38ad6f18d3e93ad4e93d76c563d
+Step 12/22 : RUN opam install datakit-client --deps
+ ---> Running in 24d98e4138c8
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit-client -> jbuilder = 1.0+beta10
+    no matching version
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit-client --deps' returned a non-zero code: 3
+[2017-06-12 16:18.36] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 3
