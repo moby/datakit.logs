@@ -1,0 +1,62 @@
+=== Docker build Dockerfile.ci
+[2017-07-03 12:51.51] Starting...
+Cloning into '/tmp/with_clone384968c8'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at a8d0391 Merge pull request #606 from djs55/more-go
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.793 MB
+Step 1/16 : FROM ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522: Pulling from ocaml/opam-dev
+Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
+ ---> f03bf6a81395
+Step 2/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 48cd3001d --hard &&     opam update -u
+ ---> Using cache
+ ---> 50f3bdf3f25c
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> c737cd80b31b
+Step 4/16 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> f3098a5f866e
+Step 5/16 : RUN opam pin add protocol-9p-unix.dev --dev -n
+ ---> Using cache
+ ---> 977399be6230
+Step 6/16 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Running in d59293a2aa93
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers m4 openssl-dev pcre-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers m4 openssl-dev pcre-dev perl zlib-dev
+(1/13) Installing libgmpxx (6.1.1-r0)
+(2/13) Installing gmp-dev (6.1.1-r0)
+(3/13) Installing linux-headers (4.4.6-r1)
+(4/13) Installing m4 (1.4.17-r1)
+(5/13) Installing zlib-dev (1.2.8-r2)
+ERROR: zlib-dev-1.2.8-r2: package mentioned in index not found (try 'apk update')
+(6/13) Installing libcrypto1.0 (1.0.2k-r0)
+(7/13) Installing libssl1.0 (1.0.2k-r0)
+(8/13) Installing openssl-dev (1.0.2k-r0)
+(9/13) Installing libpcre16 (8.39-r0)
+(10/13) Installing libpcre32 (8.39-r0)
+(11/13) Installing libpcrecpp (8.39-r0)
+(12/13) Installing pcre-dev (8.39-r0)
+(13/13) Installing perl (5.24.0-r0)
+Executing busybox-1.25.1-r0.trigger
+1 errors; 643 MiB in 101 packages
+[91mOS package installation failed
+[0mThe command '/bin/sh -c opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest' returned a non-zero code: 1
+[2017-07-03 12:52.39] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
