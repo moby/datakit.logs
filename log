@@ -1,6 +1,6 @@
 === Docker build Dockerfile.ci
-[2017-07-03 13:15.53] Starting...
-Cloning into '/tmp/with_clone22eca15a'...
+[2017-07-03 13:18.45] Starting...
+Cloning into '/tmp/with_clone19745c3f'...
 done.
 warning: remote HEAD refers to nonexistent ref, unable to checkout.
 
@@ -12,16 +12,61 @@ Digest: sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
 Status: Image is up to date for ocaml/opam-dev@sha256:1dd4440b3e5f182f705cb5a74f9d4e860c2842b45ed72c199de89a894d13f522
  ---> f03bf6a81395
 Step 2/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 482bd5f55 --hard &&     opam update -u
- ---> Running in 381382c71e76
-[91mFrom git://github.com/ocaml/opam-repository
-   9272e6e27..482bd5f55  master     -> origin/master
-[0m[91m * [new tag]             1.2.0      -> 1.2.0
-[0m[91mAuto packing the repository in background for optimum performance.
-See "git help gc" for manual housekeeping.
-[0mHEAD is now at 482bd5f55 Merge pull request #9689 from dbuenzli/contributing
-
-=-=- Updating package repositories =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-[91m[ERROR] Could not update repository default: "cp -PRp /home/opam/opam-repository /home/opam/.opam/repo/default.new" exited with code 1
-[0m
-The command '/bin/sh -c git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 482bd5f55 --hard &&     opam update -u' returned a non-zero code: 10
-[2017-07-03 13:16.37] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 10
+ ---> Using cache
+ ---> ec4111dc718c
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> e8fb45ae6bd6
+Step 4/16 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c0fe5f1c42a3
+Step 5/16 : RUN opam pin add protocol-9p-unix.dev --dev -n
+ ---> Running in f7d229867e0c
+[protocol-9p-unix.dev: git]
+[protocol-9p-unix.dev: git]
+[protocol-9p-unix.dev: git]
+[protocol-9p-unix.dev: git]
+[protocol-9p-unix.dev] synchronised from git+https://github.com/mirage/ocaml-9p.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/protocol-9p-unix/protocol-9p-unix.opam from 1.2 to 2.0~beta
+[0mprotocol-9p-unix is now pinned to git+https://github.com/mirage/ocaml-9p.git (version dev)
+ ---> 7fcaf62d25f4
+Removing intermediate container f7d229867e0c
+Step 6/16 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Running in 7a0af2df8f4b
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - openssl-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - which
+#  - zlib-dev
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev linux-headers m4 openssl-dev pcre-dev perl which zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev linux-headers m4 openssl-dev pcre-dev perl which zlib-dev
+(1/14) Installing libgmpxx (6.1.1-r0)
+(2/14) Installing gmp-dev (6.1.1-r0)
+(3/14) Installing linux-headers (4.4.6-r1)
+(4/14) Installing m4 (1.4.17-r1)
+(5/14) Installing zlib-dev (1.2.8-r2)
+ERROR: zlib-dev-1.2.8-r2: package mentioned in index not found (try 'apk update')
+(6/14) Installing libcrypto1.0 (1.0.2k-r0)
+(7/14) Installing libssl1.0 (1.0.2k-r0)
+(8/14) Installing openssl-dev (1.0.2k-r0)
+(9/14) Installing libpcre16 (8.39-r0)
+(10/14) Installing libpcre32 (8.39-r0)
+(11/14) Installing libpcrecpp (8.39-r0)
+(12/14) Installing pcre-dev (8.39-r0)
+(13/14) Installing perl (5.24.0-r0)
+(14/14) Installing which (2.21-r0)
+Executing busybox-1.25.1-r0.trigger
+1 errors; 643 MiB in 102 packages
+[91mOS package installation failed
+[0mThe command '/bin/sh -c opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest' returned a non-zero code: 1
+[2017-07-03 13:19.06] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
