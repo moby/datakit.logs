@@ -1,0 +1,937 @@
+=== Docker build Dockerfile
+[2017-09-28 14:22.37] Starting...
+Cloning into '/tmp/with_clone1fcfa17f'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 376c82a fix Dockerfiles
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.906 MBSending build context to Docker daemon 8.906 MB
+Step 1/31 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:684bfae176bb2e50e057be144c486d9563b6a07f767aaf46b121ffc12e319227
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> c7ad68f65634
+Step 2/31 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 21da79c65 --hard &&     opam update -u
+ ---> Using cache
+ ---> 8fffbbe58809
+Step 3/31 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> f9fcb58d82a1
+Step 4/31 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Running in 0ac12c4a3f6d
+(1/4) Installing libgmpxx (6.1.1-r0)
+(2/4) Installing gmp-dev (6.1.1-r0)
+(3/4) Installing perl (5.24.0-r0)
+(4/4) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 628 MiB in 94 packages
+ ---> 4b021936ebe1
+Removing intermediate container 0ac12c4a3f6d
+Step 5/31 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Running in a43fd0f049c8
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - libev-dev
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: libev-dev m4
+The following command needs to be run through "sudo":
+    apk update
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.2-184-g09b259c295 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.2-177-gfdf1237bb5 [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7962 distinct packages available
+# OS package update successful
+The following command needs to be run through "sudo":
+    apk add libev-dev m4
+(1/3) Installing libev (4.22-r0)
+(2/3) Installing libev-dev (4.22-r0)
+(3/3) Installing m4 (1.4.17-r1)
+Executing busybox-1.25.1-r0.trigger
+OK: 629 MiB in 97 packages
+# OS packages installation successful
+# Now letting OPAM install the packages
+The following actions will be performed:
+  - install uchar                   0.0.2                       [required by fmt, jsonm]
+  - install base-num                base                        [required by num]
+  - install result                  1.2                         [required by rresult, lwt, conduit, etc.]
+  - install conf-m4                 1                           [required by ocamlfind]
+  - install conf-libev              4-11      
+  - install conf-which              1                           [required by bos]
+  - install num                     0                           [required by sexplib]
+  - install ocamlfind               1.7.3                       [required by win-error, named-pipe, lwt, etc.]
+  - install topkg                   0.9.0                       [required by named-pipe, cmdliner, mtime, rresult]
+  - install ppx_tools               5.0                         [required by protocol-9p]
+  - install ocamlgraph              1.8.7                       [required by git, irmin]
+  - install jbuilder                1.0+beta13                  [required by prometheus-app, lwt, irmin, etc.]
+  - install base-bytes              base                        [required by protocol-9p, inotify, hvsock, etc.]
+  - install rresult                 0.5.0     
+  - install mtime                   1.1.0     
+  - install duration                0.1.0                       [required by hvsock]
+  - install cmdliner                1.0.2     
+  - install astring                 0.8.3                       [required by irmin-watcher, git, alcotest, etc.]
+  - install asetmap                 0.8.1                       [required by prometheus]
+  - install sexplib                 v0.9.2                      [required by conduit, protocol-9p]
+  - install ppx_traverse_builtins   v0.9.0                      [required by ppx_core, ppx_metaquot]
+  - install ppx_derivers            1.0                         [required by ppx_deriving]
+  - install octavius                1.1.0                       [required by ppx_js_style]
+  - install ocaml-migrate-parsetree 1.0.4                       [required by lwt]
+  - install ocaml-compiler-libs     v0.9.0                      [required by ppx_core]
+  - install magic-mime              1.1.0                       [required by cohttp]
+  - install win-error               0.2       
+  - install stringext               1.5.0                       [required by uri, cohttp]
+  - install re                      1.7.1                       [required by prometheus-app]
+  - install cppo                    1.6.0                       [required by lwt]
+  - install base64                  2.2.0                       [required by cohttp]
+  - install uutf                    1.0.1                       [required by jsonm]
+  - install fmt                     0.8.4                       [required by prometheus-app, irmin-watcher, hvsock, etc.]
+  - install decompress              0.6                         [required by git]
+  - install ocb-stubblr             0.1.1                       [required by named-pipe]
+  - install fpath                   0.7.2                       [required by bos]
+  - install base                    v0.9.3                      [required by fieldslib]
+  - install ppx_tools_versioned     5.0.1                       [required by lwt]
+  - install ppx_ast                 v0.9.1                      [required by ppx_core]
+  - install ocplib-endian           1.0                         [required by git]
+  - install cppo_ocamlbuild         1.6.0                       [required by ppx_deriving]
+  - install jsonm                   1.0.1                       [required by irmin]
+  - install mirage-flow             1.3.0     
+  - install mirage-device           1.1.0                       [required by mirage-time, mirage-clock, mirage-kv]
+  - install alcotest                0.8.1     
+  - install stdio                   v0.9.0                      [required by ppx_core, configurator]
+  - install lwt                     3.1.0     
+  - install cstruct                 3.1.1                       [required by irmin, hvsock, protocol-9p]
+  - install ppx_deriving            4.2                         [required by protocol-9p]
+  - install mirage-channel          3.1.0                       [required by mirage-channel-lwt]
+  - install mirage-time             1.1.0                       [required by mirage-time-lwt]
+  - install mirage-kv               1.1.1                       [required by mirage-kv-lwt]
+  - install mirage-clock            1.3.0                       [required by mirage-flow-lwt]
+  - install ppx_core                v0.9.0                      [required by ppx_sexp_conv, ppx_fields_conv]
+  - install prometheus              0.4                         [required by prometheus-app]
+  - install named-pipe              0.4.0     
+  - install logs                    0.6.2                       [required by protocol-9p, irmin, git, etc.]
+  - install inotify                 2.3       
+  - install mstruct                 1.3.4                       [required by git]
+  - install hex                     1.1.1                       [required by git, irmin]
+  - install mirage-time-lwt         1.1.0                       [required by hvsock]
+  - install mirage-kv-lwt           1.1.0                       [required by protocol-9p]
+  - install ppx_optcomp             v0.9.0                      [required by ppx_driver]
+  - install win-eventlog            0.1       
+  - install mirage-flow-lwt         1.4.0                       [required by hvsock, protocol-9p]
+  - install bos                     0.1.6                       [required by hvsock]
+  - install asl                     0.11      
+  - install irmin-watcher           0.3.0     
+  - install ppx_driver              v0.9.1                      [required by fieldslib, ppx_sexp_conv, ppx_fields_conv]
+  - install hvsock                  1.0.1     
+  - install ppx_metaquot            v0.9.0                      [required by ppx_sexp_conv, ppx_fields_conv]
+  - install fieldslib               v0.9.0                      [required by cohttp]
+  - install ppx_type_conv           v0.9.0                      [required by ppx_sexp_conv, ppx_fields_conv]
+  - install ppx_js_style            v0.9.0                      [required by ppx_base]
+  - install ppx_sexp_conv           v0.9.0                      [required by conduit, protocol-9p]
+  - install ppx_fields_conv         v0.9.0                      [required by cohttp]
+  - install ppx_enumerate           v0.9.0                      [required by ppx_base]
+  - install ppx_compare             v0.9.0                      [required by ppx_base]
+  - install uri                     1.9.4                       [required by git, conduit, irmin]
+  - install ipaddr                  2.8.0                       [required by conduit]
+  - install ppx_hash                v0.9.0                      [required by ppx_base]
+  - install irmin                   1.3.0     
+  - install git                     1.11.2    
+  - install cohttp                  0.99.0                      [required by prometheus-app]
+  - install conduit                 1.0.0     
+  - install ppx_base                v0.9.0                      [required by configurator]
+  - install conduit-lwt             1.0.0                       [required by conduit-lwt-unix]
+  - install cohttp-lwt              0.99.0                      [required by prometheus-app]
+  - install configurator            v0.9.1                      [required by io-page]
+  - install conduit-lwt-unix        1.0.2                       [required by cohttp-lwt-unix]
+  - install io-page                 2.0.0                       [required by mirage-channel-lwt]
+  - install cohttp-lwt-unix         0.99.0                      [required by prometheus-app]
+  - install mirage-channel-lwt      3.1.0                       [required by protocol-9p]
+  - install prometheus-app          0.4       
+  - install protocol-9p             0.11.3    
+===== 95 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[alcotest: http] Command started
+[asetmap: http] Command started
+[asl: http] Command started
+[asetmap: http] Command started
+[asetmap.0.8.1] http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz downloaded
+[astring: http] Command started
+[astring: http] Command started
+[astring.0.8.3] http://erratique.ch/software/astring/releases/astring-0.8.3.tbz downloaded
+[base: http] Command started
+[asl: http] Command started
+[asl.0.11] https://github.com/mirage/ocaml-asl/releases/download/0.11/asl-0.11.tbz downloaded
+[base64: http] Command started
+[base: http] Command started
+[base.v0.9.3] https://github.com/janestreet/base/archive/v0.9.3.tar.gz downloaded
+[bos: http] Command started
+[bos: http] Command started
+[bos.0.1.6] http://erratique.ch/software/bos/releases/bos-0.1.6.tbz downloaded
+[cmdliner: http] Command started
+[cmdliner: http] Command started
+[cmdliner.1.0.2] http://erratique.ch/software/cmdliner/releases/cmdliner-1.0.2.tbz downloaded
+[cohttp: http] Command started
+[base64: http] Command started
+[base64.2.2.0] https://github.com/mirage/ocaml-base64/releases/download/v2.2.0/base64-2.2.0.tbz downloaded
+[cohttp-lwt: http] Command started
+[alcotest: http] Command started
+[alcotest.0.8.1] https://github.com/mirage/alcotest/releases/download/0.8.1/alcotest-0.8.1.tbz downloaded
+[cohttp-lwt-unix: http] Command started
+[cohttp-lwt-unix: http] Command started
+[cohttp-lwt-unix.0.99.0] https://github.com/mirage/ocaml-cohttp/releases/download/v0.99.0/cohttp-0.99.0.tbz downloaded
+[conduit: http] Command started
+[cohttp: http] Command started
+[cohttp.0.99.0] https://github.com/mirage/ocaml-cohttp/releases/download/v0.99.0/cohttp-0.99.0.tbz downloaded
+[conduit-lwt: http] Command started
+[cohttp-lwt: http] Command started
+[cohttp-lwt.0.99.0] https://github.com/mirage/ocaml-cohttp/releases/download/v0.99.0/cohttp-0.99.0.tbz downloaded
+[conduit-lwt-unix: http] Command started
+[conduit: http] Command started
+[conduit-lwt: http] Command started
+[conduit.1.0.0] https://github.com/mirage/ocaml-conduit/releases/download/v1.0.0/conduit-1.0.0.tbz downloaded
+[configurator: http] Command started
+[conduit-lwt.1.0.0] https://github.com/mirage/ocaml-conduit/releases/download/v1.0.0/conduit-1.0.0.tbz downloaded
+[cppo: http] Command started
+[conduit-lwt-unix: http] Command started
+[conduit-lwt-unix.1.0.2] https://github.com/mirage/ocaml-conduit/releases/download/v1.0.2/conduit-1.0.2.tbz downloaded
+[cppo_ocamlbuild: http] Command started
+[configurator: http] Command started
+[configurator.v0.9.1] https://github.com/janestreet/configurator/archive/v0.9.1.tar.gz downloaded
+[cstruct: http] Command started
+[cppo_ocamlbuild: http] Command started
+[cppo_ocamlbuild.1.6.0] https://github.com/mjambon/cppo/archive/v1.6.0.tar.gz downloaded
+[decompress: http] Command started
+[cppo: http] Command started
+[cppo.1.6.0] https://github.com/mjambon/cppo/archive/v1.6.0.tar.gz downloaded
+[duration: http] Command started
+[duration: http] Command started
+[duration.0.1.0] https://github.com/hannesm/duration/releases/download/0.1.0/duration-0.1.0.tbz downloaded
+[fieldslib: http] Command started
+[cstruct: http] Command started
+[cstruct.3.1.1] https://github.com/mirage/ocaml-cstruct/releases/download/v3.1.1/cstruct-3.1.1.tbz downloaded
+[fmt: http] Command started
+[fmt: http] Command started
+[fmt.0.8.4] http://erratique.ch/software/fmt/releases/fmt-0.8.4.tbz downloaded
+[fpath: http] Command started
+[fpath: http] Command started
+[fpath.0.7.2] http://erratique.ch/software/fpath/releases/fpath-0.7.2.tbz downloaded
+[git: http] Command started
+[decompress: http] Command started
+[decompress.0.6] https://github.com/mirage/decompress/releases/download/v0.6/decompress-0.6.tbz downloaded
+[hex: http] Command started
+[fieldslib: http] Command started
+[fieldslib.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/fieldslib-v0.9.0.tar.gz downloaded
+[hvsock: http] Command started
+[hex: http] Command started
+[hex.1.1.1] https://github.com/mirage/ocaml-hex/releases/download/v1.1.1/hex-1.1.1.tbz downloaded
+[inotify: http] Command started
+[hvsock: http] Command started
+[hvsock.1.0.1] https://github.com/mirage/ocaml-hvsock/releases/download/1.0.1/hvsock-1.0.1.tbz downloaded
+[io-page: http] Command started
+[io-page: http] Command started
+[io-page.2.0.0] https://github.com/mirage/io-page/releases/download/2.0.0/io-page-2.0.0.tbz downloaded
+[ipaddr: http] Command started
+[git: http] Command started
+[git.1.11.2] https://github.com/mirage/ocaml-git/releases/download/1.11.2/git-1.11.2.tbz downloaded
+[irmin: http] Command started
+[irmin: http] Command started
+[irmin.1.3.0] https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz downloaded
+[irmin-watcher: http] Command started
+[irmin-watcher: http] Command started
+[irmin-watcher.0.3.0] https://github.com/mirage/irmin-watcher/releases/download/0.3.0/irmin-watcher-0.3.0.tbz downloaded
+[jbuilder: http] Command started
+[jbuilder: http] Command started
+[jbuilder.1.0+beta13] https://github.com/janestreet/jbuilder/releases/download/1.0+beta13/jbuilder-1.0.beta13.tbz downloaded
+[jsonm: http] Command started
+[jsonm: http] Command started
+[jsonm.1.0.1] http://erratique.ch/software/jsonm/releases/jsonm-1.0.1.tbz downloaded
+[logs: http] Command started
+[logs: http] Command started
+[logs.0.6.2] http://erratique.ch/software/logs/releases/logs-0.6.2.tbz downloaded
+[lwt: http] Command started
+[lwt: http] Command started
+[lwt.3.1.0] https://github.com/ocsigen/lwt/archive/3.1.0.tar.gz downloaded
+[magic-mime: http] Command started
+[magic-mime: http] Command started
+[magic-mime.1.1.0] https://github.com/mirage/ocaml-magic-mime/releases/download/v1.1.0/magic-mime-1.1.0.tbz downloaded
+[mirage-channel: http] Command started
+[mirage-channel: http] Command started
+[mirage-channel.3.1.0] https://github.com/mirage/mirage-channel/releases/download/v3.1.0/mirage-channel-3.1.0.tbz downloaded
+[mirage-channel-lwt: http] Command started
+[mirage-channel-lwt: http] Command started
+[mirage-channel-lwt.3.1.0] https://github.com/mirage/mirage-channel/releases/download/v3.1.0/mirage-channel-3.1.0.tbz downloaded
+[mirage-clock: http] Command started
+[mirage-clock: http] Command started
+[mirage-clock.1.3.0] https://github.com/mirage/mirage-clock/releases/download/v1.3.0/mirage-clock-1.3.0.tbz downloaded
+[mirage-device: http] Command started
+[mirage-device: http] Command started
+[mirage-device.1.1.0] https://github.com/mirage/mirage-device/releases/download/v1.1.0/mirage-device-1.1.0.tbz downloaded
+[mirage-flow: http] Command started
+[inotify: http] Command started
+[inotify.2.3] https://github.com/whitequark/ocaml-inotify/archive/v2.3.tar.gz downloaded
+[mirage-flow-lwt: http] Command started
+[mirage-flow: http] Command started
+[mirage-flow.1.3.0] https://github.com/mirage/mirage-flow/releases/download/v1.3.0/mirage-flow-1.3.0.tbz downloaded
+[mirage-kv: http] Command started
+[ipaddr: http] Command started
+[ipaddr.2.8.0] https://github.com/mirage/ocaml-ipaddr/releases/download/2.8.0/ipaddr-2.8.0.tbz downloaded
+[mirage-kv-lwt: http] Command started
+[mirage-kv: http] Command started
+[mirage-kv.1.1.1] https://github.com/mirage/mirage-kv/releases/download/v1.1.1/mirage-kv-1.1.1.tbz downloaded
+[mirage-time: http] Command started
+[mirage-flow-lwt: http] Command started
+[mirage-flow-lwt.1.4.0] https://github.com/mirage/mirage-flow/releases/download/v1.4.0/mirage-flow-1.4.0.tbz downloaded
+[mirage-time-lwt: http] Command started
+[mirage-time: http] Command started
+[mirage-time.1.1.0] https://github.com/mirage/mirage-time/releases/download/v1.1.0/mirage-time-1.1.0.tbz downloaded
+[mstruct: http] Command started
+[mirage-kv-lwt: http] Command started
+[mirage-kv-lwt.1.1.0] https://github.com/mirage/mirage-kv/releases/download/v1.1.0/mirage-kv-1.1.0.tbz downloaded
+[mtime: http] Command started
+[mtime: http] Command started
+[mtime.1.1.0] http://erratique.ch/software/mtime/releases/mtime-1.1.0.tbz downloaded
+[named-pipe: http] Command started
+[mirage-time-lwt: http] Command started
+[mirage-time-lwt.1.1.0] https://github.com/mirage/mirage-time/releases/download/v1.1.0/mirage-time-1.1.0.tbz downloaded
+[ocaml-compiler-libs: http] Command started
+[mstruct: http] Command started
+[mstruct.1.3.4] https://github.com/mirage/ocaml-mstruct/releases/download/v1.3.4/mstruct-1.3.4.tbz downloaded
+[ocaml-migrate-parsetree: http] Command started
+[ocaml-compiler-libs: http] Command started
+[ocaml-compiler-libs.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ocaml-compiler-libs-v0.9.0.tar.gz downloaded
+[ocamlfind: http] Command started
+[ocamlfind: http] Command started
+[ocamlfind.1.7.3] http://download.camlcity.org/download/findlib-1.7.3.tar.gz downloaded
+[ocamlgraph: http] Command started
+[ocamlgraph: http] Command started
+[ocamlgraph.1.8.7] http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.7.tar.gz downloaded
+[ocb-stubblr: http] Command started
+[named-pipe: http] Command started
+[named-pipe.0.4.0] https://github.com/mirage/ocaml-named-pipe/releases/download/0.4.0/named-pipe-0.4.0.tbz downloaded
+[ocplib-endian: http] Command started
+[ocb-stubblr: http] Command started
+[ocb-stubblr.0.1.1] https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz downloaded
+[octavius: http] Command started
+[ocaml-migrate-parsetree: http] Command started
+[ocaml-migrate-parsetree.1.0.4] https://github.com/ocaml-ppx/ocaml-migrate-parsetree/archive/v1.0.4.tar.gz downloaded
+[ppx_ast: http] Command started
+[ocplib-endian: http] Command started
+[ocplib-endian.1.0] https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz downloaded
+[ppx_base: http] Command started
+[ppx_base: http] Command started
+[ppx_base.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_base-v0.9.0.tar.gz downloaded
+[ppx_compare: http] Command started
+[ppx_ast: http] Command started
+[ppx_ast.v0.9.1] https://github.com/janestreet/ppx_ast/archive/v0.9.1.tar.gz downloaded
+[ppx_core: http] Command started
+[ppx_compare: http] Command started
+[ppx_compare.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_compare-v0.9.0.tar.gz downloaded
+[ppx_derivers: http] Command started
+[octavius: http] Command started
+[octavius.1.1.0] http://github.com/ocaml-doc/octavius/releases/download/v1.1.0/octavius-1.1.0.tbz downloaded
+[ppx_deriving: http] Command started
+[ppx_core: http] Command started
+[ppx_core.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_core-v0.9.0.tar.gz downloaded
+[ppx_driver: http] Command started
+[ppx_derivers: http] Command started
+[ppx_derivers.1.0] https://github.com/diml/ppx_derivers/archive/1.0.tar.gz downloaded
+[ppx_enumerate: http] Command started
+[ppx_deriving: http] Command started
+[ppx_deriving.4.2] https://github.com/whitequark/ppx_deriving/archive/v4.2.tar.gz downloaded
+[ppx_fields_conv: http] Command started
+[ppx_enumerate: http] Command started
+[ppx_enumerate.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_enumerate-v0.9.0.tar.gz downloaded
+[ppx_hash: http] Command started
+[ppx_driver: http] Command started
+[ppx_driver.v0.9.1] https://github.com/janestreet/ppx_driver/archive/v0.9.1.tar.gz downloaded
+[ppx_js_style: http] Command started
+[ppx_fields_conv: http] Command started
+[ppx_fields_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_fields_conv-v0.9.0.tar.gz downloaded
+[ppx_metaquot: http] Command started
+[ppx_js_style: http] Command started
+[ppx_js_style.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_js_style-v0.9.0.tar.gz downloaded
+[ppx_optcomp: http] Command started
+[ppx_hash: http] Command started
+[ppx_hash.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_hash-v0.9.0.tar.gz downloaded
+[ppx_sexp_conv: http] Command started
+[ppx_metaquot: http] Command started
+[ppx_metaquot.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_metaquot-v0.9.0.tar.gz downloaded
+[ppx_tools: http] Command started
+[ppx_sexp_conv: http] Command started
+[ppx_sexp_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_sexp_conv-v0.9.0.tar.gz downloaded
+[ppx_tools_versioned: http] Command started
+[ppx_optcomp: http] Command started
+[ppx_optcomp.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_optcomp-v0.9.0.tar.gz downloaded
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins: http] Command started
+[ppx_traverse_builtins.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_traverse_builtins-v0.9.0.tar.gz downloaded
+[ppx_type_conv: http] Command started
+[ppx_tools: http] Command started
+[ppx_tools.5.0] https://github.com/ocaml-ppx/ppx_tools/tarball/f70ca1d07d565989a0041e312e8efc00ff2ad87e downloaded
+[prometheus: http] Command started
+[ppx_type_conv: http] Command started
+[ppx_type_conv.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/ppx_type_conv-v0.9.0.tar.gz downloaded
+[prometheus-app: http] Command started
+[ppx_tools_versioned: http] Command started
+[ppx_tools_versioned.5.0.1] https://github.com/let-def/ppx_tools_versioned/archive/5.0.1.tar.gz downloaded
+[protocol-9p: http] Command started
+[prometheus: http] Command started
+[prometheus.0.4] https://github.com/mirage/prometheus/releases/download/v0.4/prometheus-0.4.tbz downloaded
+[re: http] Command started
+[prometheus-app: http] Command started
+[prometheus-app.0.4] https://github.com/mirage/prometheus/releases/download/v0.4/prometheus-0.4.tbz downloaded
+[result: http] Command started
+[protocol-9p: http] Command started
+[protocol-9p.0.11.3] https://github.com/mirage/ocaml-9p/releases/download/v0.11.3/protocol-9p-0.11.3.tbz downloaded
+[rresult: http] Command started
+[rresult: http] Command started
+[rresult.0.5.0] http://erratique.ch/software/rresult/releases/rresult-0.5.0.tbz downloaded
+[sexplib: http] Command started
+[re: http] Command started
+[re.1.7.1] https://github.com/ocaml/ocaml-re/archive/1.7.1.tar.gz downloaded
+[stdio: http] Command started
+[sexplib: http] Command started
+[sexplib.v0.9.2] https://github.com/janestreet/sexplib/archive/v0.9.2.tar.gz downloaded
+[stringext: http] Command started
+[stdio: http] Command started
+[stdio.v0.9.0] https://ocaml.janestreet.com/ocaml-core/v0.9/files/stdio-v0.9.0.tar.gz downloaded
+[topkg: http] Command started
+[topkg: http] Command started
+[topkg.0.9.0] http://erratique.ch/software/topkg/releases/topkg-0.9.0.tbz downloaded
+[uchar: http] Command started
+[result: http] Command started
+[result.1.2] https://github.com/janestreet/result/archive/1.2.tar.gz downloaded
+[uri: http] Command started
+[uchar: http] Command started
+[uchar.0.0.2] https://github.com/ocaml/uchar/releases/download/v0.0.2/uchar-0.0.2.tbz downloaded
+[uutf: http] Command started
+[uutf: http] Command started
+[uutf.1.0.1] http://erratique.ch/software/uutf/releases/uutf-1.0.1.tbz downloaded
+[win-error: http] Command started
+[win-error: http] Command started
+[win-error.0.2] https://github.com/djs55/ocaml-win-error/archive/v0.2.tar.gz downloaded
+[win-eventlog: http] Command started
+[uri: http] Command started
+[uri.1.9.4] https://github.com/mirage/ocaml-uri/releases/download/v1.9.4/uri-1.9.4.tbz downloaded
+[win-eventlog: http] Command started
+[win-eventlog.0.1] https://github.com/djs55/ocaml-win-eventlog/archive/v0.1.tar.gz downloaded
+[stringext: http] Command started
+[stringext.1.5.0] https://github.com/rgrinberg/stringext/archive/1.5.0.zip downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed base-num.base
+[conf-libev: sh] Command started
+[conf-m4: sh echo | m4] Command started
+[conf-which: which which] Command started
+-> installed num.0
+[result: make] Command started
+-> installed conf-m4.1
+[ocamlfind: ./configure] Command started
+-> installed conf-which.1
+[uchar: ocaml] Command started
+-> installed result.1.2
+-> installed conf-libev.4-11
+[uchar: ocaml] Command started
+[ocamlfind: make all] Command started
+-> installed uchar.0.0.2
+[ocamlfind: make opt] Command started
+[ocamlfind: make install] Command started
+[ocamlfind: install 0755] Command started
+-> installed ocamlfind.1.7.3
+-> installed base-bytes.base
+[jbuilder: ocaml bootstrap.ml] Command started
+[ocamlgraph: touch] Command started
+[ppx_tools: make all] Command started
+[re: ocaml setup.ml] Command started
+[ocamlgraph: ./configure] Command started
+[ocamlgraph: make] Command started
+[ppx_tools: make install] Command started
+-> installed ppx_tools.5.0
+[topkg: ocaml build] Command started
+[re: ocaml setup.ml] Command started
+[jbuilder: ./boot.exe 4] Command started
+-> installed topkg.0.9.0
+[asetmap: ocaml build] Command started
+-> installed asetmap.0.8.1
+[astring: ocaml build] Command started
+[ocamlgraph: make install-findlib] Command started
+-> installed ocamlgraph.1.8.7
+[cmdliner: ocaml build] Command started
+[re: ocaml setup.ml] Command started
+-> installed jbuilder.1.0+beta13
+[base64: jbuilder build] Command started
+-> installed base64.2.2.0
+[cppo: jbuilder build] Command started
+-> installed astring.0.8.3
+[duration: ocaml build] Command started
+-> installed duration.0.1.0
+[fpath: ocaml build] Command started
+-> installed cmdliner.1.0.2
+[decompress: ocaml build] Command started
+-> installed cppo.1.6.0
+[cppo_ocamlbuild: jbuilder build] Command started
+-> installed cppo_ocamlbuild.1.6.0
+[fmt: ocaml build] Command started
+-> installed fpath.0.7.2
+[magic-mime: jbuilder build] Command started
+-> installed re.1.7.1
+[mtime: ocaml build] Command started
+-> installed magic-mime.1.1.0
+[ocaml-compiler-libs: jbuilder build] Command started
+-> installed fmt.0.8.4
+[alcotest: jbuilder build] Command started
+-> installed alcotest.0.8.1
+[mirage-device: jbuilder build] Command started
+-> installed ocaml-compiler-libs.v0.9.0
+[mirage-flow: jbuilder build] Command started
+-> installed mtime.1.1.0
+[ocaml-migrate-parsetree: jbuilder build] Command started
+-> installed decompress.0.6
+[ocb-stubblr: ocaml build] Command started
+-> installed mirage-device.1.1.0
+[mirage-clock: jbuilder build] Command started
+-> installed mirage-flow.1.3.0
+[mirage-channel: jbuilder build] Command started
+-> installed mirage-clock.1.3.0
+[mirage-kv: jbuilder build] Command started
+-> installed mirage-channel.3.1.0
+[mirage-time: jbuilder build] Command started
+-> installed mirage-kv.1.1.1
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed mirage-time.1.1.0
+[octavius: jbuilder build] Command started
+-> installed ocb-stubblr.0.1.1
+[ppx_derivers: jbuilder build] Command started
+-> installed ppx_derivers.1.0
+[ppx_traverse_builtins: jbuilder build] Command started
+-> installed ppx_traverse_builtins.v0.9.0
+[rresult: ocaml build] Command started
+-> installed octavius.1.1.0
+[sexplib: jbuilder build] Command started
+-> installed rresult.0.5.0
+[stringext: jbuilder build] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed stringext.1.5.0
+[uutf: ocaml build] Command started
+-> installed sexplib.v0.9.2
+[base: jbuilder build] Command started
+-> installed uutf.1.0.1
+[jsonm: ocaml build] Command started
+[ocplib-endian: ocaml setup.ml] Command started
+-> installed jsonm.1.0.1
+[win-error: make] Command started
+-> installed ocaml-migrate-parsetree.1.0.4
+[ppx_ast: jbuilder build] Command started
+-> installed ocplib-endian.1.0
+[cstruct: jbuilder build] Command started
+-> installed cstruct.3.1.1
+[hex: jbuilder build] Command started
+-> installed hex.1.1.1
+[mstruct: jbuilder build] Command started
+-> installed mstruct.1.3.4
+[ppx_deriving: ocaml] Command started
+[win-error: make install] Command started
+-> installed win-error.0.2
+[ppx_tools_versioned: make all] Command started
+-> installed ppx_ast.v0.9.1
+-> installed base.v0.9.3
+[stdio: jbuilder build] Command started
+-> installed ppx_deriving.4.2
+-> installed stdio.v0.9.0
+[ppx_core: jbuilder build] Command started
+[ppx_tools_versioned: make install] Command started
+-> installed ppx_tools_versioned.5.0.1
+[lwt: ocaml true] Command started
+[lwt: jbuilder build] Command started
+-> installed ppx_core.v0.9.0
+[ppx_optcomp: jbuilder build] Command started
+-> installed ppx_optcomp.v0.9.0
+[ppx_driver: jbuilder build] Command started
+[lwt: ocaml] Command started
+-> installed lwt.3.1.0
+[inotify: ocaml setup.ml] Command started
+[logs: ocaml build] Command started
+[mirage-kv-lwt: jbuilder build] Command started
+-> installed mirage-kv-lwt.1.1.0
+[mirage-time-lwt: jbuilder build] Command started
+-> installed mirage-time-lwt.1.1.0
+[named-pipe: ocaml build] Command started
+-> installed logs.0.6.2
+[asl: jbuilder build] Command started
+-> installed ppx_driver.v0.9.1
+[bos: ocaml build] Command started
+-> installed asl.0.11
+[fieldslib: jbuilder build] Command started
+[inotify: ocaml setup.ml] Command started
+-> installed named-pipe.0.4.0
+[mirage-flow-lwt: jbuilder build] Command started
+-> installed mirage-flow-lwt.1.4.0
+[ppx_metaquot: jbuilder build] Command started
+-> installed fieldslib.v0.9.0
+[prometheus: jbuilder build] Command started
+-> installed prometheus.0.4
+[win-eventlog: make] Command started
+[inotify: ocaml setup.ml] Command started
+-> installed bos.0.1.6
+[hvsock: jbuilder build] Command started
+-> installed ppx_metaquot.v0.9.0
+[ppx_js_style: jbuilder build] Command started
+-> installed hvsock.1.0.1
+[ppx_type_conv: jbuilder build] Command started
+-> installed inotify.2.3
+[irmin-watcher: jbuilder build] Command started
+-> installed irmin-watcher.0.3.0
+-> installed ppx_js_style.v0.9.0
+[win-eventlog: make install] Command started
+-> installed ppx_type_conv.v0.9.0
+[ppx_compare: jbuilder build] Command started
+[ppx_enumerate: jbuilder build] Command started
+[ppx_fields_conv: jbuilder build] Command started
+-> installed win-eventlog.0.1
+[ppx_sexp_conv: jbuilder build] Command started
+-> installed ppx_fields_conv.v0.9.0
+-> installed ppx_enumerate.v0.9.0
+-> installed ppx_compare.v0.9.0
+-> installed ppx_sexp_conv.v0.9.0
+[ipaddr: jbuilder build] Command started
+[ppx_hash: jbuilder build] Command started
+[uri: jbuilder build] Command started
+-> installed ipaddr.2.8.0
+-> installed ppx_hash.v0.9.0
+[ppx_base: jbuilder build] Command started
+-> installed ppx_base.v0.9.0
+[configurator: jbuilder build] Command started
+-> installed configurator.v0.9.1
+[io-page: jbuilder build] Command started
+-> installed io-page.2.0.0
+[mirage-channel-lwt: jbuilder build] Command started
+-> installed mirage-channel-lwt.3.1.0
+[protocol-9p: jbuilder build] Command started
+-> installed protocol-9p.0.11.3
+-> installed uri.1.9.4
+[cohttp: jbuilder build] Command started
+[conduit: jbuilder build] Command started
+[git: jbuilder build] Command started
+[irmin: jbuilder build] Command started
+-> installed conduit.1.0.0
+[conduit-lwt: jbuilder build] Command started
+-> installed cohttp.0.99.0
+[cohttp-lwt: jbuilder build] Command started
+-> installed git.1.11.2
+-> installed irmin.1.3.0
+-> installed conduit-lwt.1.0.0
+[conduit-lwt-unix: jbuilder build] Command started
+-> installed cohttp-lwt.0.99.0
+-> installed conduit-lwt-unix.1.0.2
+[cohttp-lwt-unix: jbuilder build] Command started
+-> installed cohttp-lwt-unix.0.99.0
+[prometheus-app: jbuilder build] Command started
+-> installed prometheus-app.0.4
+Done.
+
+=-=- lwt.3.1.0 installed successfully -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> Lwt 4.0.0 will make some breaking changes to packaging in late 2017. See
+     https://github.com/ocsigen/lwt/issues/453
+ ---> d4b87487346c
+Removing intermediate container a43fd0f049c8
+Step 6/31 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> b586ae346bd4
+Removing intermediate container 7b4d1295057b
+Step 7/31 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Running in a2d9e020d3ce
+ ---> 4df6e4cbd127
+Removing intermediate container a2d9e020d3ce
+Step 8/31 : COPY datakit.opam /home/opam/src/datakit/
+ ---> 0ccfe734944f
+Removing intermediate container 5b85cd26b5f4
+Step 9/31 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> bfc1143b3303
+Removing intermediate container 610aeaba908b
+Step 10/31 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> e3e62a80282e
+Removing intermediate container c4634871335a
+Step 11/31 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> 86d4f3528a5c
+Removing intermediate container 27725e38bf11
+Step 12/31 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> ace1dd1fac2a
+Removing intermediate container add41a6d6527
+Step 13/31 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Running in 70c7787e5fe2
+datakit-server is now path-pinned to /home/opam/src/datakit
+
+[datakit-server: local]
+[datakit-server] /home/opam/src/datakit/ synchronized
+[datakit-server] Installing new package description from /home/opam/src/datakit
+
+datakit-server-9p is now path-pinned to /home/opam/src/datakit
+
+[datakit-server-9p: local]
+[datakit-server-9p] /home/opam/src/datakit/ synchronized
+[datakit-server-9p] Installing new package description from
+/home/opam/src/datakit
+
+datakit-client is now path-pinned to /home/opam/src/datakit
+
+[datakit-client: local]
+[datakit-client] /home/opam/src/datakit/ synchronized
+[datakit-client] Installing new package description from /home/opam/src/datakit
+
+datakit-client-9p is now path-pinned to /home/opam/src/datakit
+
+[datakit-client-9p: local]
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+[datakit-client-9p] Installing new package description from
+/home/opam/src/datakit
+
+datakit is now path-pinned to /home/opam/src/datakit
+
+[datakit: local]
+[datakit] /home/opam/src/datakit/ synchronized
+[datakit] Installing new package description from /home/opam/src/datakit
+
+ ---> 76272a0afb9b
+Removing intermediate container 70c7787e5fe2
+Step 14/31 : RUN opam depext -y datakit
+ ---> Running in 8d252fb69134
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - libressl-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - pkgconfig
+m4
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: libressl-dev linux-headers
+The following command needs to be run through "sudo":
+    apk add libressl-dev linux-headers
+(1/3) Installing libressl2.4-libtls (2.4.4-r0)
+(2/3) Installing libressl-dev (2.4.4-r0)
+(3/3) Installing linux-headers (4.4.6-r1)
+OK: 649 MiB in 100 packages
+# OS packages installation successful
+ ---> 6fbc53cd1dfe
+Removing intermediate container 8d252fb69134
+Step 15/31 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Running in 341d47fbd6d3
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-server: local] Command started
+[datakit-client] /home/opam/src/datakit/ already up-to-date
+[datakit-server] /home/opam/src/datakit/ already up-to-date
+ ---> e053fa157b24
+Removing intermediate container 341d47fbd6d3
+Step 16/31 : RUN opam install alcotest
+ ---> Running in e3bebe8493ba
+[91m[NOTE] Package alcotest is already installed (current version is 0.8.1).
+[0m ---> ef2f26474612
+Removing intermediate container e3bebe8493ba
+Step 17/31 : COPY . /home/opam/src/datakit
+ ---> 190d6b24d26e
+Removing intermediate container 73ddb8c4fa5e
+Step 18/31 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 63d349afe53c
+ ---> 966ffa5e0ce2
+Removing intermediate container 63d349afe53c
+Step 19/31 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 5edbf75da3cb
+ M src/version.ml
+ ---> 4ec48960bfd7
+Removing intermediate container 5edbf75da3cb
+Step 20/31 : RUN opam install datakit --deps-only
+ ---> Running in 141726ed06be
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install   cstruct-lwt       3.1.1           
+  - install   datakit-server    dev*            
+  - remove    cohttp-lwt-unix   0.99.0                          [uses cohttp-lwt]
+  - install   io-page-unix      2.0.0           
+  - install   irmin-mem         1.3.0           
+  - install   irmin-git         1.3.0           
+  - install   datakit-server-9p dev*            
+  - remove    conduit-lwt-unix  1.0.2                           [uses conduit-lwt]
+  - remove    cohttp-lwt        0.99.0                          [conflicts with conduit]
+  - install   protocol-9p-unix  0.11.3          
+  - remove    conduit-lwt       1.0.0                           [conflicts with conduit]
+  - downgrade conduit           1.0.0 to 0.15.4 
+  - downgrade cohttp            0.99.0 to 0.22.0                [uses conduit]
+  - downgrade prometheus-app    0.4 to 0.3                      [uses cohttp]
+===== 7 to install | 3 to downgrade | 4 to remove =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[cohttp: http] Command started
+[conduit: http] Command started
+[cstruct-lwt: http] Command started
+[cohttp: http] Command started
+[cohttp.0.22.0] https://github.com/mirage/ocaml-cohttp/archive/v0.22.0.tar.gz downloaded
+[datakit-server: local] Command started
+[datakit-server.dev] /home/opam/src/datakit/ synchronized
+[datakit-server-9p: local] Command started
+[datakit-server-9p.dev] /home/opam/src/datakit/ synchronized
+[io-page-unix: http] Command started
+[conduit: http] Command started
+[conduit.0.15.4] https://github.com/mirage/ocaml-conduit/archive/v0.15.4.tar.gz downloaded
+[irmin-git: http] Command started
+[cstruct-lwt: http] Command started
+[cstruct-lwt.3.1.1] https://github.com/mirage/ocaml-cstruct/releases/download/v3.1.1/cstruct-3.1.1.tbz downloaded
+[irmin-mem: http] Command started
+[io-page-unix: http] Command started
+[io-page-unix.2.0.0] https://github.com/mirage/io-page/releases/download/2.0.0/io-page-2.0.0.tbz downloaded
+[prometheus-app: http] Command started
+[irmin-git: http] Command started
+[irmin-git.1.3.0] https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz downloaded
+[protocol-9p-unix: http] Command started
+[irmin-mem: http] Command started
+[irmin-mem.1.3.0] https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz downloaded
+[prometheus-app: http] Command started
+[prometheus-app.0.3] https://github.com/mirage/prometheus/releases/download/v0.3/prometheus-0.3.tbz downloaded
+[protocol-9p-unix: http] Command started
+[protocol-9p-unix.0.11.3] https://github.com/mirage/ocaml-9p/releases/download/v0.11.3/protocol-9p-0.11.3.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   prometheus-app.0.4
+-> removed   cohttp-lwt-unix.0.99.0
+-> removed   cohttp-lwt.0.99.0
+-> removed   cohttp.0.99.0
+-> removed   conduit-lwt-unix.1.0.2
+-> removed   conduit-lwt.1.0.0
+-> removed   conduit.1.0.0
+[conduit: ./configure] Command started
+[cstruct-lwt: jbuilder build] Command started
+[datakit-server: jbuilder build] Command started
+[io-page-unix: jbuilder build] Command started
+[conduit: make] Command started
+-> installed cstruct-lwt.3.1.1
+[irmin-git: jbuilder build] Command started
+-> installed io-page-unix.2.0.0
+[irmin-mem: jbuilder build] Command started
+-> installed datakit-server.dev
+[datakit-server-9p: jbuilder build] Command started
+-> installed irmin-mem.1.3.0
+[protocol-9p-unix: jbuilder build] Command started
+-> installed datakit-server-9p.dev
+-> installed protocol-9p-unix.0.11.3
+-> installed irmin-git.1.3.0
+[conduit: make install] Command started
+-> installed conduit.0.15.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.22.0
+[prometheus-app: jbuilder build] Command started
+-> installed prometheus-app.0.3
+Done.
+ ---> 2322282ef341
+Removing intermediate container 141726ed06be
+Step 21/31 : RUN opam install datakit -y
+ ---> Running in 7f3d32d281f3
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: jbuilder build] Command started
+-> installed datakit.dev
+Done.
+ ---> 1dfade170077
+Removing intermediate container 7f3d32d281f3
+Step 22/31 : RUN opam install datakit-client-9p
+ ---> Running in d1e4e5a19f22
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 2 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-9p.dev] /home/opam/src/datakit/ already up-to-date
+[datakit-client.dev] /home/opam/src/datakit/ synchronized
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
+-> installed datakit-client.dev
+[datakit-client-9p: jbuilder build] Command started
+-> installed datakit-client-9p.dev
+Done.
+ ---> 7d13b8232a43
+Removing intermediate container d1e4e5a19f22
+Step 23/31 : RUN sudo cp $(opam config exec -- which datakit) /usr/bin/datakit
+ ---> Running in 5f6bba94d048
+ ---> 757b2aefe9d5
+Removing intermediate container 5f6bba94d048
+Step 24/31 : RUN sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 2baa40eb2f21
+ ---> 81b91a7fae89
+Removing intermediate container 2baa40eb2f21
+Step 25/31 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+019300c8a437: Already exists
+Digest: sha256:129a7f8c0fae8c3251a8df9370577d9d6b96ca6f1bea33ada677bc153d7b1867
+Status: Downloaded newer image for alpine:3.5
+ ---> 37c7be7a096b
+Step 26/31 : RUN apk add --no-cache libev gmp tzdata ca-certificates git openssh-client bash
+ ---> Running in aec5af0a1e95
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/15) Installing ncurses-terminfo-base (6.0-r8)
+(2/15) Installing ncurses-terminfo (6.0-r8)
+(3/15) Installing ncurses-libs (6.0-r8)
+(4/15) Installing readline (6.3.008-r4)
+(5/15) Installing bash (4.3.46-r5)
+Executing bash-4.3.46-r5.post-install
+(6/15) Installing ca-certificates (20161130-r1)
+(7/15) Installing libssh2 (1.7.0-r2)
+(8/15) Installing libcurl (7.55.0-r0)
+(9/15) Installing expat (2.2.0-r1)
+(10/15) Installing pcre (8.39-r0)
+(11/15) Installing git (2.11.3-r0)
+(12/15) Installing gmp (6.1.1-r0)
+(13/15) Installing libev (4.22-r0)
+(14/15) Installing openssh-client (7.4_p1-r0)
+(15/15) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+Executing ca-certificates-20161130-r1.trigger
+OK: 38 MiB in 26 packages
+ ---> 39c22295f2f5
+Removing intermediate container aec5af0a1e95
+Step 27/31 : EXPOSE 5640
+ ---> Running in 6ebd7a452450
+ ---> ac5d814c377d
+Removing intermediate container 6ebd7a452450
+Step 28/31 : ENTRYPOINT /usr/bin/datakit
+ ---> Running in 658123e42a71
+ ---> 35c18e5039ec
+Removing intermediate container 658123e42a71
+Step 29/31 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Running in 541356de47cc
+ ---> 56ed51f63b0c
+Removing intermediate container 541356de47cc
+Step 30/31 : COPY --from=0 /usr/bin/datakit /usr/bin/datakit
+ ---> 7faea69c71d1
+Removing intermediate container 4d34f49dbd81
+Step 31/31 : COPY --from=0 /usr/bin/datakit-mount /usr/bin/datakit-mount
+ ---> c90325a7e8ae
+Removing intermediate container 46ba8f63400a
+Successfully built c90325a7e8ae
+[2017-09-28 14:27.54] Success
