@@ -1,0 +1,259 @@
+=== Docker build Dockerfile
+[2017-09-28 14:25.49] Starting...
+Cloning into '/tmp/with_clone2b3006f'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at f1d8c14 Update conduit upper-bounds in all opam files
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 8.915 MB
+Step 1/31 : FROM ocaml/opam:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam
+Digest: sha256:684bfae176bb2e50e057be144c486d9563b6a07f767aaf46b121ffc12e319227
+Status: Image is up to date for ocaml/opam:alpine-3.5_ocaml-4.04.0
+ ---> c7ad68f65634
+Step 2/31 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 21da79c65 --hard &&     opam update -u
+ ---> Using cache
+ ---> 8fffbbe58809
+Step 3/31 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> f9fcb58d82a1
+Step 4/31 : RUN sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> 4b021936ebe1
+Step 5/31 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Using cache
+ ---> d4b87487346c
+Step 6/31 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> b586ae346bd4
+Step 7/31 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 4df6e4cbd127
+Step 8/31 : COPY datakit.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> 0ccfe734944f
+Step 9/31 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> bfc1143b3303
+Step 10/31 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> e3e62a80282e
+Step 11/31 : COPY datakit-server.opam /home/opam/src/datakit/datakit-server.opam
+ ---> Using cache
+ ---> 86d4f3528a5c
+Step 12/31 : COPY datakit-server-9p.opam /home/opam/src/datakit/datakit-server-9p.opam
+ ---> Using cache
+ ---> ace1dd1fac2a
+Step 13/31 : RUN opam pin add datakit-server.dev /home/opam/src/datakit -yn &&     opam pin add datakit-server-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 76272a0afb9b
+Step 14/31 : RUN opam depext -y datakit
+ ---> Using cache
+ ---> 6fbc53cd1dfe
+Step 15/31 : RUN opam install -y --deps-only datakit-client datakit-server
+ ---> Using cache
+ ---> e053fa157b24
+Step 16/31 : RUN opam install alcotest
+ ---> Using cache
+ ---> ef2f26474612
+Step 17/31 : COPY . /home/opam/src/datakit
+ ---> 8037f17382c5
+Removing intermediate container eac1b08bfeb2
+Step 18/31 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in d3318b29ecad
+ ---> 234022216340
+Removing intermediate container d3318b29ecad
+Step 19/31 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in 436e6b9a2f8d
+ M src/version.ml
+ ---> 9c0e31e200df
+Removing intermediate container 436e6b9a2f8d
+Step 20/31 : RUN opam install datakit --deps-only
+ ---> Running in bd1941ac4da9
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install   cstruct-lwt       3.1.1           
+  - install   datakit-server    dev*            
+  - remove    cohttp-lwt-unix   0.99.0                          [uses cohttp-lwt]
+  - install   io-page-unix      2.0.0           
+  - install   irmin-mem         1.3.0           
+  - install   irmin-git         1.3.0           
+  - install   datakit-server-9p dev*            
+  - remove    conduit-lwt-unix  1.0.2                           [uses conduit-lwt]
+  - remove    cohttp-lwt        0.99.0                          [conflicts with conduit]
+  - install   protocol-9p-unix  0.11.3          
+  - remove    conduit-lwt       1.0.0                           [conflicts with conduit]
+  - downgrade conduit           1.0.0 to 0.15.4 
+  - downgrade cohttp            0.99.0 to 0.22.0                [uses conduit]
+  - downgrade prometheus-app    0.4 to 0.3                      [uses cohttp]
+===== 7 to install | 3 to downgrade | 4 to remove =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[cohttp: http] Command started
+[conduit: http] Command started
+[cstruct-lwt: http] Command started
+[conduit: http] Command started
+[conduit.0.15.4] https://github.com/mirage/ocaml-conduit/archive/v0.15.4.tar.gz downloaded
+[datakit-server: local] Command started
+[datakit-server.dev] /home/opam/src/datakit/ synchronized
+[datakit-server-9p: local] Command started
+[datakit-server-9p.dev] /home/opam/src/datakit/ synchronized
+[io-page-unix: http] Command started
+[cohttp: http] Command started
+[cohttp.0.22.0] https://github.com/mirage/ocaml-cohttp/archive/v0.22.0.tar.gz downloaded
+[irmin-git: http] Command started
+[cstruct-lwt: http] Command started
+[cstruct-lwt.3.1.1] https://github.com/mirage/ocaml-cstruct/releases/download/v3.1.1/cstruct-3.1.1.tbz downloaded
+[irmin-mem: http] Command started
+[io-page-unix: http] Command started
+[io-page-unix.2.0.0] https://github.com/mirage/io-page/releases/download/2.0.0/io-page-2.0.0.tbz downloaded
+[prometheus-app: http] Command started
+[irmin-git: http] Command started
+[irmin-git.1.3.0] https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz downloaded
+[protocol-9p-unix: http] Command started
+[irmin-mem: http] Command started
+[irmin-mem.1.3.0] https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz downloaded
+[prometheus-app: http] Command started
+[prometheus-app.0.3] https://github.com/mirage/prometheus/releases/download/v0.3/prometheus-0.3.tbz downloaded
+[protocol-9p-unix: http] Command started
+[protocol-9p-unix.0.11.3] https://github.com/mirage/ocaml-9p/releases/download/v0.11.3/protocol-9p-0.11.3.tbz downloaded
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   prometheus-app.0.4
+-> removed   cohttp-lwt-unix.0.99.0
+-> removed   cohttp-lwt.0.99.0
+-> removed   cohttp.0.99.0
+-> removed   conduit-lwt-unix.1.0.2
+-> removed   conduit-lwt.1.0.0
+-> removed   conduit.1.0.0
+[conduit: ./configure] Command started
+[cstruct-lwt: jbuilder build] Command started
+[datakit-server: jbuilder build] Command started
+[io-page-unix: jbuilder build] Command started
+[conduit: make] Command started
+-> installed cstruct-lwt.3.1.1
+[irmin-git: jbuilder build] Command started
+-> installed io-page-unix.2.0.0
+[irmin-mem: jbuilder build] Command started
+-> installed datakit-server.dev
+[datakit-server-9p: jbuilder build] Command started
+-> installed irmin-mem.1.3.0
+[protocol-9p-unix: jbuilder build] Command started
+-> installed datakit-server-9p.dev
+-> installed protocol-9p-unix.0.11.3
+-> installed irmin-git.1.3.0
+[conduit: make install] Command started
+-> installed conduit.0.15.4
+[cohttp: make] Command started
+[cohttp: make install] Command started
+-> installed cohttp.0.22.0
+[prometheus-app: jbuilder build] Command started
+-> installed prometheus-app.0.3
+Done.
+ ---> 072cb7eab30a
+Removing intermediate container bd1941ac4da9
+Step 21/31 : RUN opam install datakit -y
+ ---> Running in 5e2914769376
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit] /home/opam/src/datakit/ already up-to-date
+The following actions will be performed:
+  - install datakit dev*
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: local] Command started
+[datakit.dev] /home/opam/src/datakit/ already up-to-date
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit: jbuilder build] Command started
+-> installed datakit.dev
+Done.
+ ---> 5c6b2f847c58
+Removing intermediate container 5e2914769376
+Step 22/31 : RUN opam install datakit-client-9p
+ ---> Running in cc7af2aa70cd
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-9p: local] Command started
+[datakit-client-9p] /home/opam/src/datakit/ synchronized
+The following actions will be performed:
+  - install datakit-client    dev*                              [required by datakit-client-9p]
+  - install datakit-client-9p dev*
+===== 2 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: local] Command started
+[datakit-client-9p: local] Command started
+[datakit-client-9p.dev] /home/opam/src/datakit/ already up-to-date
+[datakit-client.dev] /home/opam/src/datakit/ synchronized
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client: jbuilder build] Command started
+-> installed datakit-client.dev
+[datakit-client-9p: jbuilder build] Command started
+-> installed datakit-client-9p.dev
+Done.
+ ---> d59d29f98c89
+Removing intermediate container cc7af2aa70cd
+Step 23/31 : RUN sudo cp $(opam config exec -- which datakit) /usr/bin/datakit
+ ---> Running in c8d3f8ed2c3a
+ ---> 8cd64d51546c
+Removing intermediate container c8d3f8ed2c3a
+Step 24/31 : RUN sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 84e7855445a9
+ ---> ec33caaf686d
+Removing intermediate container 84e7855445a9
+Step 25/31 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:129a7f8c0fae8c3251a8df9370577d9d6b96ca6f1bea33ada677bc153d7b1867
+Status: Image is up to date for alpine:3.5
+ ---> 37c7be7a096b
+Step 26/31 : RUN apk add --no-cache libev gmp tzdata ca-certificates git openssh-client bash
+ ---> Running in 637ed3709699
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/15) Installing ncurses-terminfo-base (6.0-r8)
+(2/15) Installing ncurses-terminfo (6.0-r8)
+(3/15) Installing ncurses-libs (6.0-r8)
+(4/15) Installing readline (6.3.008-r4)
+(5/15) Installing bash (4.3.46-r5)
+Executing bash-4.3.46-r5.post-install
+(6/15) Installing ca-certificates (20161130-r1)
+(7/15) Installing libssh2 (1.7.0-r2)
+(8/15) Installing libcurl (7.55.0-r0)
+(9/15) Installing expat (2.2.0-r1)
+(10/15) Installing pcre (8.39-r0)
+(11/15) Installing git (2.11.3-r0)
+(12/15) Installing gmp (6.1.1-r0)
+(13/15) Installing libev (4.22-r0)
+(14/15) Installing openssh-client (7.4_p1-r0)
+(15/15) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+Executing ca-certificates-20161130-r1.trigger
+OK: 38 MiB in 26 packages
+ ---> bf6545e80eb1
+Removing intermediate container 637ed3709699
+Step 27/31 : EXPOSE 5640
+ ---> Running in 01f059ea3e20
+ ---> f4dc99dba05d
+Removing intermediate container 01f059ea3e20
+Step 28/31 : ENTRYPOINT /usr/bin/datakit
+ ---> Running in 0eb4a92b419d
+ ---> 82ebf3520a90
+Removing intermediate container 0eb4a92b419d
+Step 29/31 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Running in c2aaeb802bcf
+ ---> 32885a6c49ee
+Removing intermediate container c2aaeb802bcf
+Step 30/31 : COPY --from=0 /usr/bin/datakit /usr/bin/datakit
+ ---> 1b6791ad8b1a
+Removing intermediate container 5c099d9abf7b
+Step 31/31 : COPY --from=0 /usr/bin/datakit-mount /usr/bin/datakit-mount
+ ---> b6863bb55005
+Removing intermediate container 47c2fc2ad9bf
+Successfully built b6863bb55005
+[2017-09-28 14:27.57] Success
