@@ -1,0 +1,51 @@
+=== Docker build Dockerfile.ci
+[2017-11-10 14:01.07] Starting...
+Cloning into '/tmp/with_clone339caba7'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 6826b8b Update to latest versions of conduit, session and ocaml-github-hooks
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 8.989 MB
+Step 1/15 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam-dev
+Digest: sha256:3710d500397aa063ba1b82adca60d72e26c194864f4f661bfb9428baec6459c1
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+ ---> 7fd1e8732329
+Step 2/15 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 3bcfe6c8d --hard &&     opam update -u
+ ---> Using cache
+ ---> 56ccc243ecba
+Step 3/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 64c3bbdf0ea7
+Step 4/15 : RUN sudo apk update && sudo apk add tzdata aspcud
+ ---> Running in 905d7636eb82
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+v3.5.2-216-g4a8e032821 [http://dl-cdn.alpinelinux.org/alpine/v3.5/main]
+v3.5.2-213-g0860a961bc [http://dl-cdn.alpinelinux.org/alpine/v3.5/community]
+OK: 7963 distinct packages available
+(1/1) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 214 MiB in 87 packages
+ ---> 039585e16e3a
+Removing intermediate container 905d7636eb82
+Step 5/15 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Running in 2ba58c350ea1
+# Detecting depexts using flags: x86_64 linux alpine
+[91mopam: option `--external' is a flag, it cannot take the argument
+      `x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+[0m[91mopam: option `--external' is a flag, it cannot take the argument
+      `source,x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+[0m# No extra OS packages requirements found.
+# Now letting OPAM install the packages
+The following dependencies couldn't be met:
+  - protocol-9p-unix -> ppx_deriving -> ocaml < 4.06.0
+    base of this switch, can't be changed (use `--unlock-base' to force)
+
+No solution found, exiting
+The command '/bin/sh -c opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest' returned a non-zero code: 20
+[2017-11-10 14:01.49] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 20
