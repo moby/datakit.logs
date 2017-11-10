@@ -1,0 +1,48 @@
+=== Docker build Dockerfile
+[2017-11-10 14:01.07] Starting...
+Cloning into '/tmp/with_clone1a4d1b12'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 6826b8b Update to latest versions of conduit, session and ocaml-github-hooks
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 8.989 MB
+Step 1/29 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+alpine-3.5_ocaml-4.04.0: Pulling from ocaml/opam-dev
+Digest: sha256:3710d500397aa063ba1b82adca60d72e26c194864f4f661bfb9428baec6459c1
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.04.0
+ ---> 7fd1e8732329
+Step 2/29 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 3bcfe6c8d --hard &&     opam update -u
+ ---> Using cache
+ ---> 56ccc243ecba
+Step 3/29 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 64c3bbdf0ea7
+Step 4/29 : RUN sudo apk update && sudo apk add tzdata aspcud gmp-dev perl
+ ---> Using cache
+ ---> f9f38248e0af
+Step 5/29 : RUN opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe
+ ---> Running in 3899d318a3ae
+# Detecting depexts using flags: x86_64 linux alpine
+[91mopam: option `--external' is a flag, it cannot take the argument
+      `x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+[0m[91mopam: option `--external' is a flag, it cannot take the argument
+      `source,x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+[0m# No extra OS packages requirements found.
+# Now letting OPAM install the packages
+The following dependencies couldn't be met:
+  - protocol-9p -> io-page < 2.0.0 -> ocaml < 4.06.0
+    base of this switch, can't be changed (use `--unlock-base' to force)
+  - protocol-9p -> ppx_deriving -> ocaml < 4.06.0
+    base of this switch, can't be changed (use `--unlock-base' to force)
+  - protocol-9p -> sexplib < 113.01.00 -> type_conv (!= 108.08.00 & != 109.09.00 & != 109.14.00 & < 109.20.00 | = 109.41.00 | = 111.13.00) -> ocaml < 4.03.0
+    base of this switch, can't be changed (use `--unlock-base' to force)
+  - protocol-9p -> sexplib < 113.01.00 -> ocaml < 4.03.0
+    base of this switch, can't be changed (use `--unlock-base' to force)
+
+No solution found, exiting
+The command '/bin/sh -c opam depext -ui lwt inotify alcotest conf-libev asl win-eventlog     irmin-watcher mtime mirage-flow conduit hvsock prometheus-app git irmin     cmdliner protocol-9p rresult win-error named-pipe' returned a non-zero code: 20
+[2017-11-10 14:01.46] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 20
