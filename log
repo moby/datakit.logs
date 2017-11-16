@@ -1,0 +1,666 @@
+=== Docker build Dockerfile.bridge-local-git
+[2017-11-16 11:48.41] Starting...
+Cloning into '/tmp/with_clone29ef033'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 8031c3d Update to latest versions of conduit, session and ocaml-github-hooks
+[2017-11-16 11:48.41] Rewrite Dockerfile's first line to:
+FROM sha256:a5047b39c0b05017b77bfecdd54138c02aab6d36bba958b4ad054b202322ce58
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.018 MB
+Step 1/16 : FROM sha256:a5047b39c0b05017b77bfecdd54138c02aab6d36bba958b4ad054b202322ce58
+ ---> a5047b39c0b0
+Step 2/16 : RUN opam pin add github --dev -n
+ ---> Running in 08d06bbd2e52
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1: git]
+[github.3.0.1] synchronised from git+https://github.com/mirage/ocaml-github.git
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/github/github.opam from 1.2 to 2.0~beta
+[0mgithub is now pinned to git+https://github.com/mirage/ocaml-github.git (version 3.0.1)
+ ---> 9db1600691b5
+Removing intermediate container 08d06bbd2e52
+Step 3/16 : RUN opam pin add datakit-github.dev /home/opam/src/datakit -n
+ ---> Running in 2342711ca298
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> 5278a179ffc2
+Removing intermediate container 2342711ca298
+Step 4/16 : RUN opam pin add datakit-bridge-local-git.dev /home/opam/src/datakit -n
+ ---> Running in 2784ed32a7c6
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev: git]
+[datakit-bridge-local-git.dev] synchronised from git+file:///home/opam/src/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-bridge-local-git/datakit-bridge-local-git.opam from 1.2 to 2.0~beta
+[0mdatakit-bridge-local-git is now pinned to git+file:///home/opam/src/datakit#master (version dev)
+ ---> b22a9cbd2c59
+Removing intermediate container 2784ed32a7c6
+Step 5/16 : RUN opam depext datakit-bridge-local-git && opam install datakit-client --deps
+ ---> Running in e10e268a63c2
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - libressl-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+gmp-dev
+libressl-dev
+linux-headers
+m4
+ncurses-dev
+pcre-dev
+perl
+pkgconf
+zlib-dev
+# All required OS packages found.
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client.dev] no changes from file:///home/opam/src/datakit
+
+ ---> dd4930d0fd3c
+Removing intermediate container e10e268a63c2
+Step 6/16 : COPY . /home/opam/src/datakit/
+ ---> b812058b9e4d
+Removing intermediate container 0e31da522d8a
+Step 7/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 03cda42cb5f3
+ ---> 637a71bdd8f1
+Removing intermediate container 03cda42cb5f3
+Step 8/16 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in e6ee8cc1b3b4
+ M Dockerfile.bridge-local-git
+ M src/version.ml
+ ---> 87ccf39a8f5a
+Removing intermediate container e6ee8cc1b3b4
+Step 9/16 : RUN opam update datakit-bridge-local-git
+ ---> Running in bb3d22a61491
+
+=-=- Synchronizing development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0m[datakit-bridge-local-git.dev] no changes from git+file:///home/opam/src/datakit#master
+Now run 'opam upgrade' to apply any package updates.
+ ---> f05196d2e2c8
+Removing intermediate container bb3d22a61491
+Step 10/16 : RUN opam install datakit-bridge-local-git -vv
+ ---> Running in 70a138ce57d4
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1:
++ git "symbolic-ref" "--quiet" "--short" "HEAD" (CWD=/home/opam/src/datakit)
+- master
++ git "diff" "--quiet" (CWD=/home/opam/src/datakit)
+[91m[NOTE] Ignoring uncommitted changes in /home/opam/src/datakit (`--working-dir' not active).
+[0mProcessing  1/1: [datakit-bridge-local-git.dev: git]
++ git "remote" "set-url" "origin" "file:///home/opam/src/datakit" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-local-git)
++ git "fetch" "-q" "file:///home/opam/src/datakit" "--update-shallow" "+master:refs/remotes/opam-ref-master" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-local-git)
++ git "diff" "--quiet" "refs/remotes/opam-ref-master" "--" (CWD=/home/opam/.opam/default/.opam-switch/sources/datakit-bridge-local-git)
+[datakit-bridge-local-git.dev] no changes from git+file:///home/opam/src/datakit#master
+
++ uname "-m"
+- x86_64
+The following actions will be performed:
+  - install crunch                   2.1.0  [required by irmin-http]
+  - install datakit-github           dev*   [required by datakit-bridge-local-git]
+  - install irmin-fs                 1.3.0  [required by irmin-unix]
+  - install calendar                 2.03.2 [required by webmachine]
+  - install dispatch                 0.4.0  [required by webmachine]
+  - install webmachine               0.4.0  [required by irmin-http]
+  - install irmin-http               1.3.1  [required by irmin-unix]
+  - install irmin-unix               1.3.0  [required by datakit-bridge-local-git]
+  - install datakit-bridge-local-git dev*   
+===== 9 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/9: [calendar.2.03.2: http]
+Processing  2/9: [calendar.2.03.2: http] [crunch.2.1.0: http]
+Processing  3/9: [calendar.2.03.2: http] [crunch.2.1.0: http]
+Processing  4/9: [calendar.2.03.2: http] [crunch.2.1.0: http]
+Processing  5/9: [calendar.2.03.2: http] [crunch.2.1.0: http] [dispatch.0.4.0: http]
++ curl "--write-out" "%{http_code}\\n" "--retry" "3" "--retry-delay" "2" "--user-agent" "opam/2.0.0~beta3" "-L" "-o" "/home/opam/.opam/default/.opam-switch/sources/calendar.2.03.2/calendar-2.03.2.tar.gz.part" "http://forge.ocamlcore.org/frs/download.php/915/calendar-2.03.2.tar.gz"
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  263k  100  263k    0     0  1199k      0 --:--:-- --:--:-- --:--:-- 1268k
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  263k  100  263k    0     0  1199k      0 --:--:-- --:--:-- --:--:-- 1268k
+- 200
+[calendar.2.03.2] downloaded from http://forge.ocamlcore.org/frs/download.php/915/calendar-2.03.2.tar.gz
+Processing  5/9: [crunch.2.1.0: http] [dispatch.0.4.0: http]
++ tar "xfz" "/tmp/opam-7-6cc03f/calendar-2.03.2.tar.gz" "-C" "/tmp/opam-7-e4db2f"
+[irmin-fs.1.3.0] found in cache
+Processing  6/9: [crunch.2.1.0: http] [dispatch.0.4.0: http]
++ tar "xfj" "/home/opam/.opam/download-cache/md5/52/52547b19962b54f1696537307696d0c4" "-C" "/tmp/opam-7-2dea01"
+Processing  7/9: [crunch.2.1.0: http] [dispatch.0.4.0: http] [irmin-http.1.3.1: http]
++ curl "--write-out" "%{http_code}\\n" "--retry" "3" "--retry-delay" "2" "--user-agent" "opam/2.0.0~beta3" "-L" "-o" "/home/opam/.opam/default/.opam-switch/sources/dispatch.0.4.0/0.4.0.tar.gz.part" "https://github.com/inhabitedtype/ocaml-dispatch/archive/0.4.0.tar.gz"
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   135    0   135    0     0    332      0 --:--:-- --:--:-- --:--:--   333
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  7554    0  7554    0     0   9630      0 --:--:-- --:--:-- --:--:-- 7376k
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   135    0   135    0     0    332      0 --:--:-- --:--:-- --:--:--   333
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  7554    0  7554    0     0   9630      0 --:--:-- --:--:-- --:--:-- 7376k
+- 200
+[dispatch.0.4.0] downloaded from https://github.com/inhabitedtype/ocaml-dispatch/archive/0.4.0.tar.gz
+Processing  7/9: [crunch.2.1.0: http] [irmin-http.1.3.1: http]
++ tar "xfz" "/tmp/opam-7-8b8a2d/0.4.0.tar.gz" "-C" "/tmp/opam-7-dc6e87"
+[irmin-unix.1.3.0] found in cache
+Processing  8/9: [crunch.2.1.0: http] [irmin-http.1.3.1: http]
++ tar "xfj" "/home/opam/.opam/download-cache/md5/52/52547b19962b54f1696537307696d0c4" "-C" "/tmp/opam-7-48c407"
+Processing  9/9: [crunch.2.1.0: http] [irmin-http.1.3.1: http] [webmachine.0.4.0: http]
++ curl "--write-out" "%{http_code}\\n" "--retry" "3" "--retry-delay" "2" "--user-agent" "opam/2.0.0~beta3" "-L" "-o" "/home/opam/.opam/default/.opam-switch/sources/crunch.2.1.0/crunch-2.1.0.tbz.part" "https://github.com/mirage/ocaml-crunch/releases/download/v2.1.0/crunch-2.1.0.tbz"
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   605    0   605    0     0   1376      0 --:--:-- --:--:-- --:--:--  1381
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 21032  100 21032    0     0  20086      0  0:00:01  0:00:01 --:--:-- 63159
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   605    0   605    0     0   1376      0 --:--:-- --:--:-- --:--:--  1381
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 21032  100 21032    0     0  20086      0  0:00:01  0:00:01 --:--:-- 63159
+- 200
+[crunch.2.1.0] downloaded from https://github.com/mirage/ocaml-crunch/releases/download/v2.1.0/crunch-2.1.0.tbz
+Processing  9/9: [irmin-http.1.3.1: http] [webmachine.0.4.0: http]
++ tar "xfj" "/tmp/opam-7-d6d332/crunch-2.1.0.tbz" "-C" "/tmp/opam-7-8c0dd3"
++ curl "--write-out" "%{http_code}\\n" "--retry" "3" "--retry-delay" "2" "--user-agent" "opam/2.0.0~beta3" "-L" "-o" "/home/opam/.opam/default/.opam-switch/sources/irmin-http.1.3.1/irmin-1.3.1.tbz.part" "https://github.com/mirage/irmin/releases/download/1.3.1/irmin-1.3.1.tbz"
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   604    0   604    0     0   1490      0 --:--:-- --:--:-- --:--:--  1491
+-  70  119k   70 85559    0     0  63236      0  0:00:01  0:00:01 --:--:-- 63236100  119k  100  119k    0     0  85124      0  0:00:01  0:00:01 --:--:--  436k
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   604    0   604    0     0   1490      0 --:--:-- --:--:-- --:--:--  1491
+-  70  119k   70 85559    0     0  63236      0  0:00:01  0:00:01 --:--:-- 63236100  119k  100  119k    0     0  85124      0  0:00:01  0:00:01 --:--:--  436k
+- 200
+[irmin-http.1.3.1] downloaded from https://github.com/mirage/irmin/releases/download/1.3.1/irmin-1.3.1.tbz
+Processing  9/9: [webmachine.0.4.0: http]
++ curl "--write-out" "%{http_code}\\n" "--retry" "3" "--retry-delay" "2" "--user-agent" "opam/2.0.0~beta3" "-L" "-o" "/home/opam/.opam/default/.opam-switch/sources/webmachine.0.4.0/0.4.0.tar.gz.part" "https://github.com/inhabitedtype/ocaml-webmachine/archive/0.4.0.tar.gz"
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   137    0   137    0     0    344      0 --:--:-- --:--:-- --:--:--   345
+- 100 13263    0 13263    0     0  15365      0 --:--:-- --:--:-- --:--:-- 15365100 74818    0 74818    0     0  79111      0 --:--:-- --:--:-- --:--:--  733k
+- 200
+-   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+-                                  Dload  Upload   Total   Spent    Left  Speed
+-   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   137    0   137    0     0    344      0 --:--:-- --:--:-- --:--:--   345
+- 100 13263    0 13263    0     0  15365      0 --:--:-- --:--:-- --:--:-- 15365100 74818    0 74818    0     0  79111      0 --:--:-- --:--:-- --:--:--  733k
+- 200
+[webmachine.0.4.0] downloaded from https://github.com/inhabitedtype/ocaml-webmachine/archive/0.4.0.tar.gz
+Processing  9/9:
++ tar "xfj" "/tmp/opam-7-9088e2/irmin-1.3.1.tbz" "-C" "/tmp/opam-7-e0ba4f"
++ tar "xfz" "/tmp/opam-7-000417/0.4.0.tar.gz" "-C" "/tmp/opam-7-fbcac7"
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/18: [calendar: ./configure]
++ ./configure  (CWD=/home/opam/.opam/default/.opam-switch/build/calendar.2.03.2)
+- checking for ocamlc... ocamlc
+- ocaml version is 4.05.0: Good!
+- ocaml library path is /home/opam/.opam/default/lib/ocaml
+- checking for ocamlopt... ocamlopt
+- checking ocamlopt version... ok
+- checking for ocamlc.opt... ocamlc.opt
+- checking ocamlc.opt version... ok
+- checking for ocamlopt.opt... ocamlopt.opt
+- checking ocamlc.opt version... ok
+- checking for ocamldep... ocamldep
+- checking for ocamlfind... ocamlfind
+- checking for ocamldoc... ocamldoc
+- checking for ocamlweb... ocamlweb
+- checking for ocamlwc... ocamlwc
+- checking for ocamldot... ocamldot
+- checking platform... linux
+- checking extension for object files... .o
+- checking extension for library files... .a
+- checking for /home/opam/.opam/default/lib/ocaml/dynlink.cmxa... yes
+- native dynlink works fine. Great.
+- configure: creating ./config.status
+- config.status: creating Makefile
+Processing  1/18: [calendar: make]
++ make  (CWD=/home/opam/.opam/default/.opam-switch/build/calendar.2.03.2)
+- echo "let version = \"2.03.2\"" > src/version.ml
+- echo "let date = \"`date`\"" >> src/version.ml
+- rm -f .depend
+- ocamldep -I src -I tests src/*.ml src/*.mli tests/*.ml tests/*.mli \
+-   > .depend
+- ocamlc.opt -I src -I target -I tests -c src/period.mli
+- ocamlc.opt -I src -I target -I tests -c src/date_sig.mli
+- ocamlc.opt -I src -I target -I tests -c src/time_Zone.mli
+- ocamlc.opt -I src -I target -I tests -c src/time_sig.mli
+- ocamlc.opt -I src -I target -I tests -c src/calendar_sig.mli
+- ocamlc.opt -I src -I target -I tests -c src/utils.mli
+- ocamlc.opt -I src -I target -I tests -c src/utils.ml
+- ocamlc.opt -I src -I target -I tests -c src/time_Zone.ml
+- ocamlc.opt -I src -I target -I tests -c src/time.mli
+- ocamlc.opt -I src -I target -I tests -c src/time.ml
+- ocamlc.opt -I src -I target -I tests -c src/ftime.mli
+- ocamlc.opt -I src -I target -I tests -c src/ftime.ml
+- ocamlc.opt -I src -I target -I tests -c src/date.mli
+- ocamlc.opt -I src -I target -I tests -c src/date.ml
+- ocamlc.opt -I src -I target -I tests -c src/calendar_builder.mli
+- ocamlc.opt -I src -I target -I tests -c src/calendar_builder.ml
+- ocamlc.opt -I src -I target -I tests -c src/calendar.mli
+- ocamlc.opt -I src -I target -I tests -c src/calendar.ml
+- ocamlc.opt -I src -I target -I tests -c src/fcalendar.mli
+- ocamlc.opt -I src -I target -I tests -c src/fcalendar.ml
+- ocamlc.opt -I src -I target -I tests -c src/printer.mli
+- ocamlc.opt -I src -I target -I tests -c src/printer.ml
+- File "src/printer.ml", line 180, characters 16-32:
+- Warning 3: deprecated: String.uppercase
+- Use String.uppercase_ascii instead.
+- File "src/printer.ml", line 235, characters 33-49:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- ocamlc.opt -I src -I target -I tests -c src/version.mli
+- ocamlc.opt -I src -I target -I tests -c src/version.ml
+- mkdir -p target
+- ocamlfind ocamlc -I src -I target -I tests -pack -o target/calendarLib.cmo \
+- 	src/period.cmi src/date_sig.cmi src/time_sig.cmi src/calendar_sig.cmi src/utils.cmo src/time_Zone.cmo src/time.cmo src/ftime.cmo src/date.cmo src/calendar_builder.cmo src/calendar.cmo src/fcalendar.cmo src/printer.cmo src/version.cmo
+- ocamlfind ocamlc -I src -I target -I tests -a -o target/calendarLib.cma target/calendarLib.cmo
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/utils.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/time_Zone.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/time.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/ftime.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/date.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/calendar_builder.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/calendar.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/fcalendar.ml
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/printer.ml
+- File "src/printer.ml", line 180, characters 16-32:
+- Warning 3: deprecated: String.uppercase
+- Use String.uppercase_ascii instead.
+- File "src/printer.ml", line 235, characters 33-49:
+- Warning 3: deprecated: String.lowercase
+- Use String.lowercase_ascii instead.
+- ocamlopt.opt -I src -I target -I tests -noassert -for-pack CalendarLib -c src/version.ml
+- mkdir -p target
+- ocamlfind ocamlopt -I src -I target -I tests -noassert -pack -o target/calendarLib.cmx \
+- 	src/period.cmi src/date_sig.cmi src/time_sig.cmi src/calendar_sig.cmi src/utils.cmx src/time_Zone.cmx src/time.cmx src/ftime.cmx src/date.cmx src/calendar_builder.cmx src/calendar.cmx src/fcalendar.cmx src/printer.cmx src/version.cmx
+- ocamlfind ocamlopt -I src -I target -I tests -noassert -a -o target/calendarLib.cmxa target/calendarLib.cmx
+- ocamlfind ocamlopt -I target -shared -linkall -o target/calendarLib.cmxs target/calendarLib.cmxa
+- echo "description = \"calendar library\"" > META
+- echo "version = \"2.03.2\"" >> META
+- echo "archive(byte) = \"calendarLib.cma\"" >> META
+- echo "archive(native) = \"calendarLib.cmxa\"" >> META
+- echo "requires = \"unix str\"" >> META
+-> compiled  calendar.2.03.2
+Processing  2/18: [crunch: jbuilder build]
++ jbuilder "build" "-p" "crunch" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0)
+-     ocamldep src/main.depends.ocamldep-output
+-     ocamldep src/crunch.depends.ocamldep-output
+-     ocamldep src/crunch.dependsi.ocamldep-output
+-       ocamlc src/crunch.{cmi,cmti}
+-       ocamlc src/crunch.{cmo,cmt}
+-     ocamlopt src/crunch.{cmx,o}
+-       ocamlc src/main.{cmi,cmo,cmt}
+-       ocamlc src/crunch.cma
+-     ocamlopt src/crunch.{a,cmxa}
+-     ocamlopt src/main.{cmx,o}
+-     ocamlopt src/crunch.cmxs
+-     ocamlopt src/main.exe
+-> compiled  crunch.2.1.0
+Processing  3/18: [datakit-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-github.dev)
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmo,cmt}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github.cma
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt src/datakit-github/datakit_github.cmxs
+-> compiled  datakit-github.dev
+Processing  4/18: [dispatch: jbuilder build]
++ jbuilder "build" "-p" "dispatch" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0)
+-     ocamldep lib/dispatch.depends.ocamldep-output
+-     ocamldep lib/dispatch.dependsi.ocamldep-output
+-       ocamlc lib/dispatch.{cmi,cmti}
+-       ocamlc lib/dispatch.{cmo,cmt}
+-     ocamlopt lib/dispatch.{cmx,o}
+-       ocamlc lib/dispatch.cma
+-     ocamlopt lib/dispatch.{a,cmxa}
+-     ocamlopt lib/dispatch.cmxs
+-> compiled  dispatch.0.4.0
+Processing  5/18: [irmin-fs: jbuilder build]
++ jbuilder "build" "-p" "irmin-fs" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0)
+-     ocamldep src/irmin-fs/irmin_fs.depends.ocamldep-output
+-     ocamldep src/irmin-fs/irmin_fs.dependsi.ocamldep-output
+-       ocamlc src/irmin-fs/irmin_fs.{cmi,cmti}
+-       ocamlc src/irmin-fs/irmin_fs.{cmo,cmt}
+-     ocamlopt src/irmin-fs/irmin_fs.{cmx,o}
+-       ocamlc src/irmin-fs/irmin_fs.cma
+-     ocamlopt src/irmin-fs/irmin_fs.{a,cmxa}
+-     ocamlopt src/irmin-fs/irmin_fs.cmxs
+-> compiled  irmin-fs.1.3.0
+Processing  6/18: [calendar: make install]
++ make "install" (CWD=/home/opam/.opam/default/.opam-switch/build/calendar.2.03.2)
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.a
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.o
+- Installed /home/opam/.opam/default/lib/calendar/version.mli
+- Installed /home/opam/.opam/default/lib/calendar/printer.mli
+- Installed /home/opam/.opam/default/lib/calendar/fcalendar.mli
+- Installed /home/opam/.opam/default/lib/calendar/calendar.mli
+- Installed /home/opam/.opam/default/lib/calendar/calendar_builder.mli
+- Installed /home/opam/.opam/default/lib/calendar/calendar_sig.mli
+- Installed /home/opam/.opam/default/lib/calendar/date.mli
+- Installed /home/opam/.opam/default/lib/calendar/date_sig.mli
+- Installed /home/opam/.opam/default/lib/calendar/ftime.mli
+- Installed /home/opam/.opam/default/lib/calendar/time.mli
+- Installed /home/opam/.opam/default/lib/calendar/time_sig.mli
+- Installed /home/opam/.opam/default/lib/calendar/period.mli
+- Installed /home/opam/.opam/default/lib/calendar/time_Zone.mli
+- Installed /home/opam/.opam/default/lib/calendar/utils.mli
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cmxs
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cmxa
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cmx
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cmo
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cmi
+- Installed /home/opam/.opam/default/lib/calendar/calendarLib.cma
+- Installed /home/opam/.opam/default/lib/calendar/META
+-> installed calendar.2.03.2
++ install "-m" "0755" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/bin/ocaml-crunch" "/home/opam/.opam/default/bin/ocaml-crunch"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/META" "/home/opam/.opam/default/lib/crunch/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/opam" "/home/opam/.opam/default/lib/crunch/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmi" "/home/opam/.opam/default/lib/crunch/crunch.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmx" "/home/opam/.opam/default/lib/crunch/crunch.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmt" "/home/opam/.opam/default/lib/crunch/crunch.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmti" "/home/opam/.opam/default/lib/crunch/crunch.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.mli" "/home/opam/.opam/default/lib/crunch/crunch.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cma" "/home/opam/.opam/default/lib/crunch/crunch.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmxa" "/home/opam/.opam/default/lib/crunch/crunch.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.a" "/home/opam/.opam/default/lib/crunch/crunch.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/lib/crunch/crunch.cmxs" "/home/opam/.opam/default/lib/crunch/crunch.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/doc/crunch/README.md" "/home/opam/.opam/default/doc/crunch/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/doc/crunch/LICENSE.md" "/home/opam/.opam/default/doc/crunch/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/crunch.2.1.0/_build/install/default/doc/crunch/CHANGES.md" "/home/opam/.opam/default/doc/crunch/CHANGES.md"
+-> installed crunch.2.1.0
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/META" "/home/opam/.opam/default/lib/datakit-github/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/opam" "/home/opam/.opam/default/lib/datakit-github/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmi" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmx" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmt" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmti" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.mli" "/home/opam/.opam/default/lib/datakit-github/datakit_github.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github_conv.cmi" "/home/opam/.opam/default/lib/datakit-github/datakit_github_conv.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github_conv.cmx" "/home/opam/.opam/default/lib/datakit-github/datakit_github_conv.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github_conv.cmt" "/home/opam/.opam/default/lib/datakit-github/datakit_github_conv.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github_conv.cmti" "/home/opam/.opam/default/lib/datakit-github/datakit_github_conv.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github_conv.mli" "/home/opam/.opam/default/lib/datakit-github/datakit_github_conv.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cma" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmxa" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.a" "/home/opam/.opam/default/lib/datakit-github/datakit_github.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/lib/datakit-github/datakit_github.cmxs" "/home/opam/.opam/default/lib/datakit-github/datakit_github.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/doc/datakit-github/README.md" "/home/opam/.opam/default/doc/datakit-github/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/doc/datakit-github/LICENSE.md" "/home/opam/.opam/default/doc/datakit-github/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-github.dev/_build/install/default/doc/datakit-github/CHANGES.md" "/home/opam/.opam/default/doc/datakit-github/CHANGES.md"
+-> installed datakit-github.dev
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/META" "/home/opam/.opam/default/lib/dispatch/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/opam" "/home/opam/.opam/default/lib/dispatch/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmi" "/home/opam/.opam/default/lib/dispatch/dispatch.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmx" "/home/opam/.opam/default/lib/dispatch/dispatch.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmt" "/home/opam/.opam/default/lib/dispatch/dispatch.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmti" "/home/opam/.opam/default/lib/dispatch/dispatch.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.mli" "/home/opam/.opam/default/lib/dispatch/dispatch.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cma" "/home/opam/.opam/default/lib/dispatch/dispatch.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmxa" "/home/opam/.opam/default/lib/dispatch/dispatch.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.a" "/home/opam/.opam/default/lib/dispatch/dispatch.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/lib/dispatch/dispatch.cmxs" "/home/opam/.opam/default/lib/dispatch/dispatch.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/doc/dispatch/README.md" "/home/opam/.opam/default/doc/dispatch/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/dispatch.0.4.0/_build/install/default/doc/dispatch/LICENSE" "/home/opam/.opam/default/doc/dispatch/LICENSE"
+-> installed dispatch.0.4.0
+Processing 10/18: [webmachine: ocaml setup.ml]
++ ocaml "setup.ml" "-configure" "--prefix" "/home/opam/.opam/default" (CWD=/home/opam/.opam/default/.opam-switch/build/webmachine.0.4.0)
+- 
+- Configuration: 
+- ocamlfind: ........................................... /home/opam/.opam/default/bin/ocamlfind
+- ocamlc: .............................................. /home/opam/.opam/default/bin/ocamlc.opt
+- ocamlopt: ............................................ /home/opam/.opam/default/bin/ocamlopt.opt
+- ocamlbuild: .......................................... /home/opam/.opam/default/bin/ocamlbuild
+- Package name: ........................................ webmachine
+- Package version: ..................................... 0.4.0
+- os_type: ............................................. Unix
+- system: .............................................. linux
+- architecture: ........................................ amd64
+- ccomp_type: .......................................... cc
+- ocaml_version: ....................................... 4.05.0
+- standard_library_default: ............................ /home/opam/.opam/default/lib/ocaml
+- standard_library: .................................... /home/opam/.opam/default/lib/ocaml
+- standard_runtime: .................................... /home/opam/.opam/default/bin/ocamlrun
+- bytecomp_c_compiler: ................................. gcc -O2 -fno-strict-aliasing -fwrapv -D_FILE_OFFSET_BITS=64 -D_REENTRANT -fPIC
+- native_c_compiler: ................................... gcc -O2 -fno-strict-aliasing -fwrapv -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+- model: ............................................... default
+- ext_obj: ............................................. .o
+- ext_asm: ............................................. .s
+- ext_lib: ............................................. .a
+- ext_dll: ............................................. .so
+- default_executable_name: ............................. a.out
+- systhread_supported: ................................. true
+- Install architecture-independent files dir: .......... /home/opam/.opam/default
+- Install architecture-dependent files in dir: ......... $prefix
+- User executables: .................................... $exec_prefix/bin
+- System admin executables: ............................ $exec_prefix/sbin
+- Program executables: ................................. $exec_prefix/libexec
+- Read-only single-machine data: ....................... $prefix/etc
+- Modifiable architecture-independent data: ............ $prefix/com
+- Modifiable single-machine data: ...................... $prefix/var
+- Object code libraries: ............................... $exec_prefix/lib
+- Read-only arch-independent data root: ................ $prefix/share
+- Read-only architecture-independent data: ............. $datarootdir
+- Info documentation: .................................. $datarootdir/info
+- Locale-dependent data: ............................... $datarootdir/locale
+- Man documentation: ................................... $datarootdir/man
+- Documentation root: .................................. $datarootdir/doc/$pkg_name
+- HTML documentation: .................................. $docdir
+- DVI documentation: ................................... $docdir
+- PDF documentation: ................................... $docdir
+- PS documentation: .................................... $docdir
+- findlib_version: ..................................... 1.7.3
+- is_native: ........................................... true
+- suffix_program: ...................................... 
+- Remove a file.: ...................................... rm -f
+- Remove a directory.: ................................. rm -rf
+- Turn ocaml debug flag on: ............................ true
+- Turn ocaml profile flag on: .......................... false
+- Compiler support generation of .cmxs.: ............... true
+- OCamlbuild additional flags: ......................... 
+- Build the example programs: .......................... false
+- Create documentations: ............................... true
+- Compile tests executable and library and run them: ... false
+- pkg_calendar: ........................................ /home/opam/.opam/default/lib/calendar
+- pkg_cohttp: .......................................... /home/opam/.opam/default/lib/cohttp
+- pkg_dispatch: ........................................ /home/opam/.opam/default/lib/dispatch
+- pkg_re: .............................................. /home/opam/.opam/default/lib/re
+- pkg_re_str: .......................................... /home/opam/.opam/default/lib/re
+- pkg_uri: ............................................. /home/opam/.opam/default/lib/uri
+- ocamldoc: ............................................ /home/opam/.opam/default/bin/ocamldoc
+- 
++ ocaml "setup.ml" "-build" (CWD=/home/opam/.opam/default/.opam-switch/build/webmachine.0.4.0)
+- ocamlfind ocamlopt unix.cmxa -I /home/opam/.opam/default/lib/ocamlbuild /home/opam/.opam/default/lib/ocamlbuild/ocamlbuildlib.cmxa -linkpkg myocamlbuild.ml /home/opam/.opam/default/lib/ocamlbuild/ocamlbuild.cmx -o myocamlbuild
+- /home/opam/.opam/default/bin/ocamlfind ocamldep -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -modules lib/webmachine.mli > lib/webmachine.mli.depends
+- /home/opam/.opam/default/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -I lib -o lib/webmachine.cmi lib/webmachine.mli
+- /home/opam/.opam/default/bin/ocamlfind ocamldep -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -modules lib/webmachine.ml > lib/webmachine.ml.depends
+- /home/opam/.opam/default/bin/ocamlfind ocamldep -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -modules lib/wm_util.ml > lib/wm_util.ml.depends
+- /home/opam/.opam/default/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -I lib -o lib/wm_util.cmo lib/wm_util.ml
+- /home/opam/.opam/default/bin/ocamlfind ocamlc -c -g -annot -bin-annot -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -I lib -o lib/webmachine.cmo lib/webmachine.ml
+- /home/opam/.opam/default/bin/ocamlfind ocamlc -a -I lib lib/wm_util.cmo lib/webmachine.cmo -o lib/webmachine.cma
+- /home/opam/.opam/default/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -I lib -o lib/wm_util.cmx lib/wm_util.ml
+- /home/opam/.opam/default/bin/ocamlfind ocamlopt -c -g -annot -bin-annot -package uri -package re.str -package re -package dispatch -package cohttp -package calendar -I lib -o lib/webmachine.cmx lib/webmachine.ml
+- /home/opam/.opam/default/bin/ocamlfind ocamlopt -a -I lib lib/wm_util.cmx lib/webmachine.cmx -o lib/webmachine.cmxa
+- /home/opam/.opam/default/bin/ocamlfind ocamlopt -shared -I lib lib/webmachine.cmxa lib/wm_util.cmx lib/webmachine.cmx -o lib/webmachine.cmxs
+-> compiled  webmachine.0.4.0
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/META" "/home/opam/.opam/default/lib/irmin-fs/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/opam" "/home/opam/.opam/default/lib/irmin-fs/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmi" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmx" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmt" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmti" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.mli" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cma" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmxa" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.a" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/lib/irmin-fs/irmin_fs.cmxs" "/home/opam/.opam/default/lib/irmin-fs/irmin_fs.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/doc/irmin-fs/README.md" "/home/opam/.opam/default/doc/irmin-fs/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/doc/irmin-fs/LICENSE.md" "/home/opam/.opam/default/doc/irmin-fs/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-fs.1.3.0/_build/install/default/doc/irmin-fs/CHANGES.md" "/home/opam/.opam/default/doc/irmin-fs/CHANGES.md"
+-> installed irmin-fs.1.3.0
+Processing 12/18: [webmachine: ocaml setup.ml]
++ ocaml "setup.ml" "-install" (CWD=/home/opam/.opam/default/.opam-switch/build/webmachine.0.4.0)
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.mli
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cma
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmxa
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.a
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmxs
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmi
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmti
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmt
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.annot
+- Installed /home/opam/.opam/default/lib/webmachine/wm_util.cmx
+- Installed /home/opam/.opam/default/lib/webmachine/webmachine.cmx
+- Installed /home/opam/.opam/default/lib/webmachine/META
+-> installed webmachine.0.4.0
+Processing 13/18: [irmin-http: jbuilder build]
++ jbuilder "build" "-p" "irmin-http" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1)
+-     ocamldep src/irmin-http/irmin_http.depends.ocamldep-output
+-     ocamldep src/irmin-http/irmin_http.dependsi.ocamldep-output
+-       ocamlc src/irmin-http/irmin_http.{cmi,cmti}
+-       ocamlc src/irmin-http/irmin_http_common.{cmi,cmti}
+-       ocamlc src/irmin-http/irmin_http_server.{cmi,cmti}
+-       ocamlc src/irmin-http/irmin_http_common.{cmo,cmt}
+-     ocamlopt src/irmin-http/irmin_http_common.{cmx,o}
+-       ocamlc src/irmin-http/irmin_http.{cmo,cmt}
+-       ocamlc src/irmin-http/irmin_http_server.{cmo,cmt}
+-     ocamlopt src/irmin-http/irmin_http.{cmx,o}
+-     ocamlopt src/irmin-http/irmin_http_server.{cmx,o}
+-       ocamlc src/irmin-http/irmin_http.cma
+-     ocamlopt src/irmin-http/irmin_http.{a,cmxa}
+-     ocamlopt src/irmin-http/irmin_http.cmxs
+-> compiled  irmin-http.1.3.1
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/META" "/home/opam/.opam/default/lib/irmin-http/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/opam" "/home/opam/.opam/default/lib/irmin-http/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmi" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmx" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmt" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmti" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.mli" "/home/opam/.opam/default/lib/irmin-http/irmin_http.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_common.cmi" "/home/opam/.opam/default/lib/irmin-http/irmin_http_common.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_common.cmx" "/home/opam/.opam/default/lib/irmin-http/irmin_http_common.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_common.cmt" "/home/opam/.opam/default/lib/irmin-http/irmin_http_common.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_common.cmti" "/home/opam/.opam/default/lib/irmin-http/irmin_http_common.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_common.mli" "/home/opam/.opam/default/lib/irmin-http/irmin_http_common.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_server.cmi" "/home/opam/.opam/default/lib/irmin-http/irmin_http_server.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_server.cmx" "/home/opam/.opam/default/lib/irmin-http/irmin_http_server.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_server.cmt" "/home/opam/.opam/default/lib/irmin-http/irmin_http_server.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_server.cmti" "/home/opam/.opam/default/lib/irmin-http/irmin_http_server.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http_server.mli" "/home/opam/.opam/default/lib/irmin-http/irmin_http_server.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cma" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmxa" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.a" "/home/opam/.opam/default/lib/irmin-http/irmin_http.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/lib/irmin-http/irmin_http.cmxs" "/home/opam/.opam/default/lib/irmin-http/irmin_http.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/doc/irmin-http/README.md" "/home/opam/.opam/default/doc/irmin-http/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/doc/irmin-http/LICENSE.md" "/home/opam/.opam/default/doc/irmin-http/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-http.1.3.1/_build/install/default/doc/irmin-http/CHANGES.md" "/home/opam/.opam/default/doc/irmin-http/CHANGES.md"
+-> installed irmin-http.1.3.1
+Processing 15/18: [irmin-unix: jbuilder build]
++ jbuilder "build" "-p" "irmin-unix" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0)
+-     ocamldep src/irmin-unix/bin/main.depends.ocamldep-output
+-     ocamldep src/irmin-unix/irmin_unix.depends.ocamldep-output
+-     ocamldep src/irmin-unix/irmin_unix.dependsi.ocamldep-output
+-     ocamldep src/irmin-unix/bin/main.dependsi.ocamldep-output
+-       ocamlc src/irmin-unix/irmin_unix.{cmi,cmti}
+-       ocamlc src/irmin-unix/irmin_unix.{cmo,cmt}
+-     ocamlopt src/irmin-unix/irmin_unix.{cmx,o}
+-       ocamlc src/irmin-unix/bin/ir_resolver.{cmi,cmti}
+-       ocamlc src/irmin-unix/bin/ir_cli.{cmi,cmti}
+-       ocamlc src/irmin-unix/irmin_unix.cma
+-     ocamlopt src/irmin-unix/irmin_unix.{a,cmxa}
+-     ocamlopt src/irmin-unix/bin/ir_resolver.{cmx,o}
+-       ocamlc src/irmin-unix/bin/main.{cmi,cmo,cmt}
+-     ocamlopt src/irmin-unix/irmin_unix.cmxs
+-     ocamlopt src/irmin-unix/bin/ir_cli.{cmx,o}
+-     ocamlopt src/irmin-unix/bin/main.{cmx,o}
+-     ocamlopt src/irmin-unix/bin/main.exe
+-> compiled  irmin-unix.1.3.0
++ install "-m" "0755" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/bin/irmin" "/home/opam/.opam/default/bin/irmin"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/META" "/home/opam/.opam/default/lib/irmin-unix/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/opam" "/home/opam/.opam/default/lib/irmin-unix/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmi" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmi"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmx" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmx"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmt" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmt"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmti" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmti"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.mli" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.mli"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cma" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cma"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmxa" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmxa"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.a" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.a"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/lib/irmin-unix/irmin_unix.cmxs" "/home/opam/.opam/default/lib/irmin-unix/irmin_unix.cmxs"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/doc/irmin-unix/README.md" "/home/opam/.opam/default/doc/irmin-unix/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/doc/irmin-unix/LICENSE.md" "/home/opam/.opam/default/doc/irmin-unix/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/irmin-unix.1.3.0/_build/install/default/doc/irmin-unix/CHANGES.md" "/home/opam/.opam/default/doc/irmin-unix/CHANGES.md"
+-> installed irmin-unix.1.3.0
+Processing 17/18: [datakit-bridge-local-git: jbuilder build]
++ jbuilder "build" "-p" "datakit-bridge-local-git" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev)
+-     ocamldep bridge/local/main.depends.ocamldep-output
+-     ocamldep bridge/local/main.dependsi.ocamldep-output
+-       ocamlc bridge/local/sync.{cmi,cmti}
+-       ocamlc bridge/local/main.{cmi,cmti}
+-     ocamlopt bridge/local/sync.{cmx,o}
+-     ocamlopt bridge/local/main.{cmx,o}
+-     ocamlopt bridge/local/main.exe
+-> compiled  datakit-bridge-local-git.dev
++ install "-m" "0755" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/bin/datakit-bridge-local-git" "/home/opam/.opam/default/bin/datakit-bridge-local-git"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/lib/datakit-bridge-local-git/META" "/home/opam/.opam/default/lib/datakit-bridge-local-git/META"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/lib/datakit-bridge-local-git/opam" "/home/opam/.opam/default/lib/datakit-bridge-local-git/opam"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/doc/datakit-bridge-local-git/README.md" "/home/opam/.opam/default/doc/datakit-bridge-local-git/README.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/doc/datakit-bridge-local-git/LICENSE.md" "/home/opam/.opam/default/doc/datakit-bridge-local-git/LICENSE.md"
++ install "-m" "0644" "/home/opam/.opam/default/.opam-switch/build/datakit-bridge-local-git.dev/_build/install/default/doc/datakit-bridge-local-git/CHANGES.md" "/home/opam/.opam/default/doc/datakit-bridge-local-git/CHANGES.md"
+-> installed datakit-bridge-local-git.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> a9993e6b7786
+Removing intermediate container 70a138ce57d4
+Step 11/16 : RUN opam config exec -- ocaml /home/opam/src/datakit/check-libev.ml
+ ---> Running in 2b3f0d82ca89
+ ---> d1ced1aacef7
+Removing intermediate container 2b3f0d82ca89
+Step 12/16 : RUN sudo cp $(opam config exec -- which datakit-bridge-local-git) /usr/bin/
+ ---> Running in e99d913fee5f
+ ---> 79713fcf7cdd
+Removing intermediate container e99d913fee5f
+Step 13/16 : FROM alpine:3.5
+ ---> 3823b001394d
+Step 14/16 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 9d5a33feeb5a
+Step 15/16 : ENTRYPOINT /usr/bin/datakit-bridge-local-git
+ ---> Using cache
+ ---> 41cbaee92458
+Step 16/16 : COPY --from=0 /usr/bin/datakit-bridge-local-git /usr/bin/datakit-bridge-local-git
+ ---> 2add289ba805
+Removing intermediate container a5a6020c796c
+Successfully built 2add289ba805
+[2017-11-16 11:49.54] Success
