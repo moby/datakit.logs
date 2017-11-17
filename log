@@ -1,0 +1,232 @@
+=== Docker build Dockerfile.ci
+[2017-11-17 14:56.45] Starting...
+Cloning into '/tmp/with_clone1b8f2a9a'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 9e578c0 ci: bump ocaml version to 4.05 in appveyor
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.027 MB
+Step 1/15 : FROM ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f: Pulling from ocaml/opam-dev
+Digest: sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+Status: Image is up to date for ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+ ---> e190faf31c25
+Step 2/15 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 3bcfe6c8d --hard &&     opam update -u
+ ---> Using cache
+ ---> ec45e8a6cb61
+Step 3/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> a2b033586612
+Step 4/15 : RUN sudo apk update && sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> 6787bafcdedd
+Step 5/15 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Using cache
+ ---> e7f3f20ac086
+Step 6/15 : ADD . /home/opam/datakit
+ ---> 777b41a7cac6
+Removing intermediate container 62a74971d95e
+Step 7/15 : RUN sudo chown opam /home/opam/datakit
+ ---> Running in e7d4819269ab
+ ---> 136391d627d3
+Error removing intermediate container e7d4819269ab: Unable to remove filesystem for e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810: remove /var/lib/docker/containers/e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810/shm: device or resource busy
+Step 8/15 : RUN opam pin add datakit-client.dev /home/opam/datakit -y
+ ---> Running in 3854011410d6
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev: git]
+[datakit-client.dev] synchronised from git+file:///home/opam/datakit#master
+datakit-client is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client/datakit-client.opam from 1.2 to 2.0~beta
+[0mThe following actions will be performed:
+  - install datakit-client dev* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 9e4049277298
+Removing intermediate container 3854011410d6
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 9/15 : RUN opam pin add datakit-client-9p.dev /home/opam/datakit -y
+ ---> Running in 83236b00feb4
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev: git]
+[datakit-client-9p.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-client-9p/datakit-client-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-client-9p is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-client-9p dev* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-client-9p.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 3f5f9159ad39
+Removing intermediate container 83236b00feb4
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 10/15 : RUN opam pin add datakit-server.dev /home/opam/datakit -y
+ ---> Running in 505d6bb82534
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev: git]
+[datakit-server.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server/datakit-server.opam from 1.2 to 2.0~beta
+[0mdatakit-server is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server dev* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 9936468a0e8c
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 11/15 : RUN opam pin add datakit-server-9p.dev /home/opam/datakit -y
+ ---> Running in def58d32539a
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev: git]
+[datakit-server-9p.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-server-9p/datakit-server-9p.opam from 1.2 to 2.0~beta
+[0mdatakit-server-9p is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit-server-9p dev* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit-server-9p.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 06086ad3a4ec
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 12/15 : RUN opam pin add datakit-github.dev /home/opam/datakit -y
+ ---> Running in 2c73eb9342c8
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev: git]
+[datakit-github.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-github/datakit-github.opam from 1.2 to 2.0~beta
+[0mdatakit-github is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - downgrade jbuilder           1.0+beta15 to 1.0+beta11 [required by datakit-github]
+  - install   datakit-client-git 0.11.0                   [required by datakit-github]
+  - install   datakit-github     dev*                     
+===== 2 to install | 1 to downgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[jbuilder.1.0+beta11] downloaded from https://github.com/janestreet/jbuilder/releases/download/1.0+beta11/jbuilder-1.0.beta11.tbz
+[datakit-client-git.0.11.0] downloaded from https://github.com/moby/datakit/releases/download/0.11.0/datakit-0.11.0.tbz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   jbuilder.1.0+beta15
+-> installed jbuilder.1.0+beta11
+-> installed datakit-client-git.0.11.0
+-> installed datakit-github.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> c5bae0a51817
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 13/15 : RUN opam pin add datakit.dev /home/opam/datakit -y
+ ---> Running in 6a5649b854bf
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev: git]
+[datakit.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit/datakit.opam from 1.2 to 2.0~beta
+[0mdatakit is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install datakit dev* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed datakit.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 615d9e93f4c9
+Removing intermediate container 2c73eb9342c8
+Removing intermediate container 6a5649b854bf
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 14/15 : RUN opam pin add datakit-ci.dev /home/opam/datakit -yt
+ ---> Running in 27b0a3286431
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev: git]
+[datakit-ci.dev] synchronised from git+file:///home/opam/datakit#master
+[91m[NOTE] Converting format of /home/opam/.opam/default/.opam-switch/sources/datakit-ci/datakit-ci.opam from 1.2 to 2.0~beta
+[0mdatakit-ci is now pinned to git+file:///home/opam/datakit#master (version dev)
+
+The following actions will be performed:
+  - install session-cohttp     0.4.0 [required by session-webmachine]
+  - install redis-lwt          0.3.5 [required by datakit-ci]
+  - install camomile           0.8.6 [required by zed]
+  - install react              1.2.1 [required by lwt_react, zed]
+  - install session-webmachine 0.4.0 [required by datakit-ci]
+  - install session-redis-lwt  0.4.0 [required by datakit-ci]
+  - install zed                1.5   [required by lambda-term]
+  - install lwt_react          1.1.0 [required by lambda-term]
+  - install lambda-term        1.11  [required by github-unix]
+  - install github-unix        3.0.1 [required by datakit-ci]
+  - install datakit-ci         dev*  
+===== 11 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[github-unix.3.0.1] downloaded from https://github.com/mirage/ocaml-github/archive/v3.0.1.tar.gz
+[lwt_react.1.1.0] found in cache
+[lambda-term.1.11] downloaded from https://github.com/diml/lambda-term/archive/1.11.tar.gz
+[redis-lwt.0.3.5] found in cache
+[session-cohttp.0.4.0] found in cache
+[react.1.2.1] downloaded from http://erratique.ch/software/react/releases/react-1.2.1.tbz
+[session-redis-lwt.0.4.0] found in cache
+[session-webmachine.0.4.0] found in cache
+[camomile.0.8.6] downloaded from https://github.com/yoriyuki/Camomile/archive/rel-0.8.6.tar.gz
+[zed.1.5] downloaded from https://github.com/diml/zed/archive/1.5.tar.gz
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> installed camomile.0.8.6
+-> installed react.1.2.1
+-> installed lwt_react.1.1.0
+-> installed redis-lwt.0.3.5
+-> installed session-cohttp.0.4.0
+-> installed session-redis-lwt.0.4.0
+-> installed session-webmachine.0.4.0
+-> installed zed.1.5
+-> installed lambda-term.1.11
+-> installed github-unix.3.0.1
+-> installed datakit-ci.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 10f690128e6c
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Step 15/15 : VOLUME /secrets
+ ---> Running in 2d5cd620e1d9
+ ---> c7de25d89f5f
+Error removing intermediate container e7d4819269ab: No such container: e7d4819269ab022706c2fab6dbb03809c109f5c89d82a10cfbbf687afed62810
+Successfully built c7de25d89f5f
+[2017-11-17 15:00.56] Success
