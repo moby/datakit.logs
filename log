@@ -1,0 +1,550 @@
+=== Docker build Dockerfile.github
+[2017-11-17 14:56.11] Starting...
+Cloning into '/tmp/with_clone3de13a1'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 22bee65 ci: bump ocaml version to 4.05 in appveyor
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.026 MB
+Step 1/29 : FROM ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f: Pulling from ocaml/opam-dev
+Digest: sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+Status: Image is up to date for ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+ ---> e190faf31c25
+Step 2/29 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 3bcfe6c8d --hard &&     opam update -u
+ ---> Using cache
+ ---> ec45e8a6cb61
+Step 3/29 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> a2b033586612
+Step 4/29 : RUN sudo apk add tzdata aspcud
+ ---> Using cache
+ ---> c3d35b7a8fc2
+Step 5/29 : RUN opam depext -ui lwt inotify alcotest conf-libev lambda-term cmdliner     github protocol-9p rresult prometheus-app asl win-eventlog mtime hex     github-hooks hvsock irmin-watcher git irmin
+ ---> Using cache
+ ---> b5c467dbf1ba
+Step 6/29 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 02317a91ecb8
+Step 7/29 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 17f76183c319
+Step 8/29 : COPY datakit.opam /home/opam/src/datakit/datakit.opam
+ ---> Using cache
+ ---> cc1a14c23949
+Step 9/29 : COPY datakit-client.opam /home/opam/src/datakit/datakit-client.opam
+ ---> Using cache
+ ---> 1709a923d704
+Step 10/29 : COPY datakit-client-9p.opam /home/opam/src/datakit/datakit-client-9p.opam
+ ---> Using cache
+ ---> cfd6352aafc3
+Step 11/29 : COPY datakit-client-git.opam /home/opam/src/datakit/datakit-client-git.opam
+ ---> Using cache
+ ---> 505756e44c33
+Step 12/29 : COPY datakit-github.opam /home/opam/src/datakit/datakit-github.opam
+ ---> Using cache
+ ---> 9e9736680b93
+Step 13/29 : COPY datakit-bridge-github.opam /home/opam/src/datakit/datakit-bridge-github.opam
+ ---> Using cache
+ ---> 4288ff4008d6
+Step 14/29 : RUN opam pin add datakit.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-9p.dev /home/opam/src/datakit -yn &&     opam pin add datakit-client-git.dev /home/opam/src/datakit -yn &&     opam pin add datakit-github.dev /home/opam/src/datakit -yn &&     opam pin add datakit-bridge-github.dev /home/opam/src/datakit -yn
+ ---> Using cache
+ ---> 1ba8bb78454a
+Step 15/29 : RUN opam install datakit-bridge-github
+ ---> Using cache
+ ---> 7dc5946bc7fd
+Step 16/29 : COPY . /home/opam/src/datakit
+ ---> 6f49a026731d
+Removing intermediate container 8e043c2a6b20
+Step 17/29 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in daf614aef793
+ ---> ad3cebce49fc
+Removing intermediate container daf614aef793
+Step 18/29 : RUN cd /home/opam/src/datakit &&     scripts/watermark.sh &&     git status --porcelain
+ ---> Running in a2476843f02e
+ M src/version.ml
+ ---> 952118566ead
+Removing intermediate container a2476843f02e
+Step 19/29 : RUN opam upgrade datakit-client datakit-client-9p datakit-client-git datakit-github
+ ---> Running in d2bfad72823f
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-client-git.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client.dev] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.dev] synchronised from file:///home/opam/src/datakit
+[datakit-github.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - recompile datakit-client        dev* 
+  - recompile datakit-client-git    dev* 
+  - recompile datakit-client-9p     dev* 
+  - recompile datakit-github        dev* 
+  - recompile datakit-bridge-github dev* [uses datakit-client-git, datakit-client, datakit-client-9p, datakit-github]
+===== 5 to recompile =====
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-bridge-github.dev
+-> removed   datakit-github.dev
+-> removed   datakit-client-9p.dev
+-> removed   datakit-client-git.dev
+-> removed   datakit-client.dev
+-> installed datakit-client.dev
+-> installed datakit-client-9p.dev
+-> installed datakit-client-git.dev
+-> installed datakit-github.dev
+-> installed datakit-bridge-github.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 05c2419d2b44
+Removing intermediate container d2bfad72823f
+Step 20/29 : RUN opam install datakit-bridge-github -ytv
+ ---> Running in 3ca710ff37b1
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-bridge-github.dev: rsync]
+[datakit-bridge-github.dev] synchronised from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - downgrade jbuilder              1.0+beta15 to 1.0+beta11 [required by datakit-bridge-github]
+  - install   irmin-mem             1.3.0                    [required by datakit]
+  - install   datakit-server        0.11.0                   [required by datakit-server-9p]
+  - install   datakit-server-9p     0.11.0                   [required by datakit]
+  - install   datakit               dev*                     [required by datakit-bridge-github]
+  - recompile datakit-bridge-github dev*                     
+===== 4 to install | 1 to recompile | 1 to downgrade =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  3/6: [datakit-server.0.11.0: http]
+Processing  4/6: [datakit-server.0.11.0: http] [datakit-server-9p.0.11.0: http]
+[irmin-mem.1.3.0] found in cache
+Processing  5/6: [datakit-server.0.11.0: http] [datakit-server-9p.0.11.0: http]
+Processing  6/6: [datakit-server.0.11.0: http] [datakit-server-9p.0.11.0: http] [jbuilder.1.0+beta11: http]
+[jbuilder.1.0+beta11] downloaded from https://github.com/janestreet/jbuilder/releases/download/1.0+beta11/jbuilder-1.0.beta11.tbz
+Processing  6/6: [datakit-server.0.11.0: http] [datakit-server-9p.0.11.0: http]
+[datakit-server.0.11.0] downloaded from https://github.com/moby/datakit/releases/download/0.11.0/datakit-0.11.0.tbz
+Processing  6/6: [datakit-server-9p.0.11.0: http]
+[datakit-server-9p.0.11.0] downloaded from https://github.com/moby/datakit/releases/download/0.11.0/datakit-0.11.0.tbz
+Processing  6/6:
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/14: [jbuilder: ocaml bootstrap.ml]
++ ocaml "bootstrap.ml" (CWD=/home/opam/.opam/default/.opam-switch/build/jbuilder.1.0+beta11)
+- /home/opam/.opam/default/bin/ocamllex.opt -q src/sexp_lexer.mll
+- /home/opam/.opam/default/bin/ocamllex.opt -q src/meta_lexer.mll
+- /home/opam/.opam/default/bin/ocamldep.opt -modules src/action.ml src/action_intf.ml src/alias.ml src/ansi_color.ml src/arg_spec.ml src/artifacts.ml src/bin.ml src/build.ml src/build_interpret.ml src/build_system.ml src/clflags.ml src/cm_kind.ml src/config.ml src/context.ml src/file_tree.ml src/findlib.ml src/future.ml src/gen_meta.ml src/gen_rules.ml src/import.ml src/install.ml src/io.ml src/jbuild.ml src/jbuild_load.ml src/js_of_ocaml_rules.ml src/lib.ml src/lib_db.ml src/loc.ml src/log.ml src/main.ml src/merlin.ml src/meta.ml src/meta_lexer.ml src/ml_kind.ml src/mode.ml src/module.ml src/module_compilation.ml src/ocaml_flags.ml src/ocamldep.ml src/odoc.ml src/opam_file.ml src/ordered_set_lang.ml src/package.ml src/path.ml src/sexp.ml src/sexp_lexer.ml src/string_with_vars.ml src/super_context.ml src/top_closure.ml src/utils.ml src/vfile_kind.ml src/watermarks.ml src/workspace.ml > boot-depends.txt
+- /home/opam/.opam/default/bin/ocamlopt.opt -w -40 -o boot.exe unix.cmxa boot.ml
+Processing  1/14: [jbuilder: ./boot.exe 1]
++ ./boot.exe "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/jbuilder.1.0+beta11)
+-     ocamldep bin/main.depends.ocamldep-output
+-       ocamlc src/jbuilder.{cmi,cmo,cmt}
+-     ocamldep src/jbuilder.dependsi.ocamldep-output
+-     ocamllex src/glob_lexer.ml
+-     ocamllex src/meta_lexer.ml
+-     ocamllex src/sexp_lexer.ml
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner.{cmi,cmo,cmt}
+-     ocamldep vendor/cmdliner/src/jbuilder_cmdliner.dependsi.ocamldep-output
+-     ocamldep vendor/cmdliner/src/jbuilder_cmdliner.depends.ocamldep-output
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format.{cmi,cmo,cmt}
+-    ocamlyacc vendor/opam-file-format/src/opamBaseParser.{ml,mli}
+-     ocamllex vendor/opam-file-format/src/opamLexer.ml
+-       ocamlc vendor/re/src/jbuilder_re.{cmi,cmo,cmt}
+-     ocamldep vendor/re/src/jbuilder_re.dependsi.ocamldep-output
+-     ocamldep vendor/re/src/jbuilder_re.depends.ocamldep-output
+-     ocamldep bin/main.dependsi.ocamldep-output
+-     ocamlopt src/jbuilder.{cmx,o}
+-     ocamldep src/jbuilder.depends.ocamldep-output
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner.{cmx,o}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_base.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_manpage.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_suggest.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_trie.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Result.{cmi,cmo,cmt}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format.{cmx,o}
+-     ocamldep vendor/opam-file-format/src/jbuilder_opam_file_format.dependsi.ocamldep-output
+-     ocamldep vendor/opam-file-format/src/jbuilder_opam_file_format.depends.ocamldep-output
+-     ocamlopt vendor/re/src/jbuilder_re.{cmx,o}
+-       ocamlc vendor/re/src/jbuilder_re__Re.{cmi,cmti}
+-       ocamlc vendor/re/src/jbuilder_re__Re_cset.{cmi,cmti}
+-       ocamlc vendor/re/src/jbuilder_re__Re_fmt.{cmi,cmo,cmt}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_info.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_suggest.{cmx,o}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_trie.{cmx,o}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Result.{cmx,o}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner.{cmi,cmti}
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format__OpamParserTypes.{cmi,cmti}
+-       ocamlc vendor/re/src/jbuilder_re__Re_automata.{cmi,cmti}
+-     ocamlopt vendor/re/src/jbuilder_re__Re_fmt.{cmx,o}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_msg.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_docgen.{cmi,cmti}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_cline.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_base.{cmx,o}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format__OpamParserTypes.{cmx,o}
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format__OpamBaseParser.{cmi,cmti}
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format__OpamPrinter.{cmi,cmti}
+-     ocamlopt vendor/re/src/jbuilder_re__Re_cset.{cmx,o}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_term.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_manpage.{cmx,o}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format__OpamBaseParser.{cmx,o}
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format__OpamLexer.{cmi,cmti}
+-       ocamlc vendor/opam-file-format/src/jbuilder_opam_file_format__OpamParser.{cmi,cmti}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format__OpamPrinter.{cmx,o}
+-     ocamlopt vendor/re/src/jbuilder_re__Re_automata.{cmx,o}
+-       ocamlc vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_arg.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_info.{cmx,o}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format__OpamLexer.{cmx,o}
+-       ocamlc src/jbuilder__Ansi_color.{cmi,cmti}
+-       ocamlc src/jbuilder__Clflags.{cmi,cmti}
+-       ocamlc src/jbuilder__Io.{cmi,cmti}
+-       ocamlc src/jbuilder__Loc.{cmi,cmti}
+-       ocamlc src/jbuilder__Log.{cmi,cmti}
+-       ocamlc src/jbuilder__Meta_lexer.{cmi,cmti}
+-       ocamlc src/jbuilder__Opam_file.{cmi,cmti}
+-       ocamlc src/jbuilder__Action_intf.{cmi,cmo,cmt}
+-       ocamlc src/jbuilder__Import.{cmi,cmo,cmt}
+-     ocamlopt vendor/re/src/jbuilder_re__Re.{cmx,o}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_docgen.{cmx,o}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format__OpamParser.{cmx,o}
+-       ocamlc src/jbuilder__Glob_lexer.{cmi,cmti}
+-       ocamlc src/jbuilder__Meta.{cmi,cmti}
+-       ocamlc src/jbuilder__Top_closure.{cmi,cmti}
+-       ocamlc src/jbuilder__Workspace.{cmi,cmti}
+-       ocamlc src/jbuilder__Sexp.{cmi,cmti}
+-     ocamlopt vendor/re/src/jbuilder_re.{a,cmxa}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_msg.{cmx,o}
+-     ocamlopt src/jbuilder__Action_intf.{cmx,o}
+-     ocamlopt src/jbuilder__Clflags.{cmx,o}
+-     ocamlopt src/jbuilder__Import.{cmx,o}
+-     ocamlopt vendor/opam-file-format/src/jbuilder_opam_file_format.{a,cmxa}
+-       ocamlc src/jbuilder__Ordered_set_lang.{cmi,cmti}
+-       ocamlc src/jbuilder__Path.{cmi,cmti}
+-       ocamlc src/jbuilder__Sexp_lexer.{cmi,cmti}
+-       ocamlc src/jbuilder__String_with_vars.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_cline.{cmx,o}
+-     ocamlopt src/jbuilder__Ansi_color.{cmx,o}
+-     ocamlopt src/jbuilder__Glob_lexer.{cmx,o}
+-     ocamlopt src/jbuilder__Io.{cmx,o}
+-     ocamlopt src/jbuilder__Loc.{cmx,o}
+-     ocamlopt src/jbuilder__Top_closure.{cmx,o}
+-       ocamlc src/jbuilder__Arg_spec.{cmi,cmti}
+-       ocamlc src/jbuilder__Bin.{cmi,cmti}
+-       ocamlc src/jbuilder__Config.{cmi,cmti}
+-       ocamlc src/jbuilder__File_tree.{cmi,cmti}
+-       ocamlc src/jbuilder__Future.{cmi,cmti}
+-       ocamlc src/jbuilder__Package.{cmi,cmti}
+-       ocamlc src/jbuilder__Utils.{cmi,cmti}
+-       ocamlc src/jbuilder__Install.{cmi,cmti}
+-       ocamlc src/jbuilder__Vfile_kind.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_term.{cmx,o}
+-     ocamlopt src/jbuilder__Meta_lexer.{cmx,o}
+-     ocamlopt src/jbuilder__Opam_file.{cmx,o}
+-     ocamlopt src/jbuilder__Sexp.{cmx,o}
+-       ocamlc src/jbuilder__Ml_kind.{cmi,cmti}
+-       ocamlc src/jbuilder__Watermarks.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner_arg.{cmx,o}
+-     ocamlopt src/jbuilder__Meta.{cmx,o}
+-     ocamlopt src/jbuilder__Ordered_set_lang.{cmx,o}
+-     ocamlopt src/jbuilder__Path.{cmx,o}
+-     ocamlopt src/jbuilder__Sexp_lexer.{cmx,o}
+-     ocamlopt src/jbuilder__String_with_vars.{cmx,o}
+-       ocamlc src/jbuilder__Cm_kind.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner__Cmdliner.{cmx,o}
+-     ocamlopt src/jbuilder__Arg_spec.{cmx,o}
+-     ocamlopt src/jbuilder__Bin.{cmx,o}
+-     ocamlopt src/jbuilder__Config.{cmx,o}
+-     ocamlopt src/jbuilder__File_tree.{cmx,o}
+-     ocamlopt src/jbuilder__Package.{cmx,o}
+-     ocamlopt src/jbuilder__Install.{cmx,o}
+-     ocamlopt src/jbuilder__Vfile_kind.{cmx,o}
+-     ocamlopt src/jbuilder__Workspace.{cmx,o}
+-       ocamlc src/jbuilder__Mode.{cmi,cmti}
+-       ocamlc src/jbuilder__Module.{cmi,cmti}
+-     ocamlopt vendor/cmdliner/src/jbuilder_cmdliner.{a,cmxa}
+-     ocamlopt src/jbuilder__Ml_kind.{cmx,o}
+-     ocamlopt src/jbuilder__Utils.{cmx,o}
+-       ocamlc src/jbuilder__Findlib.{cmi,cmti}
+-     ocamlopt src/jbuilder__Cm_kind.{cmx,o}
+-     ocamlopt src/jbuilder__Log.{cmx,o}
+-       ocamlc src/jbuilder__Context.{cmi,cmti}
+-     ocamlopt src/jbuilder__Mode.{cmx,o}
+-     ocamlopt src/jbuilder__Module.{cmx,o}
+-     ocamlopt src/jbuilder__Future.{cmx,o}
+-       ocamlc src/jbuilder__Action.{cmi,cmti}
+-     ocamlopt src/jbuilder__Findlib.{cmx,o}
+-     ocamlopt src/jbuilder__Watermarks.{cmx,o}
+-       ocamlc src/jbuilder__Jbuild.{cmi,cmti}
+-     ocamlopt src/jbuilder__Context.{cmx,o}
+-       ocamlc src/jbuilder__Artifacts.{cmi,cmti}
+-       ocamlc src/jbuilder__Build.{cmi,cmti}
+-       ocamlc src/jbuilder__Ocaml_flags.{cmi,cmti}
+-       ocamlc src/jbuilder__Lib.{cmi,cmti}
+-     ocamlopt src/jbuilder__Action.{cmx,o}
+-       ocamlc src/jbuilder__Build_interpret.{cmi,cmti}
+-       ocamlc src/jbuilder__Gen_meta.{cmi,cmti}
+-       ocamlc src/jbuilder__Lib_db.{cmi,cmti}
+-     ocamlopt src/jbuilder__Jbuild.{cmx,o}
+-       ocamlc src/jbuilder__Alias.{cmi,cmti}
+-       ocamlc src/jbuilder__Build_system.{cmi,cmti}
+-     ocamlopt src/jbuilder__Build.{cmx,o}
+-     ocamlopt src/jbuilder__Artifacts.{cmx,o}
+-     ocamlopt src/jbuilder__Lib.{cmx,o}
+-     ocamlopt src/jbuilder__Ocaml_flags.{cmx,o}
+-       ocamlc src/jbuilder__Jbuild_load.{cmi,cmti}
+-       ocamlc src/jbuilder__Super_context.{cmi,cmti}
+-       ocamlc src/jbuilder__Main.{cmi,cmti}
+-     ocamlopt src/jbuilder__Build_interpret.{cmx,o}
+-     ocamlopt src/jbuilder__Gen_meta.{cmx,o}
+-     ocamlopt src/jbuilder__Lib_db.{cmx,o}
+-       ocamlc src/jbuilder__Gen_rules.{cmi,cmti}
+-       ocamlc src/jbuilder__Js_of_ocaml_rules.{cmi,cmti}
+-       ocamlc src/jbuilder__Merlin.{cmi,cmti}
+-       ocamlc src/jbuilder__Ocamldep.{cmi,cmti}
+-     ocamlopt src/jbuilder__Alias.{cmx,o}
+-     ocamlopt src/jbuilder__Build_system.{cmx,o}
+-       ocamlc src/jbuilder__Module_compilation.{cmi,cmti}
+-       ocamlc src/jbuilder__Odoc.{cmi,cmti}
+-     ocamlopt src/jbuilder__Jbuild_load.{cmx,o}
+-     ocamlopt src/jbuilder__Super_context.{cmx,o}
+-       ocamlc bin/main.{cmi,cmti}
+-     ocamlopt src/jbuilder__Merlin.{cmx,o}
+-     ocamlopt src/jbuilder__Js_of_ocaml_rules.{cmx,o}
+-     ocamlopt src/jbuilder__Ocamldep.{cmx,o}
+-     ocamlopt src/jbuilder__Module_compilation.{cmx,o}
+-     ocamlopt src/jbuilder__Odoc.{cmx,o}
+-     ocamlopt src/jbuilder__Gen_rules.{cmx,o}
+-     ocamlopt src/jbuilder__Main.{cmx,o}
+-     ocamlopt bin/main.{cmx,o}
+-     ocamlopt src/jbuilder.{a,cmxa}
+-     ocamlopt bin/main.exe
+-     jbuilder doc/jbuilder-build.1
+-     jbuilder doc/jbuilder-clean.1
+-     jbuilder doc/jbuilder-exec.1
+-     jbuilder doc/jbuilder-external-lib-deps.1
+-     jbuilder doc/jbuilder-install.1
+-     jbuilder doc/jbuilder-installed-libraries.1
+-     jbuilder doc/jbuilder-rules.1
+-     jbuilder doc/jbuilder-runtest.1
+-     jbuilder doc/jbuilder-subst.1
+-     jbuilder doc/jbuilder-uninstall.1
+-     jbuilder doc/jbuilder.1
+-> compiled  jbuilder.1.0+beta11
+-> removed   datakit-bridge-github.dev
+-> removed   jbuilder.1.0+beta15
+-> installed jbuilder.1.0+beta11
+Processing  5/14: [datakit-server: jbuilder build]
++ jbuilder "build" "-p" "datakit-server" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server.0.11.0)
+- File "ci/src/jbuild", line 12, characters 16-24:
+- Warning: 'per_file' was renamed 'per_module'. 'per_file' will be re-purposed in a future version and will take a list of  file names rather than module names.
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmo,cmt}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc src/datakit-server/datakit_server.cma
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit-server/datakit_server.cmxs
+-> compiled  datakit-server.0.11.0
+Processing  6/14: [irmin-mem: jbuilder build]
++ jbuilder "build" "-p" "irmin-mem" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/irmin-mem.1.3.0)
+-     ocamldep src/irmin-mem/irmin_mem.depends.ocamldep-output
+-     ocamldep src/irmin-mem/irmin_mem.dependsi.ocamldep-output
+-       ocamlc src/irmin-mem/irmin_mem.{cmi,cmti}
+-       ocamlc src/irmin-mem/irmin_mem.{cmo,cmt}
+-     ocamlopt src/irmin-mem/irmin_mem.{cmx,o}
+-       ocamlc src/irmin-mem/irmin_mem.cma
+-     ocamlopt src/irmin-mem/irmin_mem.{a,cmxa}
+-     ocamlopt src/irmin-mem/irmin_mem.cmxs
+-> compiled  irmin-mem.1.3.0
+-> installed datakit-server.0.11.0
+Processing  8/14: [datakit-server-9p: jbuilder build]
++ jbuilder "build" "-p" "datakit-server-9p" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-server-9p.0.11.0)
+- File "ci/src/jbuild", line 12, characters 16-24:
+- Warning: 'per_file' was renamed 'per_module'. 'per_file' will be re-purposed in a future version and will take a list of  file names rather than module names.
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-       ocamlc src/datakit-server-9p/fs9p.{cmo,cmt}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-       ocamlc src/datakit-server-9p/datakit_server_9p.cma
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.cmxs
+-> compiled  datakit-server-9p.0.11.0
+-> installed datakit-server-9p.0.11.0
+-> installed irmin-mem.1.3.0
+Processing 11/14: [datakit: jbuilder build]
++ jbuilder "build" "-p" "datakit" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit.dev)
+-> compiled  datakit.dev
+-> installed datakit.dev
+Processing 13/14: [datakit-bridge-github: jbuilder build]
++ jbuilder "build" "-p" "datakit-bridge-github" "-j" "1" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep bridge/github/main.depends.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.depends.ocamldep-output
+-     ocamldep bridge/github/datakit_bridge_github.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.dependsi.ocamldep-output
+-     ocamldep src/datakit-log/datakit_log.depends.ocamldep-output
+-     ocamldep bridge/github/main.dependsi.ocamldep-output
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-       ocamlc src/datakit-log/datakit_log.{cmi,cmti}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-       ocamlc bridge/github/version.{cmi,cmo,cmt}
+-       ocamlc bridge/github/main.{cmi,cmti}
+-     ocamlopt src/datakit-log/datakit_log.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt src/datakit-log/datakit_log.{a,cmxa}
+-     ocamlopt bridge/github/version.{cmx,o}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt bridge/github/main.{cmx,o}
+-     ocamlopt bridge/github/main.exe
+Processing 13/14: [datakit-bridge-github: jbuilder runtest]
++ jbuilder "runtest" "tests/datakit-bridge-github" (CWD=/home/opam/.opam/default/.opam-switch/build/datakit-bridge-github.dev)
+-     ocamldep tests/datakit-bridge-github/test.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-       ocamlc src/datakit/datakit__.{cmi,cmo,cmt}
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-     ocamldep tests/datakit-bridge-github/test.dependsi.ocamldep-output
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-       ocamlc src/datakit/datakit.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-       ocamlc bridge/github/datakit_github_api.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_state.{cmi,cmti}
+-       ocamlc bridge/github/datakit_github_sync.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+-     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+-     ocamlopt src/datakit/datakit__Path.{cmx,o}
+-       ocamlc src/datakit/datakit__Dir.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-       ocamlc tests/datakit-bridge-github/test.{cmi,cmti}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Store.{cmx,o}
+-     ocamlopt src/datakit/datakit__Dir.{cmx,o}
+-     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+-     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-     ocamlopt bridge/github/datakit_github_state.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_api.{cmx,o}
+-     ocamlopt bridge/github/datakit_github_sync.{cmx,o}
+-     ocamlopt bridge/github/datakit_bridge_github.{a,cmxa}
+-     ocamlopt src/datakit/datakit.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt tests/datakit-bridge-github/test.{cmx,o}
+-     ocamlopt tests/datakit-bridge-github/test.exe
+-         test alias tests/datakit-bridge-github/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-github.
+- [33m ...[m                [36mgithub-9p[m          0   Transaction.[32m[OK][m                [36mgithub-9p[m          0   Transaction.
+- [33m ...[m                [36mgithub-9p[m          1   Watch.[32m[OK][m                [36mgithub-9p[m          1   Watch.
+- [33m ...[m                [36mgithub-9p[m          2   Make dirs.[32m[OK][m                [36mgithub-9p[m          2   Make dirs.
+- [33m ...[m                [36mgithub-9p[m          3   Truncate.[32m[OK][m                [36mgithub-9p[m          3   Truncate.
+- [33m ...[m                [36mgithub-9p[m          4   Parents.[32m[OK][m                [36mgithub-9p[m          4   Parents.
+- [33m ...[m                [36mgithub-9p[m          5   Merge.[32m[OK][m                [36mgithub-9p[m          5   Merge.
+- [33m ...[m                [36mgithub-9p[m          6   Diff.[32m[OK][m                [36mgithub-9p[m          6   Diff.
+- [33m ...[m                [36mgithub-9p[m          7   Merge_metadata.[32m[OK][m                [36mgithub-9p[m          7   Merge_metadata.
+- [33m ...[m                [36mgithub-9p[m          8   Merge empty.[32m[OK][m                [36mgithub-9p[m          8   Merge empty.
+- [33m ...[m                [36mgithub-9p[m          9   Conflicts.[32m[OK][m                [36mgithub-9p[m          9   Conflicts.
+- [33m ...[m                [36mgithub-9p[m         10   Large write.[32m[OK][m                [36mgithub-9p[m         10   Large write.
+- [33m ...[m                [36mgithub-9p[m         11   Remove.[32m[OK][m                [36mgithub-9p[m         11   Remove.
+- [33m ...[m                [36mgithub-9p[m         12   Remotes.[33m[SKIP][m              [36mgithub-9p[m         12   Remotes.
+- [33m ...[m                [36mgithub-9p[m         13   Create_or_replace.[33m[SKIP][m              [36mgithub-9p[m         13   Create_or_replace.
+- [33m ...[m                [36mgithub[m             0   basic-snapshot.[32m[OK][m                [36mgithub[m             0   basic-snapshot.
+- [33m ...[m                [36mgithub[m             1   snapshot.[32m[OK][m                [36mgithub[m             1   snapshot.
+- [33m ...[m                [36mgithub[m             2   capabilities.[32m[OK][m                [36mgithub[m             2   capabilities.
+- [33m ...[m                [36mgithub[m             3   cleanup.[32m[OK][m                [36mgithub[m             3   cleanup.
+- [33m ...[m                [36mgithub[m             4   events.[32m[OK][m                [36mgithub[m             4   events.
+- [33m ...[m                [36mgithub[m             5   updates.[32m[OK][m                [36mgithub[m             5   updates.
+- [33m ...[m                [36mgithub[m             6   startup.[32m[OK][m                [36mgithub[m             6   startup.
+- [33m ...[m                [36mgithub[m             7   random-github.[32m[OK][m                [36mgithub[m             7   random-github.
+- [33m ...[m                [36mgithub[m             8   random-github-*.[33m[SKIP][m              [36mgithub[m             8   random-github-*.
+- [33m ...[m                [36mgithub[m             9   random-datakit.[32m[OK][m                [36mgithub[m             9   random-datakit.
+- [33m ...[m                [36mgithub[m            10   random-datakit-*.[33m[SKIP][m              [36mgithub[m            10   random-datakit-*.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 3.964s. 21 tests run.
+-> compiled  datakit-bridge-github.dev
+-> installed datakit-bridge-github.dev
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 9ccda0f1865f
+Removing intermediate container 3ca710ff37b1
+Step 21/29 : RUN sudo cp $(opam config exec -- which datakit-bridge-github) /usr/bin/
+ ---> Running in 0491a3e91803
+ ---> 152a63b52ceb
+Removing intermediate container 0491a3e91803
+Step 22/29 : USER root
+ ---> Running in dc42df5210e9
+ ---> e7fb44cd09ca
+Removing intermediate container dc42df5210e9
+Step 23/29 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:b007a354427e1880de9cdba533e8e57382b7f2853a68a478a17d447b302c219c
+Status: Image is up to date for alpine:3.5
+ ---> 3823b001394d
+Step 24/29 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 9d5a33feeb5a
+Step 25/29 : EXPOSE 5640
+ ---> Using cache
+ ---> d2154039ad02
+Step 26/29 : EXPOSE 5641
+ ---> Using cache
+ ---> 9fc07461d79f
+Step 27/29 : ENTRYPOINT /usr/bin/datakit-bridge-github
+ ---> Using cache
+ ---> b5822dcf8f5a
+Step 28/29 : CMD --listen=tcp://0.0.0.0:5641 -v --datakit=tcp:127.0.0.1:5640
+ ---> Using cache
+ ---> 0e5d2dbdeac4
+Step 29/29 : COPY --from=0 /usr/bin/datakit-bridge-github /usr/bin/datakit-bridge-github
+ ---> f606f217e0af
+Removing intermediate container 9532c18b27c1
+Successfully built f606f217e0af
+[2017-11-17 14:58.27] Success
