@@ -1,0 +1,64 @@
+=== Docker build Dockerfile.ci
+[2017-11-18 11:07.06] Starting...
+Cloning into '/tmp/with_clone15018f43'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 4e4f787 Use `apk add --no-cache` in Dockerfile to avoid outdated cache issues
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.035 MB
+Step 1/15 : FROM ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f: Pulling from ocaml/opam-dev
+Digest: sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+Status: Image is up to date for ocaml/opam-dev@sha256:f04c7fbe8fe103b77186f02a5b6c43f9a52e31af26b1211adf86698cfb5bb91f
+ ---> e190faf31c25
+Step 2/15 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 3bcfe6c8d --hard &&     opam update -u
+ ---> Using cache
+ ---> ec45e8a6cb61
+Step 3/15 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> a2b033586612
+Step 4/15 : RUN sudo apk add --no-cache tzdata aspcud
+ ---> Running in df3698715e5d
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/1) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r0.trigger
+OK: 214 MiB in 87 packages
+ ---> 1672dc5b448b
+Removing intermediate container df3698715e5d
+Step 5/15 : RUN opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest
+ ---> Running in ea5d1fb3affe
+# Detecting depexts using flags: x86_64 linux alpine
+# The following system packages are needed:
+#  - gmp-dev
+#  - libressl-dev
+#  - linux-headers
+#  - m4
+#  - ncurses-dev
+#  - pcre-dev
+#  - perl
+#  - pkgconfig
+#  - zlib-dev
+ncurses-dev
+pkgconf
+# The following new OS packages need to be installed: gmp-dev libressl-dev linux-headers m4 pcre-dev perl zlib-dev
+The following command needs to be run through "sudo":
+    apk add gmp-dev libressl-dev linux-headers m4 pcre-dev perl zlib-dev
+(1/12) Installing libgmpxx (6.1.1-r0)
+(2/12) Installing gmp-dev (6.1.1-r0)
+(3/12) Installing libressl2.4-libtls (2.4.4-r0)
+(4/12) Installing libressl-dev (2.4.4-r0)
+(5/12) Installing linux-headers (4.4.6-r1)
+(6/12) Installing m4 (1.4.17-r1)
+(7/12) Installing libpcre16 (8.39-r0)
+(8/12) Installing libpcre32 (8.39-r0)
+(9/12) Installing libpcrecpp (8.39-r0)
+(10/12) Installing pcre-dev (8.39-r0)
+(11/12) Installing perl (5.24.0-r0)
+ERROR: perl-5.24.0-r0: package mentioned in index not found (try 'apk update')
+(12/12) Installing zlib-dev (1.2.11-r0)
+Executing busybox-1.25.1-r0.trigger
+1 errors; 238 MiB in 98 packages
+[91mOS package installation failed
+[0mThe command '/bin/sh -c opam depext -i asl win-eventlog alcotest mtime mirage-flow hvsock     git irmin irmin-unix lwt protocol-9p-unix tyxml redis multipart-form-data     pbkdf tls prometheus-app github git session irmin irmin-unix cmdliner     webmachine alcotest' returned a non-zero code: 1
+[2017-11-18 11:07.41] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 1
