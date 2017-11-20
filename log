@@ -1,0 +1,390 @@
+=== Docker build Dockerfile.ci
+[2017-11-20 12:52.34] Starting...
+Cloning into '/tmp/with_clone2d82c089'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 36adf9c Update self-ci
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.088 MB
+Step 1/16 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+alpine-3.5_ocaml-4.05.0: Pulling from ocaml/opam-dev
+Digest: sha256:c670cf0cecaeffc8ba4dec59bd89ba59c17de29a848b11156c2c241e9f8661a7
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+ ---> 58ba28296f15
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> b60d3cbf57ba
+Step 3/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset beba7fea --hard &&     opam update -u
+ ---> Using cache
+ ---> 31bf106271c0
+Step 4/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cbdb481a8d8c
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> b38c41380436
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> f2f25cb9cddb
+Step 7/16 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 6f08bf93985b
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> af90049d3d1c
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> 6ebcaef1b363
+Step 10/16 : RUN sudo apk add --no-cache libressl-dev linux-headers pcre-dev
+ ---> Using cache
+ ---> 5c779c25e97f
+Step 11/16 : RUN opam install datakit-ci --deps -t
+ ---> Using cache
+ ---> 97eea4860d27
+Step 12/16 : COPY . /home/opam/src/datakit
+ ---> a5103114bbf7
+Removing intermediate container d455a8062c01
+Step 13/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 77fc1b26faf6
+ ---> eddf3ce5a7f5
+Removing intermediate container 77fc1b26faf6
+Step 14/16 : RUN opam update --dev && opam upgrade
+ ---> Running in b7b9f9d03c92
+
+=-=- Synchronising development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit.bak
+[datakit-bridge-github] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-bridge-github (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-bridge-github.bak
+[datakit-bridge-local-git] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-bridge-local-git (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-bridge-local-git.bak
+[datakit-ci] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-ci (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-ci.bak
+[datakit-client] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client.bak
+[datakit-client-9p] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client-9p (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client-9p.bak
+[datakit-client-git] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client-git (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client-git.bak
+[datakit-github] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-github (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-github.bak
+[datakit-server] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-server (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-server.bak
+[datakit-server-9p] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-server-9p (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-server-9p.bak
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-server     0.11.0* [upstream changes]
+  - recompile datakit-client     0.11.0* [upstream changes]
+  - recompile datakit-server-9p  0.11.0* [upstream changes]
+  - recompile datakit-client-git 0.11.0* [upstream changes]
+  - recompile datakit-client-9p  0.11.0* [upstream changes]
+  - recompile datakit            0.11.0* [upstream changes]
+  - recompile datakit-github     0.11.0* [upstream changes]
+===== 7 to recompile =====
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-github.0.11.0
+-> removed   datakit-client-9p.0.11.0
+-> removed   datakit-client-git.0.11.0
+-> removed   datakit-client.0.11.0
+-> removed   datakit.0.11.0
+-> removed   datakit-server-9p.0.11.0
+-> removed   datakit-server.0.11.0
+-> installed datakit-client.0.11.0
+-> installed datakit-client-9p.0.11.0
+-> installed datakit-client-git.0.11.0
+-> installed datakit-github.0.11.0
+-> installed datakit-server.0.11.0
+-> installed datakit-server-9p.0.11.0
+-> installed datakit.0.11.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> cbbc21e66a24
+Removing intermediate container b7b9f9d03c92
+Step 15/16 : RUN opam install datakit-ci -ytv
+ ---> Running in 3c2f005ebf56
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit-ci.0.11.0: rsync]
+[datakit-ci.0.11.0] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-ci 0.11.0* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-ci: jbuilder build]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "build" "-p" "datakit-ci" "-j" "1" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit-ci.0.11.0)
+-     ocamlopt .ppx/ppx_sexp_conv/ppx.exe
+- ocaml-crunch ci/src/cI_static.ml
+- Generating cI_static.ml
+- Skipping generation of .mli
+-          ppx ci/src/cI_secrets.pp.mli
+-          ppx ci/src/cI_web_utils.pp.mli
+-          ppx ci/src/cI_secrets.pp.ml
+-          ppx ci/src/cI_web_utils.pp.ml
+-     ocamldep ci/src/datakit_ci.dependsi.ocamldep-output
+-     ocamldep ci/src/datakit_ci.depends.ocamldep-output
+-       ocamlc ci/src/cI_ACL.{cmi,cmti}
+-       ocamlc ci/src/cI_char_stream.{cmi,cmti}
+-       ocamlc ci/src/cI_form.{cmi,cmti}
+-       ocamlc ci/src/cI_live_log.{cmi,cmti}
+-       ocamlc ci/src/cI_log_reporter.{cmi,cmti}
+-       ocamlc ci/src/cI_result.{cmi,cmti}
+-       ocamlc ci/src/cI_secrets.{cmi,cmti}
+-       ocamlc ci/src/cI_static.{cmi,cmti}
+-       ocamlc ci/src/cI_target.{cmi,cmti}
+-       ocamlc ci/src/cI_utils.{cmi,cmti}
+-       ocamlc ci/src/datakit_ci.{cmi,cmti}
+-       ocamlc ci/src/cI_ACL.{cmo,cmt}
+-     ocamlopt ci/src/cI_ACL.{cmx,o}
+-       ocamlc ci/src/cI_char_stream.{cmo,cmt}
+-     ocamlopt ci/src/cI_char_stream.{cmx,o}
+-       ocamlc ci/src/cI_escape_parser.{cmi,cmti}
+-       ocamlc ci/src/cI_process.{cmi,cmti}
+-       ocamlc ci/src/cI_log_reporter.{cmo,cmt}
+-     ocamlopt ci/src/cI_log_reporter.{cmx,o}
+-       ocamlc ci/src/cI_output.{cmi,cmti}
+-       ocamlc ci/src/cI_static.{cmo,cmt}
+-     ocamlopt ci/src/cI_static.{cmx,o}
+-       ocamlc ci/src/cI_utils.{cmo,cmt}
+-     ocamlopt ci/src/cI_utils.{cmx,o}
+-       ocamlc ci/src/cI_form.{cmo,cmt}
+-       ocamlc ci/src/cI_live_log.{cmo,cmt}
+-       ocamlc ci/src/cI_result.{cmo,cmt}
+-       ocamlc ci/src/cI_secrets.{cmo,cmt}
+-       ocamlc ci/src/cI_target.{cmo,cmt}
+-       ocamlc ci/src/cI_escape_parser.{cmo,cmt}
+-     ocamlopt ci/src/cI_escape_parser.{cmx,o}
+-       ocamlc ci/src/cI_process.{cmo,cmt}
+-       ocamlc ci/src/cI_output.{cmo,cmt}
+-       ocamlc ci/src/cI_history.{cmi,cmti}
+-       ocamlc ci/src/cI_s.{cmi,cmo,cmt}
+-     ocamlopt ci/src/cI_form.{cmx,o}
+-     ocamlopt ci/src/cI_live_log.{cmx,o}
+-     ocamlopt ci/src/cI_result.{cmx,o}
+-     ocamlopt ci/src/cI_secrets.{cmx,o}
+-     ocamlopt ci/src/cI_target.{cmx,o}
+-       ocamlc ci/src/cI_history.{cmo,cmt}
+-       ocamlc ci/src/cI_eval.{cmi,cmti}
+-       ocamlc ci/src/cI_monitored_pool.{cmi,cmti}
+-       ocamlc ci/src/cI_term.{cmi,cmti}
+-     ocamlopt ci/src/cI_process.{cmx,o}
+-     ocamlopt ci/src/cI_output.{cmx,o}
+-       ocamlc ci/src/cI_eval.{cmo,cmt}
+-       ocamlc ci/src/cI_monitored_pool.{cmo,cmt}
+-       ocamlc ci/src/cI_term.{cmo,cmt}
+-       ocamlc ci/src/cI_git.{cmi,cmti}
+-       ocamlc ci/src/cI_cache.{cmi,cmti}
+-       ocamlc ci/src/cI_engine.{cmi,cmti}
+-     ocamlopt ci/src/cI_history.{cmx,o}
+-     ocamlopt ci/src/cI_s.{cmx,o}
+-       ocamlc ci/src/cI_docker.{cmi,cmti}
+-       ocamlc ci/src/cI_cache.{cmo,cmt}
+-       ocamlc ci/src/cI_git.{cmo,cmt}
+-       ocamlc ci/src/cI_engine.{cmo,cmt}
+-       ocamlc ci/src/cI_web_templates.{cmi,cmti}
+-     ocamlopt ci/src/cI_eval.{cmx,o}
+-     ocamlopt ci/src/cI_monitored_pool.{cmx,o}
+-       ocamlc ci/src/cI_docker.{cmo,cmt}
+-       ocamlc ci/src/cI_web_templates.{cmo,cmt}
+-       ocamlc ci/src/cI_config.{cmi,cmti}
+-       ocamlc ci/src/cI_web_utils.{cmi,cmti}
+-     ocamlopt ci/src/cI_term.{cmx,o}
+-       ocamlc ci/src/cI_config.{cmo,cmt}
+-       ocamlc ci/src/cI_main.{cmi,cmti}
+-       ocamlc ci/src/cI_web_utils.{cmo,cmt}
+-       ocamlc ci/src/cI_web.{cmi,cmti}
+-     ocamlopt ci/src/cI_cache.{cmx,o}
+-     ocamlopt ci/src/cI_engine.{cmx,o}
+-       ocamlc ci/src/datakit_ci.{cmo,cmt}
+-       ocamlc ci/src/cI_web.{cmo,cmt}
+-       ocamlc ci/src/cI_main.{cmo,cmt}
+-     ocamlopt ci/src/cI_git.{cmx,o}
+-     ocamlopt ci/src/cI_web_templates.{cmx,o}
+-       ocamlc ci/src/datakit_ci.cma
+-     ocamlopt ci/src/cI_docker.{cmx,o}
+-     ocamlopt ci/src/cI_config.{cmx,o}
+-     ocamlopt ci/src/cI_web_utils.{cmx,o}
+-     ocamlopt ci/src/cI_web.{cmx,o}
+-     ocamlopt ci/src/cI_main.{cmx,o}
+-     ocamlopt ci/src/datakit_ci.{cmx,o}
+-     ocamlopt ci/src/datakit_ci.{a,cmxa}
+-     ocamlopt ci/src/datakit_ci.cmxs
+Processing  1/2: [datakit-ci: jbuilder runtest]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "runtest" "ci/tests" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit-ci.0.11.0)
+-     ocamldep ci/tests/test_ci.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.dependsi.ocamldep-output
+-     ocamldep src/datakit-github/datakit_github.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.dependsi.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.dependsi.ocamldep-output
+-     ocamldep src/datakit-server-9p/datakit_server_9p.depends.ocamldep-output
+-     ocamldep src/datakit-server/datakit_server.depends.ocamldep-output
+-     ocamldep src/datakit/datakit.dependsi.ocamldep-output
+-       ocamlc src/datakit/datakit__.{cmi,cmo,cmt}
+-     ocamldep src/datakit/datakit.depends.ocamldep-output
+-     ocamldep ci/tests/test_ci.dependsi.ocamldep-output
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit-server/vfs.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p.{cmi,cmti}
+-       ocamlc src/datakit-server-9p/fs9p_error.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-       ocamlc src/datakit/datakit__Branch.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Blob.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Metadata.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Path.{cmi,cmti}
+-       ocamlc src/datakit-github/datakit_github_conv.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-       ocamlc src/datakit/datakit.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-     ocamlopt src/datakit-server/vfs.{cmx,o}
+-       ocamlc ci/src/cI_ACL.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Store.{cmi,cmti}
+-       ocamlc ci/src/cI_live_log.{cmi,cmti}
+-       ocamlc ci/src/cI_result.{cmi,cmti}
+-       ocamlc ci/src/cI_utils.{cmi,cmti}
+-       ocamlc ci/src/cI_char_stream.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-       ocamlc ci/src/cI_target.{cmi,cmti}
+-       ocamlc ci/src/cI_log_reporter.{cmi,cmti}
+-       ocamlc ci/src/cI_secrets.{cmi,cmti}
+-       ocamlc ci/src/cI_static.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-       ocamlc ci/src/cI_form.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p_error.{cmx,o}
+-       ocamlc ci/src/datakit_ci.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__Blob.{cmx,o}
+-     ocamlopt src/datakit/datakit__Branch.{cmx,o}
+-     ocamlopt src/datakit/datakit__Metadata.{cmx,o}
+-     ocamlopt src/datakit-server/datakit_server.{a,cmxa}
+-     ocamlopt src/datakit/datakit__Path.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github.{cmx,o}
+-       ocamlc src/datakit/datakit__Dir.{cmi,cmti}
+-       ocamlc src/datakit/datakit__Merge.{cmi,cmti}
+-       ocamlc ci/src/cI_process.{cmi,cmti}
+-       ocamlc ci/src/cI_escape_parser.{cmi,cmti}
+-       ocamlc ci/src/cI_output.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-       ocamlc src/datakit/datakit__Remote.{cmi,cmti}
+-       ocamlc ci/src/cI_s.{cmi,cmo,cmt}
+-       ocamlc ci/src/cI_history.{cmi,cmti}
+-       ocamlc ci/src/cI_eval.{cmi,cmti}
+-       ocamlc ci/src/cI_monitored_pool.{cmi,cmti}
+-     ocamlopt src/datakit-server-9p/fs9p.{cmx,o}
+-       ocamlc ci/src/cI_term.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__Store.{cmx,o}
+-     ocamlopt src/datakit-server-9p/datakit_server_9p.{a,cmxa}
+-       ocamlc ci/src/cI_git.{cmi,cmti}
+-       ocamlc ci/src/cI_cache.{cmi,cmti}
+-       ocamlc ci/src/cI_engine.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__Dir.{cmx,o}
+-       ocamlc ci/src/cI_docker.{cmi,cmti}
+-     ocamlopt src/datakit/datakit__Merge.{cmx,o}
+-     ocamlopt src/datakit/datakit__Remote.{cmx,o}
+-       ocamlc ci/src/cI_web_templates.{cmi,cmti}
+-     ocamlopt src/datakit-github/datakit_github_conv.{cmx,o}
+-       ocamlc ci/src/cI_config.{cmi,cmti}
+-     ocamlopt ci/src/cI_ACL.{cmx,o}
+-     ocamlopt ci/src/cI_char_stream.{cmx,o}
+-     ocamlopt ci/src/cI_utils.{cmx,o}
+-     ocamlopt ci/src/cI_log_reporter.{cmx,o}
+-     ocamlopt src/datakit-github/datakit_github.{a,cmxa}
+-       ocamlc ci/src/cI_web_utils.{cmi,cmti}
+-       ocamlc ci/src/cI_main.{cmi,cmti}
+-     ocamlopt ci/src/cI_escape_parser.{cmx,o}
+-     ocamlopt ci/src/cI_live_log.{cmx,o}
+-     ocamlopt ci/src/cI_result.{cmx,o}
+-     ocamlopt ci/src/cI_static.{cmx,o}
+-     ocamlopt ci/src/cI_target.{cmx,o}
+-     ocamlopt ci/src/cI_form.{cmx,o}
+-       ocamlc ci/src/cI_web.{cmi,cmti}
+-     ocamlopt ci/src/cI_secrets.{cmx,o}
+-     ocamlopt ci/src/cI_process.{cmx,o}
+-     ocamlopt ci/src/cI_output.{cmx,o}
+-       ocamlc ci/tests/test_ci.{cmi,cmti}
+-     ocamlopt ci/src/cI_s.{cmx,o}
+-     ocamlopt src/datakit/datakit.{cmx,o}
+-     ocamlopt ci/src/cI_monitored_pool.{cmx,o}
+-     ocamlopt ci/src/cI_eval.{cmx,o}
+-     ocamlopt src/datakit/datakit.{a,cmxa}
+-     ocamlopt ci/src/cI_history.{cmx,o}
+-     ocamlopt ci/src/cI_term.{cmx,o}
+-       ocamlc ci/tests/test_utils.{cmi,cmo,cmt}
+-     ocamlopt ci/src/cI_cache.{cmx,o}
+-     ocamlopt ci/src/cI_engine.{cmx,o}
+-     ocamlopt ci/src/cI_git.{cmx,o}
+-     ocamlopt ci/src/cI_docker.{cmx,o}
+-     ocamlopt ci/src/cI_web_templates.{cmx,o}
+-     ocamlopt ci/src/cI_config.{cmx,o}
+-     ocamlopt ci/src/cI_web_utils.{cmx,o}
+-     ocamlopt ci/src/cI_web.{cmx,o}
+-     ocamlopt ci/src/cI_main.{cmx,o}
+-     ocamlopt ci/src/datakit_ci.{cmx,o}
+-     ocamlopt ci/tests/test_utils.{cmx,o}
+-     ocamlopt ci/tests/test_ci.{cmx,o}
+-     ocamlopt ci/tests/test_ci.exe
+-      test_ci alias ci/tests/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-ci.
+- [33m ...[m                [36mci[m          0   Simple.[32m[OK][m                [36mci[m          0   Simple.
+- [33m ...[m                [36mci[m          1   Branch.[32m[OK][m                [36mci[m          1   Branch.
+- [33m ...[m                [36mci[m          2   Circle rebuild.[32m[OK][m                [36mci[m          2   Circle rebuild.
+- [33m ...[m                [36mci[m          3   Logs.[32m[OK][m                [36mci[m          3   Logs.
+- [33m ...[m                [36mci[m          4   Cancel.[32m[OK][m                [36mci[m          4   Cancel.
+- [33m ...[m                [36mci[m          5   Cache (disk).[32m[OK][m                [36mci[m          5   Cache (disk).
+- [33m ...[m                [36mci[m          6   Cache (memory).[32m[OK][m                [36mci[m          6   Cache (memory).
+- [33m ...[m                [36mci[m          7   Test pending.[32m[OK][m                [36mci[m          7   Test pending.
+- [33m ...[m                [36mci[m          8   Git.[32m[OK][m                [36mci[m          8   Git.
+- [33m ...[m                [36mci[m          9   Git (clone).[32m[OK][m                [36mci[m          9   Git (clone).
+- [33m ...[m                [36mci[m         10   Git tag.[32m[OK][m                [36mci[m         10   Git tag.
+- [33m ...[m                [36mci[m         11   Cross-project.[32m[OK][m                [36mci[m         11   Cross-project.
+- [33m ...[m                [36mci[m         12   Auth.[32m[OK][m                [36mci[m         12   Auth.
+- [33m ...[m                [36mci[m         13   Roles.[32m[OK][m                [36mci[m         13   Roles.
+- [33m ...[m                [36mci[m         14   Live logs.[32m[OK][m                [36mci[m         14   Live logs.
+- [33m ...[m                [36mci[m         15   History.[32m[OK][m                [36mci[m         15   History.
+- [33m ...[m                [36mci[m         16   Process.[32m[OK][m                [36mci[m         16   Process.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.316s. 17 tests run.
+-> compiled  datakit-ci.0.11.0
+-> installed datakit-ci.0.11.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> d8506779e7ea
+Removing intermediate container 3c2f005ebf56
+Step 16/16 : VOLUME /secrets
+ ---> Running in 45c2f9276ee0
+ ---> 473b0e492d58
+Removing intermediate container 45c2f9276ee0
+Successfully built 473b0e492d58
+[2017-11-20 12:54.05] Success
