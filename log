@@ -1,0 +1,208 @@
+=== Docker build Dockerfile.client
+[2017-11-20 12:00.16] Starting...
+Cloning into '/tmp/with_clone23d29e7d'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 4a3a9af ci: try to remove unused tests
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.066 MB
+Step 1/16 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+alpine-3.5_ocaml-4.05.0: Pulling from ocaml/opam-dev
+Digest: sha256:c670cf0cecaeffc8ba4dec59bd89ba59c17de29a848b11156c2c241e9f8661a7
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+ ---> 58ba28296f15
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> b60d3cbf57ba
+Step 3/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset beba7fea --hard &&     opam update -u
+ ---> Using cache
+ ---> 31bf106271c0
+Step 4/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> cbdb481a8d8c
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> b38c41380436
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> f2f25cb9cddb
+Step 7/16 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 6f08bf93985b
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> af90049d3d1c
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> 6ebcaef1b363
+Step 10/16 : RUN opam install datakit-client-git datakit-client-9p --deps -t
+ ---> Using cache
+ ---> 35c0bc099930
+Step 11/16 : COPY . /home/opam/src/datakit
+ ---> f4f3fe8f5ccb
+Removing intermediate container d5f82aeaddfb
+Step 12/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in e77b53b47a62
+ ---> 8655800ef421
+Error removing intermediate container e77b53b47a62: Driver aufs failed to remove root filesystem e77b53b47a62987ee5c968a576818d37bb90533363d7111be1c0e4ed53a1301f: rename /var/lib/docker/aufs/mnt/54fff7b48916509bb5251a1496b5c6320ae4d50349f010b3b57f0e7a155fd031 /var/lib/docker/aufs/mnt/54fff7b48916509bb5251a1496b5c6320ae4d50349f010b3b57f0e7a155fd031-removing: device or resource busy
+Step 13/16 : RUN opam update --dev && opam upgrade
+ ---> Running in 736e514f468f
+
+=-=- Synchronising development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit-bridge-local-git.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.11.0] synchronised from file:///home/opam/src/datakit
+[datakit] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit.bak
+[datakit-bridge-github] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-bridge-github (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-bridge-github.bak
+[datakit-bridge-local-git] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-bridge-local-git (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-bridge-local-git.bak
+[datakit-ci] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-ci (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-ci.bak
+[datakit-client] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client.bak
+[datakit-client-9p] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client-9p (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client-9p.bak
+[datakit-client-git] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-client-git (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-client-git.bak
+[datakit-github] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-github (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-github.bak
+[datakit-server] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-server (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-server.bak
+[datakit-server-9p] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-server-9p (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-server-9p.bak
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-client 0.11.0* [upstream changes]
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client.0.11.0
+-> installed datakit-client.0.11.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> a04aaffc77e8
+Error removing intermediate container e77b53b47a62: No such container: e77b53b47a62987ee5c968a576818d37bb90533363d7111be1c0e4ed53a1301f
+Step 14/16 : RUN opam install datakit-client-9p datakit-client-git -tyv
+ ---> Running in 50f8f597917a
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit-client-9p.0.11.0: rsync]
+Processing  2/2: [datakit-client-9p.0.11.0: rsync] [datakit-client-git.0.11.0: rsync]
+[datakit-client-git.0.11.0] no changes from file:///home/opam/src/datakit
+Processing  2/2: [datakit-client-9p.0.11.0: rsync]
+[datakit-client-9p.0.11.0] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client-9p  0.11.0* 
+  - install datakit-client-git 0.11.0* 
+===== 2 to install =====
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/4: [datakit-client-9p: jbuilder build]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "build" "-p" "datakit-client-9p" "-j" "1" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit-client-9p.0.11.0)
+-     ocamldep api/ocaml/9p/mount/mount.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.depends.ocamldep-output
+-     ocamldep api/ocaml/9p/datakit_client_9p.dependsi.ocamldep-output
+-       ocamlc api/ocaml/9p/mount/version.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmi,cmti}
+-     ocamlopt api/ocaml/9p/mount/version.{cmx,o}
+-       ocamlc api/ocaml/9p/mount/mount.{cmi,cmo,cmt}
+-       ocamlc api/ocaml/9p/datakit_client_9p.{cmo,cmt}
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{cmx,o}
+-     ocamlopt api/ocaml/9p/mount/mount.{cmx,o}
+-       ocamlc api/ocaml/9p/datakit_client_9p.cma
+-     ocamlopt api/ocaml/9p/datakit_client_9p.{a,cmxa}
+-     ocamlopt api/ocaml/9p/mount/mount.exe
+-     ocamlopt api/ocaml/9p/datakit_client_9p.cmxs
+-> compiled  datakit-client-9p.0.11.0
+Processing  2/4: [datakit-client-git: jbuilder build]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "build" "-p" "datakit-client-git" "-j" "1" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit-client-git.0.11.0)
+-     ocamldep api/ocaml/git/datakit_client_git.depends.ocamldep-output
+-     ocamldep api/ocaml/git/datakit_client_git.dependsi.ocamldep-output
+-       ocamlc api/ocaml/git/datakit_client_git.{cmi,cmti}
+-       ocamlc api/ocaml/git/datakit_client_git.{cmo,cmt}
+-     ocamlopt api/ocaml/git/datakit_client_git.{cmx,o}
+-       ocamlc api/ocaml/git/datakit_client_git.cma
+-     ocamlopt api/ocaml/git/datakit_client_git.{a,cmxa}
+-     ocamlopt api/ocaml/git/datakit_client_git.cmxs
+Processing  2/4: [datakit-client-git: jbuilder runtest]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "runtest" "tests/datakit-git" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit-client-git.0.11.0)
+-     ocamldep tests/datakit-git/test.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.depends.ocamldep-output
+-     ocamldep api/ocaml/datakit_client.dependsi.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.depends.ocamldep-output
+-     ocamldep src/datakit-io/datakit_io.dependsi.ocamldep-output
+-     ocamldep tests/common/test.depends.ocamldep-output
+-     ocamldep tests/common/test.dependsi.ocamldep-output
+-     ocamldep tests/datakit-git/test.dependsi.ocamldep-output
+-       ocamlc api/ocaml/datakit_client.{cmi,cmti}
+-       ocamlc src/datakit-io/datakit_io.{cmi,cmti}
+-       ocamlc api/ocaml/git/datakit_client_git.{cmi,cmti}
+-       ocamlc tests/common/test_client.{cmi,cmti}
+-     ocamlopt api/ocaml/datakit_client.{cmx,o}
+-     ocamlopt api/ocaml/datakit_client.{a,cmxa}
+-       ocamlc tests/common/test_utils.{cmi,cmo,cmt}
+-       ocamlc tests/datakit-git/test.{cmi,cmti}
+-     ocamlopt src/datakit-io/datakit_io.{cmx,o}
+-     ocamlopt src/datakit-io/datakit_io.{a,cmxa}
+-     ocamlopt tests/common/test_utils.{cmx,o}
+-     ocamlopt api/ocaml/git/datakit_client_git.{cmx,o}
+-     ocamlopt tests/common/test_client.{cmx,o}
+-     ocamlopt tests/common/test.{a,cmxa}
+-     ocamlopt tests/datakit-git/test.{cmx,o}
+-     ocamlopt tests/datakit-git/test.exe
+-         test alias tests/datakit-git/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-git.
+- [33m ...[m                [36mclient[m          0   Transaction.[32m[OK][m                [36mclient[m          0   Transaction.
+- [33m ...[m                [36mclient[m          1   Watch.[32m[OK][m                [36mclient[m          1   Watch.
+- [33m ...[m                [36mclient[m          2   Make dirs.[32m[OK][m                [36mclient[m          2   Make dirs.
+- [33m ...[m                [36mclient[m          3   Truncate.[32m[OK][m                [36mclient[m          3   Truncate.
+- [33m ...[m                [36mclient[m          4   Parents.[32m[OK][m                [36mclient[m          4   Parents.
+- [33m ...[m                [36mclient[m          5   Merge.[32m[OK][m                [36mclient[m          5   Merge.
+- [33m ...[m                [36mclient[m          6   Diff.[32m[OK][m                [36mclient[m          6   Diff.
+- [33m ...[m                [36mclient[m          7   Merge_metadata.[32m[OK][m                [36mclient[m          7   Merge_metadata.
+- [33m ...[m                [36mclient[m          8   Merge empty.[32m[OK][m                [36mclient[m          8   Merge empty.
+- [33m ...[m                [36mclient[m          9   Conflicts.[32m[OK][m                [36mclient[m          9   Conflicts.
+- [33m ...[m                [36mclient[m         10   Large write.[32m[OK][m                [36mclient[m         10   Large write.
+- [33m ...[m                [36mclient[m         11   Remove.[32m[OK][m                [36mclient[m         11   Remove.
+- [33m ...[m                [36mclient[m         12   Remotes.[33m[SKIP][m              [36mclient[m         12   Remotes.
+- [33m ...[m                [36mclient[m         13   Create_or_replace.[33m[SKIP][m              [36mclient[m         13   Create_or_replace.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.384s. 12 tests run.
+-> compiled  datakit-client-git.0.11.0
+-> installed datakit-client-9p.0.11.0
+-> installed datakit-client-git.0.11.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> d84b33ae1c6e
+Error removing intermediate container e77b53b47a62: No such container: e77b53b47a62987ee5c968a576818d37bb90533363d7111be1c0e4ed53a1301f
+Step 15/16 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 0bc9f8eac017
+ ---> 7d2457205641
+Error removing intermediate container e77b53b47a62: No such container: e77b53b47a62987ee5c968a576818d37bb90533363d7111be1c0e4ed53a1301f
+Step 16/16 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in 6bc4c6d42d83
+ ---> a4e47ee95499
+Error removing intermediate container e77b53b47a62: No such container: e77b53b47a62987ee5c968a576818d37bb90533363d7111be1c0e4ed53a1301f
+Successfully built a4e47ee95499
+[2017-11-20 12:01.14] Success
