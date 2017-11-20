@@ -1,0 +1,57 @@
+=== Docker build Dockerfile.self-ci
+[2017-11-20 12:01.48] Starting...
+Cloning into '/tmp/with_clone18cca0e7'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 4a3a9af ci: try to remove unused tests
+[2017-11-20 12:01.49] Rewrite Dockerfile's first line to:
+FROM sha256:6e834adfb2698ab06f1c8e7e8f7c2967c36958a5a8a1bd424b3359ab48ca6163 AS build-env
+Sending build context to Docker daemon 20.99 kB
+Step 1/12 : FROM sha256:6e834adfb2698ab06f1c8e7e8f7c2967c36958a5a8a1bd424b3359ab48ca6163 AS build-env
+ ---> 6e834adfb269
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 8d68c79f4501
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/5) Installing libmnl (1.0.4-r0)
+(2/5) Installing libnftnl-libs (1.0.7-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+Executing busybox-1.25.1-r0.trigger
+OK: 377 MiB in 106 packages
+ ---> 179ed54168f6
+Removing intermediate container 8d68c79f4501
+Step 3/12 : ADD . /home/opam/build
+ ---> b30477df4679
+Removing intermediate container 8f60eeb7b2d1
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 2dc5ae8a69fb
+Removing intermediate container 1326b9d88354
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in d2a89085601a
+ ---> a0b65213a563
+Removing intermediate container d2a89085601a
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 9feed0e098a7
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
++ ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+File "selfCI.ml", line 78, characters 38-44:
+Error: This expression has type
+         < ci : Datakit_ci.Docker.Image.t Datakit_ci.Term.t;
+           client : Datakit_ci.Docker.Image.t Datakit_ci.Term.t;
+           datakit : Datakit_ci.Docker.Image.t Datakit_ci.Term.t;
+           github : Datakit_ci.Docker.Image.t Datakit_ci.Term.t;
+           local_git : Datakit_ci.Docker.Image.t Datakit_ci.Term.t;
+           self_ci : Datakit_ci.Docker.Image.t Datakit_ci.Term.t >
+       It has no method client_4_03
+Command exited with code 2.
+[91mmake: *** [Makefile:6: selfCI] Error 10
+[0mThe command '/bin/sh -c opam config exec make selfCI' returned a non-zero code: 2
+[2017-11-20 12:01.57] Failed: Command "docker" "build" "-f" "Dockerfile" "." exited with status 2
