@@ -1,0 +1,40 @@
+=== Docker build Dockerfile.client
+[2017-11-20 12:00.16] Starting...
+Cloning into '/tmp/with_clone11b5da2d'...
+done.
+warning: remote HEAD refers to nonexistent ref, unable to checkout.
+
+HEAD is now at 4a3a9af ci: try to remove unused tests
+[2017-11-20 12:00.21] Rewrite Dockerfile's first line to:
+FROM ocaml/opam:alpine_ocaml-4.03.0
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.685 MBSending build context to Docker daemon 7.242 MBSending build context to Docker daemon 7.799 MBSending build context to Docker daemon 8.356 MBSending build context to Docker daemon 8.913 MBSending build context to Docker daemon 9.066 MB
+Step 1/16 : FROM ocaml/opam:alpine_ocaml-4.03.0
+ ---> 2a6e40273e97
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 1f1e2ac9cc89
+Step 3/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset beba7fea --hard &&     opam update -u
+ ---> Using cache
+ ---> 1e74e48d1c0b
+Step 4/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> d6491f36b85b
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> 8a3ec51167eb
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> aa77a5bce54e
+Step 7/16 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> ede9afaa0bd4
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> 68fa2e9a608f
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Running in b4e8871e67b2
+[91mopam: No valid package description found at path
+      /home/opam/src/datakit/.
+      Please supply at least a package name (e.g. `opam pin add NAME PATH')
+[0mThe command '/bin/sh -c opam pin add /home/opam/src/datakit/ -n' returned a non-zero code: 1
+[2017-11-20 12:00.48] Failed: Command "docker" "build" "-f" "Dockerfile.client" "." exited with status 1
