@@ -1,0 +1,83 @@
+=== Docker run test-datakit-ci
+[2017-11-20 12:01.48] Starting...
+[2017-11-20 12:01.48] Running "docker" "run" "--rm" "--user" "opam" "--entrypoint" "/bin/sh" "sha256:6e834adfb2698ab06f1c8e7e8f7c2967c36958a5a8a1bd424b3359ab48ca6163" "-c" "opam remove -y \"datakit-ci\" && opam depext -i -y \"conf-autoconf\" \"conf-libpcre\" \"camlzip\"&& opam install -y -t --deps-only \"datakit-ci\" && opam install -y -v -t \"datakit-ci\""
+The following actions will be performed:
+  - remove datakit-ci 0.11.0* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-ci.0.11.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+# Detecting depexts using flags: x86_64 linux alpine
+opam: option `--external' is a flag, it cannot take the argument
+      `x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+# No extra OS packages requirements found.
+# Now letting OPAM install the packages
+opam: option `--external' is a flag, it cannot take the argument
+      `source,x86_64,linux,alpine'
+Usage: opam list [OPTION]... [PATTERNS]...
+Try `opam list --help' or `opam --help' for more information.
+The following actions will be performed:
+  - install camlzip         1.07 
+  - install conf-pkg-config 1.0  [required by conf-libpcre]
+  - install conf-autoconf   0.1  
+  - install conf-libpcre    1    
+===== 4 to install =====
+
+=-=- Gathering sources =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[camlzip.1.07] downloaded from https://github.com/xavierleroy/camlzip/archive/rel107.zip
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[ERROR] The compilation of camlzip failed at "/usr/bin/make all".
+[ERROR] The compilation of conf-autoconf failed at "/usr/bin/which autoconf".
+-> installed conf-pkg-config.1.0
+-> installed conf-libpcre.1
+
+#=== ERROR while compiling conf-autoconf.0.1 ==================================#
+# context              2.0.0~beta5 | linux/x86_64 | ocaml-base-compiler.4.05.0 | file:///home/opam/opam-repository
+# path                 ~/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/conf-autoconf.0.1
+# command              /usr/bin/which autoconf
+# exit-code            1
+# env-file             ~/.opam/log/conf-autoconf-17-d2d111.env
+# output-file          ~/.opam/log/conf-autoconf-17-d2d111.out
+
+
+#=== ERROR while compiling camlzip.1.07 =======================================#
+# context              2.0.0~beta5 | linux/x86_64 | ocaml-base-compiler.4.05.0 | file:///home/opam/opam-repository
+# path                 ~/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/camlzip.1.07
+# command              /usr/bin/make all
+# exit-code            2
+# env-file             ~/.opam/log/camlzip-17-e7966f.env
+# output-file          ~/.opam/log/camlzip-17-e7966f.out
+### output ###
+# ocamlc -g -safe-string -c -ccopt -g   zlibstubs.c
+# zlibstubs.c:19:18: fatal error: zlib.h: No such file or directory
+#  #include <zlib.h>
+#                   ^
+# compilation terminated.
+# make: *** [Makefile:67: zlibstubs.o] Error 2
+
+
+
+=-=- Error report -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
++- The following actions failed
+| - build camlzip       1.07
+| - build conf-autoconf 0.1
++- 
++- The following changes have been performed
+| - install conf-libpcre    1
+| - install conf-pkg-config 1.0
++- 
+
+=-=- conf-autoconf.0.1 troubleshooting =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> This package relies on external (system) dependencies that may be missing. `opam depext conf-autoconf.0.1' may help you find the correct installation for your system.
+
+=-=- camlzip.1.07 troubleshooting -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+=> This package relies on external (system) dependencies that may be missing. `opam depext camlzip.1.07' may help you find the correct installation for your system.
+# Run eval $(opam env) to update the current shell environment
+
+The former state can be restored with:
+    opam switch import "/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/backup/state-20171120120153.export"
+[2017-11-20 12:01.59] Failed: Command "docker" "run" "--rm" "--user" "opam" "--entrypoint" "/bin/sh" "sha256:6e834adfb2698ab06f1c8e7e8f7c2967c36958a5a8a1bd424b3359ab48ca6163" "-c" "opam remove -y \"datakit-ci\" && opam depext -i -y \"conf-autoconf\" \"conf-libpcre\" \"camlzip\"&& opam install -y -t --deps-only \"datakit-ci\" && opam install -y -v -t \"datakit-ci\"" exited with status 31
