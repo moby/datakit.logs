@@ -1,0 +1,192 @@
+=== Docker build Dockerfile
+[2018-09-25 13:15.21] Starting...
+Cloning into '/tmp/with_clone331e680e'...
+done.
+HEAD is now at 0d40394 Merge pull request #637 from avsm/latest-github-atd
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.445 MB
+Step 1/22 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+alpine-3.5_ocaml-4.05.0: Pulling from ocaml/opam-dev
+Digest: sha256:56eabc77608dac440c0907a0d3d3c2fbff0d65141b20dc5296783c21d42310d3
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+ ---> 1b9232af4c8c
+Step 2/22 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 8b9074709af0
+Step 3/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 79f1faf04a78
+Step 4/22 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 818ebb219 --hard &&     opam update -u
+ ---> Using cache
+ ---> 259535994ac7
+Step 5/22 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> b64ae815e54f
+Step 6/22 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 161c97c42c70
+Step 7/22 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> d44f7a8777b5
+Step 8/22 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> 45b4ebf569bc
+Step 9/22 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> ebac20d91633
+Step 10/22 : RUN opam install datakit --deps -t
+ ---> Using cache
+ ---> 382ea0d3598e
+Step 11/22 : COPY . /home/opam/src/datakit
+ ---> 47635243742b
+Removing intermediate container f48a80807e73
+Step 12/22 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 50d576819705
+ ---> 5856c4380e77
+Removing intermediate container 50d576819705
+Step 13/22 : RUN opam update --dev && opam upgrade
+ ---> Running in e2adeb6b16fe
+
+=-=- Synchronising development packages -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.12.1] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.0] synchronised from file:///home/opam/src/datakit
+[datakit] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit.bak
+[datakit-bridge-github] Conflicting update of the metadata from file:///home/opam/src/datakit.
+Override files in /home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/overlay/datakit-bridge-github (there will be a backup) ? [Y/n] y
+User metadata backed up in /home/opam/.opam/backup/datakit-bridge-github.bak
+[datakit-bridge-local-git] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-ci] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-client] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-client-9p] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-client-git] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-github] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-server] Installing new package description from upstream file:///home/opam/src/datakit
+[datakit-server-9p] Installing new package description from upstream file:///home/opam/src/datakit
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-server    0.12.0* [upstream changes]
+  - recompile datakit-client    0.12.0* [upstream changes]
+  - recompile datakit-server-9p 0.12.0* [upstream changes]
+  - recompile datakit-client-9p 0.12.0* [upstream changes]
+===== 4 to recompile =====
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+-> removed   datakit-client-9p.0.12.0
+-> removed   datakit-client.0.12.0
+-> removed   datakit-server-9p.0.12.0
+-> removed   datakit-server.0.12.0
+-> installed datakit-client.0.12.0
+-> installed datakit-client-9p.0.12.0
+-> installed datakit-server.0.12.0
+-> installed datakit-server-9p.0.12.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> c35bd8ac9799
+Removing intermediate container e2adeb6b16fe
+Step 14/22 : RUN opam install datakit -ytv
+ ---> Running in 843b2a36d9bc
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/1: [datakit.0.12.0: rsync]
+[datakit.0.12.0] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit 0.12.0* 
+
+=-=- Processing actions -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Processing  1/2: [datakit: jbuilder build]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "build" "-p" "datakit" "-j" "1" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit.0.12.0)
+Processing  1/2: [datakit: jbuilder runtest]
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "runtest" "tests/datakit" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit.0.12.0)
+-         test alias tests/datakit/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit.
+- [33m ...[m                [36mserver[m           0   Writes.[32m[OK][m                [36mserver[m           0   Writes.
+- [33m ...[m                [36mserver[m           1   RW.[32m[OK][m                [36mserver[m           1   RW.
+- [33m ...[m                [36mserver[m           2   Blobs fast.[32m[OK][m                [36mserver[m           2   Blobs fast.
+- [33m ...[m                [36mserver[m           3   Blobs random.[32m[OK][m                [36mserver[m           3   Blobs random.
+- [33m ...[m                [36mserver[m           4   Streams.[32m[OK][m                [36mserver[m           4   Streams.
+- [33m ...[m                [36mconduit[m          0   basic.[32m[OK][m                [36mconduit[m          0   basic.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.004s. 6 tests run.
++ /home/opam/.opam/ocaml-base-compiler.4.05.0/bin/jbuilder "runtest" "tests/datakit-9p" (CWD=/home/opam/.opam/ocaml-base-compiler.4.05.0/.opam-switch/build/datakit.0.12.0)
+-         test alias tests/datakit-9p/runtest
+- /bin/sh: tput: not found
+- stty: standard input: Not a tty
+- Testing datakit-9p.
+- [33m ...[m                [36mserver[m          0   Transaction.[32m[OK][m                [36mserver[m          0   Transaction.
+- [33m ...[m                [36mserver[m          1   Qids.[32m[OK][m                [36mserver[m          1   Qids.
+- [33m ...[m                [36mserver[m          2   Watch.[32m[OK][m                [36mserver[m          2   Watch.
+- [33m ...[m                [36mserver[m          3   Range.[32m[OK][m                [36mserver[m          3   Range.
+- [33m ...[m                [36mserver[m          4   Rename branch.[32m[OK][m                [36mserver[m          4   Rename branch.
+- [33m ...[m                [36mserver[m          5   Rename file.[32m[OK][m                [36mserver[m          5   Rename file.
+- [33m ...[m                [36mserver[m          6   Truncate.[32m[OK][m                [36mserver[m          6   Truncate.
+- [33m ...[m                [36mserver[m          7   Parents.[32m[OK][m                [36mserver[m          7   Parents.
+- [33m ...[m                [36mserver[m          8   Merge.[32m[OK][m                [36mserver[m          8   Merge.
+- [33m ...[m                [36mserver[m          9   Merge_metadata.[32m[OK][m                [36mserver[m          9   Merge_metadata.
+- [33m ...[m                [36mserver[m         10   Merge empty.[32m[OK][m                [36mserver[m         10   Merge empty.
+- [33m ...[m                [36mserver[m         11   Conflicts.[32m[OK][m                [36mserver[m         11   Conflicts.
+- [33m ...[m                [36mserver[m         12   Stable inodes.[32m[OK][m                [36mserver[m         12   Stable inodes.
+- [33m ...[m                [36mserver[m         13   Remotes.[33m[SKIP][m              [36mserver[m         13   Remotes.
+- [33m ...[m                [36mserver[m         14   Debug.[32m[OK][m                [36mserver[m         14   Debug.
+- [33m ...[m                [36mclient[m          0   Transaction.[32m[OK][m                [36mclient[m          0   Transaction.
+- [33m ...[m                [36mclient[m          1   Watch.[32m[OK][m                [36mclient[m          1   Watch.
+- [33m ...[m                [36mclient[m          2   Make dirs.[32m[OK][m                [36mclient[m          2   Make dirs.
+- [33m ...[m                [36mclient[m          3   Truncate.[32m[OK][m                [36mclient[m          3   Truncate.
+- [33m ...[m                [36mclient[m          4   Parents.[32m[OK][m                [36mclient[m          4   Parents.
+- [33m ...[m                [36mclient[m          5   Merge.[32m[OK][m                [36mclient[m          5   Merge.
+- [33m ...[m                [36mclient[m          6   Diff.[32m[OK][m                [36mclient[m          6   Diff.
+- [33m ...[m                [36mclient[m          7   Merge_metadata.[32m[OK][m                [36mclient[m          7   Merge_metadata.
+- [33m ...[m                [36mclient[m          8   Merge empty.[32m[OK][m                [36mclient[m          8   Merge empty.
+- [33m ...[m                [36mclient[m          9   Conflicts.[32m[OK][m                [36mclient[m          9   Conflicts.
+- [33m ...[m                [36mclient[m         10   Large write.[32m[OK][m                [36mclient[m         10   Large write.
+- [33m ...[m                [36mclient[m         11   Remove.[32m[OK][m                [36mclient[m         11   Remove.
+- [33m ...[m                [36mclient[m         12   Remotes.[33m[SKIP][m              [36mclient[m         12   Remotes.
+- [33m ...[m                [36mclient[m         13   Create_or_replace.[33m[SKIP][m              [36mclient[m         13   Create_or_replace.
+- The full test results are available in `_build/_tests`.
+- [32mTest Successful[m in 0.248s. 26 tests run.
+-> compiled  datakit.0.12.0
+-> installed datakit.0.12.0
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 39f53fb0f7ab
+Removing intermediate container 843b2a36d9bc
+Step 15/22 : RUN sudo cp $(opam config exec -- which datakit) /usr/bin/datakit &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 39f8b28182fc
+ ---> da33acd07a3b
+Removing intermediate container 39f8b28182fc
+Step 16/22 : FROM alpine:3.5
+3.5: Pulling from library/alpine
+Digest: sha256:b9f282308e8a557a5d8941e6515bc8fa840586ec59dd6284ba1f1e6c81654020
+Status: Image is up to date for alpine:3.5
+ ---> dc496f71dbb5
+Step 17/22 : RUN apk add --no-cache libev gmp tzdata ca-certificates git openssh-client bash
+ ---> Using cache
+ ---> 952af83d65b6
+Step 18/22 : EXPOSE 5640
+ ---> Using cache
+ ---> 816357725eab
+Step 19/22 : ENTRYPOINT /usr/bin/datakit
+ ---> Using cache
+ ---> 6e8702002b65
+Step 20/22 : CMD --url=tcp://0.0.0.0:5640 --git=/data -v
+ ---> Using cache
+ ---> 0a081c1e08de
+Step 21/22 : COPY --from=0 /usr/bin/datakit /usr/bin/datakit
+ ---> Using cache
+ ---> 20602209f48f
+Step 22/22 : COPY --from=0 /usr/bin/datakit-mount /usr/bin/datakit-mount
+ ---> Using cache
+ ---> 46da4f28fa44
+Successfully built 46da4f28fa44
+[2018-09-25 13:15.57] Success
