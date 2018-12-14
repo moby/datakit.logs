@@ -1,0 +1,70 @@
+=== Docker build Dockerfile.self-ci
+[2018-12-14 22:04.46] Starting...
+Cloning into '/tmp/with_clone4fe6533'...
+done.
+HEAD is now at 012d1b2 datakit-ci: add upper-bound < tyxml.4.3.0
+[2018-12-14 22:04.46] Rewrite Dockerfile's first line to:
+FROM sha256:b5a337c4c25d0e10851dbf48e5d5f78b0df1a0ca4f235d3acd5968c266463b39 AS build-env
+Sending build context to Docker daemon 19.97 kB
+Step 1/12 : FROM sha256:b5a337c4c25d0e10851dbf48e5d5f78b0df1a0ca4f235d3acd5968c266463b39 AS build-env
+ ---> b5a337c4c25d
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in ea23fca42686
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/5) Installing libmnl (1.0.4-r0)
+(2/5) Installing libnftnl-libs (1.0.7-r0)
+(3/5) Installing iptables (1.6.0-r0)
+(4/5) Installing libseccomp (2.3.1-r0)
+(5/5) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+Executing busybox-1.25.1-r0.trigger
+OK: 377 MiB in 106 packages
+ ---> fdb324c84bd6
+Removing intermediate container ea23fca42686
+Step 3/12 : ADD . /home/opam/build
+ ---> 11bfba498c16
+Removing intermediate container cd1411327e49
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 916a297e38d5
+Removing intermediate container 8b98edebd7d1
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in add582e8df86
+ ---> 468199769a9c
+Removing intermediate container add582e8df86
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in b4ba74bc9cb2
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
++ ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
++ ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ ---> 48c0d7fc97a9
+Removing intermediate container b4ba74bc9cb2
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in abb1a344ed84
+ ---> b3aaecf6f1d8
+Removing intermediate container abb1a344ed84
+Step 8/12 : FROM alpine:3.5
+ ---> dc496f71dbb5
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> f84b2c7070f7
+Step 10/12 : USER root
+ ---> Using cache
+ ---> b9ed5ee19027
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 5f4d45e8ab3d
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> e5a8939e25ae
+Removing intermediate container 780ce494a623
+Successfully built e5a8939e25ae
+[2018-12-14 22:04.58] Success
