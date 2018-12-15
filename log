@@ -1,0 +1,48 @@
+=== Docker build Dockerfile
+[2018-12-15 10:33.19] Starting...
+Cloning into '/tmp/with_clone3e58bcb7'...
+done.
+HEAD is now at 4dd5989 irmin: port to the 1.4.0 interfaces
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.649 MB
+Step 1/22 : FROM ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+alpine-3.5_ocaml-4.05.0: Pulling from ocaml/opam-dev
+Digest: sha256:56eabc77608dac440c0907a0d3d3c2fbff0d65141b20dc5296783c21d42310d3
+Status: Image is up to date for ocaml/opam-dev:alpine-3.5_ocaml-4.05.0
+ ---> 1b9232af4c8c
+Step 2/22 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 04e887bc34dd
+Step 3/22 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> edf1e303d39f
+Step 4/22 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 818ebb219 --hard &&     opam update -u
+ ---> Using cache
+ ---> 1a429c79664c
+Step 5/22 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> 06d3bb9fe621
+Step 6/22 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> a5aeaf46d782
+Step 7/22 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 6137cd319906
+Step 8/22 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> dd6e5fbe36f5
+Step 9/22 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> fcfe135a47d3
+Step 10/22 : RUN opam install datakit --deps -t
+ ---> Running in 31b7f469eacc
+
+=-=- Synchronising pinned packages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[datakit.0.12.0] no changes from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit -> datakit-server-9p >= 0.12.0 -> dune
+    unknown package
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit --deps -t' returned a non-zero code: 20
+[2018-12-15 10:33.26] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile" "." exited with status 20
