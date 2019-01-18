@@ -1,0 +1,80 @@
+=== Docker build Dockerfile.self-ci
+[2019-01-18 11:22.52] Starting...
+Cloning into '/tmp/with_clone3762f893'...
+done.
+HEAD is now at 8a6c7f7 fill in missing opam description fields
+[2019-01-18 11:22.52] Rewrite Dockerfile's first line to:
+FROM sha256:be8927cc328ceaec8baafc6e98aabfe14153c967d2f5420c799722eada55801b AS build-env
+Sending build context to Docker daemon 19.97 kB
+Step 1/12 : FROM sha256:be8927cc328ceaec8baafc6e98aabfe14153c967d2f5420c799722eada55801b AS build-env
+ ---> be8927cc328c
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in dcbf952108c6
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.8/community/x86_64/APKINDEX.tar.gz
+(1/8) Installing libmnl (1.0.4-r0)
+(2/8) Installing jansson (2.11-r0)
+(3/8) Installing libnftnl-libs (1.1.1-r0)
+(4/8) Installing iptables (1.6.2-r0)
+(5/8) Installing device-mapper-libs (2.02.178-r0)
+(6/8) Installing libltdl (2.4.6-r5)
+(7/8) Installing libseccomp (2.3.3-r1)
+(8/8) Installing docker (18.06.1-r0)
+Executing docker-18.06.1-r0.pre-install
+Executing busybox-1.28.4-r2.trigger
+OK: 460 MiB in 107 packages
+ ---> 6ad78cc2f732
+Removing intermediate container dcbf952108c6
+Step 3/12 : ADD . /home/opam/build
+ ---> a705e0dfb862
+Removing intermediate container 8362fb053058
+Step 4/12 : WORKDIR /home/opam/build
+ ---> 890c033a5bc0
+Removing intermediate container ac0d157eb8cd
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in dc311cfc8db1
+ ---> 98b69dfb8d5e
+Removing intermediate container dc311cfc8db1
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in db79261a50b7
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
++ ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
++ ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+File "selfCI.ml", line 107, characters 0-13:
+Warning 44: this open statement shadows the module identifier Arg (which is later used)
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ ---> 0a93c243f15b
+Removing intermediate container db79261a50b7
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in e7ab2e0cff1f
+ ---> b555881cb476
+Error removing intermediate container e7ab2e0cff1f: driver "aufs" failed to remove root filesystem for e7ab2e0cff1f976989c31edb772d533f3aca1fe41f6eb574349dd5787392cc78: could not remove diff path for id fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6: error preparing atomic delete: rename /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6 /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6-removing: device or resource busy
+Step 8/12 : FROM alpine:3.5
+ ---> dc496f71dbb5
+Error removing intermediate container e7ab2e0cff1f: driver "aufs" failed to remove root filesystem for e7ab2e0cff1f976989c31edb772d533f3aca1fe41f6eb574349dd5787392cc78: could not remove diff path for id fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6: error preparing atomic delete: rename /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6 /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6-removing: device or resource busy
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 6adf6add76ef
+Error removing intermediate container e7ab2e0cff1f: driver "aufs" failed to remove root filesystem for e7ab2e0cff1f976989c31edb772d533f3aca1fe41f6eb574349dd5787392cc78: could not remove diff path for id fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6: error preparing atomic delete: rename /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6 /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6-removing: device or resource busy
+Step 10/12 : USER root
+ ---> Using cache
+ ---> 81e51396a061
+Error removing intermediate container e7ab2e0cff1f: driver "aufs" failed to remove root filesystem for e7ab2e0cff1f976989c31edb772d533f3aca1fe41f6eb574349dd5787392cc78: could not remove diff path for id fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6: error preparing atomic delete: rename /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6 /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6-removing: device or resource busy
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Using cache
+ ---> 6baf39208377
+Error removing intermediate container e7ab2e0cff1f: driver "aufs" failed to remove root filesystem for e7ab2e0cff1f976989c31edb772d533f3aca1fe41f6eb574349dd5787392cc78: could not remove diff path for id fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6: error preparing atomic delete: rename /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6 /var/lib/docker/aufs/diff/fe455c11522dab1e227c65ff954be372ef2f8a4be0ebf6e14bddf74fce723be6-removing: device or resource busy
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> 8d2bd1e30545
+Removing intermediate container ea363d7142e4
+Removing intermediate container e7ab2e0cff1f
+Successfully built 8d2bd1e30545
+[2019-01-18 11:23.07] Success
