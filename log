@@ -1,0 +1,146 @@
+=== Docker build Dockerfile.ci
+[2019-03-11 12:10.47] Starting...
+Cloning into '/tmp/with_clonecee5a81'...
+done.
+HEAD is now at 95d6218 Merge pull request #642 from avsm/modern-base64
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.856 MB
+Step 1/16 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:22c602c753b42f7db92ad08187b89c80ae9a68991f65b2d6743fb862d20b0875
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> b29794a38c38
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 09ba0013948b
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 478e83d1f5e6
+Step 4/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset b01a2e4e1ac2fb545d593ad40bc95b4a78dec9e2 --hard &&     opam update -u
+ ---> Using cache
+ ---> 9e5b4761e5bf
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> 8df47c40e2de
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 0c36844080a6
+Step 7/16 : RUN opam exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 4313b97de2f9
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> c4d37ada7f85
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> f1d205e6c987
+Step 10/16 : RUN sudo apk add --no-cache libressl-dev linux-headers pcre-dev
+ ---> Using cache
+ ---> 2963371dc256
+Step 11/16 : RUN opam install datakit-ci --deps -t
+ ---> Using cache
+ ---> c2b0bb3ea87a
+Step 12/16 : COPY . /home/opam/src/datakit
+ ---> 4ac945ac734f
+Removing intermediate container a485c99640db
+Step 13/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 25b81476b015
+ ---> 6b688db20142
+Removing intermediate container 25b81476b015
+Step 14/16 : RUN opam update --dev && opam upgrade
+ ---> Running in b9f19b352be0
+
+<><> Synchronising development packages <><><><><><><><><><><><><><><><><><><><>
+[datakit.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.12.2] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-client     0.12.2* [upstream changes]
+  - recompile datakit-server     0.12.2* [upstream changes]
+  - recompile datakit-client-git 0.12.2* [upstream changes]
+  - recompile datakit-client-9p  0.12.2* [upstream changes]
+  - recompile datakit-server-9p  0.12.2* [upstream changes]
+  - recompile datakit-github     0.12.2* [upstream changes]
+  - recompile datakit            0.12.2* [upstream changes]
+===== 7 to recompile =====
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> removed   datakit-github.0.12.2
+-> removed   datakit-client-9p.0.12.2
+-> removed   datakit-client-git.0.12.2
+-> removed   datakit-client.0.12.2
+-> installed datakit-client.0.12.2
+-> removed   datakit.0.12.2
+-> removed   datakit-server-9p.0.12.2
+-> removed   datakit-server.0.12.2
+-> installed datakit-server.0.12.2
+-> installed datakit-client-9p.0.12.2
+-> installed datakit-client-git.0.12.2
+-> installed datakit-server-9p.0.12.2
+-> installed datakit-github.0.12.2
+-> installed datakit.0.12.2
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 05d767198f5b
+Removing intermediate container b9f19b352be0
+Step 15/16 : RUN opam install datakit-ci -ytv
+ ---> Running in 2359b95fa23b
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/1: [datakit-ci.0.12.2: rsync]
+[datakit-ci.0.12.2] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-ci 0.12.2*
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/2: [datakit-ci: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-ci" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-ci.0.12.2)
+- ocaml-crunch ci/src/cI_static.ml
+- Generating cI_static.ml
+- Skipping generation of .mli
+Processing  1/2: [datakit-ci: dune runtest]
++ /home/opam/.opam/4.07/bin/dune "runtest" "ci/tests" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-ci.0.12.2)
+-      test_ci alias ci/tests/runtest
+- /bin/sh: tput: not found
+- stty: 'standard input': Not a tty
+- Testing datakit-ci.
+- This run has ID `8FB1E05E-E88F-4A64-9A52-3E8D8B91CE92`.
+- [33m ...[m                [36mci[m          0   Simple.[32m[OK][m                [36mci[m          0   Simple.
+- [33m ...[m                [36mci[m          1   Branch.[32m[OK][m                [36mci[m          1   Branch.
+- [33m ...[m                [36mci[m          2   Circle rebuild.[32m[OK][m                [36mci[m          2   Circle rebuild.
+- [33m ...[m                [36mci[m          3   Logs.[32m[OK][m                [36mci[m          3   Logs.
+- [33m ...[m                [36mci[m          4   Cancel.[32m[OK][m                [36mci[m          4   Cancel.
+- [33m ...[m                [36mci[m          5   Cache (disk).[32m[OK][m                [36mci[m          5   Cache (disk).
+- [33m ...[m                [36mci[m          6   Cache (memory).[32m[OK][m                [36mci[m          6   Cache (memory).
+- [33m ...[m                [36mci[m          7   Test pending.[32m[OK][m                [36mci[m          7   Test pending.
+- [33m ...[m                [36mci[m          8   Git.[32m[OK][m                [36mci[m          8   Git.
+- [33m ...[m                [36mci[m          9   Git (clone).[32m[OK][m                [36mci[m          9   Git (clone).
+- [33m ...[m                [36mci[m         10   Git tag.[32m[OK][m                [36mci[m         10   Git tag.
+- [33m ...[m                [36mci[m         11   Cross-project.[32m[OK][m                [36mci[m         11   Cross-project.
+- [33m ...[m                [36mci[m         12   Auth.[32m[OK][m                [36mci[m         12   Auth.
+- [33m ...[m                [36mci[m         13   Roles.[32m[OK][m                [36mci[m         13   Roles.
+- [33m ...[m                [36mci[m         14   Live logs.[32m[OK][m                [36mci[m         14   Live logs.
+- [33m ...[m                [36mci[m         15   History.[32m[OK][m                [36mci[m         15   History.
+- [33m ...[m                [36mci[m         16   Process.[32m[OK][m                [36mci[m         16   Process.
+- The full test results are available in `/home/opam/.opam/4.07/.opam-switch/build/datakit-ci.0.12.2/_build/default/ci/tests/_build/_tests/8FB1E05E-E88F-4A64-9A52-3E8D8B91CE92`.
+- [32mTest Successful[m in 0.472s. 17 tests run.
+-> compiled  datakit-ci.0.12.2
+-> installed datakit-ci.0.12.2
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> feed36292fb5
+Removing intermediate container 2359b95fa23b
+Step 16/16 : VOLUME /secrets
+ ---> Running in ca204667f4d9
+ ---> 9c1a25b5f077
+Removing intermediate container ca204667f4d9
+Successfully built 9c1a25b5f077
+[2019-03-11 12:11.47] Success
