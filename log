@@ -1,0 +1,168 @@
+=== Docker build Dockerfile.ci
+[2019-03-11 16:00.29] Starting...
+Cloning into '/tmp/with_clone152d1674'...
+done.
+HEAD is now at 8018a3d support the webmachine 0.6.0+ interface
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.901 MB
+Step 1/16 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:22c602c753b42f7db92ad08187b89c80ae9a68991f65b2d6743fb862d20b0875
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> b29794a38c38
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 09ba0013948b
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 478e83d1f5e6
+Step 4/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset b01a2e4e1ac2fb545d593ad40bc95b4a78dec9e2 --hard &&     opam update -u
+ ---> Using cache
+ ---> 9e5b4761e5bf
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> 8df47c40e2de
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 0c36844080a6
+Step 7/16 : RUN opam exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 4313b97de2f9
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> eb6d0cbf77eb
+Removing intermediate container ce646dbc287a
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Running in 722992fbb0b2
+This will pin the following packages: datakit, datakit-server, datakit-server-9p, datakit-github, datakit-client, datakit-client-git, datakit-client-9p, datakit-ci, datakit-bridge-local-git, datakit-bridge-github. Continue? [Y/n] y
+[datakit.0.12.2: rsync]
+[datakit.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-server.0.12.2: rsync]
+[datakit-server.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-server is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-server-9p.0.12.2: rsync]
+[datakit-server-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-server-9p is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-github.0.12.2: rsync]
+[datakit-github.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-github is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client.0.12.2: rsync]
+[datakit-client.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client-git.0.12.2: rsync]
+[datakit-client-git.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client-git is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client-9p.0.12.2: rsync]
+[datakit-client-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client-9p is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-ci.0.12.2: rsync]
+[datakit-ci.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-ci is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-bridge-local-git.0.12.2: rsync]
+[datakit-bridge-local-git.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-bridge-local-git is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-bridge-github.0.12.2: rsync]
+[datakit-bridge-github.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-bridge-github is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+ ---> 52c21fdf3a1f
+Removing intermediate container 722992fbb0b2
+Step 10/16 : RUN sudo apk add --no-cache libressl-dev linux-headers pcre-dev
+ ---> Running in 9397f1908c41
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/10) Installing libressl2.7-libcrypto (2.7.5-r0)
+(2/10) Installing libressl2.7-libssl (2.7.5-r0)
+(3/10) Installing libressl2.7-libtls (2.7.5-r0)
+(4/10) Installing libressl-dev (2.7.5-r0)
+(5/10) Installing linux-headers (4.18.13-r1)
+(6/10) Installing libpcre16 (8.42-r1)
+(7/10) Installing libpcre32 (8.42-r1)
+(8/10) Installing pcre (8.42-r1)
+(9/10) Installing libpcrecpp (8.42-r1)
+(10/10) Installing pcre-dev (8.42-r1)
+Executing busybox-1.29.3-r10.trigger
+Executing ca-certificates-20190108-r0.trigger
+OK: 287 MiB in 100 packages
+ ---> ea2d1720b673
+Removing intermediate container 9397f1908c41
+Step 11/16 : RUN opam install datakit-ci --deps -t
+ ---> Running in 2fba217f793e
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+[datakit-ci.0.12.2] no changes from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit-ci -> irmin-unix >= 1.2.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> sexplib < 113.24.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> stdio < v0.10 -> base < v0.10 -> ocaml < 4.07.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> stdio < v0.10 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> conduit < 0.16.0 -> pa_sexp_conv < v0.9.0 -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> cstruct < 0.6.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> fieldslib < 113.01.00 -> type_conv < 109.20.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> fieldslib < 113.01.00 -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> lwt < 2.5.0 -> ocaml < 4.05.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> pa_fields_conv -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> sexplib < 113.01.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> uri < 1.5.0 -> sexplib < 113.01.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> cohttp-lwt < 1.0 -> cohttp < 1.0 -> uri < 1.5.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> sexplib < 113.24.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> stdio < v0.10 -> base < v0.10 -> ocaml < 4.07.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> stdio < v0.10 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> ppx_driver < v0.10.0 -> ppx_core < v0.10 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> conduit < 0.16.0 -> pa_sexp_conv < v0.9.0 -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> cstruct < 0.6.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> fieldslib < 113.01.00 -> type_conv < 109.20.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> fieldslib < 113.01.00 -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> lwt < 2.5.0 -> ocaml < 4.05.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> pa_fields_conv -> ocaml < 4.03
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> sexplib < 113.01.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> uri < 1.5.0 -> sexplib < 113.01.00 -> ocaml < 4.03.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin-http >= 1.3.0 -> webmachine < 0.6.0 -> cohttp < 0.21.0 -> uri < 1.5.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin < 1.3.0 -> dolog < 1.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin < 1.3.0 -> ezjsonm < 0.5.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> irmin-unix >= 1.2.0 -> irmin < 1.3.0 -> ocaml < 4.06.0
+      base of this switch (use `--unlock-base' to force)
+  - datakit-ci -> webmachine >= 0.6.0
+Your request can't be satisfied:
+  - No available version of webmachine satisfies the constraints
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit-ci --deps -t' returned a non-zero code: 20
+[2019-03-11 16:00.52] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 20
