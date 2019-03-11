@@ -1,0 +1,225 @@
+=== Docker build Dockerfile.client
+[2019-03-11 11:45.33] Starting...
+Cloning into '/tmp/with_clone10861957'...
+done.
+HEAD is now at 3a3df20 Merge pull request #643 from avsm/add-maintainer
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.853 MB
+Step 1/16 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:22c602c753b42f7db92ad08187b89c80ae9a68991f65b2d6743fb862d20b0875
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> b29794a38c38
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 09ba0013948b
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 478e83d1f5e6
+Step 4/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset da99aec5e0ecc83bd86926b620eff45b99c82c26 --hard &&     opam update -u
+ ---> Using cache
+ ---> 87863bb30171
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> c64658d11181
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> a34d183e836c
+Step 7/16 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Running in e1c9fc14c543
+ ---> e5bbfaff1eed
+Removing intermediate container e1c9fc14c543
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> 5bedcba62625
+Removing intermediate container 97d88e682bb1
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Running in b14633f142f8
+This will pin the following packages: datakit, datakit-server, datakit-server-9p, datakit-github, datakit-client, datakit-client-git, datakit-client-9p, datakit-ci, datakit-bridge-local-git, datakit-bridge-github. Continue? [Y/n] y
+[datakit.0.12.0: rsync]
+[datakit.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-server.0.12.0: rsync]
+[datakit-server.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-server is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-server-9p.0.12.0: rsync]
+[datakit-server-9p.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-server-9p is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-github.0.12.0: rsync]
+[datakit-github.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-github is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-client.0.12.0: rsync]
+[datakit-client.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-client is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-client-git.0.12.0: rsync]
+[datakit-client-git.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-client-git is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-client-9p.0.12.0: rsync]
+[datakit-client-9p.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-client-9p is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-ci.0.12.1: rsync]
+[datakit-ci.0.12.1] synchronised from file:///home/opam/src/datakit
+datakit-ci is now pinned to file:///home/opam/src/datakit (version 0.12.1)
+[datakit-bridge-local-git.0.12.0: rsync]
+[datakit-bridge-local-git.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-bridge-local-git is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+[datakit-bridge-github.0.12.0: rsync]
+[datakit-bridge-github.0.12.0] synchronised from file:///home/opam/src/datakit
+datakit-bridge-github is now pinned to file:///home/opam/src/datakit (version 0.12.0)
+ ---> d1fcad9e5b54
+Removing intermediate container b14633f142f8
+Step 10/16 : RUN OPAMSOLVERTIMEOUT=120 opam install datakit-client-git datakit-client-9p --deps -t
+ ---> Running in f5f98dfc8ef2
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+[datakit-client-9p.0.12.0] no changes from file:///home/opam/src/datakit
+[datakit-client-git.0.12.0] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install conf-gmp                1
+  - install mirage-no-xen           1
+  - install uutf                    1.0.1
+  - install ppx_tools               5.1+4.06.0
+  - install base64                  2.3.0
+  - install seq                     base
+  - install num                     1.1
+  - install win-error               0.3
+  - install mirage-device           1.1.0
+  - install mtime                   1.1.0
+  - install cppo_ocamlbuild         1.6.0
+  - install ocb-stubblr             0.1.1-1
+  - install stringext               1.5.0
+  - install magic-mime              1.1.1
+  - install mirage-no-solo5         1
+  - install decompress              0.7
+  - install conf-perl               1
+  - install rresult                 0.6.0
+  - install ocamlgraph              1.8.8
+  - install logs                    0.6.2
+  - install asetmap                 0.8.1
+  - install ocaml-compiler-libs     v0.11.0
+  - install sexplib0                v0.11.0
+  - install ocplib-endian           1.0
+  - install ppx_derivers            1.0
+  - install mirage-flow             1.5.0
+  - install jsonm                   1.0.1
+  - install re                      1.8.0
+  - install mirage-kv               1.1.1
+  - install mirage-clock            2.0.0
+  - install cpuid                   0.1.1
+  - install zarith                  1.7
+  - install irmin-watcher           0.4.0
+  - install parsexp                 v0.11.0
+  - install macaddr                 3.0.0
+  - install base                    v0.11.1
+  - install ocaml-migrate-parsetree 1.2.0
+  - install mirage-channel          3.1.0
+  - install prometheus              0.5
+  - install sexplib                 v0.11.0
+  - install ipaddr                  3.0.0
+  - install stdio                   v0.11.0
+  - install ppx_deriving            4.2.1
+  - install cstruct                 3.2.1
+  - install ppxlib                  0.5.0
+  - install configurator            v0.11.0
+  - install mstruct                 1.4.0
+  - install mirage-kv-lwt           1.1.0
+  - install mirage-flow-lwt         1.5.0
+  - install hex                     1.2.0
+  - install datakit-client          0.12.0*
+  - install cstruct-lwt             3.2.1
+  - install ppx_sexp_conv           v0.11.2
+  - install fieldslib               v0.11.0
+  - install io-page                 2.0.1
+  - install uri                     2.1.0
+  - install nocrypto                0.5.4-1
+  - install ppx_fields_conv         v0.11.0
+  - install mirage-channel-lwt      3.1.0
+  - install io-page-unix            2.0.1
+  - install irmin                   1.4.0
+  - install git                     1.11.5
+  - install conduit                 1.4.0
+  - install cohttp                  1.2.0
+  - install protocol-9p             0.12.1
+  - install irmin-mem               1.3.0
+  - install irmin-git               1.3.0
+  - install conduit-lwt             1.4.0
+  - install cohttp-lwt              1.2.0
+  - install protocol-9p-unix        0.12.1
+  - install conduit-lwt-unix        1.4.0
+  - install git-http                1.11.4
+  - install cohttp-lwt-unix         1.2.0
+  - install git-unix                1.11.5
+===== 74 to install =====
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[base64.2.3.0] downloaded from https://github.com/mirage/ocaml-base64/releases/download/v2.3.0/base64-v2.3.0.tbz
+[cohttp.1.2.0] downloaded from https://github.com/mirage/ocaml-cohttp/releases/download/v1.2.0/cohttp-v1.2.0.tbz
+[cohttp-lwt-unix.1.2.0] found in cache
+[base.v0.11.1] downloaded from https://github.com/janestreet/base/releases/download/v0.11.1/base-v0.11.1.tbz
+[cohttp-lwt.1.2.0] downloaded from https://github.com/mirage/ocaml-cohttp/releases/download/v1.2.0/cohttp-v1.2.0.tbz
+[conduit.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[conduit-lwt.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[configurator.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/configurator-v0.11.0.tar.gz
+[conduit-lwt-unix.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[cppo_ocamlbuild.1.6.0] downloaded from https://github.com/mjambon/cppo/archive/v1.6.0.tar.gz
+[cpuid.0.1.1] downloaded from https://github.com/pqwy/cpuid/releases/download/v0.1.1/cpuid-0.1.1.tbz
+[cstruct.3.2.1] downloaded from https://github.com/mirage/ocaml-cstruct/releases/download/v3.2.1/cstruct-3.2.1.tbz
+[fieldslib.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/fieldslib-v0.11.0.tar.gz
+[cstruct-lwt.3.2.1] downloaded from https://github.com/mirage/ocaml-cstruct/releases/download/v3.2.1/cstruct-3.2.1.tbz
+[decompress.0.7] downloaded from https://github.com/mirage/decompress/releases/download/v0.7/decompress-0.7.tbz
+[git.1.11.5] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.5/git-1.11.5.tbz
+[git-http.1.11.4] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.4/git-1.11.4.tbz
+[git-unix.1.11.5] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.5/git-1.11.5.tbz
+[hex.1.2.0] downloaded from https://github.com/mirage/ocaml-hex/releases/download/v1.2.0/hex-1.2.0.tbz
+[io-page.2.0.1] downloaded from https://github.com/mirage/io-page/releases/download/2.0.1/io-page-2.0.1.tbz
+[io-page-unix.2.0.1] downloaded from https://github.com/mirage/io-page/releases/download/2.0.1/io-page-2.0.1.tbz
+[ipaddr.3.0.0] downloaded from https://github.com/mirage/ocaml-ipaddr/releases/download/3.0.0/ipaddr-3.0.0.tbz
+[irmin.1.4.0] downloaded from https://github.com/mirage/irmin/releases/download/1.4.0/irmin-1.4.0.tbz
+[irmin-git.1.3.0] downloaded from https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz
+[jsonm.1.0.1] downloaded from http://erratique.ch/software/jsonm/releases/jsonm-1.0.1.tbz
+[logs.0.6.2] downloaded from http://erratique.ch/software/logs/releases/logs-0.6.2.tbz
+[macaddr.3.0.0] found in cache
+[irmin-watcher.0.4.0] downloaded from https://github.com/mirage/irmin-watcher/releases/download/0.4.0/irmin-watcher-0.4.0.tbz
+[irmin-mem.1.3.0] downloaded from https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz
+[magic-mime.1.1.1] downloaded from https://github.com/mirage/ocaml-magic-mime/releases/download/v1.1.1/magic-mime-v1.1.1.tbz
+[mirage-channel.3.1.0] downloaded from https://github.com/mirage/mirage-channel/releases/download/v3.1.0/mirage-channel-3.1.0.tbz
+[mirage-channel-lwt.3.1.0] downloaded from https://github.com/mirage/mirage-channel/releases/download/v3.1.0/mirage-channel-3.1.0.tbz
+[mirage-clock.2.0.0] downloaded from https://github.com/mirage/mirage-clock/releases/download/v2.0.0/mirage-clock-v2.0.0.tbz
+[mirage-device.1.1.0] downloaded from https://github.com/mirage/mirage-device/releases/download/v1.1.0/mirage-device-1.1.0.tbz
+[mirage-flow.1.5.0] downloaded from https://github.com/mirage/mirage-flow/releases/download/v1.5.0/mirage-flow-1.5.0.tbz
+[mirage-flow-lwt.1.5.0] downloaded from https://github.com/mirage/mirage-flow/releases/download/v1.5.0/mirage-flow-1.5.0.tbz
+[mirage-kv-lwt.1.1.0] downloaded from https://github.com/mirage/mirage-kv/releases/download/v1.1.0/mirage-kv-1.1.0.tbz
+[mirage-kv.1.1.1] downloaded from https://github.com/mirage/mirage-kv/releases/download/v1.1.1/mirage-kv-1.1.1.tbz
+[mtime.1.1.0] downloaded from http://erratique.ch/software/mtime/releases/mtime-1.1.0.tbz
+[mstruct.1.4.0] downloaded from https://github.com/mirage/ocaml-mstruct/releases/download/v1.4.0/mstruct-1.4.0.tbz
+[ocaml-compiler-libs.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/ocaml-compiler-libs-v0.11.0.tar.gz
+[num.1.1] downloaded from https://github.com/ocaml/num/archive/v1.1.tar.gz
+[ocamlgraph.1.8.8] downloaded from http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.8.tar.gz
+[nocrypto.0.5.4-1] downloaded from https://github.com/mirleft/ocaml-nocrypto/releases/download/v0.5.4/nocrypto-0.5.4.tbz
+[ocaml-migrate-parsetree.1.2.0] downloaded from https://github.com/ocaml-ppx/ocaml-migrate-parsetree/releases/download/v1.2.0/ocaml-migrate-parsetree-v1.2.0.tbz
+[ocb-stubblr.0.1.1-1] downloaded from https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz
+[parsexp.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/parsexp-v0.11.0.tar.gz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[ppx_derivers.1.0] downloaded from https://github.com/ocaml-ppx/ppx_derivers/archive/1.0.tar.gz
+[ppx_fields_conv.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/ppx_fields_conv-v0.11.0.tar.gz
+[ppx_deriving.4.2.1] downloaded from https://github.com/ocaml-ppx/ppx_deriving/archive/v4.2.1.tar.gz
+[ppx_sexp_conv.v0.11.2] downloaded from https://github.com/janestreet/ppx_sexp_conv/archive/v0.11.2.tar.gz
+[ppx_tools.5.1+4.06.0] downloaded from https://github.com/ocaml-ppx/ppx_tools/archive/5.1+4.06.0.tar.gz
+[prometheus.0.5] downloaded from https://github.com/mirage/prometheus/releases/download/v0.5/prometheus-0.5.tbz
+[ppxlib.0.5.0] downloaded from https://github.com/ocaml-ppx/ppxlib/releases/download/0.5.0/ppxlib-0.5.0.tbz
+[protocol-9p.0.12.1] downloaded from https://github.com/mirage/ocaml-9p/archive/0.12.1.tar.gz
+[rresult.0.6.0] downloaded from http://erratique.ch/software/rresult/releases/rresult-0.6.0.tbz
+[protocol-9p-unix.0.12.1] downloaded from https://github.com/mirage/ocaml-9p/archive/0.12.1.tar.gz
+[sexplib.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/sexplib-v0.11.0.tar.gz
+[re.1.8.0] downloaded from https://github.com/ocaml/ocaml-re/releases/download/1.8.0/re-1.8.0.tbz
+[sexplib0.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/sexplib0-v0.11.0.tar.gz
+[stdio.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/stdio-v0.11.0.tar.gz
+[uutf.1.0.1] downloaded from http://erratique.ch/software/uutf/releases/uutf-1.0.1.tbz
+[stringext.1.5.0] downloaded from https://github.com/rgrinberg/stringext/archive/1.5.0.zip
+[win-error.0.3] downloaded from https://github.com/djs55/ocaml-win-error/archive/0.3.tar.gz
+[zarith.1.7] downloaded from https://github.com/ocaml/Zarith/archive/release-1.7.tar.gz
+[91m[ERROR] The sources of the following couldn't be obtained, aborting:
+          - uri.2.1.0: Bad checksum
+
+[0mThe command '/bin/sh -c OPAMSOLVERTIMEOUT=120 opam install datakit-client-git datakit-client-9p --deps -t' returned a non-zero code: 40
+[2019-03-11 11:46.05] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.client" "." exited with status 40
