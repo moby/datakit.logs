@@ -1,0 +1,103 @@
+=== Docker build Dockerfile.self-ci
+[2019-04-13 20:15.20] Starting...
+Cloning into '/tmp/with_clone1c1661a6'...
+done.
+HEAD is now at fcfae1f Dockerfiles: update to latest opam repository snapshot
+[2019-04-13 20:15.21] Rewrite Dockerfile's first line to:
+FROM sha256:dd1a55a1a2c63ac767d39062388c64d798ac5d00657ba5e75570625b3269fe53 AS build-env
+Sending build context to Docker daemon 19.97 kB
+Step 1/12 : FROM sha256:dd1a55a1a2c63ac767d39062388c64d798ac5d00657ba5e75570625b3269fe53 AS build-env
+ ---> dd1a55a1a2c6
+Step 2/12 : RUN sudo apk add --no-cache libev docker gmp
+ ---> Running in 6d3b4fcea60b
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/11) Installing libseccomp (2.3.3-r1)
+(2/11) Installing runc (1.0.0_rc6-r1)
+(3/11) Installing containerd (1.2.2-r0)
+(4/11) Installing libmnl (1.0.4-r0)
+(5/11) Installing jansson (2.11-r0)
+(6/11) Installing libnftnl-libs (1.1.1-r0)
+(7/11) Installing iptables (1.6.2-r1)
+(8/11) Installing tini-static (0.18.0-r0)
+(9/11) Installing device-mapper-libs (2.02.182-r0)
+(10/11) Installing libltdl (2.4.6-r5)
+(11/11) Installing docker (18.09.1-r0)
+Executing docker-18.09.1-r0.pre-install
+Executing busybox-1.29.3-r10.trigger
+OK: 541 MiB in 111 packages
+ ---> b9c625aaf038
+Removing intermediate container 6d3b4fcea60b
+Step 3/12 : ADD . /home/opam/build
+ ---> d970c1b62dee
+Removing intermediate container 9f87f4671f77
+Step 4/12 : WORKDIR /home/opam/build
+ ---> c9f481ef56f2
+Removing intermediate container cac162369775
+Step 5/12 : RUN sudo chown opam .
+ ---> Running in 05b60df9883c
+ ---> f4114d6addf9
+Removing intermediate container 05b60df9883c
+Step 6/12 : RUN opam config exec make selfCI
+ ---> Running in 5e0dd643a484
+ocamlbuild -use-ocamlfind selfCI.native
+ocamlfind ocamldep -package datakit-ci -modules selfCI.ml > selfCI.ml.depends
+ocamlfind ocamldep -package datakit-ci -modules selfCI.mli > selfCI.mli.depends
+ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
++ ocamlfind ocamlc -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmi selfCI.mli
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
++ ocamlfind ocamlopt -c -annot -bin-annot -safe-string -strict-sequence -package datakit-ci -w A-4 -o selfCI.cmx selfCI.ml
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+File "selfCI.ml", line 107, characters 0-13:
+Warning 44: this open statement shadows the module identifier Arg (which is later used)
+ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
++ ocamlfind ocamlopt -linkpkg -package datakit-ci selfCI.cmx -o selfCI.native
+ocamlfind: [WARNING] Package `threads': Linking problems may arise because of the missing -thread or -vmthread switch
+ ---> f73fae1a7e94
+Removing intermediate container 5e0dd643a484
+Step 7/12 : RUN sudo cp selfCI.native /usr/local/bin/ci
+ ---> Running in 594fefa12b0d
+ ---> ac6c8c99e9f3
+Removing intermediate container 594fefa12b0d
+Step 8/12 : FROM alpine:3.5
+ ---> dc496f71dbb5
+Step 9/12 : RUN apk add --no-cache libev docker gmp tzdata ca-certificates
+ ---> Running in a25a787bb27f
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.5/community/x86_64/APKINDEX.tar.gz
+(1/16) Installing ca-certificates (20161130-r1)
+(2/16) Installing libmnl (1.0.4-r0)
+(3/16) Installing libnftnl-libs (1.0.7-r0)
+(4/16) Installing iptables (1.6.0-r0)
+(5/16) Installing libssh2 (1.7.0-r2)
+(6/16) Installing libcurl (7.61.1-r1)
+(7/16) Installing expat (2.2.0-r1)
+(8/16) Installing pcre (8.39-r0)
+(9/16) Installing git (2.11.3-r2)
+(10/16) Installing xz-libs (5.2.2-r1)
+(11/16) Installing xz (5.2.2-r1)
+(12/16) Installing libseccomp (2.3.1-r0)
+(13/16) Installing docker (1.12.6-r0)
+Executing docker-1.12.6-r0.pre-install
+(14/16) Installing gmp (6.1.1-r0)
+(15/16) Installing libev (4.22-r0)
+(16/16) Installing tzdata (2016i-r0)
+Executing busybox-1.25.1-r2.trigger
+Executing ca-certificates-20161130-r1.trigger
+OK: 122 MiB in 27 packages
+ ---> 75e68d243a00
+Removing intermediate container a25a787bb27f
+Step 10/12 : USER root
+ ---> Running in 2c3cadad7377
+ ---> c6f0de245c01
+Removing intermediate container 2c3cadad7377
+Step 11/12 : ENTRYPOINT /usr/local/bin/ci
+ ---> Running in acdfa1876658
+ ---> b088e7ab0750
+Removing intermediate container acdfa1876658
+Step 12/12 : COPY --from=build-env /usr/local/bin/ci /usr/local/bin/ci
+ ---> 629dea4a393a
+Removing intermediate container 51a3c6c2a404
+Successfully built 629dea4a393a
+[2019-04-13 20:15.39] Success
