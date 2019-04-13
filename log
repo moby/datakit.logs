@@ -1,0 +1,232 @@
+=== Docker build Dockerfile.ci
+[2019-04-13 19:58.34] Starting...
+Cloning into '/tmp/with_clone2a53c27f'...
+done.
+HEAD is now at 55cf7ca support the cstruct 4 interface with optional sexp
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.946 MB
+Step 1/16 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+8e402f1a9c57: Already exists
+057924c7006a: Pulling fs layer
+582bfaf0cbf8: Pulling fs layer
+aac7c65e18e6: Pulling fs layer
+dc15582583b6: Pulling fs layer
+ca2f509fe095: Pulling fs layer
+3a68a2d87652: Pulling fs layer
+31ab8e51262b: Pulling fs layer
+9018bab2e082: Pulling fs layer
+9018bab2e082: Waiting
+dc15582583b6: Waiting
+ca2f509fe095: Waiting
+3a68a2d87652: Waiting
+31ab8e51262b: Waiting
+582bfaf0cbf8: Verifying Checksum
+582bfaf0cbf8: Download complete
+057924c7006a: Pull complete
+ca2f509fe095: Download complete
+582bfaf0cbf8: Pull complete
+aac7c65e18e6: Verifying Checksum
+aac7c65e18e6: Download complete
+dc15582583b6: Verifying Checksum
+dc15582583b6: Download complete
+31ab8e51262b: Verifying Checksum
+31ab8e51262b: Download complete
+9018bab2e082: Download complete
+aac7c65e18e6: Pull complete
+3a68a2d87652: Verifying Checksum
+3a68a2d87652: Download complete
+dc15582583b6: Pull complete
+ca2f509fe095: Pull complete
+3a68a2d87652: Pull complete
+31ab8e51262b: Pull complete
+9018bab2e082: Pull complete
+Digest: sha256:ff181c65a9850ab2a4da983b4496ab30e68f68e076474a7605b4ba2522aeb24a
+Status: Downloaded newer image for ocaml/opam2:alpine
+ ---> 29728b366e85
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Running in bec030c1c8fd
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/17) Installing boost-system (1.67.0-r2)
+(2/17) Installing boost-chrono (1.67.0-r2)
+(3/17) Installing boost-filesystem (1.67.0-r2)
+(4/17) Installing boost-regex (1.67.0-r2)
+(5/17) Installing boost-thread (1.67.0-r2)
+(6/17) Installing boost (1.67.0-r2)
+(7/17) Installing gringo (4.5.4-r1)
+(8/17) Installing clasp (3.1.3-r1)
+(9/17) Installing aspcud (1.9.4-r0)
+(10/17) Installing libgmpxx (6.1.2-r1)
+(11/17) Installing gmp-dev (6.1.2-r1)
+(12/17) Installing libev (4.25-r0)
+(13/17) Installing libev-dev (4.25-r0)
+(14/17) Installing m4 (1.4.18-r1)
+(15/17) Installing libbz2 (1.0.6-r6)
+(16/17) Installing perl (5.26.3-r0)
+(17/17) Installing tzdata (2018i-r0)
+Executing busybox-1.29.3-r10.trigger
+OK: 260 MiB in 90 packages
+ ---> b182301ba9f2
+Removing intermediate container bec030c1c8fd
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Running in 277b000cd9d7
+ ---> 9808b85ad36a
+Removing intermediate container 277b000cd9d7
+Step 4/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset b01a2e4e1ac2fb545d593ad40bc95b4a78dec9e2 --hard &&     opam update -u
+ ---> Running in f20ba900aa32
+[91mFrom git://github.com/ocaml/opam-repository
+   c261c4ee9c..df84483e52  master     -> origin/master
+[0m[91mChecking out files:  29% (3782/12735)   [0m[91mChecking out files:  30% (3821/12735)   [0m[91mChecking out files:  31% (3948/12735)   [0m[91mChecking out files:  32% (4076/12735)   [0m[91mChecking out files:  33% (4203/12735)   [0m[91mChecking out files:  34% (4330/12735)   [0m[91mChecking out files:  35% (4458/12735)   [0m[91mChecking out files:  36% (4585/12735)   [0m[91mChecking out files:  37% (4712/12735)   [0m[91mChecking out files:  38% (4840/12735)   [0m[91mChecking out files:  39% (4967/12735)   [0m[91mChecking out files:  40% (5094/12735)   [0m[91mChecking out files:  41% (5222/12735)   [0m[91mChecking out files:  42% (5349/12735)   [0m[91mChecking out files:  43% (5477/12735)   [0m[91mChecking out files:  44% (5604/12735)   [0m[91mChecking out files:  45% (5731/12735)   [0m[91mChecking out files:  46% (5859/12735)   [0m[91mChecking out files:  47% (5986/12735)   [0m[91mChecking out files:  48% (6113/12735)   [0m[91mChecking out files:  49% (6241/12735)   [0m[91mChecking out files:  50% (6368/12735)   [0m[91mChecking out files:  51% (6495/12735)   [0m[91mChecking out files:  52% (6623/12735)   [0m[91mChecking out files:  53% (6750/12735)   [0m[91mChecking out files:  54% (6877/12735)   [0m[91mChecking out files:  54% (6929/12735)   [0m[91mChecking out files:  55% (7005/12735)   [0m[91mChecking out files:  56% (7132/12735)   [0m[91mChecking out files:  57% (7259/12735)   [0m[91mChecking out files:  58% (7387/12735)   [0m[91mChecking out files:  59% (7514/12735)   [0m[91mChecking out files:  60% (7641/12735)   [0m[91mChecking out files:  61% (7769/12735)   [0m[91mChecking out files:  62% (7896/12735)   [0m[91mChecking out files:  63% (8024/12735)   [0m[91mChecking out files:  64% (8151/12735)   [0m[91mChecking out files:  65% (8278/12735)   [0m[91mChecking out files:  66% (8406/12735)   [0m[91mChecking out files:  67% (8533/12735)   [0m[91mChecking out files:  67% (8621/12735)   [0m[91mChecking out files:  68% (8660/12735)   [0m[91mChecking out files:  69% (8788/12735)   [0m[91mChecking out files:  70% (8915/12735)   [0m[91mChecking out files:  71% (9042/12735)   [0m[91mChecking out files:  72% (9170/12735)   [0m[91mChecking out files:  73% (9297/12735)   [0m[91mChecking out files:  74% (9424/12735)   [0m[91mChecking out files:  75% (9552/12735)   [0m[91mChecking out files:  76% (9679/12735)   [0m[91mChecking out files:  77% (9806/12735)   [0m[91mChecking out files:  78% (9934/12735)   [0m[91mChecking out files:  79% (10061/12735)   [0m[91mChecking out files:  80% (10188/12735)   [0m[91mChecking out files:  81% (10316/12735)   [0m[91mChecking out files:  82% (10443/12735)   [0m[91mChecking out files:  83% (10571/12735)   [0m[91mChecking out files:  84% (10698/12735)   [0m[91mChecking out files:  85% (10825/12735)   [0m[91mChecking out files:  86% (10953/12735)   [0m[91mChecking out files:  87% (11080/12735)   [0m[91mChecking out files:  87% (11134/12735)   [0m[91mChecking out files:  88% (11207/12735)   [0m[91mChecking out files:  89% (11335/12735)   [0m[91mChecking out files:  90% (11462/12735)   [0m[91mChecking out files:  91% (11589/12735)   [0m[91mChecking out files:  92% (11717/12735)   [0m[91mChecking out files:  93% (11844/12735)   [0m[91mChecking out files:  94% (11971/12735)   [0m[91mChecking out files:  95% (12099/12735)   [0m[91mChecking out files:  96% (12226/12735)   [0m[91mChecking out files:  97% (12353/12735)   [0m[91mChecking out files:  98% (12481/12735)   [0m[91mChecking out files:  99% (12608/12735)   [0m[91mChecking out files: 100% (12735/12735)   Checking out files: 100% (12735/12735), done.
+[0mHEAD is now at b01a2e4e1a Merge pull request #13631 from SylvainBoilard/master
+
+<><> Updating package repositories ><><><><><><><><><><><><><><><><><><><><><><>
+[default] synchronised from git+file:///home/opam/opam-repository
+
+Already up-to-date.
+Nothing to do.
+# Run eval $(opam env) to update the current shell environment
+ ---> fc885503e953
+Removing intermediate container f20ba900aa32
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Running in baa8dd4cc16a
+The following actions will be performed:
+  - install conf-m4    1          [required by ocamlfind]
+  - install conf-libev 4-11
+  - install cmdliner   1.0.3      [required by alcotest]
+  - install dune       1.8.0      [required by alcotest]
+  - install ocamlbuild 0.14.0     [required by inotify]
+  - install ocamlfind  1.8.0      [required by inotify, lwt]
+  - install jbuilder   transition [required by lwt]
+  - install uchar      0.0.2      [required by fmt]
+  - install base-bytes base       [required by inotify]
+  - install result     1.3        [required by alcotest, lwt]
+  - install cppo       1.6.5      [required by lwt]
+  - install topkg      1.0.0      [required by fmt, astring, uuidm]
+  - install lwt        4.1.0                                        For the PPX, please install package lwt_ppx
+                                                                    For Lwt_log and Lwt_daemon, please install package lwt_log
+  - install uuidm      0.9.7      [required by alcotest]
+  - install fmt        0.8.5      [required by alcotest]
+  - install astring    0.8.3      [required by alcotest]
+  - install inotify    2.3
+  - install alcotest   0.8.5
+===== 18 to install =====
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[astring.0.8.3] downloaded from http://erratique.ch/software/astring/releases/astring-0.8.3.tbz
+[cmdliner.1.0.3] downloaded from http://erratique.ch/software/cmdliner/releases/cmdliner-1.0.3.tbz
+[cppo.1.6.5] downloaded from https://github.com/mjambon/cppo/archive/v1.6.5.tar.gz
+[alcotest.0.8.5] downloaded from https://github.com/mirage/alcotest/releases/download/0.8.5/alcotest-0.8.5.tbz
+[dune.1.8.0] downloaded from https://github.com/ocaml/dune/releases/download/1.8.0/dune-1.8.0.tbz
+[fmt.0.8.5] downloaded from http://erratique.ch/software/fmt/releases/fmt-0.8.5.tbz
+[inotify.2.3] downloaded from https://github.com/whitequark/ocaml-inotify/archive/v2.3.tar.gz
+[ocamlfind.1.8.0] downloaded from http://download.camlcity.org/download/findlib-1.8.0.tar.gz
+[lwt.4.1.0] downloaded from https://github.com/ocsigen/lwt/archive/4.1.0.tar.gz
+[topkg.1.0.0] downloaded from http://erratique.ch/software/topkg/releases/topkg-1.0.0.tbz
+[ocamlbuild.0.14.0] downloaded from https://github.com/ocaml/ocamlbuild/archive/0.14.0.tar.gz
+[uuidm.0.9.7] downloaded from https://erratique.ch/software/uuidm/releases/uuidm-0.9.7.tbz
+[result.1.3] downloaded from https://github.com/janestreet/result/releases/download/1.3/result-1.3.tbz
+[uchar.0.0.2] downloaded from https://github.com/ocaml/uchar/releases/download/v0.0.2/uchar-0.0.2.tbz
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed conf-libev.4-11
+-> installed conf-m4.1
+-> installed cmdliner.1.0.3
+-> installed ocamlfind.1.8.0
+-> installed base-bytes.base
+-> installed ocamlbuild.0.14.0
+-> installed uchar.0.0.2
+-> installed dune.1.8.0
+-> installed jbuilder.transition
+-> installed result.1.3
+-> installed cppo.1.6.5
+-> installed topkg.1.0.0
+-> installed lwt.4.1.0
+-> installed astring.0.8.3
+-> installed fmt.0.8.5
+-> installed uuidm.0.9.7
+-> installed alcotest.0.8.5
+-> installed inotify.2.3
+Done.
+
+<><> jbuilder.transition installed successfully <><><><><><><><><><><><><><><><>
+=> Jbuilder has been renamed and the jbuilder package is now a transition package. Use the dune package instead.
+# Run eval $(opam env) to update the current shell environment
+ ---> 27faa2b84aae
+Removing intermediate container baa8dd4cc16a
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> 5327edd83de8
+Removing intermediate container 44ed89502678
+Step 7/16 : RUN opam exec -- ocaml /tmp/check-libev.ml
+ ---> Running in ff6863879262
+ ---> 7d3bf95d8f8d
+Removing intermediate container ff6863879262
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> 150baf4614d0
+Removing intermediate container 1c57419196c7
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Running in 143ed4ef62de
+This will pin the following packages: datakit, datakit-server, datakit-server-9p, datakit-github, datakit-client, datakit-client-git, datakit-client-9p, datakit-ci, datakit-bridge-local-git, datakit-bridge-github. Continue? [Y/n] y
+[datakit.0.12.2: rsync]
+[datakit.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-server.0.12.2: rsync]
+[datakit-server.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-server is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-server-9p.0.12.2: rsync]
+[datakit-server-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-server-9p is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-github.0.12.2: rsync]
+[datakit-github.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-github is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client.0.12.2: rsync]
+[datakit-client.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client-git.0.12.2: rsync]
+[datakit-client-git.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client-git is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-client-9p.0.12.2: rsync]
+[datakit-client-9p.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-client-9p is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-ci.0.12.2: rsync]
+[datakit-ci.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-ci is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-bridge-local-git.0.12.2: rsync]
+[datakit-bridge-local-git.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-bridge-local-git is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+[datakit-bridge-github.0.12.2: rsync]
+[datakit-bridge-github.0.12.2] synchronised from file:///home/opam/src/datakit
+datakit-bridge-github is now pinned to file:///home/opam/src/datakit (version 0.12.2)
+ ---> 40d05deb8e94
+Removing intermediate container 143ed4ef62de
+Step 10/16 : RUN sudo apk add --no-cache libressl-dev linux-headers pcre-dev
+ ---> Running in f6315ff8da0b
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/10) Installing libressl2.7-libcrypto (2.7.5-r0)
+(2/10) Installing libressl2.7-libssl (2.7.5-r0)
+(3/10) Installing libressl2.7-libtls (2.7.5-r0)
+(4/10) Installing libressl-dev (2.7.5-r0)
+(5/10) Installing linux-headers (4.18.13-r1)
+(6/10) Installing libpcre16 (8.42-r1)
+(7/10) Installing libpcre32 (8.42-r1)
+(8/10) Installing pcre (8.42-r1)
+(9/10) Installing libpcrecpp (8.42-r1)
+(10/10) Installing pcre-dev (8.42-r1)
+Executing busybox-1.29.3-r10.trigger
+Executing ca-certificates-20190108-r0.trigger
+OK: 287 MiB in 100 packages
+ ---> 47027a18e8d6
+Removing intermediate container f6315ff8da0b
+Step 11/16 : RUN opam install datakit-ci --deps -t
+ ---> Running in 84f5e67fd385
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+[datakit-ci.0.12.2] no changes from file:///home/opam/src/datakit
+
+The following dependencies couldn't be met:
+  - datakit-ci -> cstruct >= 4.0.0
+      no matching version
+
+No solution found, exiting
+The command '/bin/sh -c opam install datakit-ci --deps -t' returned a non-zero code: 20
+[2019-04-13 20:01.15] Failed: Command "docker" "build" "--pull" "-f" "Dockerfile.ci" "." exited with status 20
