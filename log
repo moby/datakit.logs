@@ -1,0 +1,406 @@
+=== Docker build Dockerfile.client
+[2019-04-14 14:19.56] Starting...
+Cloning into '/tmp/with_clone3ca2e82b'...
+done.
+HEAD is now at 5561a65 ci: depend on the right ppx_sexp_conv minimum
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 5.969 MB
+Step 1/16 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:ff181c65a9850ab2a4da983b4496ab30e68f68e076474a7605b4ba2522aeb24a
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> 29728b366e85
+Step 2/16 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 1e9ade81d76e
+Step 3/16 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 53ee9b5bde41
+Step 4/16 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset df84483e523f1eec710a2118e05920f9cdf882d3 --hard &&     opam update -u
+ ---> Using cache
+ ---> 1cb3193c3e82
+Step 5/16 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> e025d81acf57
+Step 6/16 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> fe1c590114b6
+Step 7/16 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Running in 63389069be0d
+ ---> d1d4d807e979
+Removing intermediate container 63389069be0d
+Step 8/16 : COPY *.opam /home/opam/src/datakit/
+ ---> e31b74deba3a
+Error removing intermediate container 6f2f773bf3ef: driver "aufs" failed to remove root filesystem for 6f2f773bf3efa61462ee0aa65d807335492cc8e7696cd9569eb4fcaaa262093b: could not remove diff path for id eb02c130232d227f3f6120669ae991cfe9063921029d72b061c5d5f8d56ec0e5: error preparing atomic delete: rename /var/lib/docker/aufs/diff/eb02c130232d227f3f6120669ae991cfe9063921029d72b061c5d5f8d56ec0e5 /var/lib/docker/aufs/diff/eb02c130232d227f3f6120669ae991cfe9063921029d72b061c5d5f8d56ec0e5-removing: device or resource busy
+Step 9/16 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Running in d36a43bd2ce0
+This will pin the following packages: datakit, datakit-server, datakit-server-9p, datakit-github, datakit-client, datakit-client-git, datakit-client-9p, datakit-ci, datakit-bridge-local-git, datakit-bridge-github. Continue? [Y/n] y
+[datakit.0.12.3: rsync]
+[datakit.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-server.0.12.3: rsync]
+[datakit-server.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-server is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-server-9p.0.12.3: rsync]
+[datakit-server-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-server-9p is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-github.0.12.3: rsync]
+[datakit-github.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-github is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-client.0.12.3: rsync]
+[datakit-client.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-client is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-client-git.0.12.3: rsync]
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-client-git is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-client-9p.0.12.3: rsync]
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-client-9p is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-ci.0.12.3: rsync]
+[datakit-ci.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-ci is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-bridge-local-git.0.12.3: rsync]
+[datakit-bridge-local-git.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-bridge-local-git is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+[datakit-bridge-github.0.12.3: rsync]
+[datakit-bridge-github.0.12.3] synchronised from file:///home/opam/src/datakit
+datakit-bridge-github is now pinned to file:///home/opam/src/datakit (version 0.12.3)
+ ---> dd533b3ad2d0
+Removing intermediate container 6f2f773bf3ef
+Removing intermediate container d36a43bd2ce0
+Step 10/16 : RUN OPAMSOLVERTIMEOUT=120 opam install datakit-client-git datakit-client-9p --deps -t
+ ---> Running in 586fc83aa432
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+[datakit-client-9p.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-client-git.0.12.3] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install conf-gmp                1
+  - install mirage-no-xen           1
+  - install ppx_tools               5.1+4.06.0
+  - install num                     1.1
+  - install uchar                   0.0.2
+  - install cpuid                   0.1.2
+  - install win-error               1.0
+  - install mirage-device           1.2.0
+  - install sexplib0                v0.12.0
+  - install base64                  3.2.0
+  - install mtime                   1.1.0
+  - install cppo_ocamlbuild         1.6.0
+  - install ocb-stubblr             0.1.1-1
+  - install ppx_derivers            1.2.1
+  - install stringext               1.5.0
+  - install magic-mime              1.1.1
+  - install mirage-no-solo5         1
+  - install decompress              0.7
+  - install conf-perl               1
+  - install cstruct                 4.0.0
+  - install rresult                 0.6.0
+  - install re                      1.9.0
+  - install ocamlgraph              1.8.8
+  - install logs                    0.6.2
+  - install asetmap                 0.8.1
+  - install ocaml-compiler-libs     v0.11.0
+  - install ocplib-endian           1.0
+  - install mirage-flow             1.5.0
+  - install bigarray-compat         1.0.0
+  - install uutf                    1.0.2
+  - install mirage-clock            2.0.0
+  - install macaddr                 3.1.0
+  - install base                    v0.12.0
+  - install ocaml-migrate-parsetree 1.2.0
+  - install zarith                  1.7
+  - install mstruct                 1.4.0
+  - install datakit-client          0.12.3*
+  - install cstruct-lwt             4.0.0
+  - install irmin-watcher           0.4.0
+  - install prometheus              0.5
+  - install mirage-channel          3.2.0
+  - install io-page                 2.2.0
+  - install hex                     1.4.0
+  - install jsonm                   1.0.1
+  - install mirage-flow-lwt         1.5.0
+  - install ipaddr                  3.1.0
+  - install stdio                   v0.12.0
+  - install parsexp                 v0.12.0
+  - install fieldslib               v0.12.0
+  - install ppx_deriving            4.2.1
+  - install mirage-channel-lwt      3.2.0
+  - install ppxlib                  0.5.0
+  - install configurator            v0.11.0
+  - install sexplib                 v0.12.0
+  - install ppx_sexp_conv           v0.12.0
+  - install ppx_fields_conv         v0.12.0
+  - install io-page-unix            2.2.0
+  - install cstruct-sexp            4.0.0
+  - install uri                     2.2.0
+  - install nocrypto                0.5.4-1
+  - install protocol-9p             2.0.1
+  - install irmin                   1.4.0
+  - install git                     1.11.5
+  - install conduit                 1.4.0
+  - install cohttp                  2.1.2
+  - install protocol-9p-unix        2.0.1
+  - install irmin-mem               1.3.0
+  - install irmin-git               1.3.0
+  - install conduit-lwt             1.4.0
+  - install cohttp-lwt              2.0.0
+  - install conduit-lwt-unix        1.4.0
+  - install git-http                1.11.4
+  - install cohttp-lwt-unix         2.0.0
+  - install git-unix                1.11.5
+===== 74 to install =====
+
+<><> Gathering sources ><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+[asetmap.0.8.1] downloaded from http://erratique.ch/software/asetmap/releases/asetmap-0.8.1.tbz
+[base.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/base-v0.12.0.tar.gz
+[base64.3.2.0] downloaded from https://github.com/mirage/ocaml-base64/releases/download/v3.2.0/base64-v3.2.0.tbz
+[bigarray-compat.1.0.0] downloaded from https://github.com/mirage/bigarray-compat/archive/v1.0.0.tar.gz
+[cohttp.2.1.2] downloaded from https://github.com/mirage/ocaml-cohttp/releases/download/v2.1.2/cohttp-v2.1.2.tbz
+[cohttp-lwt.2.0.0] downloaded from https://github.com/mirage/ocaml-cohttp/releases/download/v2.0.0/cohttp-v2.0.0.tbz
+[cohttp-lwt-unix.2.0.0] downloaded from https://github.com/mirage/ocaml-cohttp/releases/download/v2.0.0/cohttp-v2.0.0.tbz
+[conduit.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[conduit-lwt.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[conduit-lwt-unix.1.4.0] downloaded from https://github.com/mirage/ocaml-conduit/releases/download/v1.4.0/conduit-v1.4.0.tbz
+[configurator.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/configurator-v0.11.0.tar.gz
+[cpuid.0.1.2] downloaded from https://github.com/pqwy/cpuid/releases/download/v0.1.2/cpuid-v0.1.2.tbz
+[cppo_ocamlbuild.1.6.0] downloaded from https://github.com/mjambon/cppo/archive/v1.6.0.tar.gz
+[cstruct.4.0.0] downloaded from https://github.com/mirage/ocaml-cstruct/releases/download/v4.0.0/cstruct-v4.0.0.tbz
+[datakit-client.0.12.3] synchronised from file:///home/opam/src/datakit
+[cstruct-lwt.4.0.0] downloaded from https://github.com/mirage/ocaml-cstruct/releases/download/v4.0.0/cstruct-v4.0.0.tbz
+[cstruct-sexp.4.0.0] downloaded from https://github.com/mirage/ocaml-cstruct/releases/download/v4.0.0/cstruct-v4.0.0.tbz
+[fieldslib.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/fieldslib-v0.12.0.tar.gz
+[decompress.0.7] downloaded from https://github.com/mirage/decompress/releases/download/v0.7/decompress-0.7.tbz
+[git.1.11.5] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.5/git-1.11.5.tbz
+[git-unix.1.11.5] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.5/git-1.11.5.tbz
+[git-http.1.11.4] downloaded from https://github.com/mirage/ocaml-git/releases/download/1.11.4/git-1.11.4.tbz
+[hex.1.4.0] downloaded from https://github.com/mirage/ocaml-hex/releases/download/v1.4.0/hex-v1.4.0.tbz
+[io-page.2.2.0] downloaded from https://github.com/mirage/io-page/releases/download/v2.2.0/io-page-v2.2.0.tbz
+[io-page-unix.2.2.0] downloaded from https://github.com/mirage/io-page/releases/download/v2.2.0/io-page-v2.2.0.tbz
+[ipaddr.3.1.0] downloaded from https://github.com/mirage/ocaml-ipaddr/releases/download/v3.1.0/ipaddr-v3.1.0.tbz
+[irmin.1.4.0] downloaded from https://github.com/mirage/irmin/releases/download/1.4.0/irmin-1.4.0.tbz
+[irmin-git.1.3.0] downloaded from https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz
+[jsonm.1.0.1] downloaded from http://erratique.ch/software/jsonm/releases/jsonm-1.0.1.tbz
+[irmin-mem.1.3.0] downloaded from https://github.com/mirage/irmin/releases/download/1.3.0/irmin-1.3.0.tbz
+[logs.0.6.2] downloaded from http://erratique.ch/software/logs/releases/logs-0.6.2.tbz
+[macaddr.3.1.0] found in cache
+[irmin-watcher.0.4.0] downloaded from https://github.com/mirage/irmin-watcher/releases/download/0.4.0/irmin-watcher-0.4.0.tbz
+[mirage-channel.3.2.0] downloaded from https://github.com/mirage/mirage-channel/releases/download/v3.2.0/mirage-channel-v3.2.0.tbz
+[magic-mime.1.1.1] downloaded from https://github.com/mirage/ocaml-magic-mime/releases/download/v1.1.1/magic-mime-v1.1.1.tbz
+[mirage-channel-lwt.3.2.0] downloaded from https://github.com/mirage/mirage-channel/releases/download/v3.2.0/mirage-channel-v3.2.0.tbz
+[mirage-clock.2.0.0] downloaded from https://github.com/mirage/mirage-clock/releases/download/v2.0.0/mirage-clock-v2.0.0.tbz
+[mirage-device.1.2.0] downloaded from https://github.com/mirage/mirage-device/releases/download/v1.2.0/mirage-device-v1.2.0.tbz
+[mirage-flow.1.5.0] downloaded from https://github.com/mirage/mirage-flow/releases/download/v1.5.0/mirage-flow-1.5.0.tbz
+[mtime.1.1.0] downloaded from http://erratique.ch/software/mtime/releases/mtime-1.1.0.tbz
+[mirage-flow-lwt.1.5.0] downloaded from https://github.com/mirage/mirage-flow/releases/download/v1.5.0/mirage-flow-1.5.0.tbz
+[mstruct.1.4.0] downloaded from https://github.com/mirage/ocaml-mstruct/releases/download/v1.4.0/mstruct-1.4.0.tbz
+[ocaml-compiler-libs.v0.11.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.11/files/ocaml-compiler-libs-v0.11.0.tar.gz
+[num.1.1] downloaded from https://github.com/ocaml/num/archive/v1.1.tar.gz
+[ocamlgraph.1.8.8] downloaded from http://ocamlgraph.lri.fr/download/ocamlgraph-1.8.8.tar.gz
+[nocrypto.0.5.4-1] downloaded from https://github.com/mirleft/ocaml-nocrypto/releases/download/v0.5.4/nocrypto-0.5.4.tbz
+[ocaml-migrate-parsetree.1.2.0] downloaded from https://github.com/ocaml-ppx/ocaml-migrate-parsetree/releases/download/v1.2.0/ocaml-migrate-parsetree-v1.2.0.tbz
+[ocb-stubblr.0.1.1-1] downloaded from https://github.com/pqwy/ocb-stubblr/releases/download/v0.1.1/ocb-stubblr-0.1.1.tbz
+[parsexp.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/parsexp-v0.12.0.tar.gz
+[ocplib-endian.1.0] downloaded from https://github.com/OCamlPro/ocplib-endian/archive/1.0.tar.gz
+[ppx_derivers.1.2.1] downloaded from https://github.com/ocaml-ppx/ppx_derivers/archive/1.2.1.tar.gz
+[ppx_fields_conv.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/ppx_fields_conv-v0.12.0.tar.gz
+[ppx_deriving.4.2.1] downloaded from https://github.com/ocaml-ppx/ppx_deriving/archive/v4.2.1.tar.gz
+[ppx_sexp_conv.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/ppx_sexp_conv-v0.12.0.tar.gz
+[ppx_tools.5.1+4.06.0] downloaded from https://github.com/ocaml-ppx/ppx_tools/archive/5.1+4.06.0.tar.gz
+[prometheus.0.5] downloaded from https://github.com/mirage/prometheus/releases/download/v0.5/prometheus-0.5.tbz
+[ppxlib.0.5.0] downloaded from https://github.com/ocaml-ppx/ppxlib/releases/download/0.5.0/ppxlib-0.5.0.tbz
+[protocol-9p.2.0.1] downloaded from https://github.com/mirage/ocaml-9p/releases/download/v2.0.1/protocol-9p-v2.0.1.tbz
+[rresult.0.6.0] downloaded from http://erratique.ch/software/rresult/releases/rresult-0.6.0.tbz
+[protocol-9p-unix.2.0.1] downloaded from https://github.com/mirage/ocaml-9p/releases/download/v2.0.1/protocol-9p-v2.0.1.tbz
+[re.1.9.0] downloaded from https://github.com/ocaml/ocaml-re/releases/download/1.9.0/re-1.9.0.tbz
+[sexplib.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/sexplib-v0.12.0.tar.gz
+[sexplib0.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/sexplib0-v0.12.0.tar.gz
+[stdio.v0.12.0] downloaded from https://ocaml.janestreet.com/ocaml-core/v0.12/files/stdio-v0.12.0.tar.gz
+[stringext.1.5.0] downloaded from https://github.com/rgrinberg/stringext/archive/1.5.0.zip
+[uchar.0.0.2] downloaded from https://github.com/ocaml/uchar/releases/download/v0.0.2/uchar-0.0.2.tbz
+[uutf.1.0.2] downloaded from http://erratique.ch/software/uutf/releases/uutf-1.0.2.tbz
+[uri.2.2.0] downloaded from https://github.com/mirage/ocaml-uri/releases/download/v2.2.0/uri-v2.2.0.tbz
+[win-error.1.0] downloaded from https://github.com/mirage/ocaml-win-error/releases/download/1.0/win-error-1.0.tbz
+[zarith.1.7] downloaded from https://github.com/ocaml/Zarith/archive/release-1.7.tar.gz
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> installed mirage-no-solo5.1
+-> installed mirage-no-xen.1
+-> installed asetmap.0.8.1
+-> installed bigarray-compat.1.0.0
+-> installed conf-gmp.1
+-> installed conf-perl.1
+-> installed cppo_ocamlbuild.1.6.0
+-> installed cpuid.0.1.2
+-> installed cstruct.4.0.0
+-> installed decompress.0.7
+-> installed logs.0.6.2
+-> installed magic-mime.1.1.1
+-> installed mirage-device.1.2.0
+-> installed mirage-flow.1.5.0
+-> installed mtime.1.1.0
+-> installed ocaml-compiler-libs.v0.11.0
+-> installed ppx_derivers.1.2.1
+-> installed ppx_tools.5.1+4.06.0
+-> installed base64.3.2.0
+-> installed cstruct-lwt.4.0.0
+-> installed datakit-client.0.12.3
+-> installed hex.1.4.0
+-> installed io-page.2.2.0
+-> installed irmin-watcher.0.4.0
+-> installed mirage-channel.3.2.0
+-> installed mirage-clock.2.0.0
+-> installed mstruct.1.4.0
+-> installed re.1.9.0
+-> installed rresult.0.6.0
+-> installed sexplib0.v0.12.0
+-> installed stringext.1.5.0
+-> installed win-error.1.0
+-> installed ocplib-endian.1.0
+-> installed macaddr.3.1.0
+-> installed mirage-flow-lwt.1.5.0
+-> installed num.1.1
+-> installed ocaml-migrate-parsetree.1.2.0
+-> installed ocamlgraph.1.8.8
+-> installed base.v0.12.0
+-> installed ipaddr.3.1.0
+-> installed mirage-channel-lwt.3.2.0
+-> installed ocb-stubblr.0.1.1-1
+-> installed prometheus.0.5
+-> installed uchar.0.0.2
+-> installed zarith.1.7
+-> installed fieldslib.v0.12.0
+-> installed parsexp.v0.12.0
+-> installed ppx_deriving.4.2.1
+-> installed stdio.v0.12.0
+-> installed uutf.1.0.2
+-> installed sexplib.v0.12.0
+-> installed configurator.v0.11.0
+-> installed jsonm.1.0.1
+-> installed cstruct-sexp.4.0.0
+-> installed io-page-unix.2.2.0
+-> installed ppxlib.0.5.0
+-> installed ppx_fields_conv.v0.12.0
+-> installed ppx_sexp_conv.v0.12.0
+-> installed uri.2.2.0
+-> installed protocol-9p.2.0.1
+-> installed conduit.1.4.0
+-> installed cohttp.2.1.2
+-> installed git.1.11.5
+-> installed nocrypto.0.5.4-1
+-> installed irmin.1.4.0
+-> installed protocol-9p-unix.2.0.1
+-> installed conduit-lwt.1.4.0
+-> installed cohttp-lwt.2.0.0
+-> installed irmin-mem.1.3.0
+-> installed irmin-git.1.3.0
+-> installed conduit-lwt-unix.1.4.0
+-> installed git-http.1.11.4
+-> installed cohttp-lwt-unix.2.0.0
+-> installed git-unix.1.11.5
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 9f1c1f7de9f4
+Removing intermediate container 586fc83aa432
+Step 11/16 : COPY . /home/opam/src/datakit
+ ---> c3c19bc098fe
+Removing intermediate container e560f3bbb2b5
+Step 12/16 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 2662297d116a
+ ---> 2e9eed988093
+Removing intermediate container 2662297d116a
+Step 13/16 : RUN opam update --dev && opam upgrade
+ ---> Running in 1f2e0ed196ad
+
+<><> Synchronising development packages <><><><><><><><><><><><><><><><><><><><>
+[datakit.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-client 0.12.3* [upstream changes]
+[datakit-client.0.12.3] no changes from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> removed   datakit-client.0.12.3
+-> installed datakit-client.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 0f15a946aa17
+Removing intermediate container 1f2e0ed196ad
+Step 14/16 : RUN opam install datakit-client-9p datakit-client-git -tyv
+ ---> Running in fc7e5e048d77
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/2: [datakit-client-9p.0.12.3: rsync]
+Processing  2/2: [datakit-client-9p.0.12.3: rsync] [datakit-client-git.0.12.3: rsync]
+[datakit-client-9p.0.12.3] no changes from file:///home/opam/src/datakit
+Processing  2/2: [datakit-client-git.0.12.3: rsync]
+[datakit-client-git.0.12.3] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client-git 0.12.3*
+  - install datakit-client-9p  0.12.3*
+===== 2 to install =====
+Processing  1/2: [datakit-client-9p.0.12.3: rsync]
+Processing  2/2: [datakit-client-9p.0.12.3: rsync] [datakit-client-git.0.12.3: rsync]
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+Processing  2/2: [datakit-client-git.0.12.3: rsync]
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/4: [datakit-client-9p: dune build]
+Processing  2/4: [datakit-client-9p: dune build] [datakit-client-git: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-client-9p" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-9p.0.12.3)
+-> compiled  datakit-client-9p.0.12.3
+Processing  2/4: [datakit-client-git: dune build]
+-> installed datakit-client-9p.0.12.3
+Processing  3/4: [datakit-client-git: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-client-git" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3)
+Processing  3/4: [datakit-client-git: dune runtest]
++ /home/opam/.opam/4.07/bin/dune "runtest" "tests/datakit-git" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3)
+-         test alias tests/datakit-git/runtest
+- /bin/sh: tput: not found
+- stty: 'standard input': Not a tty
+- +7110us irw-polling [INFO] Polling mode
+- Testing datakit-git.
+- This run has ID `8322ADD8-3B3C-41C6-9657-C011FF173858`.
+- [33m ...[m                [36mclient[m          0   Transaction.[32m[OK][m                [36mclient[m          0   Transaction.
+- [33m ...[m                [36mclient[m          1   Watch.[32m[OK][m                [36mclient[m          1   Watch.
+- [33m ...[m                [36mclient[m          2   Make dirs.[32m[OK][m                [36mclient[m          2   Make dirs.
+- [33m ...[m                [36mclient[m          3   Truncate.[32m[OK][m                [36mclient[m          3   Truncate.
+- [33m ...[m                [36mclient[m          4   Parents.[32m[OK][m                [36mclient[m          4   Parents.
+- [33m ...[m                [36mclient[m          5   Merge.[32m[OK][m                [36mclient[m          5   Merge.
+- [33m ...[m                [36mclient[m          6   Diff.[32m[OK][m                [36mclient[m          6   Diff.
+- [33m ...[m                [36mclient[m          7   Merge_metadata.[32m[OK][m                [36mclient[m          7   Merge_metadata.
+- [33m ...[m                [36mclient[m          8   Merge empty.[32m[OK][m                [36mclient[m          8   Merge empty.
+- [33m ...[m                [36mclient[m          9   Conflicts.[32m[OK][m                [36mclient[m          9   Conflicts.
+- [33m ...[m                [36mclient[m         10   Large write.[32m[OK][m                [36mclient[m         10   Large write.
+- [33m ...[m                [36mclient[m         11   Remove.[32m[OK][m                [36mclient[m         11   Remove.
+- [33m ...[m                [36mclient[m         12   Remotes.[33m[SKIP][m              [36mclient[m         12   Remotes.
+- [33m ...[m                [36mclient[m         13   Create_or_replace.[33m[SKIP][m              [36mclient[m         13   Create_or_replace.
+- The full test results are available in `/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3/_build/default/tests/datakit-git/_build/_tests/8322ADD8-3B3C-41C6-9657-C011FF173858`.
+- [32mTest Successful[m in 0.452s. 12 tests run.
+-> compiled  datakit-client-git.0.12.3
+-> installed datakit-client-git.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 84e2b7f02628
+Removing intermediate container fc7e5e048d77
+Step 15/16 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in 5fae73041937
+ ---> 4dbf81000789
+Removing intermediate container 5fae73041937
+Step 16/16 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in b07e48d41629
+ ---> 98d56fd24791
+Removing intermediate container b07e48d41629
+Successfully built 98d56fd24791
+[2019-04-14 14:23.00] Success
