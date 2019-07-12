@@ -1,0 +1,145 @@
+=== Docker build Dockerfile.client
+[2019-07-12 14:52.21] Starting...
+Cloning into '/tmp/with_clone9195e02'...
+done.
+HEAD is now at 2fc17d8 Merge pull request #647 from avsm/uri-sexp
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.396 MB
+Step 1/17 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:80f944d8924204d38d8c588a6906010ddfd6364c226a26077b99a95028270790
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> bfd59b6fbeb7
+Step 2/17 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 3cfa4c307c86
+Step 3/17 : RUN opam switch 4.07
+ ---> Using cache
+ ---> 61f8129282a1
+Step 4/17 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 45575532b93e
+Step 5/17 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 340acb7d88264bf29485b1d292388e1d91dc2214 --hard &&     opam update -u
+ ---> Using cache
+ ---> bf4c8aa48c34
+Step 6/17 : RUN opam install alcotest lwt conf-libev inotify
+ ---> Using cache
+ ---> 18bba6bd5a39
+Step 7/17 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> fadc6c1094dc
+Step 8/17 : RUN opam config exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 9609dcec2b89
+Step 9/17 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> b5b544779548
+Step 10/17 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> 1b6deb46b38d
+Step 11/17 : RUN OPAMSOLVERTIMEOUT=120 opam install datakit-client-git datakit-client-9p --deps -t
+ ---> Using cache
+ ---> b8efcfb596f7
+Step 12/17 : COPY . /home/opam/src/datakit
+ ---> 923f879b5042
+Error removing intermediate container f73dcae288da: driver "aufs" failed to remove root filesystem for f73dcae288da663f692df26aca2a7a7649bc6fa63aec684dd69a2bc397656a3c: could not remove diff path for id c9d628dc252adc58e0cdf79ae66b65c3cfe95bbb93f96766414b583934d3e325: error preparing atomic delete: rename /var/lib/docker/aufs/diff/c9d628dc252adc58e0cdf79ae66b65c3cfe95bbb93f96766414b583934d3e325 /var/lib/docker/aufs/diff/c9d628dc252adc58e0cdf79ae66b65c3cfe95bbb93f96766414b583934d3e325-removing: device or resource busy
+Step 13/17 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in f5ad544ceafe
+ ---> 6d0bba427f71
+Removing intermediate container f73dcae288da
+Error removing intermediate container f5ad544ceafe: driver "aufs" failed to remove root filesystem for f5ad544ceafe820d2f1ac0b5655e066fa53b8fd9fd031e2cc39821c87448de36: could not remove diff path for id ce3288a7174a182b2ec99282a977350c48a7b8f5b0490a60e8a07e5dea7f8471: error preparing atomic delete: rename /var/lib/docker/aufs/diff/ce3288a7174a182b2ec99282a977350c48a7b8f5b0490a60e8a07e5dea7f8471 /var/lib/docker/aufs/diff/ce3288a7174a182b2ec99282a977350c48a7b8f5b0490a60e8a07e5dea7f8471-removing: device or resource busy
+Step 14/17 : RUN opam update --dev && opam upgrade
+ ---> Running in 5fcaee22219c
+
+<><> Synchronising development packages <><><><><><><><><><><><><><><><><><><><>
+[datakit.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.12.4] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-client 0.12.3* [upstream changes]
+[datakit-client.0.12.3] no changes from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> removed   datakit-client.0.12.3
+-> installed datakit-client.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 83fe7af036a8
+Removing intermediate container 5fcaee22219c
+Removing intermediate container f5ad544ceafe
+Step 15/17 : RUN opam install datakit-client-9p datakit-client-git -tyv
+ ---> Running in cf4bf728fef1
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/2: [datakit-client-9p.0.12.3: rsync]
+Processing  2/2: [datakit-client-9p.0.12.3: rsync] [datakit-client-git.0.12.3: rsync]
+[datakit-client-9p.0.12.3] no changes from file:///home/opam/src/datakit
+Processing  2/2: [datakit-client-git.0.12.3: rsync]
+[datakit-client-git.0.12.3] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-client-git 0.12.3*
+  - install datakit-client-9p  0.12.3*
+===== 2 to install =====
+Processing  1/2: [datakit-client-9p.0.12.3: rsync]
+Processing  2/2: [datakit-client-9p.0.12.3: rsync] [datakit-client-git.0.12.3: rsync]
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+Processing  2/2: [datakit-client-git.0.12.3: rsync]
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/4: [datakit-client-9p: dune build]
+Processing  2/4: [datakit-client-9p: dune build] [datakit-client-git: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-client-9p" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-9p.0.12.3)
+-> compiled  datakit-client-9p.0.12.3
+Processing  2/4: [datakit-client-git: dune build]
+-> installed datakit-client-9p.0.12.3
+Processing  3/4: [datakit-client-git: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-client-git" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3)
+Processing  3/4: [datakit-client-git: dune runtest]
++ /home/opam/.opam/4.07/bin/dune "runtest" "tests/datakit-git" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3)
+-         test alias tests/datakit-git/runtest
+- /bin/sh: tput: not found
+- stty: 'standard input': Not a tty
+- +6901us irw-polling [INFO] Polling mode
+- Testing datakit-git.
+- This run has ID `F4DECCF6-A2C1-4A2E-9F54-D800B4454BAF`.
+- [33m ...[m                [36mclient[m          0   Transaction.[32m[OK][m                [36mclient[m          0   Transaction.
+- [33m ...[m                [36mclient[m          1   Watch.[32m[OK][m                [36mclient[m          1   Watch.
+- [33m ...[m                [36mclient[m          2   Make dirs.[32m[OK][m                [36mclient[m          2   Make dirs.
+- [33m ...[m                [36mclient[m          3   Truncate.[32m[OK][m                [36mclient[m          3   Truncate.
+- [33m ...[m                [36mclient[m          4   Parents.[32m[OK][m                [36mclient[m          4   Parents.
+- [33m ...[m                [36mclient[m          5   Merge.[32m[OK][m                [36mclient[m          5   Merge.
+- [33m ...[m                [36mclient[m          6   Diff.[32m[OK][m                [36mclient[m          6   Diff.
+- [33m ...[m                [36mclient[m          7   Merge_metadata.[32m[OK][m                [36mclient[m          7   Merge_metadata.
+- [33m ...[m                [36mclient[m          8   Merge empty.[32m[OK][m                [36mclient[m          8   Merge empty.
+- [33m ...[m                [36mclient[m          9   Conflicts.[32m[OK][m                [36mclient[m          9   Conflicts.
+- [33m ...[m                [36mclient[m         10   Large write.[32m[OK][m                [36mclient[m         10   Large write.
+- [33m ...[m                [36mclient[m         11   Remove.[32m[OK][m                [36mclient[m         11   Remove.
+- [33m ...[m                [36mclient[m         12   Remotes.[33m[SKIP][m              [36mclient[m         12   Remotes.
+- [33m ...[m                [36mclient[m         13   Create_or_replace.[33m[SKIP][m              [36mclient[m         13   Create_or_replace.
+- The full test results are available in `/home/opam/.opam/4.07/.opam-switch/build/datakit-client-git.0.12.3/_build/default/tests/datakit-git/_build/_tests/F4DECCF6-A2C1-4A2E-9F54-D800B4454BAF`.
+- [32mTest Successful[m in 0.396s. 12 tests run.
+-> compiled  datakit-client-git.0.12.3
+-> installed datakit-client-git.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> fa962a40b911
+Removing intermediate container cf4bf728fef1
+Step 16/17 : RUN sudo mkdir /data && sudo chown opam.nogroup /data && chmod 700 /data &&     sudo cp $(opam config exec -- which datakit-mount) /usr/bin/datakit-mount
+ ---> Running in de7d565bc8a2
+ ---> b3607f296719
+Removing intermediate container de7d565bc8a2
+Step 17/17 : CMD bash -c "/usr/bin/datakit-mount -h $(getent hosts datakit | awk '{print $1}')";     bash
+ ---> Running in 14f66f37e381
+ ---> dfac90806540
+Removing intermediate container 14f66f37e381
+Successfully built dfac90806540
+[2019-07-12 14:52.45] Success
