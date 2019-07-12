@@ -1,0 +1,183 @@
+=== Docker build Dockerfile.github
+[2019-07-12 14:52.21] Starting...
+Cloning into '/tmp/with_clone21714004'...
+done.
+HEAD is now at 2fc17d8 Merge pull request #647 from avsm/uri-sexp
+Sending build context to Docker daemon 557.1 kBSending build context to Docker daemon 1.114 MBSending build context to Docker daemon 1.671 MBSending build context to Docker daemon 2.228 MBSending build context to Docker daemon 2.785 MBSending build context to Docker daemon 3.342 MBSending build context to Docker daemon 3.899 MBSending build context to Docker daemon 4.456 MBSending build context to Docker daemon 5.014 MBSending build context to Docker daemon 5.571 MBSending build context to Docker daemon 6.128 MBSending build context to Docker daemon 6.396 MB
+Step 1/23 : FROM ocaml/opam2:alpine
+alpine: Pulling from ocaml/opam2
+Digest: sha256:80f944d8924204d38d8c588a6906010ddfd6364c226a26077b99a95028270790
+Status: Image is up to date for ocaml/opam2:alpine
+ ---> bfd59b6fbeb7
+Step 2/23 : RUN sudo apk add --no-cache tzdata aspcud gmp-dev perl libev-dev m4
+ ---> Using cache
+ ---> 3cfa4c307c86
+Step 3/23 : RUN opam switch 4.07
+ ---> Using cache
+ ---> 61f8129282a1
+Step 4/23 : ENV OPAMERRLOGLEN 0 OPAMYES 1
+ ---> Using cache
+ ---> 45575532b93e
+Step 5/23 : RUN git -C /home/opam/opam-repository fetch origin &&     git -C /home/opam/opam-repository reset 340acb7d88264bf29485b1d292388e1d91dc2214 --hard &&     opam update -u
+ ---> Using cache
+ ---> bf4c8aa48c34
+Step 6/23 : RUN opam install alcotest lwt conf-libev inotify tls
+ ---> Using cache
+ ---> 9e88eda89bbe
+Step 7/23 : COPY check-libev.ml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 75533cbe871f
+Step 8/23 : RUN opam exec -- ocaml /tmp/check-libev.ml
+ ---> Using cache
+ ---> 2834d7969416
+Step 9/23 : COPY *.opam /home/opam/src/datakit/
+ ---> Using cache
+ ---> dc819b53ce70
+Step 10/23 : RUN opam pin add /home/opam/src/datakit/ -n
+ ---> Using cache
+ ---> 164350754977
+Step 11/23 : RUN opam install datakit-bridge-github --deps -t
+ ---> Using cache
+ ---> 05e4483e9af4
+Step 12/23 : COPY . /home/opam/src/datakit
+ ---> 94318d01574c
+Removing intermediate container 83ee765c6dd2
+Step 13/23 : RUN sudo chown opam.nogroup -R /home/opam/src/datakit
+ ---> Running in 506031ffba15
+ ---> 26550aa66f59
+Error removing intermediate container 506031ffba15: driver "aufs" failed to remove root filesystem for 506031ffba15371f985f40e46a02920c93dd22d47baf081a7b713bfc3014c34e: could not remove diff path for id d3b709e411d71ee756ad7f3acd6520b87288efd9a92a44e94d1bf133a27d25df: error preparing atomic delete: rename /var/lib/docker/aufs/diff/d3b709e411d71ee756ad7f3acd6520b87288efd9a92a44e94d1bf133a27d25df /var/lib/docker/aufs/diff/d3b709e411d71ee756ad7f3acd6520b87288efd9a92a44e94d1bf133a27d25df-removing: device or resource busy
+Step 14/23 : RUN opam update --dev && opam upgrade
+ ---> Running in 36323e8ff734
+
+<><> Synchronising development packages <><><><><><><><><><><><><><><><><><><><>
+[datakit.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-bridge-local-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-ci.0.12.4] synchronised from file:///home/opam/src/datakit
+[datakit-client.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-client-git.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-github.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server.0.12.3] synchronised from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.3] synchronised from file:///home/opam/src/datakit
+Now run 'opam upgrade' to apply any package updates.
+The following actions will be performed:
+  - recompile datakit-client     0.12.3* [upstream changes]
+  - recompile datakit-server     0.12.3* [upstream changes]
+  - recompile datakit-client-git 0.12.3* [upstream changes]
+  - recompile datakit-client-9p  0.12.3* [upstream changes]
+  - recompile datakit-server-9p  0.12.3* [upstream changes]
+  - recompile datakit-github     0.12.3* [upstream changes]
+  - recompile datakit            0.12.3* [upstream changes]
+===== 7 to recompile =====
+[datakit.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-client.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-client-9p.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-client-git.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-github.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-server.0.12.3] no changes from file:///home/opam/src/datakit
+[datakit-server-9p.0.12.3] no changes from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+-> removed   datakit-github.0.12.3
+-> removed   datakit-client-9p.0.12.3
+-> removed   datakit-client-git.0.12.3
+-> removed   datakit-client.0.12.3
+-> installed datakit-client.0.12.3
+-> removed   datakit.0.12.3
+-> removed   datakit-server-9p.0.12.3
+-> removed   datakit-server.0.12.3
+-> installed datakit-server.0.12.3
+-> installed datakit-client-9p.0.12.3
+-> installed datakit-client-git.0.12.3
+-> installed datakit-server-9p.0.12.3
+-> installed datakit-github.0.12.3
+-> installed datakit.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> 5533437ba04c
+Removing intermediate container 506031ffba15
+Removing intermediate container 36323e8ff734
+Step 15/23 : RUN opam install datakit-bridge-github -ytv
+ ---> Running in 17637b1f9eee
+
+<><> Synchronising pinned packages ><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/1: [datakit-bridge-github.0.12.3: rsync]
+[datakit-bridge-github.0.12.3] no changes from file:///home/opam/src/datakit
+
+The following actions will be performed:
+  - install datakit-bridge-github 0.12.3*
+[datakit-bridge-github.0.12.3] synchronised from file:///home/opam/src/datakit
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+Processing  1/2: [datakit-bridge-github: dune build]
++ /home/opam/.opam/4.07/bin/dune "build" "-p" "datakit-bridge-github" "-j" "71" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-bridge-github.0.12.3)
+Processing  1/2: [datakit-bridge-github: dune runtest]
++ /home/opam/.opam/4.07/bin/dune "runtest" "tests/datakit-bridge-github" (CWD=/home/opam/.opam/4.07/.opam-switch/build/datakit-bridge-github.0.12.3)
+-         test alias tests/datakit-bridge-github/runtest
+- /bin/sh: tput: not found
+- stty: 'standard input': Not a tty
+- Testing datakit-github.
+- This run has ID `F319DD9C-1EFF-4905-AE85-F802AF744777`.
+- [33m ...[m                [36mgithub-9p[m          0   Transaction.[32m[OK][m                [36mgithub-9p[m          0   Transaction.
+- [33m ...[m                [36mgithub-9p[m          1   Watch.[32m[OK][m                [36mgithub-9p[m          1   Watch.
+- [33m ...[m                [36mgithub-9p[m          2   Make dirs.[32m[OK][m                [36mgithub-9p[m          2   Make dirs.
+- [33m ...[m                [36mgithub-9p[m          3   Truncate.[32m[OK][m                [36mgithub-9p[m          3   Truncate.
+- [33m ...[m                [36mgithub-9p[m          4   Parents.[32m[OK][m                [36mgithub-9p[m          4   Parents.
+- [33m ...[m                [36mgithub-9p[m          5   Merge.[32m[OK][m                [36mgithub-9p[m          5   Merge.
+- [33m ...[m                [36mgithub-9p[m          6   Diff.[32m[OK][m                [36mgithub-9p[m          6   Diff.
+- [33m ...[m                [36mgithub-9p[m          7   Merge_metadata.[32m[OK][m                [36mgithub-9p[m          7   Merge_metadata.
+- [33m ...[m                [36mgithub-9p[m          8   Merge empty.[32m[OK][m                [36mgithub-9p[m          8   Merge empty.
+- [33m ...[m                [36mgithub-9p[m          9   Conflicts.[32m[OK][m                [36mgithub-9p[m          9   Conflicts.
+- [33m ...[m                [36mgithub-9p[m         10   Large write.[32m[OK][m                [36mgithub-9p[m         10   Large write.
+- [33m ...[m                [36mgithub-9p[m         11   Remove.[32m[OK][m                [36mgithub-9p[m         11   Remove.
+- [33m ...[m                [36mgithub-9p[m         12   Remotes.[33m[SKIP][m              [36mgithub-9p[m         12   Remotes.
+- [33m ...[m                [36mgithub-9p[m         13   Create_or_replace.[33m[SKIP][m              [36mgithub-9p[m         13   Create_or_replace.
+- [33m ...[m                [36mgithub[m             0   basic-snapshot.[32m[OK][m                [36mgithub[m             0   basic-snapshot.
+- [33m ...[m                [36mgithub[m             1   snapshot.[32m[OK][m                [36mgithub[m             1   snapshot.
+- [33m ...[m                [36mgithub[m             2   capabilities.[32m[OK][m                [36mgithub[m             2   capabilities.
+- [33m ...[m                [36mgithub[m             3   cleanup.[32m[OK][m                [36mgithub[m             3   cleanup.
+- [33m ...[m                [36mgithub[m             4   events.[32m[OK][m                [36mgithub[m             4   events.
+- [33m ...[m                [36mgithub[m             5   updates.[32m[OK][m                [36mgithub[m             5   updates.
+- [33m ...[m                [36mgithub[m             6   startup.[32m[OK][m                [36mgithub[m             6   startup.
+- [33m ...[m                [36mgithub[m             7   random-github.[32m[OK][m                [36mgithub[m             7   random-github.
+- [33m ...[m                [36mgithub[m             8   random-github-*.[33m[SKIP][m              [36mgithub[m             8   random-github-*.
+- [33m ...[m                [36mgithub[m             9   random-datakit.[32m[OK][m                [36mgithub[m             9   random-datakit.
+- [33m ...[m                [36mgithub[m            10   random-datakit-*.[33m[SKIP][m              [36mgithub[m            10   random-datakit-*.
+- The full test results are available in `/home/opam/.opam/4.07/.opam-switch/build/datakit-bridge-github.0.12.3/_build/default/tests/datakit-bridge-github/_build/_tests/F319DD9C-1EFF-4905-AE85-F802AF744777`.
+- [32mTest Successful[m in 3.928s. 21 tests run.
+-> compiled  datakit-bridge-github.0.12.3
+-> installed datakit-bridge-github.0.12.3
+Done.
+# Run eval $(opam env) to update the current shell environment
+ ---> e4d5fed3a922
+Removing intermediate container 17637b1f9eee
+Step 16/23 : RUN sudo cp $(opam config exec -- which datakit-bridge-github) /usr/bin/
+ ---> Running in 1e56ab8c40d4
+ ---> 0918316f9fa8
+Removing intermediate container 1e56ab8c40d4
+Step 17/23 : FROM alpine:3.9
+3.9: Pulling from library/alpine
+Digest: sha256:7746df395af22f04212cd25a92c1d6dbc5a06a0ca9579a229ef43008d4d1302a
+Status: Image is up to date for alpine:3.9
+ ---> 055936d39205
+Step 18/23 : RUN apk add --no-cache libev gmp tzdata ca-certificates
+ ---> Using cache
+ ---> 026d2cdd3b76
+Step 19/23 : EXPOSE 5640
+ ---> Using cache
+ ---> a96cf8c2827f
+Step 20/23 : EXPOSE 5641
+ ---> Using cache
+ ---> edb0b2e3a547
+Step 21/23 : ENTRYPOINT /usr/bin/datakit-bridge-github
+ ---> Using cache
+ ---> 929d0d516bd9
+Step 22/23 : CMD --listen=tcp://0.0.0.0:5641 -v --datakit=tcp:127.0.0.1:5640
+ ---> Using cache
+ ---> e7263dfa99aa
+Step 23/23 : COPY --from=0 /usr/bin/datakit-bridge-github /usr/bin/datakit-bridge-github
+ ---> Using cache
+ ---> 7dab413b24aa
+Successfully built 7dab413b24aa
+[2019-07-12 14:53.06] Success
